@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.MallMapper">
+
+	<!--cg generate by lijian at 2019-10-10 16:30-->
+
+	<!--通用商城表表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Mall" >
+		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP" />
+		<result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP" />
+		<result property="mallName" column="MALL_NAME" jdbcType="VARCHAR" />
+		<result property="mallLogo" column="MALL_LOGO" jdbcType="VARCHAR" />
+		<result property="companyName" column="COMPANY_NAME" jdbcType="VARCHAR" />
+		<result property="appProperty" column="APP_PROPERTY" jdbcType="VARCHAR" />
+		<result property="contactUs" column="CONTACT_US" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_NAME,	MALL_LOGO,	COMPANY_NAME,	APP_PROPERTY,	CONTACT_US
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
+		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
+		<if test="mallName != null and mallName != '' "> and MALL_NAME = #{mallName,jdbcType=VARCHAR} </if>
+		<if test="mallLogo != null and mallLogo != '' "> and MALL_LOGO = #{mallLogo,jdbcType=VARCHAR} </if>
+		<if test="companyName != null and companyName != '' "> and COMPANY_NAME = #{companyName,jdbcType=VARCHAR} </if>
+		<if test="appProperty != null and appProperty != '' "> and APP_PROPERTY = #{appProperty,jdbcType=VARCHAR} </if>
+		<if test="contactUs != null and contactUs != '' "> and CONTACT_US = #{contactUs,jdbcType=VARCHAR} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM mall
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM mall
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Mall">
+		 INSERT INTO mall
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="gmtCreate != null"> GMT_CREATE,</if>
+			<if test="gmtModified != null"> GMT_MODIFIED,</if>
+			<if test="mallName != null"> MALL_NAME,</if>
+			<if test="mallLogo != null"> MALL_LOGO,</if>
+			<if test="companyName != null"> COMPANY_NAME,</if>
+			<if test="appProperty != null"> APP_PROPERTY,</if>
+			<if test="contactUs != null"> CONTACT_US,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="gmtCreate!=null">#{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="mallName!=null">#{mallName,jdbcType=VARCHAR},</if>
+			<if test="mallLogo!=null">#{mallLogo,jdbcType=VARCHAR},</if>
+			<if test="companyName!=null">#{companyName,jdbcType=VARCHAR},</if>
+			<if test="appProperty!=null">#{appProperty,jdbcType=VARCHAR},</if>
+			<if test="contactUs!=null">#{contactUs,jdbcType=VARCHAR},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Mall">
+		 UPDATE mall
+ 		 <set> 
+			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="mallName != null">MALL_NAME = #{mallName,jdbcType=VARCHAR},</if>
+			<if test="mallLogo != null">MALL_LOGO = #{mallLogo,jdbcType=VARCHAR},</if>
+			<if test="companyName != null">COMPANY_NAME = #{companyName,jdbcType=VARCHAR},</if>
+			<if test="appProperty != null">APP_PROPERTY = #{appProperty,jdbcType=VARCHAR},</if>
+			<if test="contactUs != null">CONTACT_US = #{contactUs,jdbcType=VARCHAR},</if>
+
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM mall
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM mall
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM mall
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>
