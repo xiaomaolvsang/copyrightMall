@@ -9,8 +9,8 @@ import com.copyright.mall.bean.TUser;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author lijian
  * @date 2019-09-12 17:09
  **/
@@ -29,5 +29,6 @@ public interface TUserDao {
 	public List<TUser> selectObjectListPage(TUser tUser);
 
 	public List<TUser> selectByObjectList(TUser tUser);
+
 
 }
