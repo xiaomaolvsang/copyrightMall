@@ -1,7 +1,9 @@
 package com.copyright.mall.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.copyright.mall.message.ApiResult;
+import com.copyright.mall.util.wrapper.WrapMapper;
+import com.google.common.base.Stopwatch;
+import javafx.scene.paint.Stop;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ControllerAspect
@@ -32,20 +35,16 @@ public class ControllerAspect {
         try {
 
             // 执行业务操作
-            Long time = System.currentTimeMillis();
+            Stopwatch stopwatch = Stopwatch.createStarted();
             LOGGER.info("运行开始");
             Object obj = pjp.proceed();
-            LOGGER.info("运行结束:"+(System.currentTimeMillis() - time));
+            LOGGER.info("运行结束:"+stopwatch.elapsed(TimeUnit.MILLISECONDS));
             return obj;
         } catch (Throwable ex) {
 
             // 打印错误日志
             LOGGER.error("controller异常,url:{"+getUri()+"} reqMsg:{"+JSON.toJSONString(pjp.getArgs())+"},ex:{"+ex+"}");
-
-            ApiResult apiResult = new ApiResult();
-            apiResult.setErrorCode(-1);
-            apiResult.setErrorMessage("后台处理异常");
-            return apiResult;
+            return WrapMapper.error("后台处理异常");
         }
     }
 
