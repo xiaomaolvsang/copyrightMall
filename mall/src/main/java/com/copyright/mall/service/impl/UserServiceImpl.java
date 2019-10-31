@@ -1,15 +1,13 @@
-package com.copyright.mall.serviceImpl;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import com.copyright.mall.dao.TUserDao;
-import com.copyright.mall.serviceImpl.ITUserService;
+package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.TUser;
+import com.copyright.mall.dao.TUserDao;
+import com.copyright.mall.service.IUserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -19,9 +17,8 @@ import com.copyright.mall.bean.TUser;
  * @date 2019-09-12 17:09
  **/
 @Service
-public class TUserService implements ITUserService {
-
-	private static Logger logger = LoggerFactory.getLogger(TUserService.class);
+@Slf4j
+public class UserServiceImpl implements IUserService {
 
 	@Resource
 	private TUserDao tUserDao;

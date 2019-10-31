@@ -1,4 +1,4 @@
-package com.copyright.mall.serviceImpl;
+package com.copyright.mall.service;
 
 import java.util.List;
 import java.util.Date;
@@ -14,7 +14,7 @@ import com.copyright.mall.bean.TUser;
  * @author lijian
  * @date 2019-09-12 17:09
  **/
-public interface ITUserService {
+public interface IUserService {
 
 	public TUser selectByPrimaryKey(Integer id);
 
