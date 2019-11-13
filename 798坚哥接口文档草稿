@@ -1,0 +1,403 @@
+接口数据格式只是要求大概格式和需要提供信息，具体字段名可以调整
+
+坚哥负责接口：（）
+1.首页固定组件：（这块儿数据库结构好像还没有搞好，最后再搞这个）
+请求参数：
+{
+    "type": "mall", // 或者"copyright"，区分商城与版权
+    "projectId": "798" // 用于区分是哪个应用
+}
+返回参数：
+{
+    "data": [
+        {
+            "type": "banner",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": "",
+                    "width": "",
+                    "height": ""
+                }
+            ]
+        },
+        {
+            "type": "category",
+            "data": [
+                {
+                    "image": "",
+                    "categoryName": "",
+                    "categoryId": ""
+                }
+            ]
+        },
+        {
+            "type": "doubleResource",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                },
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                }
+            ]
+        },
+        {
+            "type": "fiveResource1",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                },
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                }
+            ]
+        },
+        {
+            "type": "title",
+            "data": {
+                "title": ""
+            }
+        },
+        {
+            "type": "fiveResource2",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                },
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                }
+            ]
+        },
+        {
+            "type": "sixResource",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                },
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                }
+            ]
+        },
+        {
+            "type": "productResource",
+            "data": {
+                "banner": {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": ""
+                },
+                "products": [
+                    {
+                        "productImage": "",
+                        "productName": "",
+                        "linkType": "",
+                        "targetUrl": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "productArea",
+            "data": [
+                {
+                    "image":"",
+                    "institutionName":"",
+                    "productName":"",
+                    "productPrice":"",
+                    "productId":""
+                }
+            ]
+        },
+        {
+            "type": "copyrightArea",
+            "data": [
+                {
+                    "image":"",
+                    "institutionName":"",
+                    "productName":"",
+                    "productId":""
+                }
+            ]
+        }
+    ]
+}
+
+2.搜索
+同时加上分页信息
+请求参数：
+{
+    "projectId": "798", //哪个应用
+    "keyword": "", //搜索关键字
+    "type": "product" //artist 商品或艺术家
+}
+返回参数：
+
+搜索商品时：
+{
+    "data": [
+        {
+            "image": "",
+            "institutionName": "",
+            "productName": "",
+            "productPrice": "",
+            "productId": ""
+        }
+    ]
+}
+
+搜索艺术家时：
+{
+    "data": [
+        {
+            "avatar": "",
+            "artistName": "",
+            "artCategory": "",
+            "posterPic": "",
+            "artistId": ""
+        }
+    ]
+}
+
+3.分类：
+一级分类接口：
+请求参数：
+{
+    "projectId": "798", //哪个应用
+}
+返回参数:
+{
+    "data": [
+        {
+            "firstCategoryName": "",
+            "firstCategoryId": ""
+        }
+    ]
+}
+
+分类下商品：
+请求参数：
+{
+    "projectId": "798", //哪个应用
+    "firstCategoryId": "" //一级分类ID
+    "pageNum": "0" //分页页数  
+}
+返回参数：
+{
+    "data": [
+        {
+            "image": "",
+            "institutionName": "",
+            "productName": "",
+            "productPrice": "",
+            "productId": ""
+        }
+    ]
+}
+
+4.艺术家组合页面（待确认类型）
+请求参数：
+{
+    "projectId": "798", //哪个应用  
+}
+
+返回参数：
+{
+    "data": [
+        {
+            "type": "banner",
+            "data": [
+                {
+                    "image": "",
+                    "linkType": "",
+                    "targetUrl": "",
+                    "width": "",
+                    "height": ""
+                }
+            ]
+        },
+        {
+            "type": "artistList",
+            "data": [
+                {
+                    "avatar": "",
+                    "artistName": "",
+                    "artCategory": "",
+                    "posterPic": "",
+                    "artistId": ""
+                }
+            ]
+        },
+    ]
+}
+
+5.艺术家详情页
+请求参数:
+{
+    "projectId": "798", //哪个应用  
+    "artistId": "" // 艺术家ID
+}
+返回参数:
+{
+    "data": {
+        "avatar": "",
+        "artistName": "",
+        "artCategory": "",
+        "posterPic": "",
+        "artistId": "",
+        "introduction": "",
+        "opus": [
+            {
+                "image": "",
+                "name": "",
+                "opusId": ""
+            }
+        ],
+        "products": [
+            {
+                "image": "",
+                "institutionName": "",
+                "productName": "",
+                "productPrice": "",
+                "productId": ""
+            }
+        ]
+    }
+}
+
+6.机构
+请求参数:
+{
+    "projectId": "798", //哪个应用  
+    "organizationId": "" // 机构ID
+}
+返回参数:
+{
+    "data": {
+        "organizationImage": "",
+        "organizationName": "",
+        "isIdentification": true, // 是否认证机构
+        "opus": [   //版权
+            {
+                "image": "",
+                "name": "",
+                "opusId": ""
+            }
+        ],
+        "products": [   //商品
+            {
+                "image": "",
+                "institutionName": "",
+                "productName": "",
+                "productPrice": "",
+                "productId": ""
+            }
+        ]
+
+    }
+}
+
+7.版权
+请求参数:
+{
+    "projectId": "798", //哪个应用  
+    "opusId": "" // 版权ID
+}
+返回参数:
+{
+    "data": {
+        "opusIcon": "",
+        "opusName": "",
+        "connectInfo": "",  //联系信息
+        "introduction": [
+            {
+                "image": ""
+            }
+        ],
+        "products": [ //商品
+            {
+                "image": "",
+                "institutionName": "",
+                "productName": "",
+                "productPrice": "",
+                "productId": ""
+            }
+        ]
+    }
+}
+
+8.作品
+请求参数:
+{
+    "projectId": "798", //哪个应用  
+    "productId": "" // 版权ID
+}
+返回参数:
+{
+    "data": {
+        "artistAvatar": "",
+        "artistName": "",
+        "productImage": [
+            {
+                "image": ""
+            }
+        ],
+        "publishTime": "",
+        "productTitle": "",
+        "productDesc": ""
+    }
+}
+
+9.商品名称
+请求参数:
+{
+    "projectId": "798", //哪个应用  
+    "productId": "" // 版权ID
+}
+返回参数:
+{
+    "data": {
+        "productImage": "",
+        "productName": "",
+        "productPrice": "",
+        "productId": "",
+        "recommend": [
+            {
+                "image": "",
+                "institutionName": "",
+                "productName": "",
+                "productPrice": "",
+                "productId": ""
+            }
+        ],
+        "institution": {
+            "institutionAvatar": "",
+            "institutionName": "",
+            "institutionId": ""
+        },
+        "descImage": [
+            {
+                "image": ""
+            }
+        ]
+    }
+}
