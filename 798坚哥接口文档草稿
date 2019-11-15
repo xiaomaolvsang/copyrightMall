@@ -5,7 +5,7 @@
 请求参数：
 {
     "type": "mall", // 或者"copyright"，区分商城与版权
-    "projectId": "798" // 用于区分是哪个应用
+    "mallId": "798" // 用于区分是哪个应用
 }
 返回参数：
 {
@@ -121,7 +121,8 @@
             "data": [
                 {
                     "image":"",
-                    "institutionName":"",
+                    "shopName":"",
+                    “shopID”:“”，
                     "productName":"",
                     "productPrice":"",
                     "productId":""
@@ -133,7 +134,8 @@
             "data": [
                 {
                     "image":"",
-                    "institutionName":"",
+                    "shopName":"",
+                    “shopID”：“”
                     "productName":"",
                     "productId":""
                 }
@@ -146,7 +148,7 @@
 同时加上分页信息
 请求参数：
 {
-    "projectId": "798", //哪个应用
+    "mallId": "798", //Mallid 搜索mall内商品
     "keyword": "", //搜索关键字
     "type": "product" //artist 商品或艺术家
 }
@@ -156,8 +158,11 @@
 {
     "data": [
         {
-            "image": "",
-            "institutionName": "",
+            “type”：“商品或是艺术家”
+            "avatar": "", //缩略图
+            "image": "", //图片url
+            "shopName": "",//shopname
+            "shoID":"",
             "productName": "",
             "productPrice": "",
             "productId": ""
@@ -165,15 +170,18 @@
     ]
 }
 
-搜索艺术家时：
+搜索艺术家时：(艺术家是一种shop，所以这里其实是搜索这个shop)
 {
     "data": [
         {
-            "avatar": "",
-            "artistName": "",
-            "artCategory": "",
-            "posterPic": "",
-            "artistId": ""
+            “type”：“商品或是艺术家”
+            "avatar": "", //缩略图
+            "image": "", //图片url
+            "shopName": "",//shopname
+            "shoID":"",
+            "productName": "",
+            "productPrice": "",
+            "productId": ""
         }
     ]
 }
@@ -182,7 +190,7 @@
 一级分类接口：
 请求参数：
 {
-    "projectId": "798", //哪个应用
+    "mallId": "798", //哪个应用
 }
 返回参数:
 {
@@ -197,7 +205,8 @@
 分类下商品：
 请求参数：
 {
-    "projectId": "798", //哪个应用
+    "mallId": "798", //哪个mall
+    //？需要哪个商店么 再讨论
     "firstCategoryId": "" //一级分类ID
     "pageNum": "0" //分页页数  
 }
@@ -206,7 +215,8 @@
     "data": [
         {
             "image": "",
-            "institutionName": "",
+            "shopName": "",
+            "shopID":"",
             "productName": "",
             "productPrice": "",
             "productId": ""
@@ -217,7 +227,7 @@
 4.艺术家组合页面（待确认类型）
 请求参数：
 {
-    "projectId": "798", //哪个应用  
+    "mallID": "798", //哪个应用  
 }
 
 返回参数：
@@ -250,10 +260,10 @@
     ]
 }
 
-5.艺术家详情页
+5.艺术家详情页//跟商店详情页一样
 请求参数:
 {
-    "projectId": "798", //哪个应用  
+    "mallID": "798", //哪个应用  
     "artistId": "" // 艺术家ID
 }
 返回参数:
@@ -275,7 +285,8 @@
         "products": [
             {
                 "image": "",
-                "institutionName": "",
+                "shopName": "",
+                "shopID":"",
                 "productName": "",
                 "productPrice": "",
                 "productId": ""
@@ -287,7 +298,7 @@
 6.机构
 请求参数:
 {
-    "projectId": "798", //哪个应用  
+    "shopID": "798", //哪个应用  
     "organizationId": "" // 机构ID
 }
 返回参数:
@@ -306,7 +317,7 @@
         "products": [   //商品
             {
                 "image": "",
-                "institutionName": "",
+                "shopName": "",
                 "productName": "",
                 "productPrice": "",
                 "productId": ""
@@ -316,10 +327,10 @@
     }
 }
 
-7.版权
+7.版权 跟商品一样
 请求参数:
 {
-    "projectId": "798", //哪个应用  
+    "shopId": "798", //哪个应用  
     "opusId": "" // 版权ID
 }
 返回参数:
@@ -345,7 +356,7 @@
     }
 }
 
-8.作品
+8.作品 跟商品一样
 请求参数:
 {
     "projectId": "798", //哪个应用  
