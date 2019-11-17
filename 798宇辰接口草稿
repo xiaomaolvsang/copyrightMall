@@ -1,0 +1,243 @@
+接口数据格式只是要求大概格式和需要提供信息，具体字段名可以调整
+
+宇辰接口 projectId 就是mallID
+1.加减购物车
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    “shopId”：“”，//哪个shop
+    "sku": "" // 商品SKU/或者Id，我觉得应该用Id
+    "token": ""//用户身份
+}
+返回参数:
+{
+    "code": 0,
+    "data": {},
+    "message": ""
+}
+
+2.获取购物车信息
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    “shopId”：“”，//哪个shop？或者返回直接分别list带出所有商店的购物车
+    "token": ""//用户身份
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "institutionList": {
+            "institutionName": "",
+            "institutionId": "",
+            "relateProducts": [
+                {
+                    "image": "",
+                    "institutionName": "",
+                    "productName": "",
+                    "productPrice": "",
+                    "productId": "",
+                    "num": 0
+                }
+            ]
+        }
+    },
+    "message": ""
+}
+
+3.获取商品的结算价格信息
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    “shopId”：“”，
+    "token": ""//用户身份,
+    "skuArray": [{
+        "sku":"",
+        "num":0
+    }]//需要计算的商品的SKU组合 sku或是ID
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "receiveUser": {
+            "avatar": "",
+            "name": "",
+            "telephone": "",
+            "address": ""
+        },
+        "products": [
+            {
+                "image": "",
+                "institutionName": "",
+                "productName": "",
+                "productPrice": "",
+                "productId": "",
+                "num": 0
+            }
+        ],
+        "orderDesc": "",
+        "totalPayPrice": 0
+    },
+    "message": ""
+}
+
+4.获取预支付订单信息
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    “shopId”：“”，
+    "token": ""//用户身份,
+    "skuArray": [{
+        "sku": "",
+        "num": 0
+    }]//需要计算的商品的SKU组合
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "orderNo": "",
+        "payOrderNo": ""
+    },
+    "message": ""
+}
+
+5.新增收货地址
+请求参数:
+{
+    "mallId": "798",
+    "token": "",
+    "addressInfo": {
+        "name": "",
+        "phone": "",
+        "address": ""
+    }
+}
+返回参数:
+{
+    "code": 0,
+    "data": {},
+    "message": ""
+}
+
+6.获取地址信息
+请求参数:
+{
+    "mallId": "798",
+    "token": "",
+    "addressInfo": {
+        "name": "",
+        "phone": "",
+        "address": ""
+    }
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "addressInfo": {
+            "name": "",
+            "phone": "",
+            "address": ""
+        }
+    },
+    "message": ""
+}
+
+7.我的信息
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    "token": ""//用户身份,
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "avatar": "",
+        "name": ""
+    },
+    "message": ""
+}
+
+8.获取订单列表
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    "token": ""//用户身份,
+    "orderStatus": ""//0 全部, 1 待付款, 2 待发货, 3 已发货, 4 退款
+}
+返回参数: //需要按照shop分list
+{
+    "code": 0,
+    "data": [
+        {
+            "institutionList": {
+                "institutionName": "",
+                "institutionId": "",
+                "relateProducts": [
+                    {
+                        "image": "",
+                        "institutionName": "",
+                        "productName": "",
+                        "productPrice": "",
+                        "productId": "",
+                        "num": 0
+                    }
+                ]
+            },
+            "status": "",//1 待付款, 2 待发货, 3 已发货, 4 退款 
+            "payPrice": "",
+            "orderId": ""
+        }
+    ],
+    "message": ""
+}
+
+9.获取订单详情
+请求参数:
+{
+    "mallId": "798", //哪个应用  
+    "token": ""//用户身份,
+    "orderId": ""//
+}
+返回参数:
+{
+    "code": 0,
+    "data": {
+        "institutionList": {
+            "institutionName": "",
+            "institutionId": "",
+            "relateProducts": [
+                {
+                    "image": "",
+                    "institutionName": "",
+                    "productName": "",
+                    "productPrice": "",
+                    "productId": "",
+                    "num": 0
+                }
+            ]
+        },
+        "status": "",
+        "payPrice": "",
+        "expressInfo": {
+            "company": "",
+            "deliveryID": ""
+        },
+        "receiveUser": {
+            "avatar": "",
+            "name": "",
+            "telephone": "",
+            "address": ""
+        },
+        "orderNo": "",
+        "orderCreateTime": "",
+        "orderPayTime": "",
+        "orderDeliveryTime": "",
+        "orderRefundTime": ""
+    },
+    "message": ""
+}
+10. 支付。假支付。跳过该步骤

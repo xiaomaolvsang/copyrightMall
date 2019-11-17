@@ -4,30 +4,30 @@ import java.util.List;
 import java.util.Date;
 import java.util.Map;
 
-import com.copyright.mall.bean.User;
+import com.copyright.mall.bean.TUser;
 
 
 
 /**
- *
- * 用户表
+ * 
+ * 
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-09-12 17:09
  **/
 public interface IUserService {
 
-	public User selectByPrimaryKey(Long id);
+	public TUser selectByPrimaryKey(Integer id);
 
-	public int deleteByPrimaryKey(Long id);
+	public int deleteByPrimaryKey(Integer id);
 
-	public int insertSelective(User user);
+	public int insertSelective(TUser tUser);
 
-	public int updateByPrimaryKeySelective(User user);
+	public int updateByPrimaryKeySelective(TUser tUser);
 
-	public Long selectObjectListPageTotal(User user);
+	public Long selectObjectListPageTotal(TUser tUser);
 
-	public List<User> selectObjectListPage(User user);
+	public List<TUser> selectObjectListPage(TUser tUser);
 
-	public List<User> selectByObjectList(User user);
+	public List<TUser> selectByObjectList(TUser tUser);
 
 }
