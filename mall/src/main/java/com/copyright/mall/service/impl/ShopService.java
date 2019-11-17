@@ -1,7 +1,11 @@
-package com.copyright.mall.serviceImpl;
+package com.copyright.mall.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
+import com.copyright.mall.config.GuavaManage;
+import com.google.common.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,9 @@ public class ShopService implements IShopService {
 
 	@Resource
 	private ShopMapper shopMapper;
+
+	@Resource
+	private GuavaManage guavaManage;
 
 	@Override
 	public Shop selectByPrimaryKey(Long id) {
@@ -58,7 +65,14 @@ public class ShopService implements IShopService {
 
 	@Override
 	public List<Shop> selectByObjectList(Shop shop){
-		return shopMapper.selectByObjectList(shop);
+    Optional<List<Shop>> infoOptional = guavaManage.getCache(getKey(shop.getId()),() ->
+      shopMapper.selectByObjectList(shop));
+    List<Shop> result = infoOptional.orElse(null);
+    return result;
 	}
+
+	private String getKey(Long id){
+	  return "shop"+id;
+  }
 
 }

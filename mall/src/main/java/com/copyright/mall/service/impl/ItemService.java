@@ -1,16 +1,16 @@
-package com.copyright.mall.serviceImpl;
+package com.copyright.mall.service.impl;
 
-import java.util.List;
-
+import com.copyright.mall.bean.Item;
+import com.copyright.mall.config.GuavaManage;
+import com.copyright.mall.dao.ItemMapper;
 import com.copyright.mall.service.IItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import com.copyright.mall.dao.ItemMapper;
-import com.copyright.mall.service.IItemService;
 
-import com.copyright.mall.bean.Item;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -26,6 +26,9 @@ public class ItemService implements IItemService {
 
 	@Resource
 	private ItemMapper itemMapper;
+
+  @Resource
+  private GuavaManage guavaManage;
 
 	@Override
 	public Item selectByPrimaryKey(Long id) {
@@ -61,5 +64,16 @@ public class ItemService implements IItemService {
 	public List<Item> selectByObjectList(Item item){
 		return itemMapper.selectByObjectList(item);
 	}
+
+  @Override
+  public List<Item> selectAll() {
+    Optional infoOptional = guavaManage.getCache(getKey(),() ->
+      itemMapper.selectAllItem());
+    return (List<Item>)infoOptional.orElse(null);
+  }
+
+  private String getKey(){
+    return "item";
+  }
 
 }

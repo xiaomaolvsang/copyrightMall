@@ -18,6 +18,10 @@
 		<result property="ad" column="AD" jdbcType="VARCHAR" />
 		<result property="titleImg" column="TITLE_IMG" jdbcType="VARCHAR" />
 		<result property="contentImg" column="CONTENT_IMG" jdbcType="VARCHAR" />
+
+    <result property="price" column="PRICE" jdbcType="INTEGER" />
+    <result property="sizeKey" column="SIZE_KEY" jdbcType="VARCHAR" />
+    <result property="sizeValue" column="SIZE_VALUE" jdbcType="VARCHAR" />
 	</resultMap>
 
 
@@ -95,7 +99,7 @@
 	<!-- 根据主键修改输入的值-->
 	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Item">
 		 UPDATE item
- 		 <set> 
+ 		 <set>
 			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
 			<if test="shopId != null">SHOP_ID = #{shopId,jdbcType=BIGINT},</if>
@@ -126,7 +130,7 @@
 	<!-- 分页查询总数 -->
 	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
 		 SELECT
-		 count(*) 
+		 count(*)
 		 FROM item
 		 WHERE 1=1
 		 <include refid="conditions" />
@@ -141,4 +145,21 @@
 		 <include refid="conditions" />
 	</select>
 
+  <select id="selectAllItem" resultMap="BaseResultMap" useCache="false">
+    SELECT
+    i.id,
+    i.SHOP_ID,
+    i.BARCODE,
+    i.ITEM_CLASS,
+    i.RELATED_COPYRIGHT,
+    i.ITEM_STATUS,
+    i.ITEM_TITLE,
+    i.AD,
+    i.TITLE_IMG,
+    i.CONTENT_IMG,
+    s.PRICE,
+    s.SIZE_KEY,
+    s.SIZE_VALUE
+    FROM item i left join sku s on i.id = s.ITEM_ID
+  </select>
 </mapper>

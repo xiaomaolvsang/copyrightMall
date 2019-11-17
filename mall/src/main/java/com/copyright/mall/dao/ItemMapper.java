@@ -9,7 +9,7 @@ import com.copyright.mall.bean.Item;
 
 
 /**
- * 
+ *
  * 商品表
  * @author lijian
  * @date 2019-10-10 16:30
@@ -30,4 +30,5 @@ public interface ItemMapper {
 
 	public List<Item> selectByObjectList(Item item);
 
+	List<Item> selectAllItem();
 }

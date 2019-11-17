@@ -30,4 +30,5 @@ public interface IItemService {
 
 	public List<Item> selectByObjectList(Item item);
 
+	List<Item> selectAll();
 }

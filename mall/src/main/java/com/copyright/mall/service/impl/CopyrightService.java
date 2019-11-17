@@ -1,4 +1,4 @@
-package com.copyright.mall.serviceImpl;
+package com.copyright.mall.service.impl;
 
 import java.util.List;
 

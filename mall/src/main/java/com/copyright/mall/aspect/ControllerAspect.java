@@ -42,6 +42,7 @@ public class ControllerAspect {
         } catch (Throwable ex) {
 
             // 打印错误日志
+            ex.printStackTrace();
             LOGGER.error("controller异常,url:{"+getUri()+"} reqMsg:{"+JSON.toJSONString(pjp.getArgs())+"},ex:{"+ex+"}");
             return WrapMapper.error("后台处理异常");
         }

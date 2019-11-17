@@ -82,7 +82,7 @@ public class Cg {
 
     private final String service_package = "com.copyright.mall.service";
 
-    private final String i_service_package = "com.copyright.mall.serviceImpl";
+    private final String i_service_package = "com.copyright.mall.service.impl";
 
     private final String driverName = "com.mysql.jdbc.Driver";
 

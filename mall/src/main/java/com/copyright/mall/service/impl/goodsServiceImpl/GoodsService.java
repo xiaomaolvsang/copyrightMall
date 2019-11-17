@@ -1,4 +1,4 @@
-package com.copyright.mall.serviceImpl.goodsServiceImpl;
+package com.copyright.mall.service.impl.goodsServiceImpl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -6,7 +6,7 @@ import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.dto.GoodsDTO;
 import com.copyright.mall.bean.req.GoodsReq;
 import com.copyright.mall.service.goodsService.IGoodsService;
-import com.copyright.mall.serviceImpl.ItemService;
+import com.copyright.mall.service.impl.ItemService;
 import com.copyright.mall.util.ListUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

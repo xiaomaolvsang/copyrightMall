@@ -53,9 +53,40 @@ public class Item extends Page implements Serializable {
 	/**商品描述图片**/
 	private String contentImg;
 
+  /**商品价格**/
+  private Integer price;
 
+  /**尺寸**/
+  private String sizeKey;
 
-	public void setId(Long id){
+  /**尺寸值**/
+  private String sizeValue;
+
+  public Integer getPrice() {
+    return price;
+  }
+
+  public void setPrice(Integer price) {
+    this.price = price;
+  }
+
+  public String getSizeKey() {
+    return sizeKey;
+  }
+
+  public void setSizeKey(String sizeKey) {
+    this.sizeKey = sizeKey;
+  }
+
+  public String getSizeValue() {
+    return sizeValue;
+  }
+
+  public void setSizeValue(String sizeValue) {
+    this.sizeValue = sizeValue;
+  }
+
+  public void setId(Long id){
 		this.id = id;
 	}
 

@@ -1,5 +1,7 @@
 package com.copyright.mall.bean.page;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Page
  *
@@ -9,8 +11,11 @@ package com.copyright.mall.bean.page;
  */
 public class Page {
   private int startOfPage = 0;
+  @ApiModelProperty("每页条数")
   private int pageSize = 10;
+  @ApiModelProperty("第几页")
   private int pageNo = 1;
+  @ApiModelProperty("总页数")
   private int total;
 
   public int getStartOfPage() {

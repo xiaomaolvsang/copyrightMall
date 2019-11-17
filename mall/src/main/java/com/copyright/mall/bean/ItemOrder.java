@@ -6,7 +6,7 @@ import java.util.Map;
 
 
 /**
- * 
+ *
  * 子订单
  * @author lijian
  * @date 2019-10-10 16:30
@@ -46,7 +46,7 @@ public class ItemOrder implements Serializable {
 	private Integer itemCount;
 
 	/**商品总价**/
-	private Integer item TotalPrice;
+	private Integer itemTotalPrice;
 
 
 
@@ -130,15 +130,15 @@ public class ItemOrder implements Serializable {
 		return this.itemCount;
 	}
 
-	public void setItem TotalPrice(Integer item TotalPrice){
-		this.item TotalPrice = item TotalPrice;
-	}
+  public Integer getItemTotalPrice() {
+    return itemTotalPrice;
+  }
 
-	public Integer getItem TotalPrice(){
-		return this.item TotalPrice;
-	}
+  public void setItemTotalPrice(Integer itemTotalPrice) {
+    this.itemTotalPrice = itemTotalPrice;
+  }
 
-	@Override
+  @Override
 	public String toString() {
 		return "ItemOrder [ id= "+id+
 			",gmtCreate= "+gmtCreate+
@@ -150,6 +150,6 @@ public class ItemOrder implements Serializable {
 			",itemOrderStatus= "+itemOrderStatus+
 			",itemPrice= "+itemPrice+
 			",itemCount= "+itemCount+
-			",item TotalPrice= "+item TotalPrice+"]";
+			",item TotalPrice= "+itemTotalPrice+"]";
 	}
 }
