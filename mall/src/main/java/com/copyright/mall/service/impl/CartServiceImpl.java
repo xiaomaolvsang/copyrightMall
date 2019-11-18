@@ -79,7 +79,7 @@ public class CartServiceImpl implements ICartService {
 		checkExistsParam.setMallId(cartDTO.getMallId());
 		checkExistsParam.setShopId(cartDTO.getShopId());
 		checkExistsParam.setItemId(skuDTO.getItemId());
-		checkExistsParam.setSkuId(skuDTO.getId());
+		checkExistsParam.setSkuId(cartDTO.getSkuId());
 		checkExistsParam.setUserId(cartDTO.getUserId());
 		checkExistsParam.setCartStatus(1);
 		List<Cart> exists =  cartMapper.selectByObjectList(checkExistsParam);
@@ -89,8 +89,9 @@ public class CartServiceImpl implements ICartService {
 			cartDTO.setCount(cartDTO.getModifyCount());
 			cartMapper.insertSelective(createParam);
 		}else{
-			CartDTO updateParam = BeanMapperUtils.map(checkExistsParam,CartDTO.class);
-			updateParam.setCount(updateParam.getCount()+cartDTO.getModifyCount());
+			CartDTO updateParam = new CartDTO();
+			updateParam.setId(exists.get(0).getId());
+			updateParam.setCount(exists.get(0).getCount()+cartDTO.getModifyCount());
 			cartMapper.updateByPrimaryKeySelective(updateParam);
 		}
 		return true;
