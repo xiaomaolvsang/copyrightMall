@@ -71,20 +71,4 @@ public class ItemOrder implements Serializable {
      * 商品总价
      **/
     private Integer itemTotalPrice;
-
-
-    @Override
-    public String toString() {
-        return "ItemOrder [ id= " + id +
-                ",gmtCreate= " + gmtCreate +
-                ",gmtModified= " + gmtModified +
-                ",itemOrderId= " + itemOrderId +
-                ",shopOrderId= " + shopOrderId +
-                ",itemId= " + itemId +
-                ",skuId= " + skuId +
-                ",itemOrderStatus= " + itemOrderStatus +
-                ",itemPrice= " + itemPrice +
-                ",itemCount= " + itemCount +
-                ",item TotalPrice= " + itemTotalPrice + "]";
-    }
 }
