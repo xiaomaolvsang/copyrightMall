@@ -3,6 +3,7 @@ package com.copyright.mall.controller.productController;
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.bean.dto.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
+import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -28,7 +29,7 @@ import java.util.List;
 @Api(tags = {"商品相关"})
 @RequestMapping("/product")
 @Slf4j
-public class ProductController {
+public class ProductController extends BaseController {
 
   @Resource
   private IProductService productService;
