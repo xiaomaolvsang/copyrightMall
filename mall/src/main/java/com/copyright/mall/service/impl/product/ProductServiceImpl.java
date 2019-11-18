@@ -2,11 +2,15 @@ package com.copyright.mall.service.impl.product;
 
 import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.Shop;
+import com.copyright.mall.bean.dto.GoodsDTO;
 import com.copyright.mall.bean.dto.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
+import com.copyright.mall.domain.dto.goods.SkuDTO;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
+import com.copyright.mall.service.ISkuService;
 import com.copyright.mall.service.product.IProductService;
+import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,9 @@ public class ProductServiceImpl implements IProductService {
 
   @Resource
   private IItemService itemService;
+
+  @Resource
+  private ISkuService skuService;
 
   @Override
   public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
@@ -65,5 +72,14 @@ public class ProductServiceImpl implements IProductService {
     });
 
     return WrapMapper.ok(productSearchResps);
+  }
+
+  @Override
+  public SkuDTO querySingleItemBySku(Long sku) {
+    skuService.selectByPrimaryKey(sku);
+    if(sku==null){
+      return null;
+    }
+    return BeanMapperUtils.map(sku,SkuDTO.class);
   }
 }

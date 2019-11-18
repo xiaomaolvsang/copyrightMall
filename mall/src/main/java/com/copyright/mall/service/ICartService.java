@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.Cart;
-
+import com.copyright.mall.domain.dto.cart.CartDTO;
 
 
 /**
@@ -20,7 +20,7 @@ public interface ICartService {
 
 	public int deleteByPrimaryKey(Long id);
 
-	public int insertSelective(Cart cart);
+	public int insertSelective(CartDTO cart);
 
 	public int updateByPrimaryKeySelective(Cart cart);
 
@@ -29,5 +29,12 @@ public interface ICartService {
 	public List<Cart> selectObjectListPage(Cart cart);
 
 	public List<Cart> selectByObjectList(Cart cart);
+
+	/**
+	 * modify cart
+	 * @param cartDTO modify param
+	 * @return is success
+	 */
+	boolean modifyCart(CartDTO cartDTO);
 
 }
