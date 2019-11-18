@@ -16,14 +16,14 @@ import javax.validation.constraints.NotNull;
 public class EditCartParam {
 
     @ApiModelProperty(value = "店铺编码",required = true)
-    @NotBlank
+    @NotBlank(message = "店铺编码不能为空")
     private String shopId;
 
     @ApiModelProperty(value = "商品SKU",required = true)
-    @NotBlank
+    @NotBlank(message = "商品SKU不能为空")
     private String skuId;
 
     @ApiModelProperty(value = "修改数量",required = true)
-    @NotNull
+    @NotNull(message = "修改数量不能为空")
     private Integer modifyCount;
 }
