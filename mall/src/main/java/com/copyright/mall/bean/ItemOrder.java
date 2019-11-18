@@ -1,5 +1,7 @@
 package com.copyright.mall.bean;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import java.util.Date;
  * @author lijian
  * @date 2019-10-10 16:30
  **/
+@Data
 public class ItemOrder implements Serializable {
 
     private static final long serialVersionUID = 5331428971875366225L;
@@ -69,94 +72,6 @@ public class ItemOrder implements Serializable {
      **/
     private Integer itemTotalPrice;
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtCreate() {
-        return this.gmtCreate;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    public Date getGmtModified() {
-        return this.gmtModified;
-    }
-
-    public void setItemOrderId(String itemOrderId) {
-        this.itemOrderId = itemOrderId;
-    }
-
-    public String getItemOrderId() {
-        return this.itemOrderId;
-    }
-
-    public void setShopOrderId(String shopOrderId) {
-        this.shopOrderId = shopOrderId;
-    }
-
-    public String getShopOrderId() {
-        return this.shopOrderId;
-    }
-
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
-    }
-
-    public Long getItemId() {
-        return this.itemId;
-    }
-
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
-    }
-
-    public Long getSkuId() {
-        return this.skuId;
-    }
-
-    public void setItemOrderStatus(Integer itemOrderStatus) {
-        this.itemOrderStatus = itemOrderStatus;
-    }
-
-    public Integer getItemOrderStatus() {
-        return this.itemOrderStatus;
-    }
-
-    public void setItemPrice(Integer itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public Integer getItemPrice() {
-        return this.itemPrice;
-    }
-
-    public void setItemCount(Integer itemCount) {
-        this.itemCount = itemCount;
-    }
-
-    public Integer getItemCount() {
-        return this.itemCount;
-    }
-
-    public Integer getItemTotalPrice() {
-        return itemTotalPrice;
-    }
-
-    public void setItemTotalPrice(Integer itemTotalPrice) {
-        this.itemTotalPrice = itemTotalPrice;
-    }
 
     @Override
     public String toString() {
