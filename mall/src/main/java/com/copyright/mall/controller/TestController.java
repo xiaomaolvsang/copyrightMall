@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,7 @@ public class TestController {
 
     @ApiOperation(value = "测试接口")
     @GetMapping("/test")
-    public Wrapper<String> test(@ApiParam TestParam testParam){
+    public Wrapper<String> test(@ApiParam @Valid TestParam testParam){
         Stopwatch stopwatch = Stopwatch.createStarted();
         log.info("test {} 时间 [{}]",testParam,stopwatch.elapsed(TimeUnit.SECONDS));
         return WrapMapper.ok(String.format("时间 [%s]",new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date())));
