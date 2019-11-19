@@ -1,10 +1,12 @@
-package com.copyright.mall.bean.dto.product;
+package com.copyright.mall.domain.requeest.product;
 
 import com.copyright.mall.bean.page.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * ProductParam
@@ -18,12 +20,15 @@ import org.apache.commons.lang3.StringUtils;
 public class ProductSearchParam extends Page {
 
   @ApiModelProperty("商城id")
+  @NotBlank(message = "商城id不能为空")
   private Long mallId;
 
   @ApiModelProperty("搜索关键字")
+  @NotBlank(message = "关键字不能为空")
   private String keyword;
 
   @ApiModelProperty("搜索类型（product/artist）")
+  @NotBlank(message = "搜索类型不能为空")
   private String type;
 
   public Long getMallId() {

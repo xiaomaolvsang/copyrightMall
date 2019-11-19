@@ -1,7 +1,7 @@
 package com.copyright.mall.controller.productController;
 
 import com.copyright.mall.aspect.ControllerErro;
-import com.copyright.mall.bean.dto.product.ProductSearchParam;
+import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.service.product.IProductService;

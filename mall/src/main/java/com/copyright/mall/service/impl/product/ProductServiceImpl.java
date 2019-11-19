@@ -2,8 +2,7 @@ package com.copyright.mall.service.impl.product;
 
 import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.Shop;
-import com.copyright.mall.bean.dto.GoodsDTO;
-import com.copyright.mall.bean.dto.product.ProductSearchParam;
+import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.goods.SkuDTO;
 import com.copyright.mall.service.IItemService;
@@ -42,8 +41,8 @@ public class ProductServiceImpl implements IProductService {
   @Override
   public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
 
-    if(!ProductSearchParam.paramChecking(productSearchParam)){
-      return WrapMapper.error("");
+    if (ProductSearchParam.paramChecking(productSearchParam)) {
+      return WrapMapper.error("参数不正确");
     }
     Shop shop = new Shop();
     shop.setMallId(productSearchParam.getMallId());
@@ -68,7 +67,7 @@ public class ProductServiceImpl implements IProductService {
       productSearchResp.setProductName(item.getItemTitle());
       productSearchResp.setProductPrice(item.getPrice());
       productSearchResp.setShoID(item.getShopId());
-      productSearchResp.setShopName(shopTemp == null ? "" : shopTemp.get(0).getShopName());
+      productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
     });
 
     return WrapMapper.ok(productSearchResps);
@@ -77,9 +76,9 @@ public class ProductServiceImpl implements IProductService {
   @Override
   public SkuDTO querySingleItemBySku(Long sku) {
     skuService.selectByPrimaryKey(sku);
-    if(sku==null){
+    if (sku == null) {
       return null;
     }
-    return BeanMapperUtils.map(sku,SkuDTO.class);
+    return BeanMapperUtils.map(sku, SkuDTO.class);
   }
 }

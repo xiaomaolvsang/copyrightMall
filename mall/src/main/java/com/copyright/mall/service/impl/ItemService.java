@@ -9,70 +9,76 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 /**
- *
  * 商品表
+ *
  * @author lijian
  * @date 2019-10-10 16:30
  **/
 @Service
 public class ItemService implements IItemService {
 
-	private static Logger logger = LoggerFactory.getLogger(ItemService.class);
+  private static Logger logger = LoggerFactory.getLogger(ItemService.class);
 
-	@Resource
-	private ItemMapper itemMapper;
+  @Resource
+  private ItemMapper itemMapper;
 
   @Resource
   private GuavaManage guavaManage;
 
-	@Override
-	public Item selectByPrimaryKey(Long id) {
-		return itemMapper.selectByPrimaryKey(id);
-	}
-	@Override
-	public int deleteByPrimaryKey(Long id) {
+  @Override
+  public Item selectByPrimaryKey(Long id) {
+    return itemMapper.selectByPrimaryKey(id);
+  }
 
-		return itemMapper.deleteByPrimaryKey(id);
-	}
+  @Override
+  public int deleteByPrimaryKey(Long id) {
 
-	@Override
-	public int insertSelective(Item item) {
-		return itemMapper.insertSelective(item);
-	}
+    return itemMapper.deleteByPrimaryKey(id);
+  }
 
-	@Override
-	public int updateByPrimaryKeySelective(Item item) {
-		return itemMapper.updateByPrimaryKeySelective(item);
-	}
+  @Override
+  public int insertSelective(Item item) {
+    return itemMapper.insertSelective(item);
+  }
 
-	@Override
-	public Long selectObjectListPageTotal(Item item) {
-		return itemMapper.selectObjectListPageTotal(item);
-	}
+  @Override
+  public int updateByPrimaryKeySelective(Item item) {
+    return itemMapper.updateByPrimaryKeySelective(item);
+  }
 
-	@Override
-	public List<Item> selectObjectListPage(Item item) {
-		return itemMapper.selectObjectListPage(item);
-	}
+  @Override
+  public Long selectObjectListPageTotal(Item item) {
+    return itemMapper.selectObjectListPageTotal(item);
+  }
 
-	@Override
-	public List<Item> selectByObjectList(Item item){
-		return itemMapper.selectByObjectList(item);
-	}
+  @Override
+  public List<Item> selectObjectListPage(Item item) {
+    return itemMapper.selectObjectListPage(item);
+  }
+
+  @Override
+  public List<Item> selectByObjectList(Item item) {
+    return itemMapper.selectByObjectList(item);
+  }
 
   @Override
   public List<Item> selectAll() {
-    Optional infoOptional = guavaManage.getCache(getKey(),() ->
-      itemMapper.selectAllItem());
-    return (List<Item>)infoOptional.orElse(null);
+    Optional<Object> infoOptional = guavaManage.getCache(getKey(),
+      () -> Optional.ofNullable(itemMapper.selectAllItem()));
+    List<Item> items = new ArrayList<>();
+    if (infoOptional.isPresent()) {
+      items = (List<Item>) infoOptional.get();
+    }
+    return items;
   }
 
-  private String getKey(){
+  private String getKey() {
     return "item";
   }
 

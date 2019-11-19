@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/11/17 3:30 下午
  */
 @Component
-public class GuavaManage<V> {
+public class GuavaManage {
 
     private Cache<String, Optional<Object>> localMemoryCache;
 
@@ -32,7 +32,7 @@ public class GuavaManage<V> {
     }
 
 
-    public Optional<Object> getCache(String key, Callable<? extends V> method){
+    public Optional<Object> getCache(String key, Callable<? extends Optional<Object>> method){
       // 缓存读取
       Optional<Object>  infoOptional= Optional.empty();
       if (null == localMemoryCache) {
@@ -41,7 +41,7 @@ public class GuavaManage<V> {
       try {
         infoOptional = localMemoryCache.get(
           key,
-          () -> Optional.ofNullable(method));
+          method);
       } catch (ExecutionException e) {
         e.printStackTrace();
       }
