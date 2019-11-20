@@ -64,7 +64,7 @@ public class ShopService implements IShopService {
 
   @Override
   public List<Shop> selectByObjectList(Shop shop) {
-    Optional<Object> infoOptional = guavaManage.getCache(getKey(shop.getId()),
+    Optional<Object> infoOptional = guavaManage.getCache(getKey(shop.getMallId()),
       () -> Optional.ofNullable(shopMapper.selectByObjectList(shop)));
     List<Shop> result = new ArrayList<>();
     if (infoOptional.isPresent()) {

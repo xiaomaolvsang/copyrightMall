@@ -2,6 +2,7 @@ package com.copyright.mall.service.impl.product;
 
 import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.Shop;
+import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.goods.SkuDTO;
@@ -40,14 +41,16 @@ public class ProductServiceImpl implements IProductService {
 
   @Override
   public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
-
-    if (ProductSearchParam.paramChecking(productSearchParam)) {
-      return WrapMapper.error("参数不正确");
-    }
     Shop shop = new Shop();
     shop.setMallId(productSearchParam.getMallId());
+
+    ShopTypeEnum shopType = ShopTypeEnum.getTypeByName(productSearchParam.getType());
+    if(shopType == null){
+      return WrapMapper.error("搜索类型有误");
+    }
     List<Shop> shops = shopService.selectByObjectList(shop);
-    List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
+    List<Long> shopIds = shops.stream().filter(shop1 -> shop1.getShopType() == shopType.getCode())
+      .map(Shop::getId).collect(Collectors.toList());
     List<Item> items = itemService.selectAll();
     List<Item> itemResult = items.stream().filter(item ->
       shopIds.contains(item.getShopId()) && item.getItemTitle().contains(productSearchParam.getKeyword())
@@ -62,12 +65,13 @@ public class ProductServiceImpl implements IProductService {
       ProductSearchResp productSearchResp = new ProductSearchResp();
       productSearchResp.setAvatar(item.getTitleImg());
       productSearchResp.setImage(item.getContentImg());
-      productSearchResp.setType(item.getItemClass());
+      productSearchResp.setType(shopType.getName());
       productSearchResp.setProductId(item.getId());
       productSearchResp.setProductName(item.getItemTitle());
       productSearchResp.setProductPrice(item.getPrice());
       productSearchResp.setShoID(item.getShopId());
       productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
+      productSearchResps.add(productSearchResp);
     });
 
     return WrapMapper.ok(productSearchResps);

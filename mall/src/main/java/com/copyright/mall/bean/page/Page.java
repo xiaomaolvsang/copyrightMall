@@ -1,6 +1,8 @@
 package com.copyright.mall.bean.page;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * Page
@@ -9,6 +11,8 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  * @date 2019/10/10 5:17 下午
  */
+@Data
+@ApiModel("分页入参")
 public class Page {
   private int startOfPage = 0;
   @ApiModelProperty("每页条数")
