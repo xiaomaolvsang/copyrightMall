@@ -30,4 +30,6 @@ public interface CartMapper {
 
 	public List<Cart> selectByObjectList(Cart cart);
 
+	List<Cart> selectByObjectListOrderByShopId(Cart cart);
+
 }

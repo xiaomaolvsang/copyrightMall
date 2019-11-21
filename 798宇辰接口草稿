@@ -27,9 +27,9 @@
 {
     "code": 0,
     "data": {
-        "institutionList": {
-            "institutionName": "",
-            "institutionId": "",
+        "shopList": {
+            "shopName": "",
+            "shopId": "",
             "relateProducts": [
                 {
                     "image": "",

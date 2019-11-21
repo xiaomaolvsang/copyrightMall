@@ -37,4 +37,6 @@ public interface ICartService {
 	 */
 	boolean modifyCart(CartDTO cartDTO);
 
+	List<CartDTO> selectCartListOrderByShop(CartDTO shopId);
+
 }

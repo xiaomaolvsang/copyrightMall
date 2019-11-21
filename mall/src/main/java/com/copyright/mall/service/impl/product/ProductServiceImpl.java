@@ -4,7 +4,11 @@ import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
+import com.copyright.mall.bean.Sku;
+import com.copyright.mall.bean.dto.GoodsDTO;
+import com.copyright.mall.bean.dto.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
+import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.dto.goods.SkuDTO;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
@@ -78,11 +82,17 @@ public class ProductServiceImpl implements IProductService {
   }
 
   @Override
-  public SkuDTO querySingleItemBySku(Long sku) {
-    skuService.selectByPrimaryKey(sku);
-    if (sku == null) {
+  public ItemDTO querySingleItemBySku(Long skuId) {
+    Sku sku =  skuService.selectByPrimaryKey(skuId);
+    if(skuId==null){
       return null;
     }
-    return BeanMapperUtils.map(sku, SkuDTO.class);
+    Item item = itemService.selectByPrimaryKey(sku.getItemId());
+    if(item==null){
+      return null;
+    }
+    ItemDTO itemDTO = BeanMapperUtils.map(item,ItemDTO.class);
+    itemDTO.setSku(sku);
+    return itemDTO;
   }
 }

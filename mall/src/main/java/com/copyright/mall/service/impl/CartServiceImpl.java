@@ -8,6 +8,7 @@ import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.ICartService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.github.pagehelper.PageHelper;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,15 +87,29 @@ public class CartServiceImpl implements ICartService {
 		if(CollectionUtils.isEmpty(exists)){
 			CartDTO createParam = BeanMapperUtils.map(checkExistsParam,CartDTO.class);
 			Preconditions.checkArgument(cartDTO.getModifyCount()>0,"加车数量必须大于0");
-			cartDTO.setCount(cartDTO.getModifyCount());
-			cartMapper.insertSelective(createParam);
+			if(cartDTO.getModifyCount()>0) {
+				cartDTO.setCount(cartDTO.getModifyCount());
+				cartMapper.insertSelective(createParam);
+			}else{
+				throw new IllegalArgumentException("减车商品不存在");
+			}
 		}else{
-			CartDTO updateParam = new CartDTO();
-			updateParam.setId(exists.get(0).getId());
-			updateParam.setCount(exists.get(0).getCount()+cartDTO.getModifyCount());
-			cartMapper.updateByPrimaryKeySelective(updateParam);
+			Integer endCount = exists.get(0).getCount()+cartDTO.getModifyCount();
+			if(endCount>0){
+				CartDTO updateParam = new CartDTO();
+				updateParam.setId(exists.get(0).getId());
+				updateParam.setCount(endCount);
+				cartMapper.updateByPrimaryKeySelective(updateParam);
+			}else {
+				cartMapper.deleteByPrimaryKey(exists.get(0).getId());
+			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<CartDTO> selectCartListOrderByShop(CartDTO cartDTO) {
+		return BeanMapperUtils.mapList(cartMapper.selectByObjectListOrderByShopId(cartDTO),CartDTO.class);
 	}
 
 }

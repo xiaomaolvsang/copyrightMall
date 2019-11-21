@@ -132,8 +132,16 @@
 		 SELECT
 		 <include refid="Base_Column_List" />
 		 FROM cart
-		 WHERE 1=1
 		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectListOrderByShopId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM cart
+		<include refid="conditions" />
+		order by MALL_ID desc ,SHOP_ID desc
 	</select>
 
 </mapper>
