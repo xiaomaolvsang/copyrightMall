@@ -3,12 +3,11 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.bean.Cart;
 import com.copyright.mall.dao.CartMapper;
 import com.copyright.mall.domain.dto.cart.CartDTO;
-import com.copyright.mall.domain.dto.goods.SkuDTO;
+import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.ICartService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
-import com.github.pagehelper.PageHelper;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -71,15 +70,15 @@ public class CartServiceImpl implements ICartService {
 
 	@Override
 	public boolean modifyCart(CartDTO cartDTO) {
-		SkuDTO skuDTO =  productService.querySingleItemBySku(cartDTO.getSkuId());
-		if(skuDTO==null){
+		ItemDTO itemDTO =  productService.querySingleItemBySku(cartDTO.getSkuId());
+		if(itemDTO==null){
 			log.warn("获取SKU为空=>[{}]",cartDTO.getSkuId());
 			throw new BusinessException("获取SKU为空");
 		}
 		Cart checkExistsParam = new Cart();
 		checkExistsParam.setMallId(cartDTO.getMallId());
 		checkExistsParam.setShopId(cartDTO.getShopId());
-		checkExistsParam.setItemId(skuDTO.getItemId());
+		checkExistsParam.setItemId(itemDTO.getId());
 		checkExistsParam.setSkuId(cartDTO.getSkuId());
 		checkExistsParam.setUserId(cartDTO.getUserId());
 		checkExistsParam.setCartStatus(1);
