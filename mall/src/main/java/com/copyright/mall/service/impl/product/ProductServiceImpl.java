@@ -2,14 +2,11 @@ package com.copyright.mall.service.impl.product;
 
 import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.Shop;
-import com.copyright.mall.bean.enumeration.ShopTypeEnum;
-import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.Sku;
-import com.copyright.mall.bean.dto.GoodsDTO;
-import com.copyright.mall.bean.dto.product.ProductSearchParam;
+import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
-import com.copyright.mall.domain.dto.goods.SkuDTO;
+import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.ISkuService;
