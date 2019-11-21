@@ -18,6 +18,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
  * @author : zhangyuchen
  * @date : 2019/11/18 15:31
  */
+@Api(tags = "购物车接口")
 @Slf4j
 @RestController
 @RequestMapping("/v1/cart")
@@ -48,6 +51,7 @@ public class CartController extends BaseController {
     private IProductService productService;
 
     @PutMapping("/edit")
+    @ApiOperation(value = "加减车")
     private Wrapper<String> edit(@RequestBody @ApiParam @Valid EditCartParam editCartParam){
         log.info("CartController.edit=>[{}]", JSON.toJSONString(editCartParam));
         CartDTO param = BeanMapperUtils.map(editCartParam,CartDTO.class);
@@ -58,6 +62,7 @@ public class CartController extends BaseController {
     }
 
     @GetMapping("/list")
+    @ApiOperation(value = "购物车列表")
     private Wrapper<CartListVO> cartList (@ApiParam CharListQueryParam charListQueryParam){
         CartDTO queryParam = new CartDTO();
         queryParam.setUserId(this.getUserId());

@@ -23,7 +23,7 @@ public class EditCartParam {
     @NotBlank(message = "商品SKU不能为空")
     private String skuId;
 
-    @ApiModelProperty(value = "修改数量",required = true)
+    @ApiModelProperty(value = "修改数量 正数增加 负数减少 做和小于零直接删除",required = true)
     @NotNull(message = "修改数量不能为空")
     private Integer modifyCount;
 }
