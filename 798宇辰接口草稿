@@ -164,7 +164,7 @@
 8.获取订单列表
 请求参数:
 {
-    "mallId": "798", //哪个应用  
+    "mallId": "798", //哪个应用
     "token": ""//用户身份,
     "orderStatus": ""//0 全部, 1 待付款, 2 待发货, 3 已发货, 4 退款
 }
@@ -173,19 +173,19 @@
     "code": 0,
     "data": [
         {
-            "institutionList": {
-                "institutionName": "",
-                "institutionId": "",
-                "relateProducts": [
-                    {
-                        "image": "",
-                        "institutionName": "",
-                        "productName": "",
-                        "productPrice": "",
-                        "productId": "",
-                        "num": 0
-                    }
-                ]
+            "shopInfo":{
+                "shopId":"",
+                "shopName":""
+            }
+            "relateProducts": [
+                {
+                    "image": "",
+                    "institutionName": "",
+                    "productName": "",
+                    "productPrice": "",
+                    "productId": "",
+                    "num": 0
+                }
             },
             "status": "",//1 待付款, 2 待发货, 3 已发货, 4 退款 
             "payPrice": "",

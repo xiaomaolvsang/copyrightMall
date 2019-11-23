@@ -7,7 +7,7 @@ import com.copyright.mall.domain.dto.cart.CartDTO;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.requeest.cart.CharListQueryParam;
 import com.copyright.mall.domain.requeest.cart.EditCartParam;
-import com.copyright.mall.domain.vo.CartListVO;
+import com.copyright.mall.domain.vo.cart.CartListVO;
 import com.copyright.mall.service.ICartService;
 import com.copyright.mall.service.impl.ShopService;
 import com.copyright.mall.service.product.IProductService;
@@ -99,6 +99,7 @@ public class CartController extends BaseController {
         result.setShopList(shopListBeans);
         return WrapMapper.ok(result);
     }
+
 
 
 }

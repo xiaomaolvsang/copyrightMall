@@ -1,4 +1,4 @@
-package com.copyright.mall.domain.vo;
+package com.copyright.mall.domain.vo.cart;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
