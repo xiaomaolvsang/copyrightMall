@@ -1,10 +1,13 @@
 package com.copyright.mall.controller.productController;
 
 import com.copyright.mall.aspect.ControllerErro;
+import com.copyright.mall.domain.requeest.product.AreaParam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.controller.BaseController;
+import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.service.product.IProductService;
+import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +41,15 @@ public class ProductController extends BaseController {
   @ApiOperation(value = "商品搜索")
   @PostMapping("/search")
   @ControllerErro
-  public Wrapper<List<ProductSearchResp>> test(@RequestBody @ApiParam @Valid ProductSearchParam productSearchParam){
+  public Wrapper<List<ProductSearchResp>> search(@RequestBody @ApiParam @Valid ProductSearchParam productSearchParam){
     return productService.search(productSearchParam);
   }
+
+  @ApiOperation(value = "商品/版权域")
+  @PostMapping("/area")
+  @ControllerErro
+  public Wrapper<List<AreaVO>> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam){
+    return WrapMapper.ok();
+  }
+
 }
