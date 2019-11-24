@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.BannerItemRelationMapper">
+
+	<!--cg generate by lijian at 2019-11-24 14:53-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.BannerItemRelation" >
+		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
+		<result property="itemId" column="ITEM_ID" jdbcType="BIGINT" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	BANNER_ID,	ITEM_ID
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="bannerId != null and bannerId != '' "> and BANNER_ID = #{bannerId,jdbcType=BIGINT} </if>
+		<if test="itemId != null and itemId != '' "> and ITEM_ID = #{itemId,jdbcType=BIGINT} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_item_relation
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM banner_item_relation
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.BannerItemRelation">
+		 INSERT INTO banner_item_relation
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="bannerId != null"> BANNER_ID,</if>
+			<if test="itemId != null"> ITEM_ID,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="bannerId!=null">#{bannerId,jdbcType=BIGINT},</if>
+			<if test="itemId!=null">#{itemId,jdbcType=BIGINT},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.BannerItemRelation">
+		 UPDATE banner_item_relation
+ 		 <set> 
+			<if test="bannerId != null">BANNER_ID = #{bannerId,jdbcType=BIGINT},</if>
+			<if test="itemId != null">ITEM_ID = #{itemId,jdbcType=BIGINT},</if>
+
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_item_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM banner_item_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_item_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>

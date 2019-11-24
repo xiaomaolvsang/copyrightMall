@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.BannerAttrMapper">
+
+	<!--cg generate by lijian at 2019-11-23 19:24-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.BannerAttr" >
+		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
+		<result property="image" column="IMAGE" jdbcType="VARCHAR" />
+		<result property="linkType" column="LINK_TYPE" jdbcType="VARCHAR" />
+		<result property="targetUrl" column="TARGET_URL" jdbcType="VARCHAR" />
+		<result property="categoryName" column="CATEGORY_NAME" jdbcType="VARCHAR" />
+		<result property="categoryId" column="CATEGORY_ID" jdbcType="BIGINT" />
+		<result property="title" column="TITLE" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	BANNER_ID,	IMAGE,	LINK_TYPE,	TARGET_URL,	CATEGORY_NAME,	CATEGORY_ID,	TITLE
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="bannerId != null and bannerId != '' "> and BANNER_ID = #{bannerId,jdbcType=BIGINT} </if>
+		<if test="image != null and image != '' "> and IMAGE = #{image,jdbcType=VARCHAR} </if>
+		<if test="linkType != null and linkType != '' "> and LINK_TYPE = #{linkType,jdbcType=VARCHAR} </if>
+		<if test="targetUrl != null and targetUrl != '' "> and TARGET_URL = #{targetUrl,jdbcType=VARCHAR} </if>
+		<if test="categoryName != null and categoryName != '' "> and CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR} </if>
+		<if test="categoryId != null and categoryId != '' "> and CATEGORY_ID = #{categoryId,jdbcType=BIGINT} </if>
+		<if test="title != null and title != '' "> and TITLE = #{title,jdbcType=VARCHAR} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_attr
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM banner_attr
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.BannerAttr">
+		 INSERT INTO banner_attr
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="bannerId != null"> BANNER_ID,</if>
+			<if test="image != null"> IMAGE,</if>
+			<if test="linkType != null"> LINK_TYPE,</if>
+			<if test="targetUrl != null"> TARGET_URL,</if>
+			<if test="categoryName != null"> CATEGORY_NAME,</if>
+			<if test="categoryId != null"> CATEGORY_ID,</if>
+			<if test="title != null"> TITLE,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="bannerId!=null">#{bannerId,jdbcType=BIGINT},</if>
+			<if test="image!=null">#{image,jdbcType=VARCHAR},</if>
+			<if test="linkType!=null">#{linkType,jdbcType=VARCHAR},</if>
+			<if test="targetUrl!=null">#{targetUrl,jdbcType=VARCHAR},</if>
+			<if test="categoryName!=null">#{categoryName,jdbcType=VARCHAR},</if>
+			<if test="categoryId!=null">#{categoryId,jdbcType=BIGINT},</if>
+			<if test="title!=null">#{title,jdbcType=VARCHAR},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.BannerAttr">
+		 UPDATE banner_attr
+ 		 <set> 
+			<if test="bannerId != null">BANNER_ID = #{bannerId,jdbcType=BIGINT},</if>
+			<if test="image != null">IMAGE = #{image,jdbcType=VARCHAR},</if>
+			<if test="linkType != null">LINK_TYPE = #{linkType,jdbcType=VARCHAR},</if>
+			<if test="targetUrl != null">TARGET_URL = #{targetUrl,jdbcType=VARCHAR},</if>
+			<if test="categoryName != null">CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},</if>
+			<if test="categoryId != null">CATEGORY_ID = #{categoryId,jdbcType=BIGINT},</if>
+			<if test="title != null">TITLE = #{title,jdbcType=VARCHAR},</if>
+
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_attr
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM banner_attr
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner_attr
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>

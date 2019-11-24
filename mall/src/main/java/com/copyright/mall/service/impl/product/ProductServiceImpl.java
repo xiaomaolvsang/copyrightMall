@@ -62,7 +62,6 @@ public class ProductServiceImpl implements IProductService {
     List<ProductSearchResp> productSearchResps = new ArrayList<>();
     itemResult.forEach(item -> {
       List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
-
       ProductSearchResp productSearchResp = new ProductSearchResp();
       productSearchResp.setAvatar(item.getTitleImg());
       productSearchResp.setImage(item.getContentImg());
