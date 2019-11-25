@@ -10,7 +10,6 @@ import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.service.*;
-import com.copyright.mall.service.impl.ItemService;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -125,6 +123,7 @@ public class OrderController extends BaseController {
         OrderDetailVO orderDetailVO = new OrderDetailVO();
         ShopOrder shopOrder = shopOrderService.selectByPrimaryKey(orderNo);
         Shop shop = shopService.selectByPrimaryKey(shopOrder.getShopId());
+        MallOrder mallOrder = mallOrderService.selectByPrimaryKey(Long.valueOf(shopOrder.getMallOrderId()));
         OrderDetailVO.ShopInfoBean shopInfoBean = new OrderDetailVO.ShopInfoBean();
         shopInfoBean.setShopId(shop.getId().toString());
         shopInfoBean.setShopName(shop.getShopName());
@@ -153,15 +152,19 @@ public class OrderController extends BaseController {
         expressInfoBean.setDeliveryID(shopOrder.getDeliveryOrderId());
         orderDetailVO.setExpressInfo(expressInfoBean);
         //todo 收货人在结算单里
-        orderDetailVO.setReceiveUser();
+        OrderDetailVO.ReceiveUserBean receiveUserBean = new OrderDetailVO.ReceiveUserBean();
+        receiveUserBean.setAddress(mallOrder.getDeliveryAddress());
+        receiveUserBean.setConsigneeName(mallOrder.getDeliveryName());
+        receiveUserBean.setConsigneePnone(mallOrder.getPhone());
+        orderDetailVO.setReceiveUser(receiveUserBean);
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         //todo 没有支付时间
-        orderDetailVO.setOrderPayTime();
+        //orderDetailVO.setOrderPayTime();
         //todo 交货时间
-        orderDetailVO.setOrderDeliveryTime();
+        //orderDetailVO.setOrderDeliveryTime(mallOrder);
         //todo 退货时间
-        orderDetailVO.setOrderRefundTime();
+        //orderDetailVO.setOrderRefundTime();
 
         return WrapMapper.ok();
     }

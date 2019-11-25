@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class OrderDetailVO {
     private String orderNo;
     @JSONField(name = "orderCreateTime")
     @ApiModelProperty("生单时间")
-    private String orderCreateTime;
+    private Date orderCreateTime;
     @JSONField(name = "orderPayTime")
     @ApiModelProperty("支付时间")
     private String orderPayTime;
