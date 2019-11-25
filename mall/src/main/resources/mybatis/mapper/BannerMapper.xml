@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.BannerMapper">
+
+	<!--cg generate by lijian at 2019-11-23 19:24-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Banner" >
+		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="type" column="TYPE" jdbcType="VARCHAR" />
+		<result property="height" column="HEIGHT" jdbcType="INTEGER" />
+		<result property="width" column="WIDTH" jdbcType="INTEGER" />
+    <result property="mallId" column="MALL_ID" jdbcType="INTEGER" />
+    <result property="mallType" column="mall_type" jdbcType="VARCHAR" />
+    <collection property="bannerAttrs" ofType="com.copyright.mall.bean.BannerAttr">
+      <result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
+      <result property="image" column="IMAGE" jdbcType="VARCHAR" />
+      <result property="linkType" column="LINK_TYPE" jdbcType="VARCHAR" />
+      <result property="targetUrl" column="TARGET_URL" jdbcType="VARCHAR" />
+      <result property="categoryName" column="CATEGORY_NAME" jdbcType="VARCHAR" />
+      <result property="categoryId" column="CATEGORY_ID" jdbcType="BIGINT" />
+      <result property="title" column="TITLE" jdbcType="VARCHAR" />
+    </collection>
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	TYPE,	HEIGHT,	WIDTH, MALL_ID , MALL_TYPE
+	</sql>
+
+  <sql id="Ban_Column_List">
+	ban.id,	ban.TYPE,ban.HEIGHT,	ban.WIDTH, ban.MALL_ID, ban.MALL_TYPE
+	</sql>
+  <sql id="Attr_Column_List">
+	bana.BANNER_ID,	bana.IMAGE,	bana.LINK_TYPE,	bana.TARGET_URL,	bana.CATEGORY_NAME,	bana.CATEGORY_ID,	bana.TITLE
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="type != null and type != '' "> and TYPE = #{type,jdbcType=VARCHAR} </if>
+		<if test="height != null "> and HEIGHT = #{height,jdbcType=INTEGER} </if>
+		<if test="width != null "> and WIDTH = #{width,jdbcType=INTEGER} </if>
+    <if test="mallId != null "> and MALL_ID = #{mallId,jdbcType=BIGINT} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM banner
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Banner">
+		 INSERT INTO banner
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="type != null"> TYPE,</if>
+			<if test="height != null"> HEIGHT,</if>
+			<if test="width != null"> WIDTH,</if>
+       <if test="mallId != null"> MALL_ID,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="type!=null">#{type,jdbcType=VARCHAR},</if>
+			<if test="height!=null">#{height,jdbcType=INTEGER},</if>
+			<if test="width!=null">#{width,jdbcType=INTEGER},</if>
+       <if test="mallId != null ">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Banner">
+		 UPDATE banner
+ 		 <set>
+			<if test="type != null">TYPE = #{type,jdbcType=VARCHAR},</if>
+			<if test="height != null">HEIGHT = #{height,jdbcType=INTEGER},</if>
+			<if test="width != null">WIDTH = #{width,jdbcType=INTEGER},</if>
+       <if test="mallId != null ">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*)
+		 FROM banner
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM banner
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+  <select id="selectBanner" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    SELECT
+    <include refid="Ban_Column_List" />,
+    <include refid="Attr_Column_List" />
+    FROM
+      banner ban
+      LEFT JOIN banner_attr bana ON ban.id = bana.banner_id
+    WHERE
+    ban.MALL_ID = #{mallId,jdbcType=BIGINT}
+    and ban.MALL_TYPE = #{mallType,jdbcType=BIGINT}
+  </select>
+
+
+
+</mapper>
