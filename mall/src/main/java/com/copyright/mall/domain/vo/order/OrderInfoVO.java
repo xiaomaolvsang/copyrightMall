@@ -19,19 +19,8 @@ public class OrderInfoVO {
     @JSONField(name = "shopInfo")
     @ApiModelProperty("店铺信息")
     private ShopInfoBean shopInfo;
-    @JSONField(name = "status")
-    @ApiModelProperty("订单状态")
-    private String status;
-    @ApiModelProperty("订单状态枚举")
-    private String statusDesc;
-    @JSONField(name = "payPrice")
-    @ApiModelProperty("支付金额")
-    private BigDecimal payPrice;
-    @JSONField(name = "orderId")
-    @ApiModelProperty("订单ID")
-    private String orderId;
     @Data
-    private static class ShopInfoBean {
+    public static class ShopInfoBean {
 
         @JSONField(name = "shopId")
         @ApiModelProperty("店铺ID")
@@ -41,9 +30,20 @@ public class OrderInfoVO {
         private String shopName;
         @ApiModelProperty("商品信息列表")
         private List<RelateProductsBean> relateProducts;
+        @JSONField(name = "status")
+        @ApiModelProperty("订单状态")
+        private String orderStatus;
+        @ApiModelProperty("订单状态枚举")
+        private String statusDesc;
+        @JSONField(name = "payPrice")
+        @ApiModelProperty("支付金额")
+        private BigDecimal payPrice;
+        @JSONField(name = "orderId")
+        @ApiModelProperty("订单ID")
+        private String orderId;
     }
     @Data
-    private static class RelateProductsBean {
+    public static class RelateProductsBean {
         @JSONField(name = "image")
         @ApiModelProperty("商品图片")
         private String image;
