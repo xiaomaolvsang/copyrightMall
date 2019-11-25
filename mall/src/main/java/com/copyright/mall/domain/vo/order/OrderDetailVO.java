@@ -51,7 +51,7 @@ public class OrderDetailVO {
     private String orderRefundTime;
 
     @Data
-    private static class ShopInfoBean {
+    public static class ShopInfoBean {
 
         @JSONField(name = "shopId")
         @ApiModelProperty("店铺ID")
@@ -63,7 +63,7 @@ public class OrderDetailVO {
         private List<RelateProductsBean> relateProducts;
     }
     @Data
-    private static class RelateProductsBean {
+    public static class RelateProductsBean {
         @JSONField(name = "image")
         @ApiModelProperty("商品图片")
         private String image;
@@ -81,7 +81,7 @@ public class OrderDetailVO {
         private int num;
     }
     @Data
-    private static class ExpressInfoBean {
+    public static class ExpressInfoBean {
 
         @JSONField(name = "company")
         @ApiModelProperty("快递公司")
@@ -92,7 +92,7 @@ public class OrderDetailVO {
 
     }
     @Data
-    private static class ReceiveUserBean {
+    public static class ReceiveUserBean {
         @JSONField(name = "consigneeName")
         @ApiModelProperty("收货人姓名")
         @NotBlank

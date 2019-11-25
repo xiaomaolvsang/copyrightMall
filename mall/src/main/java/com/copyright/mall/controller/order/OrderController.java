@@ -11,6 +11,7 @@ import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.service.*;
 import com.copyright.mall.service.impl.ItemService;
+import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.google.common.collect.Lists;
@@ -97,7 +98,7 @@ public class OrderController extends BaseController {
                     Item item = itemService.selectByPrimaryKey(itemOrder.getItemId());
                     relateProductsBean.setImage(item.getTitleImg());
                     relateProductsBean.setProductName(item.getItemTitle());
-                    relateProductsBean.setProductPrice(BigDecimal.valueOf(item.getPrice()).divide(new BigDecimal(100)).toString());
+                    relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
                     relateProductsBean.setSkuId(sku.getId().toString());
                     relateProductsBean.setNum(itemOrder.getItemCount());
                     relateProductsBeanArrayList.add(relateProductsBean);
@@ -107,19 +108,60 @@ public class OrderController extends BaseController {
                 shopInfoBean.setShopName(shop.getShopName());
                 shopInfoBean.setOrderStatus(shopOrder.getOrderType().toString());
                 shopInfoBean.setStatusDesc(shopOrder.getOrderType().toString());
-                shopInfoBean.setPayPrice(BigDecimal.valueOf(shopOrder.getPrice()).divide(new BigDecimal(100)));
+                shopInfoBean.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
                 shopInfoBean.setOrderId(shop.getId().toString());
 
             }
             orderInfoVO.setShopInfo(shopInfoBean);
             orderInfoVOS.add(orderInfoVO);
         }
+
         return WrapMapper.ok(orderInfoVOS);
     }
 
     @GetMapping("/orderDetail/{orderNo}")
     @ApiOperation("/订单详情")
-    public Wrapper<OrderDetailVO> getOrderDetail(@PathVariable("orderNo") String orderNo){
+    public Wrapper<OrderDetailVO> getOrderDetail(@PathVariable("orderNo") Long orderNo){
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        ShopOrder shopOrder = shopOrderService.selectByPrimaryKey(orderNo);
+        Shop shop = shopService.selectByPrimaryKey(shopOrder.getShopId());
+        OrderDetailVO.ShopInfoBean shopInfoBean = new OrderDetailVO.ShopInfoBean();
+        shopInfoBean.setShopId(shop.getId().toString());
+        shopInfoBean.setShopName(shop.getShopName());
+        ItemOrder itemQueryParam = new ItemOrder();
+        itemQueryParam.setShopOrderId(shopOrder.getShopOrderId());
+        List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQueryParam);
+        List<OrderDetailVO.RelateProductsBean> relateProductsBeans = Lists.newArrayList();
+        for(ItemOrder itemOrder : itemOrders){
+            OrderDetailVO.RelateProductsBean relateProductsBean = new OrderDetailVO.RelateProductsBean();
+            Sku sku = skuService.selectByPrimaryKey(itemOrder.getSkuId());
+            Item item = itemService.selectByPrimaryKey(itemOrder.getItemId());
+            relateProductsBean.setImage(item.getTitleImg());
+            relateProductsBean.setProductName(item.getItemTitle());
+            relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
+            relateProductsBean.setSkuId(sku.getId().toString());
+            relateProductsBean.setNum(itemOrder.getItemCount());
+            relateProductsBeans.add(relateProductsBean);
+        }
+        shopInfoBean.setRelateProducts(relateProductsBeans);
+        orderDetailVO.setShopInfo(shopInfoBean);
+        orderDetailVO.setStatus(shopOrder.getOrderType().toString());
+        orderDetailVO.setStatusDesc(shopOrder.getOrderType().toString());
+        orderDetailVO.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
+        OrderDetailVO.ExpressInfoBean expressInfoBean = new OrderDetailVO.ExpressInfoBean();
+        expressInfoBean.setCompany(shopOrder.getDelliveryCompanyName());
+        expressInfoBean.setDeliveryID(shopOrder.getDeliveryOrderId());
+        orderDetailVO.setExpressInfo(expressInfoBean);
+        //todo 收货人在结算单里
+        orderDetailVO.setReceiveUser();
+        orderDetailVO.setOrderNo(shopOrder.getId().toString());
+        orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
+        //todo 没有支付时间
+        orderDetailVO.setOrderPayTime();
+        //todo 交货时间
+        orderDetailVO.setOrderDeliveryTime();
+        //todo 退货时间
+        orderDetailVO.setOrderRefundTime();
 
         return WrapMapper.ok();
     }
