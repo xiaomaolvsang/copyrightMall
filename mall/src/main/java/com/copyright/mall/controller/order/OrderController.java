@@ -9,8 +9,12 @@ import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
+import com.copyright.mall.enums.ItemOrderType;
+import com.copyright.mall.enums.PayStatusEnum;
+import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.IDUtil;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -95,8 +99,46 @@ public class OrderController extends BaseController {
 
     @PostMapping("/createOrder")
     @ApiOperation("生单")
-    public Wrapper<CreateOrderVO> createOrder(@ApiParam @Valid @RequestBody CreateOrderParam createOrderParam){
-        return  WrapMapper.ok();
+    public Wrapper<CreateOrderVO> createOrder(@ApiParam @Valid @RequestBody List<CreateOrderParam> createOrderParam){
+        Integer mallTotalPrice =0;
+        MallOrder mallOrder = new MallOrder();
+        mallOrder.setMallOrderId(IDUtil.generatorID("MID"));
+        mallOrder.setMallId(this.getMallId().toString());
+        mallOrder.setPayStatus(PayStatusEnum.UNPAID.getCode());
+        mallOrder.setDeliveryAddress(createOrderParam.get(0).getReceiveUserBean().getAddress());
+        mallOrder.setDeliveryName(createOrderParam.get(0).getReceiveUserBean().getConsigneeName());
+        mallOrder.setPhone(createOrderParam.get(0).getReceiveUserBean().getConsigneeName());
+        for(CreateOrderParam createOrderItem : createOrderParam){
+            ShopOrder shopOrder = new ShopOrder();
+            shopOrder.setMallOrderId(this.getMallId().toString());
+            shopOrder.setShopOrderId(IDUtil.generatorID("SID"));
+            shopOrder.setOrderType(ShopOrderType.UNPAID.getCode());
+            shopOrder.setShopId(createOrderItem.getShopId());
+            Integer shopTotalPrice = 0;
+            for(CreateOrderParam.SKU skuItem : createOrderItem.getSkus()){
+                Sku sku = skuService.selectByPrimaryKey(skuItem.getSkuId());
+                Item item = itemService.selectByPrimaryKey(sku.getItemId());
+                ItemOrder itemOrder = new ItemOrder();
+                itemOrder.setItemOrderId(IDUtil.generatorID("TID"));
+                itemOrder.setShopOrderId(shopOrder.getShopOrderId());
+                itemOrder.setItemId(item.getId());
+                itemOrder.setSkuId(skuItem.getSkuId());
+                itemOrder.setItemOrderStatus(ItemOrderType.UNPAID.getCode());
+                itemOrder.setItemPrice(item.getPrice());
+                itemOrder.setItemCount(skuItem.getNum());
+                itemOrder.setItemTotalPrice(item.getPrice()*skuItem.getNum());
+                iItemOrderService.insertSelective(itemOrder);
+                shopTotalPrice+=itemOrder.getItemTotalPrice();
+            }
+            shopOrder.setPrice(shopTotalPrice);
+            shopOrderService.insertSelective(shopOrder);
+            mallTotalPrice+=shopOrder.getPrice();
+        }
+        mallOrder.setPrice(mallTotalPrice);
+        mallOrderService.insertSelective(mallOrder);
+        CreateOrderVO result = new CreateOrderVO();
+        result.setOrderNo(mallOrder.getMallOrderId());
+        return  WrapMapper.ok(result);
     }
 
     @GetMapping("/orderList")
@@ -190,7 +232,7 @@ public class OrderController extends BaseController {
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         //todo 没有支付时间
-        //orderDetailVO.setOrderPayTime();
+        //orderDetailVO.setOrderPayTime(shopOrder.getPrice());
         //todo 交货时间
         //orderDetailVO.setOrderDeliveryTime(mallOrder);
         //todo 退货时间

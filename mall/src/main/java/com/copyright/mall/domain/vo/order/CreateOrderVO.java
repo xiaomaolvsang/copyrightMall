@@ -15,8 +15,5 @@ public class CreateOrderVO {
     @JSONField(name = "orderNo")
     @ApiModelProperty("订单号")
     private String orderNo;
-    @JSONField(name = "payOrderNo")
-    @ApiModelProperty("支付单号")
-    private String payOrderNo;
 
 }
