@@ -130,7 +130,6 @@ public class Cg {
         tables.add("item_order");
         tables.add("mall_order");
         tables.add("shop_order");
-        tables.add("class_item_relation");
         return tables;
     }
 

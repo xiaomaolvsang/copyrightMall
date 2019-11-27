@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,6 +21,6 @@ public class ProductByClassparam extends BasePage {
     @NotNull(message = "商城Id不能为空")
     private Long mallId;
     @ApiModelProperty("分类Id")
-    @NotBlank(message = "分类id不能为空")
-    private String firstCategoryId;
+    @NotNull(message = "分类id不能为空")
+    private Long firstCategoryId;
 }

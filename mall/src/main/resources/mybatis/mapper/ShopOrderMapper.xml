@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ShopOrderMapper">
 
-	<!--cg generate by lijian at 2019-11-27 15:25-->
+	<!--cg generate by lijian at 2019-11-27 16:15-->
 
 	<!--通用商铺订单表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.ShopOrder" >
@@ -18,12 +18,13 @@
 		<result property="delliveryCompanyName" column="DELLIVERY_COMPANY_NAME" jdbcType="VARCHAR" />
 		<result property="orderCreateTime" column="ORDER_CREATE_TIME" jdbcType="TIMESTAMP" />
 		<result property="payPrice" column="PAY_PRICE" jdbcType="INTEGER" />
+		<result property="payTime" column="PAY_TIME" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ORDER_ID,	SHOP_ORDER_ID,	ORDER_TYPE,	SHOP_ID,	PRICE,	DELIVERY_ORDER_ID,	DELLIVERY_COMPANY_NAME,	ORDER_CREATE_TIME,	PAY_PRICE
+	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ORDER_ID,	SHOP_ORDER_ID,	ORDER_TYPE,	SHOP_ID,	PRICE,	DELIVERY_ORDER_ID,	DELLIVERY_COMPANY_NAME,	ORDER_CREATE_TIME,	PAY_PRICE,	PAY_TIME
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -43,6 +44,7 @@
 		<if test="delliveryCompanyName != null and delliveryCompanyName != '' "> and DELLIVERY_COMPANY_NAME = #{delliveryCompanyName,jdbcType=VARCHAR} </if>
 		<if test="orderCreateTime != null and orderCreateTime != '' "> and ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP} </if>
 		<if test="payPrice != null "> and PAY_PRICE = #{payPrice,jdbcType=INTEGER} </if>
+		<if test="payTime != null and payTime != '' "> and PAY_TIME = #{payTime,jdbcType=TIMESTAMP} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -75,6 +77,7 @@
 			<if test="delliveryCompanyName != null"> DELLIVERY_COMPANY_NAME,</if>
 			<if test="orderCreateTime != null"> ORDER_CREATE_TIME,</if>
 			<if test="payPrice != null"> PAY_PRICE,</if>
+			<if test="payTime != null"> PAY_TIME,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -89,6 +92,7 @@
 			<if test="delliveryCompanyName!=null">#{delliveryCompanyName,jdbcType=VARCHAR},</if>
 			<if test="orderCreateTime!=null">#{orderCreateTime,jdbcType=TIMESTAMP},</if>
 			<if test="payPrice!=null">#{payPrice,jdbcType=INTEGER},</if>
+			<if test="payTime!=null">#{payTime,jdbcType=TIMESTAMP},</if>
 		 </trim>
 	</insert>
 
@@ -107,6 +111,7 @@
 			<if test="delliveryCompanyName != null">DELLIVERY_COMPANY_NAME = #{delliveryCompanyName,jdbcType=VARCHAR},</if>
 			<if test="orderCreateTime != null">ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP},</if>
 			<if test="payPrice != null">PAY_PRICE = #{payPrice,jdbcType=INTEGER},</if>
+			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

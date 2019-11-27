@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 结算单
  * @author lijian
- * @date 2019-11-27 15:25
+ * @date 2019-11-27 16:15
  **/
 public class MallOrder implements Serializable {
 
-	private static final long serialVersionUID = 1894662899504326818L;
+	private static final long serialVersionUID = 6762710236986785476L;
 
 	/**主键**/
 	private Long id;
@@ -50,6 +50,9 @@ public class MallOrder implements Serializable {
 
 	/**支付价格**/
 	private Integer payPrice;
+
+	/**支付时间**/
+	private Date payTime;
 
 
 
@@ -149,6 +152,14 @@ public class MallOrder implements Serializable {
 		return this.payPrice;
 	}
 
+	public void setPayTime(Date payTime){
+		this.payTime = payTime;
+	}
+
+	public Date getPayTime(){
+		return this.payTime;
+	}
+
 	@Override
 	public String toString() {
 		return "MallOrder [ id= "+id+
@@ -162,6 +173,7 @@ public class MallOrder implements Serializable {
 			",phone= "+phone+
 			",buyer= "+buyer+
 			",price= "+price+
-			",payPrice= "+payPrice+"]";
+			",payPrice= "+payPrice+
+			",payTime= "+payTime+"]";
 	}
 }

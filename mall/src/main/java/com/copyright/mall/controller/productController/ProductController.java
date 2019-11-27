@@ -59,7 +59,7 @@ public class ProductController extends BaseController {
   @PostMapping("/productByClass")
   @ControllerErro
   public Wrapper<ProductByClassVO> productByClass(@RequestBody @ApiParam @Valid ProductByClassparam productByClassparam){
-    return WrapMapper.ok();
+    return WrapMapper.ok(productService.getProductByClass(productByClassparam));
   }
 
 }

@@ -4,6 +4,7 @@ import com.copyright.mall.bean.*;
 import com.copyright.mall.bean.enumeration.AreaEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
+import com.copyright.mall.domain.dto.cart.CartDTO;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.requeest.product.AreaParam;
 import com.copyright.mall.domain.requeest.product.ProductByClassparam;
@@ -13,12 +14,16 @@ import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.ISkuService;
+import com.copyright.mall.service.impl.ClassItemRelationService;
 import com.copyright.mall.service.impl.ClassificationService;
 import com.copyright.mall.service.impl.CopyrightService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,7 +56,8 @@ public class ProductServiceImpl implements IProductService {
   private CopyrightService copyrightService;
 
   @Resource
-  private ClassificationService classificationService;
+  private ClassItemRelationService classItemRelationService;
+  private List<Shop> shops;
 
   @Override
   public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
@@ -121,10 +127,37 @@ public class ProductServiceImpl implements IProductService {
 
   @Override
   public ProductByClassVO getProductByClass(ProductByClassparam productByClassparam) {
+    Shop shop = new Shop();
+    shop.setMallId(0L);
+    List<Shop> shops = shopService.selectByObjectList(shop);
 
+    PageHelper.startPage(productByClassparam.getPageNum(),productByClassparam.getPageSize());
+    ClassItemRelation classItemRelation = new ClassItemRelation();
+    classItemRelation.setClassId(productByClassparam.getFirstCategoryId());
+    List<ClassItemRelation> classItemRelations = classItemRelationService.selectByObjectList(classItemRelation);
+    PageInfo.of(classItemRelations);
+    List<Long> itemIds = classItemRelations.stream().map(ClassItemRelation::getItemId).collect(Collectors.toList());
+    List<Item> items = itemService.selectAll();
 
+    ProductByClassVO productByClassVO = new ProductByClassVO();
+    List<AreaVO.AreaAttr> attrList = new ArrayList<>();
+    items.stream().filter(item -> itemIds.contains(item.getId()) )
+      .forEach(item -> {
+        AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
+        areaAttr.setImage(item.getTitleImg());
+        areaAttr.setProductId(String.valueOf(item.getId()));
+        areaAttr.setProductName(item.getItemTitle());
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        areaAttr.setProductPrice(result);
+        areaAttr.setShopID(item.getShopId());
+        List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
+        areaAttr.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
+        attrList.add(areaAttr);
+      });
+    productByClassVO.setData(attrList);
 
-    return null;
+    return productByClassVO;
   }
 
   private void getProductArea(AreaParam areaParam, AreaVO areaVO) {

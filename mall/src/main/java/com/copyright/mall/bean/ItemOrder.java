@@ -6,14 +6,14 @@ import java.util.Map;
 
 
 /**
- *
+ * 
  * 子订单
  * @author lijian
- * @date 2019-11-27 15:25
+ * @date 2019-11-27 16:15
  **/
 public class ItemOrder implements Serializable {
 
-	private static final long serialVersionUID = 2781363299585943997L;
+	private static final long serialVersionUID = 1596382464266134354L;
 
 	/**主键**/
 	private Long id;
@@ -50,6 +50,9 @@ public class ItemOrder implements Serializable {
 
 	/**支付价格**/
 	private Integer payPrice;
+
+	/**支付时间**/
+	private Date payTime;
 
 
 
@@ -133,20 +136,28 @@ public class ItemOrder implements Serializable {
 		return this.itemCount;
 	}
 
-  public Integer getItemTotalPrice() {
-    return itemTotalPrice;
-  }
+	public void setItemTotalPrice(Integer itemTotalPrice){
+		this.itemTotalPrice = itemTotalPrice;
+	}
 
-  public void setItemTotalPrice(Integer itemTotalPrice) {
-    this.itemTotalPrice = itemTotalPrice;
-  }
+	public Integer getItemTotalPrice(){
+		return this.itemTotalPrice;
+	}
 
-  public void setPayPrice(Integer payPrice){
+	public void setPayPrice(Integer payPrice){
 		this.payPrice = payPrice;
 	}
 
 	public Integer getPayPrice(){
 		return this.payPrice;
+	}
+
+	public void setPayTime(Date payTime){
+		this.payTime = payTime;
+	}
+
+	public Date getPayTime(){
+		return this.payTime;
 	}
 
 	@Override
@@ -161,7 +172,8 @@ public class ItemOrder implements Serializable {
 			",itemOrderStatus= "+itemOrderStatus+
 			",itemPrice= "+itemPrice+
 			",itemCount= "+itemCount+
-			",item TotalPrice= "+itemTotalPrice+
-			",payPrice= "+payPrice+"]";
+			",itemTotalPrice= "+itemTotalPrice+
+			",payPrice= "+payPrice+
+			",payTime= "+payTime+"]";
 	}
 }

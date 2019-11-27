@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 商铺订单
  * @author lijian
- * @date 2019-11-27 15:25
+ * @date 2019-11-27 16:15
  **/
 public class ShopOrder implements Serializable {
 
-	private static final long serialVersionUID = 1278374743828451883L;
+	private static final long serialVersionUID = 2286077221411534749L;
 
 	/**主键**/
 	private Long id;
@@ -50,6 +50,9 @@ public class ShopOrder implements Serializable {
 
 	/**支付价格**/
 	private Integer payPrice;
+
+	/**支付时间**/
+	private Date payTime;
 
 
 
@@ -149,6 +152,14 @@ public class ShopOrder implements Serializable {
 		return this.payPrice;
 	}
 
+	public void setPayTime(Date payTime){
+		this.payTime = payTime;
+	}
+
+	public Date getPayTime(){
+		return this.payTime;
+	}
+
 	@Override
 	public String toString() {
 		return "ShopOrder [ id= "+id+
@@ -162,6 +173,7 @@ public class ShopOrder implements Serializable {
 			",deliveryOrderId= "+deliveryOrderId+
 			",delliveryCompanyName= "+delliveryCompanyName+
 			",orderCreateTime= "+orderCreateTime+
-			",payPrice= "+payPrice+"]";
+			",payPrice= "+payPrice+
+			",payTime= "+payTime+"]";
 	}
 }
