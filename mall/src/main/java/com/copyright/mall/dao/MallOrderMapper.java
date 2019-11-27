@@ -12,7 +12,7 @@ import com.copyright.mall.bean.MallOrder;
  * 
  * 结算单
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-11-27 15:25
  **/
 public interface MallOrderMapper {
 

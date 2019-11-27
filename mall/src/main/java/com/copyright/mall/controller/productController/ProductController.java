@@ -2,10 +2,12 @@ package com.copyright.mall.controller.productController;
 
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.domain.requeest.product.AreaParam;
+import com.copyright.mall.domain.requeest.product.ProductByClassparam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.vo.product.AreaVO;
+import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -48,7 +50,15 @@ public class ProductController extends BaseController {
   @ApiOperation(value = "商品/版权域")
   @PostMapping("/area")
   @ControllerErro
-  public Wrapper<List<AreaVO>> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam){
+  public Wrapper<AreaVO> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam){
+    return WrapMapper.ok(productService.getArea(areaParam));
+  }
+
+
+  @ApiOperation(value = "根据分类查商品")
+  @PostMapping("/productByClass")
+  @ControllerErro
+  public Wrapper<ProductByClassVO> productByClass(@RequestBody @ApiParam @Valid ProductByClassparam productByClassparam){
     return WrapMapper.ok();
   }
 

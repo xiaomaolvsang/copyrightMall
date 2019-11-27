@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * AreaVO
  *
@@ -17,6 +19,7 @@ public class AreaVO {
 
   @ApiModelProperty("类型 mall/copyright")
   private String type;
+  private List<AreaAttr> areaAttrs;
 
   @Data
   public static class AreaAttr{
@@ -25,7 +28,7 @@ public class AreaVO {
     @ApiModelProperty("商铺名称")
     private String shopName;
     @ApiModelProperty("商铺id")
-    private String shopID;
+    private Long shopID;
     @ApiModelProperty("商品名称")
     private String productName;
     @ApiModelProperty("商品价格")

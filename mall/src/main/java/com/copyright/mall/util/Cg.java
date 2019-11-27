@@ -62,7 +62,7 @@ public class Cg {
      *
      * 修改的地方
      */
-    private final String dbName = "db_xf"; // 数据库名
+    private final String dbName = "go_db"; // 数据库名
 
     private final String moduleName = ""; // 模块名
 
@@ -86,9 +86,9 @@ public class Cg {
 
     private final String driverName = "com.mysql.jdbc.Driver";
 
-    private final String user = "jtwc";
+    private final String user = "root";
 
-    private final String password = "lin52410";
+    private final String password = "lin5241!";
 
     private final String url = "jdbc:mysql://cdb-1tr98sga.bj.tencentcdb.com:10130/" + dbName + "?characterEncoding=utf8";
 
@@ -127,7 +127,10 @@ public class Cg {
             //          }
         }*/
         //新的表写在这里
-        tables.add("t_user");
+        tables.add("item_order");
+        tables.add("mall_order");
+        tables.add("shop_order");
+        tables.add("class_item_relation");
         return tables;
     }
 

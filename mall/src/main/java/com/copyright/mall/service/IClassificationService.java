@@ -7,6 +7,7 @@ import java.util.Map;
 import com.copyright.mall.bean.Classification;
 import com.copyright.mall.bean.resp.classification.ClassResp;
 import com.copyright.mall.domain.requeest.classification.ClassParam;
+import com.copyright.mall.domain.requeest.classification.ClassTwoParam;
 
 
 /**
@@ -33,4 +34,7 @@ public interface IClassificationService {
 
 	public List<ClassResp> getClassification(ClassParam classParam);
 
+	public List<ClassResp> getClassTwo(ClassTwoParam classTwoParam);
+
+  public List<Classification> getAll();
 }

@@ -12,7 +12,7 @@ import com.copyright.mall.bean.ShopOrder;
  * 
  * 商铺订单
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-11-27 15:25
  **/
 public interface ShopOrderMapper {
 

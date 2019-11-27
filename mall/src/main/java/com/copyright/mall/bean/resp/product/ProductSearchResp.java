@@ -31,7 +31,7 @@ public class ProductSearchResp implements Serializable{
   @ApiModelProperty("product名称")
   private String productName;
   @ApiModelProperty("product价格(单位：分)")
-  private Integer productPrice;
+  private String productPrice;
   @ApiModelProperty("productId")
   private Long productId;
 
@@ -76,11 +76,11 @@ public class ProductSearchResp implements Serializable{
     this.productName = productName;
   }
 
-  public Integer getProductPrice() {
+  public String getProductPrice() {
     return productPrice;
   }
 
-  public void setProductPrice(Integer productPrice) {
+  public void setProductPrice(String productPrice) {
     this.productPrice = productPrice;
   }
 

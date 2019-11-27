@@ -6,6 +6,7 @@ import com.copyright.mall.bean.resp.classification.ClassResp;
 import com.copyright.mall.config.GuavaManage;
 import com.copyright.mall.dao.ClassificationMapper;
 import com.copyright.mall.domain.requeest.classification.ClassParam;
+import com.copyright.mall.domain.requeest.classification.ClassTwoParam;
 import com.copyright.mall.service.IClassificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,24 @@ public class ClassificationService implements IClassificationService {
     return list;
   }
 
-  private List<Classification> getAll(){
+  @Override
+  public List<ClassResp> getClassTwo(ClassTwoParam classTwoParam) {
+    List<Classification> classifications = getAll();
+    List<ClassResp> list = new ArrayList<>();
+    classifications.stream()
+      .filter(classification ->
+       classification.getUpperId().equals(classTwoParam.getClassOneId()))
+      .forEach(classification -> {
+        ClassResp classResp = new ClassResp();
+        classResp.setFirstCategoryName(classification.getClassName());
+        classResp.setFirstCategoryId(classification.getId());
+        list.add(classResp);
+      });
+    return list;
+  }
+
+  @Override
+  public List<Classification> getAll(){
 	  Classification classification = new Classification();
     Optional<Object> infoOptional = guavaManage.getCache(getKey(),
       () -> Optional.ofNullable(selectByObjectList(classification)));

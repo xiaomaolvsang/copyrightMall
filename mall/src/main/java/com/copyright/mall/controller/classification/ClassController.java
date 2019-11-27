@@ -4,6 +4,7 @@ import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.bean.resp.classification.ClassResp;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.requeest.classification.ClassParam;
+import com.copyright.mall.domain.requeest.classification.ClassTwoParam;
 import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -42,6 +43,14 @@ public class ClassController  extends BaseController {
   @ControllerErro
   public Wrapper<List<ClassResp>> test(@RequestBody @ApiParam @Valid ClassParam classParam){
     List<ClassResp> classResps = classificationService.getClassification(classParam);
+    return WrapMapper.ok(classResps);
+  }
+
+  @ApiOperation(value = "二级分类查询")
+  @PostMapping("/classTwo")
+  @ControllerErro
+  public Wrapper<List<ClassResp>> twoLevelClass(@RequestBody @ApiParam @Valid ClassTwoParam classTwoParam){
+    List<ClassResp> classResps = classificationService.getClassTwo(classTwoParam);
     return WrapMapper.ok(classResps);
   }
 }

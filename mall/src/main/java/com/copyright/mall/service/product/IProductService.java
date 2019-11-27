@@ -1,9 +1,13 @@
 package com.copyright.mall.service.product;
 
+import com.copyright.mall.domain.requeest.product.AreaParam;
+import com.copyright.mall.domain.requeest.product.ProductByClassparam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.dto.goods.SkuDTO;
+import com.copyright.mall.domain.vo.product.AreaVO;
+import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.util.wrapper.Wrapper;
 
 import java.util.List;
@@ -24,4 +28,8 @@ public interface IProductService {
    * @return the item
    */
   ItemDTO querySingleItemBySku(Long sku);
+
+  AreaVO getArea(AreaParam areaParam);
+
+  ProductByClassVO getProductByClass(ProductByClassparam productByClassparam);
 }
