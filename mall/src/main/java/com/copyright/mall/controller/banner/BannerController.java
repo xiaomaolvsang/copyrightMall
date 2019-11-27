@@ -2,7 +2,9 @@ package com.copyright.mall.controller.banner;
 
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.order.ConfirmOrderParam;
+import com.copyright.mall.domain.requeest.banner.ArtBannerParam;
 import com.copyright.mall.domain.requeest.banner.BannerParam;
+import com.copyright.mall.domain.vo.banner.ArtBannerVO;
 import com.copyright.mall.domain.vo.banner.BannerVO;
 import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.service.IBannerService;
@@ -39,7 +41,13 @@ public class BannerController extends BaseController {
 
   @PostMapping("/bannerSearch")
   @ApiOperation("首页组件查询")
-  public Wrapper<BannerVO> confirmOrder(@ApiParam @Valid @RequestBody BannerParam bannerParam){
+  public Wrapper<BannerVO> bannerSearch(@ApiParam @Valid @RequestBody BannerParam bannerParam){
     return WrapMapper.ok(bannerService.getBanner(bannerParam));
+  }
+
+  @PostMapping("/artBanner")
+  @ApiOperation("首页组件查询")
+  public Wrapper<ArtBannerVO> artBanner(@ApiParam @Valid @RequestBody ArtBannerParam artBannerParam){
+    return WrapMapper.ok(bannerService.getArtBanner(artBannerParam));
   }
 }

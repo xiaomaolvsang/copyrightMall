@@ -1,6 +1,4 @@
 package com.copyright.mall.bean;
-import com.copyright.mall.bean.page.Page;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +9,11 @@ import java.util.Map;
  *
  * 商品表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-11-27 17:03
  **/
-public class Item extends Page implements Serializable {
+public class Item implements Serializable {
 
-	private static final long serialVersionUID = 3925294372488782877L;
+	private static final long serialVersionUID = 703528804564158937L;
 
 	/**主键**/
 	private Long id;
@@ -53,6 +51,9 @@ public class Item extends Page implements Serializable {
 	/**商品描述图片**/
 	private String contentImg;
 
+	/**艺术类别**/
+	private String artCategory;
+
   /**商品价格**/
   private Integer price;
 
@@ -86,7 +87,8 @@ public class Item extends Page implements Serializable {
     this.sizeValue = sizeValue;
   }
 
-  public void setId(Long id){
+
+	public void setId(Long id){
 		this.id = id;
 	}
 
@@ -182,6 +184,14 @@ public class Item extends Page implements Serializable {
 		return this.contentImg;
 	}
 
+	public void setArtCategory(String artCategory){
+		this.artCategory = artCategory;
+	}
+
+	public String getArtCategory(){
+		return this.artCategory;
+	}
+
 	@Override
 	public String toString() {
 		return "Item [ id= "+id+
@@ -195,6 +205,7 @@ public class Item extends Page implements Serializable {
 			",itemTitle= "+itemTitle+
 			",ad= "+ad+
 			",titleImg= "+titleImg+
-			",contentImg= "+contentImg+"]";
+			",contentImg= "+contentImg+
+			",artCategory= "+artCategory+"]";
 	}
 }

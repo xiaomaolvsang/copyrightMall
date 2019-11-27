@@ -127,9 +127,7 @@ public class Cg {
             //          }
         }*/
         //新的表写在这里
-        tables.add("item_order");
-        tables.add("mall_order");
-        tables.add("shop_order");
+        tables.add("item");
         return tables;
     }
 

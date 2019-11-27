@@ -6,7 +6,9 @@ import com.copyright.mall.bean.Item;
 import com.copyright.mall.bean.enumeration.MallType;
 import com.copyright.mall.dao.BannerMapper;
 import com.copyright.mall.domain.exception.BusinessException;
+import com.copyright.mall.domain.requeest.banner.ArtBannerParam;
 import com.copyright.mall.domain.requeest.banner.BannerParam;
+import com.copyright.mall.domain.vo.banner.ArtBannerVO;
 import com.copyright.mall.domain.vo.banner.BannerVO;
 import com.copyright.mall.service.IBannerService;
 import com.copyright.mall.service.IItemService;
@@ -126,6 +128,52 @@ public class BannerService implements IBannerService {
     });
     result.setData(bannerLists);
     return result;
+  }
+
+  @Override
+  public ArtBannerVO getArtBanner(ArtBannerParam artBannerParam) {
+    Banner banner = new Banner();
+    banner.setMallType("artist");
+    banner.setMallId(artBannerParam.getMallId());
+    List<Banner> banners = bannerMapper.selectBanner(banner);
+    ArtBannerVO artBannerVO = new ArtBannerVO();
+    List<ArtBannerVO.BannerList> bannerLists = new ArrayList<>();
+    List<ArtBannerVO.Artists> artist = new ArrayList<>();
+    banners.forEach(banner1 -> {
+      ArtBannerVO.BannerList bannerList = new ArtBannerVO.BannerList();
+      bannerList.setHeight(String.valueOf(banner1.getHeight()));
+      bannerList.setWidth(String.valueOf(banner1.getWidth()));
+      bannerList.setType(banner1.getType());
+      List<BannerVO.Attributes> attributes = new ArrayList<>();
+      banner1.getBannerAttrs().forEach(attr -> {
+        BannerVO.Attributes attributes1 = new BannerVO.Attributes();
+        BeanUtils.copyProperties(attr, attributes1);
+        attributes.add(attributes1);
+      });
+      bannerList.setData(attributes);
+      if ("artistList".equals(banner1.getType())) {
+        BannerItemRelation bannerItemRelation = new BannerItemRelation();
+        bannerItemRelation.setBannerId(banner1.getId());
+        List<BannerItemRelation> list = bannerItemRelationService.selectByObjectList(bannerItemRelation);
+        List<Long> itemIds = list.stream().map(BannerItemRelation::getItemId).collect(Collectors.toList());
+        List<Item> items = itemService.selectAll().stream().filter(item -> itemIds.contains(item.getId())).collect(Collectors.toList());
+        items.forEach(item -> {
+          ArtBannerVO.Artists art = new ArtBannerVO.Artists();
+          art.setArtCategory(item.getArtCategory());
+          art.setArtistId(item.getId());
+          art.setArtistName(item.getItemTitle());
+          art.setAvatar(item.getAd());
+          art.setPosterPic(item.getTitleImg());
+          artist.add(art);
+        });
+      bannerList.setArtist(artist);
+      }
+      bannerLists.add(bannerList);
+
+    });
+
+    artBannerVO.setData(bannerLists);
+    return artBannerVO;
   }
 
 

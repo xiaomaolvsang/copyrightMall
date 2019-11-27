@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ItemMapper">
 
-	<!--cg generate by lijian at 2019-10-10 16:30-->
+	<!--cg generate by lijian at 2019-11-27 17:03-->
 
 	<!--通用商品表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Item" >
@@ -18,6 +18,7 @@
 		<result property="ad" column="AD" jdbcType="VARCHAR" />
 		<result property="titleImg" column="TITLE_IMG" jdbcType="VARCHAR" />
 		<result property="contentImg" column="CONTENT_IMG" jdbcType="VARCHAR" />
+		<result property="artCategory" column="ART_CATEGORY" jdbcType="VARCHAR" />
 
     <result property="price" column="PRICE" jdbcType="INTEGER" />
     <result property="sizeKey" column="SIZE_KEY" jdbcType="VARCHAR" />
@@ -27,7 +28,7 @@
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	SHOP_ID,	BARCODE,	ITEM_CLASS,	RELATED_COPYRIGHT,	ITEM_STATUS,	ITEM_TITLE,	AD,	TITLE_IMG,	CONTENT_IMG
+	id,	GMT_CREATE,	GMT_MODIFIED,	SHOP_ID,	BARCODE,	ITEM_CLASS,	RELATED_COPYRIGHT,	ITEM_STATUS,	ITEM_TITLE,	AD,	TITLE_IMG,	CONTENT_IMG,	ART_CATEGORY
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -47,6 +48,7 @@
 		<if test="ad != null and ad != '' "> and AD = #{ad,jdbcType=VARCHAR} </if>
 		<if test="titleImg != null and titleImg != '' "> and TITLE_IMG = #{titleImg,jdbcType=VARCHAR} </if>
 		<if test="contentImg != null and contentImg != '' "> and CONTENT_IMG = #{contentImg,jdbcType=VARCHAR} </if>
+		<if test="artCategory != null and artCategory != '' "> and ART_CATEGORY = #{artCategory,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -79,6 +81,7 @@
 			<if test="ad != null"> AD,</if>
 			<if test="titleImg != null"> TITLE_IMG,</if>
 			<if test="contentImg != null"> CONTENT_IMG,</if>
+			<if test="artCategory != null"> ART_CATEGORY,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -93,6 +96,7 @@
 			<if test="ad!=null">#{ad,jdbcType=VARCHAR},</if>
 			<if test="titleImg!=null">#{titleImg,jdbcType=VARCHAR},</if>
 			<if test="contentImg!=null">#{contentImg,jdbcType=VARCHAR},</if>
+			<if test="artCategory!=null">#{artCategory,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -111,6 +115,7 @@
 			<if test="ad != null">AD = #{ad,jdbcType=VARCHAR},</if>
 			<if test="titleImg != null">TITLE_IMG = #{titleImg,jdbcType=VARCHAR},</if>
 			<if test="contentImg != null">CONTENT_IMG = #{contentImg,jdbcType=VARCHAR},</if>
+			<if test="artCategory != null">ART_CATEGORY = #{artCategory,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

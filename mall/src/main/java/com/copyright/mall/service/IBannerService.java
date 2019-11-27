@@ -1,7 +1,9 @@
 package com.copyright.mall.service;
 
 import com.copyright.mall.bean.Banner;
+import com.copyright.mall.domain.requeest.banner.ArtBannerParam;
 import com.copyright.mall.domain.requeest.banner.BannerParam;
+import com.copyright.mall.domain.vo.banner.ArtBannerVO;
 import com.copyright.mall.domain.vo.banner.BannerVO;
 
 import java.util.List;
@@ -31,5 +33,7 @@ public interface IBannerService {
 	public List<Banner> selectByObjectList(Banner banner);
 
   public BannerVO getBanner(BannerParam bannerParam);
+
+  public ArtBannerVO getArtBanner(ArtBannerParam artBannerParam);
 
 }
