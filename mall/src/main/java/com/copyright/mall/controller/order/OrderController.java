@@ -210,7 +210,7 @@ public class OrderController extends BaseController {
     }
 
     @GetMapping("/orderDetail/{orderNo}")
-    @ApiOperation("/订单详情")
+    @ApiOperation("订单详情")
     public Wrapper<OrderDetailVO> getOrderDetail(@PathVariable("orderNo") Long orderNo){
         OrderDetailVO orderDetailVO = new OrderDetailVO();
         ShopOrder shopOrder = shopOrderService.selectByPrimaryKey(orderNo);
@@ -270,6 +270,7 @@ public class OrderController extends BaseController {
 
 
     @PostMapping("/pay")
+    @ApiOperation("支付")
     public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam PayDTO payDTO){
         log.info("支付订单{}",payDTO);
         orderService.payOrder(payDTO);
