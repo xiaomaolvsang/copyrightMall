@@ -60,5 +60,4 @@ public class ShopOrderService implements IShopOrderService {
 	public List<ShopOrder> selectByObjectList(ShopOrder shopOrder){
 		return shopOrderMapper.selectByObjectList(shopOrder);
 	}
-
 }

@@ -30,4 +30,6 @@ public interface IMallOrderService {
 
 	public List<MallOrder> selectByObjectList(MallOrder mallOrder);
 
+	MallOrder selectByMallOrderID(String mallOrderId);
+
 }

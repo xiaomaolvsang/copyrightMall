@@ -8,7 +8,8 @@ public enum ItemOrderType {
     /**
      * 支付状态枚举
      */
-    UNPAID(1,"未支付");
+    UNPAID(10,"未支付"),
+    PAID(20,"已支付");
 
 
     private Integer code;

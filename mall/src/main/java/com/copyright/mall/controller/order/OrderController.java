@@ -4,13 +4,14 @@ import com.copyright.mall.bean.*;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.order.ConfirmOrderParam;
 import com.copyright.mall.domain.dto.order.CreateOrderParam;
+import com.copyright.mall.domain.dto.order.PayDTO;
 import com.copyright.mall.domain.dto.order.QueryOrderListParam;
 import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.enums.ItemOrderType;
-import com.copyright.mall.enums.PayStatusEnum;
+import com.copyright.mall.enums.MallPayStatusEnum;
 import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.BeanMapperUtils;
@@ -59,6 +60,9 @@ public class OrderController extends BaseController {
     @Resource
     private IItemOrderService iItemOrderService;
 
+    @Resource
+    private OrderService orderService;
+
 
     @PostMapping("/confirmOrder")
     @ApiOperation("确认订单")
@@ -104,7 +108,7 @@ public class OrderController extends BaseController {
         MallOrder mallOrder = new MallOrder();
         mallOrder.setMallOrderId(IDUtil.generatorID("MID"));
         mallOrder.setMallId(this.getMallId().toString());
-        mallOrder.setPayStatus(PayStatusEnum.UNPAID.getCode());
+        mallOrder.setPayStatus(MallPayStatusEnum.UNPAID.getCode());
         mallOrder.setDeliveryAddress(createOrderParam.get(0).getReceiveUserBean().getAddress());
         mallOrder.setDeliveryName(createOrderParam.get(0).getReceiveUserBean().getConsigneeName());
         mallOrder.setPhone(createOrderParam.get(0).getReceiveUserBean().getConsigneeName());
@@ -262,6 +266,14 @@ public class OrderController extends BaseController {
         //todo 退货时间
         //orderDetailVO.setOrderRefundTime();
         return WrapMapper.ok();
+    }
+
+
+    @PostMapping("/pay")
+    public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam PayDTO payDTO){
+        log.info("支付订单{}",payDTO);
+        orderService.payOrder(payDTO);
+        return WrapMapper.ok(true);
     }
 
 }

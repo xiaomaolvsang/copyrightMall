@@ -61,4 +61,11 @@ public class MallOrderService implements IMallOrderService {
 		return mallOrderMapper.selectByObjectList(mallOrder);
 	}
 
+	@Override
+	public MallOrder selectByMallOrderID(String mallOrderId) {
+		MallOrder mallOrder = new MallOrder();
+		mallOrder.setMallOrderId(mallOrderId);
+		return mallOrder;
+	}
+
 }
