@@ -18,7 +18,7 @@ import java.util.List;
 public class ConfirmOrderVO {
 
     @JSONField(name = "receiveUser")
-    @ApiModelProperty("接收用户信息 这个信息是这个接口该返回的么？")
+    @ApiModelProperty("接收用户信息")
     private ReceiveUserBean receiveUser;
     @JSONField(name = "orderDesc")
     @ApiModelProperty("订单描述")
@@ -74,7 +74,7 @@ public class ConfirmOrderVO {
         private String productPrice;
         @JSONField(name = "productId")
         @ApiModelProperty("商品ID")
-        private String productId;
+        private Long productId;
         @JSONField(name = "num")
         @ApiModelProperty("数量")
         private int num;

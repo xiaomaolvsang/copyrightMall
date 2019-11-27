@@ -10,6 +10,7 @@ import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.service.*;
+import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -58,8 +59,37 @@ public class OrderController extends BaseController {
     @PostMapping("/confirmOrder")
     @ApiOperation("确认订单")
     public Wrapper<ConfirmOrderVO> confirmOrder(@ApiParam @Valid @RequestBody ConfirmOrderParam confirmOrderParam){
-
-        return WrapMapper.ok();
+        ConfirmOrderVO result = new ConfirmOrderVO();
+        ConfirmOrderVO.ReceiveUserBean receiveUserBean = BeanMapperUtils.map(confirmOrderParam.getReceiveUserBean(), ConfirmOrderVO.ReceiveUserBean.class);
+        result.setReceiveUser(receiveUserBean);
+        result.setOrderDesc(confirmOrderParam.getOrderDesc());
+        List<ConfirmOrderVO.ProductsBean> productsBeans = Lists.newArrayList();
+        int totalPrice = 0;
+        for(ConfirmOrderParam.SKU dtoItem: confirmOrderParam.getSkus()){
+            ConfirmOrderVO.ProductsBean productsBean = new ConfirmOrderVO.ProductsBean();
+            Sku sku = skuService.selectByPrimaryKey(dtoItem.getSkuId());
+            if(sku==null){
+                log.warn("商品不存在{}",dtoItem.getSkuId());
+                return WrapMapper.error("商品不存在");
+            }
+            Item item = itemService.selectByPrimaryKey(sku.getItemId());
+            if(item==null){
+                log.warn("商品不存在{}",sku.getItemId());
+                return WrapMapper.error("商品不存在");
+            }
+            Shop shop = shopService.selectByPrimaryKey(item.getShopId());
+            productsBean.setImage(item.getTitleImg());
+            productsBean.setShopName(shop.getShopName());
+            productsBean.setProductName(item.getItemTitle());
+            totalPrice+=sku.getPrice()*dtoItem.getNum();
+            productsBean.setProductPrice(PriceFormat.formatStr(sku.getPrice()*dtoItem.getNum()));
+            productsBean.setProductId(sku.getId());
+            productsBean.setNum(dtoItem.getNum());
+            productsBeans.add(productsBean);
+        }
+        result.setProducts(productsBeans);
+        result.setTotalPayPrice(PriceFormat.format(totalPrice));
+        return WrapMapper.ok(result);
 
     }
 
