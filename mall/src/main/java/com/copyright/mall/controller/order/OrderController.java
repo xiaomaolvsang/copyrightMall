@@ -117,7 +117,15 @@ public class OrderController extends BaseController {
             Integer shopTotalPrice = 0;
             for(CreateOrderParam.SKU skuItem : createOrderItem.getSkus()){
                 Sku sku = skuService.selectByPrimaryKey(skuItem.getSkuId());
+                if(sku==null){
+                    log.warn("商品不存在{}",skuItem.getSkuId());
+                    return WrapMapper.error("商品不存在");
+                }
                 Item item = itemService.selectByPrimaryKey(sku.getItemId());
+                if(item==null){
+                    log.warn("商品不存在{}",sku.getItemId());
+                    return WrapMapper.error("商品不存在");
+                }
                 ItemOrder itemOrder = new ItemOrder();
                 itemOrder.setItemOrderId(IDUtil.generatorID("TID"));
                 itemOrder.setShopOrderId(shopOrder.getShopOrderId());
@@ -165,7 +173,15 @@ public class OrderController extends BaseController {
                 for(ItemOrder itemOrder : itemOrders) {
                     OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();
                     Sku sku = skuService.selectByPrimaryKey(itemOrder.getSkuId());
-                    Item item = itemService.selectByPrimaryKey(itemOrder.getItemId());
+                    if(sku==null){
+                        log.warn("商品不存在{}",itemOrder.getSkuId());
+                        return WrapMapper.error("商品不存在");
+                    }
+                    Item item = itemService.selectByPrimaryKey(sku.getItemId());
+                    if(item==null){
+                        log.warn("商品不存在{}",sku.getItemId());
+                        return WrapMapper.error("商品不存在");
+                    }
                     relateProductsBean.setImage(item.getTitleImg());
                     relateProductsBean.setProductName(item.getItemTitle());
                     relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
@@ -206,7 +222,15 @@ public class OrderController extends BaseController {
         for(ItemOrder itemOrder : itemOrders){
             OrderDetailVO.RelateProductsBean relateProductsBean = new OrderDetailVO.RelateProductsBean();
             Sku sku = skuService.selectByPrimaryKey(itemOrder.getSkuId());
-            Item item = itemService.selectByPrimaryKey(itemOrder.getItemId());
+            if(sku==null){
+                log.warn("商品不存在{}",itemOrder.getSkuId());
+                return WrapMapper.error("商品不存在");
+            }
+            Item item = itemService.selectByPrimaryKey(sku.getItemId());
+            if(item==null){
+                log.warn("商品不存在{}",sku.getItemId());
+                return WrapMapper.error("商品不存在");
+            }
             relateProductsBean.setImage(item.getTitleImg());
             relateProductsBean.setProductName(item.getItemTitle());
             relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
@@ -232,12 +256,11 @@ public class OrderController extends BaseController {
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         //todo 没有支付时间
-        //orderDetailVO.setOrderPayTime(shopOrder.getPrice());
+        orderDetailVO.setOrderPayTime(PriceFormat.formatStr(shopOrder.getPayPrice()));
         //todo 交货时间
         //orderDetailVO.setOrderDeliveryTime(mallOrder);
         //todo 退货时间
         //orderDetailVO.setOrderRefundTime();
-
         return WrapMapper.ok();
     }
 
