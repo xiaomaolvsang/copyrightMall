@@ -16,9 +16,15 @@ import java.util.List;
 @ApiModel
 public class OrderInfoVO {
 
+    /**
+     * 商户OrderID
+     */
+    @ApiModelProperty("商铺OrderID")
+    private String mallOrderNO;
+
     @JSONField(name = "shopInfo")
     @ApiModelProperty("店铺信息")
-    private ShopInfoBean shopInfo;
+    private List<ShopInfoBean> shopInfo;
     @Data
     public static class ShopInfoBean {
 

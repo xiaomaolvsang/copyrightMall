@@ -19,6 +19,9 @@ import com.copyright.mall.util.IDUtil;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -155,58 +158,66 @@ public class OrderController extends BaseController {
 
     @GetMapping("/orderList")
     @ApiOperation("订单列表")
-    public Wrapper<List<OrderInfoVO>> orderList(@ApiParam @Valid @RequestBody QueryOrderListParam queryOrderListParam){
-        ShopOrder queryParam = new ShopOrder();
-        queryParam.setMallOrderId(this.getMallId().toString());
-        queryParam.setOrderType(queryOrderListParam.getOrderStatus());
-        List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(queryParam);
-        Map<Long,List<ShopOrder>> integerListMap =shopOrders.stream().collect(Collectors.groupingBy(ShopOrder::getShopId,Collectors.toList()));
+    public Wrapper<PageInfo<OrderInfoVO>> orderList(@ApiParam @Valid @RequestBody QueryOrderListParam queryOrderListParam){
+        MallOrder mallQueryParam = new MallOrder();
+        mallQueryParam.setMallId(this.getMallId().toString());
+        Page<MallOrder> page = PageHelper.offsetPage(queryOrderListParam.getPageNum(),queryOrderListParam.getPageSize());
+        List<MallOrder> mallOrders = mallOrderService.selectByObjectList(mallQueryParam);
         List<OrderInfoVO> orderInfoVOS = Lists.newArrayList();
-        for(Map.Entry<Long,List<ShopOrder>> entry : integerListMap.entrySet()){
-            Shop shop = shopService.selectByPrimaryKey(entry.getKey());
+        for(MallOrder mallOrder : mallOrders) {
+            ShopOrder queryParam = new ShopOrder();
+            queryParam.setMallOrderId(mallOrder.getMallOrderId());
+            queryParam.setOrderType(queryOrderListParam.getOrderStatus());
+            List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(queryParam);
+            Map<Long, List<ShopOrder>> integerListMap = shopOrders.stream().collect(Collectors.groupingBy(ShopOrder::getShopId, Collectors.toList()));
+            List<OrderInfoVO.ShopInfoBean> shopInfoBeans = Lists.newArrayList();
             OrderInfoVO orderInfoVO = new OrderInfoVO();
-            OrderInfoVO.ShopInfoBean shopInfoBean = new OrderInfoVO.ShopInfoBean();
-            shopInfoBean.setShopId(entry.getKey().toString());
-            shopInfoBean.setShopName(shop.getShopName());
-            for(ShopOrder shopOrder : entry.getValue()) {
-                List<OrderInfoVO.RelateProductsBean> relateProductsBeanArrayList = Lists.newArrayList();
-                ItemOrder itemQueryParam = new ItemOrder();
-                itemQueryParam.setShopOrderId(shopOrder.getShopOrderId());
-                itemQueryParam.setItemOrderStatus(queryOrderListParam.getOrderStatus());
-                List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQueryParam);
-                for(ItemOrder itemOrder : itemOrders) {
-                    OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();
-                    Sku sku = skuService.selectByPrimaryKey(itemOrder.getSkuId());
-                    if(sku==null){
-                        log.warn("商品不存在{}",itemOrder.getSkuId());
-                        return WrapMapper.error("商品不存在");
-                    }
-                    Item item = itemService.selectByPrimaryKey(sku.getItemId());
-                    if(item==null){
-                        log.warn("商品不存在{}",sku.getItemId());
-                        return WrapMapper.error("商品不存在");
-                    }
-                    relateProductsBean.setImage(item.getTitleImg());
-                    relateProductsBean.setProductName(item.getItemTitle());
-                    relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
-                    relateProductsBean.setSkuId(sku.getId().toString());
-                    relateProductsBean.setNum(itemOrder.getItemCount());
-                    relateProductsBeanArrayList.add(relateProductsBean);
-                }
-                shopInfoBean.setRelateProducts(relateProductsBeanArrayList);
-                shopInfoBean.setShopId(shop.getId().toString());
+            for (Map.Entry<Long, List<ShopOrder>> entry : integerListMap.entrySet()) {
+                Shop shop = shopService.selectByPrimaryKey(entry.getKey());
+                OrderInfoVO.ShopInfoBean shopInfoBean = new OrderInfoVO.ShopInfoBean();
+                shopInfoBean.setShopId(entry.getKey().toString());
                 shopInfoBean.setShopName(shop.getShopName());
-                shopInfoBean.setOrderStatus(shopOrder.getOrderType().toString());
-                shopInfoBean.setStatusDesc(shopOrder.getOrderType().toString());
-                shopInfoBean.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
-                shopInfoBean.setOrderId(shop.getId().toString());
-
+                for (ShopOrder shopOrder : entry.getValue()) {
+                    List<OrderInfoVO.RelateProductsBean> relateProductsBeanArrayList = Lists.newArrayList();
+                    ItemOrder itemQueryParam = new ItemOrder();
+                    itemQueryParam.setShopOrderId(shopOrder.getShopOrderId());
+                    itemQueryParam.setItemOrderStatus(queryOrderListParam.getOrderStatus());
+                    List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQueryParam);
+                    for (ItemOrder itemOrder : itemOrders) {
+                        OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();
+                        Sku sku = skuService.selectByPrimaryKey(itemOrder.getSkuId());
+                        if (sku == null) {
+                            log.warn("商品不存在{}", itemOrder.getSkuId());
+                            return WrapMapper.error("商品不存在");
+                        }
+                        Item item = itemService.selectByPrimaryKey(sku.getItemId());
+                        if (item == null) {
+                            log.warn("商品不存在{}", sku.getItemId());
+                            return WrapMapper.error("商品不存在");
+                        }
+                        relateProductsBean.setImage(item.getTitleImg());
+                        relateProductsBean.setProductName(item.getItemTitle());
+                        relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
+                        relateProductsBean.setSkuId(sku.getId().toString());
+                        relateProductsBean.setNum(itemOrder.getItemCount());
+                        relateProductsBeanArrayList.add(relateProductsBean);
+                    }
+                    shopInfoBean.setRelateProducts(relateProductsBeanArrayList);
+                    shopInfoBean.setShopId(shop.getId().toString());
+                    shopInfoBean.setShopName(shop.getShopName());
+                    shopInfoBean.setOrderStatus(shopOrder.getOrderType().toString());
+                    shopInfoBean.setStatusDesc(shopOrder.getOrderType().toString());
+                    shopInfoBean.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
+                    shopInfoBean.setOrderId(shop.getId().toString());
+                    shopInfoBeans.add(shopInfoBean);
+                }
+                orderInfoVO.setShopInfo(shopInfoBeans);
             }
-            orderInfoVO.setShopInfo(shopInfoBean);
             orderInfoVOS.add(orderInfoVO);
         }
-
-        return WrapMapper.ok(orderInfoVOS);
+        PageInfo<OrderInfoVO> result = PageInfo.of(orderInfoVOS);
+        result.setTotal(page.getTotal());
+        return WrapMapper.ok(result);
     }
 
     @GetMapping("/orderDetail/{orderNo}")
@@ -251,7 +262,6 @@ public class OrderController extends BaseController {
         expressInfoBean.setCompany(shopOrder.getDelliveryCompanyName());
         expressInfoBean.setDeliveryID(shopOrder.getDeliveryOrderId());
         orderDetailVO.setExpressInfo(expressInfoBean);
-        //todo 收货人在结算单里
         OrderDetailVO.ReceiveUserBean receiveUserBean = new OrderDetailVO.ReceiveUserBean();
         receiveUserBean.setAddress(mallOrder.getDeliveryAddress());
         receiveUserBean.setConsigneeName(mallOrder.getDeliveryName());
@@ -259,7 +269,6 @@ public class OrderController extends BaseController {
         orderDetailVO.setReceiveUser(receiveUserBean);
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
-        //todo 没有支付时间
         orderDetailVO.setOrderPayTime(PriceFormat.formatStr(shopOrder.getPayPrice()));
         //todo 交货时间
         //orderDetailVO.setOrderDeliveryTime(mallOrder);
