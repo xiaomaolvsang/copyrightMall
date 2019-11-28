@@ -10,6 +10,9 @@ import com.copyright.mall.dao.ShopOrderMapper;
 import com.copyright.mall.service.IShopOrderService;
 
 import com.copyright.mall.bean.ShopOrder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 
 /**
@@ -37,11 +40,13 @@ public class ShopOrderService implements IShopOrderService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(ShopOrder shopOrder) {
 		return shopOrderMapper.insertSelective(shopOrder);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int updateByPrimaryKeySelective(ShopOrder shopOrder) {
 		return shopOrderMapper.updateByPrimaryKeySelective(shopOrder);
 	}
@@ -59,5 +64,13 @@ public class ShopOrderService implements IShopOrderService {
 	@Override
 	public List<ShopOrder> selectByObjectList(ShopOrder shopOrder){
 		return shopOrderMapper.selectByObjectList(shopOrder);
+	}
+
+	@Override
+	public ShopOrder selectByShopOrderId(String shopOrderId){
+		ShopOrder shopOrder = new ShopOrder();
+		shopOrder.setShopOrderId(shopOrderId);
+		List<ShopOrder> shopOrders = shopOrderMapper.selectByObjectList(shopOrder);
+		return CollectionUtils.isEmpty(shopOrders)?null:shopOrders.get(0);
 	}
 }

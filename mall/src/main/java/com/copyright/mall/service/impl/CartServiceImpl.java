@@ -3,6 +3,7 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.bean.Cart;
 import com.copyright.mall.dao.CartMapper;
 import com.copyright.mall.domain.dto.cart.CartDTO;
+import com.copyright.mall.domain.dto.cart.DeleteCartParam;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.ICartService;
@@ -11,6 +12,8 @@ import com.copyright.mall.util.BeanMapperUtils;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -44,11 +47,13 @@ public class CartServiceImpl implements ICartService {
 		return cartMapper.deleteByPrimaryKey(id);
 	}
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(CartDTO cart) {
 		return cartMapper.insertSelective(cart);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int updateByPrimaryKeySelective(Cart cart) {
 		return cartMapper.updateByPrimaryKeySelective(cart);
 	}
@@ -69,6 +74,7 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean modifyCart(CartDTO cartDTO) {
 		ItemDTO itemDTO =  productService.querySingleItemBySku(cartDTO.getSkuId());
 		if(itemDTO==null){
@@ -77,7 +83,7 @@ public class CartServiceImpl implements ICartService {
 		}
 		Cart checkExistsParam = new Cart();
 		checkExistsParam.setMallId(cartDTO.getMallId());
-		checkExistsParam.setShopId(cartDTO.getShopId());
+		checkExistsParam.setShopId(itemDTO.getShopId());
 		checkExistsParam.setItemId(itemDTO.getId());
 		checkExistsParam.setSkuId(cartDTO.getSkuId());
 		checkExistsParam.setUserId(cartDTO.getUserId());
@@ -109,6 +115,12 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public List<CartDTO> selectCartListOrderByShop(CartDTO cartDTO) {
 		return BeanMapperUtils.mapList(cartMapper.selectByObjectListOrderByShopId(cartDTO),CartDTO.class);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public int deleteBySkus(DeleteCartParam deleteCartParam) {
+		return cartMapper.deleteBySkus(deleteCartParam);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.copyright.mall.domain.vo.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,9 +17,15 @@ import java.util.List;
 @ApiModel
 public class OrderInfoVO {
 
+    /**
+     * 商户OrderID
+     */
+    @ApiModelProperty("商铺OrderID")
+    private String mallOrderNO;
+
     @JSONField(name = "shopInfo")
     @ApiModelProperty("店铺信息")
-    private ShopInfoBean shopInfo;
+    private List<ShopInfoBean> shopInfo;
     @Data
     public static class ShopInfoBean {
 
@@ -38,15 +45,17 @@ public class OrderInfoVO {
         @JSONField(name = "payPrice")
         @ApiModelProperty("支付金额")
         private BigDecimal payPrice;
-        @JSONField(name = "orderId")
+        @JSONField(name = "shopOrderId")
         @ApiModelProperty("订单ID")
-        private String orderId;
+        private String shopOrderId;
     }
     @Data
     public static class RelateProductsBean {
         @JSONField(name = "image")
         @ApiModelProperty("商品图片")
         private String image;
+        @ApiModelProperty("itemOrdreID")
+        private String itemOrderId;
         @JSONField(name = "productName")
         @ApiModelProperty("商品名")
         private String productName;

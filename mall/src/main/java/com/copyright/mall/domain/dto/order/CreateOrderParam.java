@@ -19,20 +19,15 @@ import java.util.List;
 public class CreateOrderParam {
 
     /**
-     * 店铺名
-     */
-    @ApiModelProperty(value = "店铺ID",required = true)
-    @NotNull
-    private Long shopId;
-
-    /**
      * 商品集合
      */
-    @ApiModelProperty(value = "商品集合",required = true)
-    @NotEmpty
-    private List<SKU> skus;
+    @ApiModelProperty(value = "店铺订单集合",required = true)
+    @NotEmpty(message = "店铺集合不能为空")
+    private List<ShopInfo> shopInfoBeans;
 
     private ReceiveUserBean receiveUserBean;
+
+
     @Data
     public static class ReceiveUserBean {
         @JSONField(name = "avatar")
@@ -53,16 +48,31 @@ public class CreateOrderParam {
 
     }
 
-
     @Data
-    public class SKU{
-        @ApiModelProperty(value = "SKUID",required = true)
+    public static class ShopInfo{
+        /**
+         * 店铺ID
+         */
+        @ApiModelProperty(value = "店铺ID",required = true)
         @NotNull
-        private Long skuId;
-        @ApiModelProperty(value = "数量",required = true)
-        @NotNull
-        private Integer num;
+        private Long shopId;
+
+        /**
+         * sku列表
+         */
+        @ApiModelProperty(value = "skuIds",required = true)
+        @NotEmpty
+        private List<SKU> skus;
+
+        @Data
+        public static class SKU{
+            @ApiModelProperty(value = "SKUID",required = true)
+            @NotNull
+            private Long skuId;
+            @ApiModelProperty(value = "数量",required = true)
+            @NotNull
+            private Integer num;
+        }
+
     }
-
-
 }

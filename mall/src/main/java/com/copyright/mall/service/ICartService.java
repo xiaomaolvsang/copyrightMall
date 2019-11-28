@@ -1,11 +1,10 @@
 package com.copyright.mall.service;
 
 import java.util.List;
-import java.util.Date;
-import java.util.Map;
 
 import com.copyright.mall.bean.Cart;
 import com.copyright.mall.domain.dto.cart.CartDTO;
+import com.copyright.mall.domain.dto.cart.DeleteCartParam;
 
 
 /**
@@ -38,5 +37,7 @@ public interface ICartService {
 	boolean modifyCart(CartDTO cartDTO);
 
 	List<CartDTO> selectCartListOrderByShop(CartDTO shopId);
+
+	int deleteBySkus(DeleteCartParam deleteCartParam);
 
 }

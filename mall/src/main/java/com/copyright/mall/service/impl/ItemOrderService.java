@@ -11,6 +11,8 @@ import com.copyright.mall.dao.ItemOrderMapper;
 import com.copyright.mall.service.IItemOrderService;
 
 import com.copyright.mall.bean.ItemOrder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -38,11 +40,13 @@ public class ItemOrderService implements IItemOrderService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(ItemOrder itemOrder) {
 		return itemOrderMapper.insertSelective(itemOrder);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int updateByPrimaryKeySelective(ItemOrder itemOrder) {
 		return itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
 	}

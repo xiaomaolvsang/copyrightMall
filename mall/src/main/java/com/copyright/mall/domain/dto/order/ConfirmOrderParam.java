@@ -1,6 +1,5 @@
 package com.copyright.mall.domain.dto.order;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,19 +16,11 @@ import java.util.List;
 @Data
 @ApiModel
 public class ConfirmOrderParam {
-
-    /**
-     * 店铺名
-     */
-    @ApiModelProperty(value = "店铺ID",required = true)
-    @NotNull
-    private Integer shopId;
-
     /**
      * 商品集合
      */
     @ApiModelProperty(value = "商品集合",required = true)
-    @NotEmpty
+    @NotEmpty(message = "商品集合不能为空")
     private List<SKU> skus;
 
     private String orderDesc;
@@ -37,31 +28,27 @@ public class ConfirmOrderParam {
     private ReceiveUserBean receiveUserBean;
     @Data
     public static class ReceiveUserBean {
-        @JSONField(name = "avatar")
         @ApiModelProperty("用户头像")
         private String avatar;
-        @JSONField(name = "consigneeName")
         @ApiModelProperty("收货人姓名")
-        @NotBlank
+        @NotBlank(message = "收货人姓名不能为空")
         private String consigneeName;
-        @JSONField(name = "consigneePhone")
         @ApiModelProperty("收货人电话")
-        @NotBlank
+        @NotBlank(message = "收货人电话不能为空")
         private String consigneePnone;
-        @JSONField(name = "address")
         @ApiModelProperty("收货地址 待确定 标准省市区？")
-        @NotBlank
+        @NotBlank(message = "收货地址不能为空")
         private String address;
 
     }
 
     @Data
-    public class SKU{
+    public static class SKU{
         @ApiModelProperty(value = "SKUID",required = true)
-        @NotNull
+        @NotNull(message = "skuId不能为空")
         private Long skuId;
         @ApiModelProperty(value = "数量",required = true)
-        @NotNull
+        @NotNull(message = "数量不能为空")
         private Integer num;
     }
 
