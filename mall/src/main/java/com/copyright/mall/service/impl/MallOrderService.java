@@ -10,6 +10,9 @@ import com.copyright.mall.dao.MallOrderMapper;
 import com.copyright.mall.service.IMallOrderService;
 
 import com.copyright.mall.bean.MallOrder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 
 /**
@@ -37,11 +40,13 @@ public class MallOrderService implements IMallOrderService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(MallOrder mallOrder) {
 		return mallOrderMapper.insertSelective(mallOrder);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int updateByPrimaryKeySelective(MallOrder mallOrder) {
 		return mallOrderMapper.updateByPrimaryKeySelective(mallOrder);
 	}
@@ -65,7 +70,8 @@ public class MallOrderService implements IMallOrderService {
 	public MallOrder selectByMallOrderID(String mallOrderId) {
 		MallOrder mallOrder = new MallOrder();
 		mallOrder.setMallOrderId(mallOrderId);
-		return mallOrder;
+		List<MallOrder>  mallOrders=  mallOrderMapper.selectByObjectList(mallOrder);
+		return CollectionUtils.isEmpty(mallOrders)?null:mallOrders.get(0);
 	}
 
 }

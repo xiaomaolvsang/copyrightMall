@@ -18,6 +18,8 @@ import java.util.List;
 @Data
 public class OrderDetailVO {
 
+    @ApiModelProperty("订单ID")
+    private String mallOrderId;
     @JSONField(name = "shopInfo")
     @ApiModelProperty("店铺信息")
     private ShopInfoBean shopInfo;
@@ -51,6 +53,7 @@ public class OrderDetailVO {
     @ApiModelProperty("订单退款时间")
     private String orderRefundTime;
 
+
     @Data
     public static class ShopInfoBean {
 
@@ -60,6 +63,9 @@ public class OrderDetailVO {
         @JSONField(name = "shopName")
         @ApiModelProperty("店铺名称")
         private String shopName;
+        @JSONField(name = "shopOrderId")
+        @ApiModelProperty("订单ID")
+        private String shopOrderId;
         @ApiModelProperty("商品信息列表")
         private List<RelateProductsBean> relateProducts;
     }
@@ -80,6 +86,8 @@ public class OrderDetailVO {
         @JSONField(name = "num")
         @ApiModelProperty("数量")
         private int num;
+        @ApiModelProperty("itemOrderId")
+        private String itemOrderId;
     }
     @Data
     public static class ExpressInfoBean {

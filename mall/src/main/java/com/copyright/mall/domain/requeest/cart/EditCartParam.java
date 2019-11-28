@@ -15,10 +15,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 public class EditCartParam {
 
-    @ApiModelProperty(value = "店铺编码",required = true)
-    @NotBlank(message = "店铺编码不能为空")
-    private String shopId;
-
     @ApiModelProperty(value = "商品SKU",required = true)
     @NotBlank(message = "商品SKU不能为空")
     private String skuId;

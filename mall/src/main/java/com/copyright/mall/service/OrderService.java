@@ -1,5 +1,6 @@
 package com.copyright.mall.service;
 
+import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
 import com.copyright.mall.domain.dto.order.PayDTO;
 
 /**
@@ -9,4 +10,6 @@ import com.copyright.mall.domain.dto.order.PayDTO;
 public interface OrderService {
 
     void payOrder(PayDTO payDTO);
+
+    String createOrder(CreateOrderDTO createOrderDTO);
 }

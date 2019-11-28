@@ -142,8 +142,9 @@
 		 SELECT
 		 <include refid="Base_Column_List" />
 		 FROM shop_order
-		 WHERE 1=1
-		 <include refid="conditions" />
+		 <where>
+			 <include refid="conditions" />
+		 </where>
 	</select>
 
 </mapper>
