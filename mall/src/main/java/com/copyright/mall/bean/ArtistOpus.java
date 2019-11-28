@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 
  * @author lijian
- * @date 2019-11-28 13:57
+ * @date 2019-11-28 15:36
  **/
 public class ArtistOpus implements Serializable {
 
-	private static final long serialVersionUID = 1651493172263665709L;
+	private static final long serialVersionUID = 7341178059108483593L;
 
 	/**主键**/
 	private Long id;
@@ -26,6 +26,15 @@ public class ArtistOpus implements Serializable {
 
 	/**作品名称**/
 	private String name;
+
+	/**作品标题**/
+	private String title;
+
+	/**作品描述**/
+	private String desc;
+
+	/**图片集**/
+	private String imgs;
 
 
 
@@ -61,11 +70,38 @@ public class ArtistOpus implements Serializable {
 		return this.name;
 	}
 
+	public void setTitle(String title){
+		this.title = title;
+	}
+
+	public String getTitle(){
+		return this.title;
+	}
+
+	public void setDesc(String desc){
+		this.desc = desc;
+	}
+
+	public String getDesc(){
+		return this.desc;
+	}
+
+	public void setImgs(String imgs){
+		this.imgs = imgs;
+	}
+
+	public String getImgs(){
+		return this.imgs;
+	}
+
 	@Override
 	public String toString() {
 		return "ArtistOpus [ id= "+id+
 			",image= "+image+
 			",itemId= "+itemId+
-			",name= "+name+"]";
+			",name= "+name+
+			",title= "+title+
+			",desc= "+desc+
+			",imgs= "+imgs+"]";
 	}
 }

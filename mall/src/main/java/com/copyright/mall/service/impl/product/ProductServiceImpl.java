@@ -6,17 +6,22 @@ import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.cart.CartDTO;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
+import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.product.AreaParam;
 import com.copyright.mall.domain.requeest.product.ProductByClassparam;
+import com.copyright.mall.domain.requeest.product.ProductParam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
+import com.copyright.mall.domain.vo.product.ProductVO;
+import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.ISkuService;
 import com.copyright.mall.service.impl.ClassItemRelationService;
 import com.copyright.mall.service.impl.ClassificationService;
 import com.copyright.mall.service.impl.CopyrightService;
+import com.copyright.mall.service.impl.ShopService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
@@ -24,13 +29,17 @@ import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.models.auth.In;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -57,7 +66,6 @@ public class ProductServiceImpl implements IProductService {
 
   @Resource
   private ClassItemRelationService classItemRelationService;
-  private List<Shop> shops;
 
   @Override
   public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
@@ -131,7 +139,7 @@ public class ProductServiceImpl implements IProductService {
     shop.setMallId(0L);
     List<Shop> shops = shopService.selectByObjectList(shop);
 
-    PageHelper.startPage(productByClassparam.getPageNum(),productByClassparam.getPageSize());
+    PageHelper.startPage(productByClassparam.getPageNum(), productByClassparam.getPageSize());
     ClassItemRelation classItemRelation = new ClassItemRelation();
     classItemRelation.setClassId(productByClassparam.getFirstCategoryId());
     List<ClassItemRelation> classItemRelations = classItemRelationService.selectByObjectList(classItemRelation);
@@ -141,7 +149,7 @@ public class ProductServiceImpl implements IProductService {
 
     ProductByClassVO productByClassVO = new ProductByClassVO();
     List<AreaVO.AreaAttr> attrList = new ArrayList<>();
-    items.stream().filter(item -> itemIds.contains(item.getId()) )
+    items.stream().filter(item -> itemIds.contains(item.getId()))
       .forEach(item -> {
         AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
         areaAttr.setImage(item.getTitleImg());
@@ -158,6 +166,86 @@ public class ProductServiceImpl implements IProductService {
     productByClassVO.setData(attrList);
 
     return productByClassVO;
+  }
+
+  @Override
+  public ProductVO getProduct(ProductParam productParam) {
+
+    List<Item> items = itemService.selectAll();
+    List<Item> items1 = items.stream().filter(item -> item.getId().equals(productParam.getProductId())).collect(Collectors.toList());
+    if (items1.size() == 0) {
+      throw new BusinessException("未查到数据");
+    }
+    Item item = items1.get(0);
+
+    ProductVO productVO = new ProductVO();
+    ProductVO.DataBean dataBean = new ProductVO.DataBean();
+    dataBean.setProductId(item.getId());
+    dataBean.setProductImage(item.getTitleImg());
+    dataBean.setProductName(item.getItemTitle());
+    BigDecimal b = new BigDecimal(item.getPrice());
+    String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+    dataBean.setProductPrice(result);
+
+    ProductVO.DataBean.InstitutionBean institution = new ProductVO.DataBean.InstitutionBean();
+    Shop shop = shopService.selectByPrimaryKey(item.getShopId());
+    institution.setInstitutionName(shop.getShopName());
+    institution.setInstitutionId(shop.getId());
+    institution.setInstitutionAvatar(shop.getCertification());
+    dataBean.setInstitution(institution);
+
+    String imgs = item.getContentImg();
+    List<ProductVO.DataBean.DescImageBean> list = new ArrayList<>();
+    if (StringUtils.isNotBlank(imgs)) {
+      String[] img = imgs.split(",");
+      for (String img1 : img) {
+        ProductVO.DataBean.DescImageBean descImageBean = new ProductVO.DataBean.DescImageBean();
+        descImageBean.setImage(img1);
+        list.add(descImageBean);
+      }
+    }
+
+    dataBean.setDescImage(list);
+    List<Item> itemList = getRecommend(item.getId());
+    List<ProductVO.DataBean.RecommendBean> recommend = new ArrayList<>();
+    itemList.forEach(item1 -> {
+      Shop shop1 = shopService.selectByPrimaryKey(item1.getShopId());
+      ProductVO.DataBean.RecommendBean recommendBean = new ProductVO.DataBean.RecommendBean();
+      recommendBean.setImage(item1.getTitleImg());
+      recommendBean.setInstitutionName(shop1.getShopName());
+      recommendBean.setProductId(item1.getId());
+      recommendBean.setProductName(item1.getItemTitle());
+      BigDecimal b1 = new BigDecimal(item1.getPrice());
+      String result1 = b1.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+      recommendBean.setProductPrice(result1);
+      recommend.add(recommendBean);
+    });
+
+    dataBean.setRecommend(recommend);
+    productVO.setData(dataBean);
+    return productVO;
+  }
+
+  private List<Item> getRecommend(Long itemId) {
+    ClassItemRelation classItemRelation = new ClassItemRelation();
+    classItemRelation.setItemId(itemId);
+    List<ClassItemRelation> classItemRelations = classItemRelationService.selectByObjectList(classItemRelation);
+    List<Item> items = itemService.selectAll();
+    if (classItemRelations.size() == 0) {
+      Collections.shuffle(items);
+      return items.subList(0, Math.min(items.size(),5));
+    }
+    ClassItemRelation classification = classItemRelations.get(0);
+    ClassItemRelation classItemRelation1 = new ClassItemRelation();
+    classItemRelation1.setId(classification.getClassId());
+    List<ClassItemRelation> classItemRelations1 = classItemRelationService.selectByObjectList(classItemRelation);
+    if (classItemRelations1.size() < 5) {
+      Collections.shuffle(items);
+      return items.subList(0, Math.min(items.size(),5));
+    }
+    List<Long> itemIds = classItemRelations1.stream().map(ClassItemRelation::getItemId).collect(Collectors.toList());
+
+    return items.stream().filter(item -> itemIds.contains(item.getId())).limit(5).collect(Collectors.toList());
   }
 
   private void getProductArea(AreaParam areaParam, AreaVO areaVO) {

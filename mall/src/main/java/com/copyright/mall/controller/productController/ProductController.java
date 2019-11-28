@@ -3,11 +3,13 @@ package com.copyright.mall.controller.productController;
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.domain.requeest.product.AreaParam;
 import com.copyright.mall.domain.requeest.product.ProductByClassparam;
+import com.copyright.mall.domain.requeest.product.ProductParam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
+import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -62,4 +64,10 @@ public class ProductController extends BaseController {
     return WrapMapper.ok(productService.getProductByClass(productByClassparam));
   }
 
+  @ApiOperation(value = "查询商品详情")
+  @PostMapping("/productDesc")
+  @ControllerErro
+  public Wrapper<ProductVO> productDesc(@RequestBody @ApiParam @Valid ProductParam productParam){
+    return WrapMapper.ok(productService.getProduct(productParam));
+  }
 }
