@@ -1,7 +1,11 @@
 package com.copyright.mall.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.copyright.mall.bean.Item;
+import com.copyright.mall.config.GuavaManage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,9 +30,18 @@ public class SkuService implements ISkuService {
 	@Resource
 	private SkuMapper skuMapper;
 
+  @Resource
+  private GuavaManage guavaManage;
+
 	@Override
 	public Sku selectByPrimaryKey(Long id) {
-		return skuMapper.selectByPrimaryKey(id);
+    Optional<Object> infoOptional = guavaManage.getCache(getKey(id),
+      () -> Optional.ofNullable(skuMapper.selectByPrimaryKey(id)));
+    Sku sku =new Sku();
+    if (infoOptional.isPresent()) {
+      sku = (Sku) infoOptional.get();
+    }
+    return sku;
 	}
 	@Override
 	public int deleteByPrimaryKey(Long id) {
@@ -60,5 +73,9 @@ public class SkuService implements ISkuService {
 	public List<Sku> selectByObjectList(Sku sku){
 		return skuMapper.selectByObjectList(sku);
 	}
+
+	public String getKey(Long id){
+	  return "sku"+id;
+  }
 
 }

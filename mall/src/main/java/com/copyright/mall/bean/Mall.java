@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 商城表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-11-28 14:19
  **/
 public class Mall implements Serializable {
 
-	private static final long serialVersionUID = 1990201927350632595L;
+	private static final long serialVersionUID = 2128578700123299023L;
 
 	/**主键**/
 	private Long id;
@@ -38,6 +38,9 @@ public class Mall implements Serializable {
 
 	/**邮箱**/
 	private String contactUs;
+
+	/**是否认证（0未认证-1认证）**/
+	private Integer isIdentification;
 
 
 
@@ -105,6 +108,14 @@ public class Mall implements Serializable {
 		return this.contactUs;
 	}
 
+	public void setIsIdentification(Integer isIdentification){
+		this.isIdentification = isIdentification;
+	}
+
+	public Integer getIsIdentification(){
+		return this.isIdentification;
+	}
+
 	@Override
 	public String toString() {
 		return "Mall [ id= "+id+
@@ -114,6 +125,7 @@ public class Mall implements Serializable {
 			",mallLogo= "+mallLogo+
 			",companyName= "+companyName+
 			",appProperty= "+appProperty+
-			",contactUs= "+contactUs+"]";
+			",contactUs= "+contactUs+
+			",isIdentification= "+isIdentification+"]";
 	}
 }

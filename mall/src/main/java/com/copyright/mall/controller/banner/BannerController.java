@@ -46,7 +46,7 @@ public class BannerController extends BaseController {
   }
 
   @PostMapping("/artBanner")
-  @ApiOperation("首页组件查询")
+  @ApiOperation("艺术家组件查询")
   public Wrapper<ArtBannerVO> artBanner(@ApiParam @Valid @RequestBody ArtBannerParam artBannerParam){
     return WrapMapper.ok(bannerService.getArtBanner(artBannerParam));
   }
