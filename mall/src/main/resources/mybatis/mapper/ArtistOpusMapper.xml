@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ArtistOpusMapper">
 
-	<!--cg generate by lijian at 2019-11-28 15:36-->
+	<!--cg generate by lijian at 2019-11-28 17:43-->
 
 	<!--通用表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.ArtistOpus" >
@@ -11,14 +11,16 @@
 		<result property="itemId" column="ITEM_ID" jdbcType="BIGINT" />
 		<result property="name" column="NAME" jdbcType="VARCHAR" />
 		<result property="title" column="TITLE" jdbcType="VARCHAR" />
-		<result property="desc" column="DESC" jdbcType="VARCHAR" />
+		<result property="opusDesc" column="OPUS_DESC" jdbcType="VARCHAR" />
 		<result property="imgs" column="IMGS" jdbcType="VARCHAR" />
+		<result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP" />
+		<result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	IMAGE,	ITEM_ID,	NAME,	TITLE,	DESC,	IMGS
+	id,	IMAGE,	ITEM_ID,	NAME,	TITLE,	OPUS_DESC,	IMGS,	GMT_CREATE,	GMT_MODIFIED
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -31,8 +33,10 @@
 		<if test="itemId != null and itemId != '' "> and ITEM_ID = #{itemId,jdbcType=BIGINT} </if>
 		<if test="name != null and name != '' "> and NAME = #{name,jdbcType=VARCHAR} </if>
 		<if test="title != null and title != '' "> and TITLE = #{title,jdbcType=VARCHAR} </if>
-		<if test="desc != null and desc != '' "> and DESC = #{desc,jdbcType=VARCHAR} </if>
+		<if test="opusDesc != null and opusDesc != '' "> and OPUS_DESC = #{opusDesc,jdbcType=VARCHAR} </if>
 		<if test="imgs != null and imgs != '' "> and IMGS = #{imgs,jdbcType=VARCHAR} </if>
+		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
+		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -58,8 +62,10 @@
 			<if test="itemId != null"> ITEM_ID,</if>
 			<if test="name != null"> NAME,</if>
 			<if test="title != null"> TITLE,</if>
-			<if test="desc != null"> DESC,</if>
+			<if test="opusDesc != null"> OPUS_DESC,</if>
 			<if test="imgs != null"> IMGS,</if>
+			<if test="gmtCreate != null"> GMT_CREATE,</if>
+			<if test="gmtModified != null"> GMT_MODIFIED,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -67,8 +73,10 @@
 			<if test="itemId!=null">#{itemId,jdbcType=BIGINT},</if>
 			<if test="name!=null">#{name,jdbcType=VARCHAR},</if>
 			<if test="title!=null">#{title,jdbcType=VARCHAR},</if>
-			<if test="desc!=null">#{desc,jdbcType=VARCHAR},</if>
+			<if test="opusDesc!=null">#{opusDesc,jdbcType=VARCHAR},</if>
 			<if test="imgs!=null">#{imgs,jdbcType=VARCHAR},</if>
+			<if test="gmtCreate!=null">#{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
 		 </trim>
 	</insert>
 
@@ -80,8 +88,10 @@
 			<if test="itemId != null">ITEM_ID = #{itemId,jdbcType=BIGINT},</if>
 			<if test="name != null">NAME = #{name,jdbcType=VARCHAR},</if>
 			<if test="title != null">TITLE = #{title,jdbcType=VARCHAR},</if>
-			<if test="desc != null">DESC = #{desc,jdbcType=VARCHAR},</if>
+			<if test="opusDesc != null">OPUS_DESC = #{opusDesc,jdbcType=VARCHAR},</if>
 			<if test="imgs != null">IMGS = #{imgs,jdbcType=VARCHAR},</if>
+			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

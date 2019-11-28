@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 
  * @author lijian
- * @date 2019-11-28 15:36
+ * @date 2019-11-28 17:43
  **/
 public class ArtistOpus implements Serializable {
 
-	private static final long serialVersionUID = 7341178059108483593L;
+	private static final long serialVersionUID = 715307093410726949L;
 
 	/**主键**/
 	private Long id;
@@ -31,10 +31,16 @@ public class ArtistOpus implements Serializable {
 	private String title;
 
 	/**作品描述**/
-	private String desc;
+	private String opusDesc;
 
 	/**图片集**/
 	private String imgs;
+
+	/**创建时间**/
+	private Date gmtCreate;
+
+	/**修改时间**/
+	private Date gmtModified;
 
 
 
@@ -78,12 +84,12 @@ public class ArtistOpus implements Serializable {
 		return this.title;
 	}
 
-	public void setDesc(String desc){
-		this.desc = desc;
+	public void setOpusDesc(String opusDesc){
+		this.opusDesc = opusDesc;
 	}
 
-	public String getDesc(){
-		return this.desc;
+	public String getOpusDesc(){
+		return this.opusDesc;
 	}
 
 	public void setImgs(String imgs){
@@ -94,6 +100,22 @@ public class ArtistOpus implements Serializable {
 		return this.imgs;
 	}
 
+	public void setGmtCreate(Date gmtCreate){
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtCreate(){
+		return this.gmtCreate;
+	}
+
+	public void setGmtModified(Date gmtModified){
+		this.gmtModified = gmtModified;
+	}
+
+	public Date getGmtModified(){
+		return this.gmtModified;
+	}
+
 	@Override
 	public String toString() {
 		return "ArtistOpus [ id= "+id+
@@ -101,7 +123,9 @@ public class ArtistOpus implements Serializable {
 			",itemId= "+itemId+
 			",name= "+name+
 			",title= "+title+
-			",desc= "+desc+
-			",imgs= "+imgs+"]";
+			",opusDesc= "+opusDesc+
+			",imgs= "+imgs+
+			",gmtCreate= "+gmtCreate+
+			",gmtModified= "+gmtModified+"]";
 	}
 }
