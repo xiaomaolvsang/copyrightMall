@@ -32,15 +32,11 @@ public class WeChatUserServiceImpl implements IWechatUserService {
     @Override
     public WeChatUserInfo weChatLogin(String jsCode) {
         Map<String,Object> param = new HashMap<>(4);
-        param.put("appId",weChatAppInfo.getAppId());
+        param.put("appid",weChatAppInfo.getAppId());
         param.put("secret",weChatAppInfo.getAppSecret());
         param.put("js_code",jsCode);
         param.put("grant_type",weChatAppInfo.getGrantType());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity requestEntity = new HttpEntity(param, headers);
-        ResponseEntity<WeChatUserInfo> result = restTemplate.exchange("https://api.weixin.qq.com/sns/jscode2session", HttpMethod.GET, requestEntity, WeChatUserInfo.class);
+        ResponseEntity<WeChatUserInfo> result = restTemplate.getForEntity("https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", WeChatUserInfo.class,param);
         if(!result.getStatusCode().is2xxSuccessful()){
             throw new BusinessException("调用微信登录失败");
         }
