@@ -1,11 +1,13 @@
 package com.copyright.mall.controller.user;
 
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
+import com.copyright.mall.domain.vo.user.LoginInfoVO;
 import com.copyright.mall.service.IWechatUserService;
 import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +32,9 @@ public class LoginController {
     private JwtService jwtService;
 
 
+    @ApiOperation(value = "登录接口")
     @GetMapping("/login")
-    public Wrapper<String> login(String weChatCode){
+    public Wrapper<LoginInfoVO> login(String weChatCode){
         WeChatUserInfo weChatUserInfo = null;
         try{
             weChatUserInfo =  wechatUserService.weChatLogin(weChatCode);
@@ -39,6 +42,8 @@ public class LoginController {
             log.warn("登录失败",e);
             return WrapMapper.error("登录失败");
         }
-        return WrapMapper.ok(jwtService.generateToken(weChatUserInfo.getUnionId()));
+        LoginInfoVO result = new LoginInfoVO();
+        result.setToken(jwtService.generateToken(weChatUserInfo.getUnionId()));
+        return WrapMapper.ok(result);
     }
 }
