@@ -1,0 +1,19 @@
+logging:
+  file: ''
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: DEBUG
+    root: INFO
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+server:
+  port: 80
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    password: rightcopy!MALL
+    url: jdbc:mysql://rm-2ze7348dnu2p4ou9mlo.mysql.rds.aliyuncs.com:3306/copyright_mall_db?useUnicode=true&characterEncoding=utf-8
+    username: copyright

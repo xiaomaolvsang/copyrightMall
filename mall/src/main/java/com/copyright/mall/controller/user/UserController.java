@@ -8,6 +8,7 @@ import com.copyright.mall.domain.vo.user.UserAddressDetailVO;
 import com.copyright.mall.domain.vo.user.UserAddressVO;
 import com.copyright.mall.domain.vo.user.UserInfoVO;
 import com.copyright.mall.service.IUserAddressService;
+import com.copyright.mall.service.IWechatUserService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -37,6 +38,18 @@ public class UserController extends BaseController {
     @Resource
     private IUserAddressService userAddressService;
 
+    @Resource
+    private IWechatUserService wechatUserService;
+
+
+    @GetMapping("/userInfo")
+    @ApiOperation("获取用户信息")
+    public Wrapper<UserInfoVO> getUserInfo(){
+        return WrapMapper.ok();
+    }
+
+
+
 
     @PostMapping("/createAddress")
     @ApiOperation(value = "新增收货地址")
@@ -58,12 +71,6 @@ public class UserController extends BaseController {
         PageInfo<UserAddressVO> result = PageInfo.of(userAddressVOS);
         result.setTotal(page.getTotal());
         return WrapMapper.ok(result);
-    }
-
-    @GetMapping("/userInfo")
-    @ApiOperation("获取用户信息")
-    public Wrapper<UserInfoVO> getUserInfo(){
-        return WrapMapper.ok();
     }
 
 

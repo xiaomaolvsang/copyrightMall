@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+
+weChat:
+  appId: wx138cfb45ada6bdcc
+  appSecret: 1234
+  grantType: authorization_code
