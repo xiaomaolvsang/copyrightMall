@@ -1,6 +1,7 @@
 package com.copyright.mall.controller;
 
 import com.copyright.mall.service.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author : zhangyuchen
  * @date : 2019/11/18 10:45
  */
+@Slf4j
 public abstract class BaseController {
 
     @Resource
@@ -20,7 +22,11 @@ public abstract class BaseController {
 
     public Long getUserId() {
         String token = request.getHeader("X-Mall-TOKEN");
-        String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+        try {
+            String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+        }catch (Exception e){
+            log.warn("解析",e);
+        }
         return 1234L;
     }
 
