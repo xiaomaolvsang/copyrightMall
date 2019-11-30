@@ -42,6 +42,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "新增收货地址")
     public Wrapper<Boolean> createAddress (@ApiParam @Valid @RequestBody CreateAddressParam createAddressParam){
         UserAddress userAddress = BeanMapperUtils.map(createAddressParam,UserAddress.class);
+        userAddress.setUserId(this.getUserId());
         userAddressService.insertSelective(userAddress);
         return WrapMapper.ok();
     }
@@ -70,6 +71,7 @@ public class UserController extends BaseController {
     public Wrapper<Boolean> modifyAddress(@PathVariable("id") Long id, @ApiParam @Valid @RequestBody CreateAddressParam createAddressParam){
         UserAddress userAddress = BeanMapperUtils.map(createAddressParam,UserAddress.class);
         userAddress.setId(id);
+        userAddress.setUserId(this.getUserId());
         userAddressService.updateByPrimaryKeySelective(userAddress);
         return WrapMapper.ok();
     }
