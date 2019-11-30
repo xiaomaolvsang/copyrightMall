@@ -1,5 +1,6 @@
 package com.copyright.mall.controller;
 
+import com.copyright.mall.service.JwtService;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
@@ -14,7 +15,12 @@ public abstract class BaseController {
     @Resource
     private HttpServletRequest request;
 
+    @Resource
+    private JwtService jwtService;
+
     public Long getUserId() {
+        String token = request.getHeader("X-Mall-TOKEN");
+        String userOpenId = jwtService.getClaimFromToken(token).getSubject();
         return 1234L;
     }
 
