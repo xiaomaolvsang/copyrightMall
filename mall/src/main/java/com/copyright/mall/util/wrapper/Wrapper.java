@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class Wrapper<T> implements Serializable {
     private static final long serialVersionUID = 4893280118017319089L;
-    public static final int SUCCESS_CODE = 200;
+    public static final int SUCCESS_CODE = 0;
     public static final String SUCCESS_MESSAGE = "操作成功";
     public static final int ERROR_CODE = 500;
     public static final String ERROR_MESSAGE = "操作失败";
@@ -19,7 +19,7 @@ public class Wrapper<T> implements Serializable {
     private T result;
 
     Wrapper() {
-        this(200, "操作成功");
+        this(0, "操作成功");
     }
 
     Wrapper(int code, String message) {
@@ -46,7 +46,7 @@ public class Wrapper<T> implements Serializable {
     }
 
     public boolean success() {
-        return 200 == this.code;
+        return 0 == this.code;
     }
 
     public boolean error() {

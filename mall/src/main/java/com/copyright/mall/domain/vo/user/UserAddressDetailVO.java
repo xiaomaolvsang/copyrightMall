@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @ApiModel
-public class UserAddressVO {
+public class UserAddressDetailVO {
     @ApiModelProperty(value = "id",required = true)
     private String id;
     @ApiModelProperty(value = "收货人姓名",required = true)
