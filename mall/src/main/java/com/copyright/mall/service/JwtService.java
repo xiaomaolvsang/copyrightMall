@@ -27,10 +27,10 @@ public class JwtService {
     private String secret = "mall";
 
 
-    public String generateToken(Long userId){
+    public String generateToken(String userId){
         Map<String,Object> claims = Maps.newHashMap();
         claims.put("user_id",userId);
-        return doGenerateToken(claims,userId.toString());
+        return doGenerateToken(claims,userId);
     }
 
     public Claims getClaimFromToken(String token) {
@@ -68,7 +68,7 @@ public class JwtService {
 
     public static void main(String[] args) {
         JwtService jwtService = new JwtService();
-        String token = jwtService.generateToken(1234L);
+        String token = jwtService.generateToken("1234");
         System.out.println(token);
         System.out.println(jwtService.isTokenExpired(token));
         System.out.println(jwtService.getClaimFromToken(token).getSubject());

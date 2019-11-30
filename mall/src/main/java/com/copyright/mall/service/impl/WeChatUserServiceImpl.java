@@ -5,11 +5,13 @@ import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.IWechatUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,11 @@ public class WeChatUserServiceImpl implements IWechatUserService {
         param.put("secret",weChatAppInfo.getAppSecret());
         param.put("js_code",jsCode);
         param.put("grant_type",weChatAppInfo.getGrantType());
-        ResponseEntity<WeChatUserInfo> result =  restTemplate.getForEntity("https://api.weixin.qq.com/sns/jscode2session",WeChatUserInfo.class,param);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity requestEntity = new HttpEntity(param, headers);
+        ResponseEntity<WeChatUserInfo> result = restTemplate.exchange("https://api.weixin.qq.com/sns/jscode2session", HttpMethod.GET, requestEntity, WeChatUserInfo.class);
         if(!result.getStatusCode().is2xxSuccessful()){
             throw new BusinessException("调用微信登录失败");
         }
@@ -50,7 +56,11 @@ public class WeChatUserServiceImpl implements IWechatUserService {
             log.warn("微信服务器异常");
             throw new BusinessException("登录失败");
         }
-        
-        return null;
+        if(result.getBody().getErrcode()!=0){
+            log.warn("微信登录异常[{}]",result.getBody().getErrmsg());
+            throw new BusinessException("微信登录未知异常");
+        }
+
+        return result.getBody();
     }
 }

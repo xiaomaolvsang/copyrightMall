@@ -38,8 +38,6 @@ public class UserController extends BaseController {
     @Resource
     private IUserAddressService userAddressService;
 
-    @Resource
-    private IWechatUserService wechatUserService;
 
 
     @GetMapping("/userInfo")
@@ -47,9 +45,6 @@ public class UserController extends BaseController {
     public Wrapper<UserInfoVO> getUserInfo(){
         return WrapMapper.ok();
     }
-
-
-
 
     @PostMapping("/createAddress")
     @ApiOperation(value = "新增收货地址")
