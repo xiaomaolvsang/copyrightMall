@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 用户表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-12-01 11:22
  **/
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1820525666362705585L;
+	private static final long serialVersionUID = 1096882501382259628L;
 
 	/**主键**/
 	private Long id;
@@ -29,6 +29,12 @@ public class User implements Serializable {
 
 	/**头像**/
 	private String img;
+
+	/****/
+	private String sessionKey;
+
+	/****/
+	private String openId;
 
 
 
@@ -72,12 +78,30 @@ public class User implements Serializable {
 		return this.img;
 	}
 
+	public void setSessionKey(String sessionKey){
+		this.sessionKey = sessionKey;
+	}
+
+	public String getSessionKey(){
+		return this.sessionKey;
+	}
+
+	public void setOpenId(String openId){
+		this.openId = openId;
+	}
+
+	public String getOpenId(){
+		return this.openId;
+	}
+
 	@Override
 	public String toString() {
 		return "User [ id= "+id+
 			",gmtCreate= "+gmtCreate+
 			",gmtModified= "+gmtModified+
 			",phone= "+phone+
-			",img= "+img+"]";
+			",img= "+img+
+			",sessionKey= "+sessionKey+
+			",openId= "+openId+"]";
 	}
 }
