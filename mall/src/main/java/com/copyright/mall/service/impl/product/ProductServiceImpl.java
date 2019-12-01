@@ -95,9 +95,11 @@ public class ProductServiceImpl implements IProductService {
       productSearchResp.setType(shopType.getName());
       productSearchResp.setProductId(item.getId());
       productSearchResp.setProductName(item.getItemTitle());
-      BigDecimal b = new BigDecimal(item.getPrice());
-      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      productSearchResp.setProductPrice(result);
+      if(item.getPrice() != null) {
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        productSearchResp.setProductPrice(result);
+      }
       productSearchResp.setShoID(item.getShopId());
       productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
       productSearchResps.add(productSearchResp);
@@ -155,9 +157,11 @@ public class ProductServiceImpl implements IProductService {
         areaAttr.setImage(item.getTitleImg());
         areaAttr.setProductId(String.valueOf(item.getId()));
         areaAttr.setProductName(item.getItemTitle());
-        BigDecimal b = new BigDecimal(item.getPrice());
-        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-        areaAttr.setProductPrice(result);
+        if(item.getPrice() != null) {
+          BigDecimal b = new BigDecimal(item.getPrice());
+          String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+          areaAttr.setProductPrice(result);
+        }
         areaAttr.setShopID(item.getShopId());
         List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
         areaAttr.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
@@ -183,9 +187,11 @@ public class ProductServiceImpl implements IProductService {
     dataBean.setProductId(item.getId());
     dataBean.setProductImage(item.getTitleImg());
     dataBean.setProductName(item.getItemTitle());
-    BigDecimal b = new BigDecimal(item.getPrice());
-    String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-    dataBean.setProductPrice(result);
+    if(item.getPrice() != null) {
+      BigDecimal b = new BigDecimal(item.getPrice());
+      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+      dataBean.setProductPrice(result);
+    }
 
     ProductVO.DataBean.InstitutionBean institution = new ProductVO.DataBean.InstitutionBean();
     Shop shop = shopService.selectByPrimaryKey(item.getShopId());
@@ -215,9 +221,11 @@ public class ProductServiceImpl implements IProductService {
       recommendBean.setInstitutionName(shop1.getShopName());
       recommendBean.setProductId(item1.getId());
       recommendBean.setProductName(item1.getItemTitle());
-      BigDecimal b1 = new BigDecimal(item1.getPrice());
-      String result1 = b1.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      recommendBean.setProductPrice(result1);
+      if(item1.getPrice() != null) {
+        BigDecimal b1 = new BigDecimal(item1.getPrice());
+        String result1 = b1.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        recommendBean.setProductPrice(result1);
+      }
       recommend.add(recommendBean);
     });
 
@@ -266,9 +274,11 @@ public class ProductServiceImpl implements IProductService {
       areaAttr.setImage(item.getTitleImg());
       areaAttr.setProductId(String.valueOf(item.getId()));
       areaAttr.setProductName(item.getItemTitle());
-      BigDecimal b = new BigDecimal(item.getPrice());
-      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      areaAttr.setProductPrice(result);
+      if(item.getPrice() != null) {
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        areaAttr.setProductPrice(result);
+      }
       areaAttr.setShopID(item.getShopId());
       areaAttr.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
       areaAttrs.add(areaAttr);
