@@ -301,7 +301,7 @@ public class ProductServiceImpl implements IProductService {
     List<Copyright> copyrights1 = copyrights.stream().filter(copyright -> copyrightIds.contains(copyright.getId().toString())).collect(Collectors.toList());
     copyrights1.forEach(copyright -> {
       AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
-      areaAttr.setImage(copyright.getCopyrightImg());
+      areaAttr.setImage(copyright.getCopyrightLogo());
       areaAttr.setProductId(String.valueOf(copyright.getId()));
       areaAttr.setProductName(copyright.getName());
       areaAttrs.add(areaAttr);
