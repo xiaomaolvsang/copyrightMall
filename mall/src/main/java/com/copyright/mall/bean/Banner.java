@@ -1,6 +1,7 @@
 package com.copyright.mall.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -34,6 +35,7 @@ public class Banner implements Serializable {
 	/**权重**/
 	private Integer topValue;
 
+	private List<BannerAttr> bannerAttrs;
 
 
 	public void setId(Long id){
@@ -92,7 +94,15 @@ public class Banner implements Serializable {
 		return this.topValue;
 	}
 
-	@Override
+  public List<BannerAttr> getBannerAttrs() {
+    return bannerAttrs;
+  }
+
+  public void setBannerAttrs(List<BannerAttr> bannerAttrs) {
+    this.bannerAttrs = bannerAttrs;
+  }
+
+  @Override
 	public String toString() {
 		return "Banner [ id= "+id+
 			",type= "+type+
