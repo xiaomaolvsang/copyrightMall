@@ -102,6 +102,7 @@ public class OrderController extends BaseController {
             }
             Shop shop = shopService.selectByPrimaryKey(item.getShopId());
             productsBean.setImage(item.getTitleImg());
+            productsBean.setShopId(shop.getId());
             productsBean.setShopName(shop.getShopName());
             productsBean.setProductName(item.getItemTitle());
             totalPrice += sku.getPrice() * dtoItem.getNum();

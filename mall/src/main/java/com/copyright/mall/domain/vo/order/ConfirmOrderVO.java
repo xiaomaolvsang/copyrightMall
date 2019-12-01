@@ -63,6 +63,9 @@ public class ConfirmOrderVO {
         @JSONField(name = "image")
         @ApiModelProperty("商品图片")
         private String image;
+        @JSONField(name = "shopId")
+        @ApiModelProperty("shopId")
+        private Long shopId;
         @JSONField(name = "shopName")
         @ApiModelProperty("shopnName")
         private String shopName;
