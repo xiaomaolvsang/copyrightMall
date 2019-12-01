@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 购物车
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-12-01 13:26
  **/
 public class Cart implements Serializable {
 
-	private static final long serialVersionUID = 8550814964367536356L;
+	private static final long serialVersionUID = 7791856771857708222L;
 
 	/**主键**/
 	private Long id;
@@ -47,6 +47,9 @@ public class Cart implements Serializable {
 
 	/**价格**/
 	private Integer price;
+
+	/**电话**/
+	private Integer phone;
 
 
 
@@ -138,6 +141,14 @@ public class Cart implements Serializable {
 		return this.price;
 	}
 
+	public void setPhone(Integer phone){
+		this.phone = phone;
+	}
+
+	public Integer getPhone(){
+		return this.phone;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [ id= "+id+
@@ -150,6 +161,7 @@ public class Cart implements Serializable {
 			",itemId= "+itemId+
 			",skuId= "+skuId+
 			",count= "+count+
-			",price= "+price+"]";
+			",price= "+price+
+			",phone= "+phone+"]";
 	}
 }
