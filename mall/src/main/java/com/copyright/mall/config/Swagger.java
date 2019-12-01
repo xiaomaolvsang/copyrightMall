@@ -1,15 +1,19 @@
 package com.copyright.mall.config;
 
-import springfox.documentation.service.Contact;
+import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.List;
 
 /**
  * @author : zhangyuchen
@@ -27,7 +31,8 @@ public class Swagger {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.copyright.mall"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .securitySchemes(security());
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -40,5 +45,11 @@ public class Swagger {
                 //描述
                 .description("mall后端接口")
                 .build();
+    }
+
+    private List<ApiKey> security() {
+        return Lists.newArrayList(
+                new ApiKey("token", "X-Mall-TOKEN", "header")
+        );
     }
 }
