@@ -56,24 +56,27 @@ public class DetailService implements IDetailService {
   private DetailVO getArtist(DetailParam detailParam) {
     DetailVO detailVO = new DetailVO();
     DetailVO.DetailData detailData = new DetailVO.DetailData();
+    List<DetailVO.Products> products = new ArrayList<>();
     List<DetailVO.Opus> opuses = new ArrayList<>();
 
+    Shop shop = shopService.selectByPrimaryKey(detailParam.getDataId());
+
     List<Item> list = itemService.selectAll();
-    List<Item> artists = list.stream().filter(item -> item.getId().equals(detailParam.getDataId())).collect(Collectors.toList());
-    if(artists.size() == 0){
+    List<Item> artists = list.stream().filter(item -> item.getShopId().equals(detailParam.getDataId())).collect(Collectors.toList());
+    if(shop == null){
       throw new BusinessException("未查询到数据");
     }
-    Item artist = artists.get(0);
-    detailData.setArtCategory(artist.getArtCategory());
-    detailData.setArtistId(artist.getId());
-    detailData.setArtistName(artist.getItemTitle());
-    detailData.setAvatar(artist.getAd());
-    detailData.setArtIntroduction(artist.getContentImg());
-    detailData.setPosterPic(artist.getTitleImg());
+    //Item artist = artists.get(0);
+    detailData.setArtCategory("");
+    detailData.setArtistId(shop.getId());
+    detailData.setArtistName(shop.getShopName());
+    detailData.setAvatar(shop.getShopLogo());
+    detailData.setArtIntroduction(shop.getCertification());
+    detailData.setPosterPic(shop.getShopImg());
     detailVO.setData(detailData);
 
     ArtistOpus artistOpus = new ArtistOpus();
-    artistOpus.setItemId(artist.getId());
+    artistOpus.setItemId(shop.getId());
     List<ArtistOpus> artistOpuses = artistOpusMapper.selectByObjectList(artistOpus);
     artistOpuses.forEach(artistOpus1 -> {
       DetailVO.Opus opus = new DetailVO.Opus();
@@ -82,6 +85,20 @@ public class DetailService implements IDetailService {
       opus.setOpusId(artistOpus1.getId());
       opuses.add(opus);
     });
+    artists.forEach(item -> {
+      DetailVO.Products products1 = new DetailVO.Products();
+      products1.setImage(item.getTitleImg());
+      products1.setProductId(item.getId());
+      products1.setProductName(item.getItemTitle());
+      BigDecimal b = new BigDecimal(item.getPrice());
+      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+      products1.setProductPrice(result);
+      products1.setShopID(shop.getId());
+      products1.setShopName(shop.getShopName());
+      products.add(products1);
+    });
+    detailVO.setProducts(products);
+
     detailVO.setOpus(opuses);
 
     return detailVO;

@@ -77,35 +77,56 @@ public class ProductServiceImpl implements IProductService {
       return WrapMapper.error("搜索类型有误");
     }
     List<Shop> shops = shopService.selectByObjectList(shop);
-    List<Long> shopIds = shops.stream().filter(shop1 -> shop1.getShopType() == shopType.getCode())
-      .map(Shop::getId).collect(Collectors.toList());
-    List<Item> items = itemService.selectAll();
-    List<Item> itemResult = items.stream().filter(item ->
-      shopIds.contains(item.getShopId()) && item.getItemTitle().contains(productSearchParam.getKeyword())
-    ).skip((productSearchParam.getPageNo() - 1) * productSearchParam.getPageSize())
-      .limit(productSearchParam.getPageSize())
-      .collect(Collectors.toList());
-
     List<ProductSearchResp> productSearchResps = new ArrayList<>();
-    itemResult.forEach(item -> {
-      List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
-      ProductSearchResp productSearchResp = new ProductSearchResp();
-      productSearchResp.setAvatar(item.getTitleImg());
-      productSearchResp.setImage(item.getContentImg());
-      productSearchResp.setType(shopType.getName());
-      productSearchResp.setProductId(item.getId());
-      productSearchResp.setProductName(item.getItemTitle());
-      if(item.getPrice() != null) {
-        BigDecimal b = new BigDecimal(item.getPrice());
-        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-        productSearchResp.setProductPrice(result);
-      }
-      productSearchResp.setShoID(item.getShopId());
-      productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
-      productSearchResps.add(productSearchResp);
-    });
+    if(ShopTypeEnum.product.getName().equals(productSearchParam.getType())) {
+      List<Long> shopIds = shops.stream().filter(shop1 -> shop1.getShopType() == shopType.getCode())
+        .map(Shop::getId).collect(Collectors.toList());
+      List<Item> items = itemService.selectAll();
+      List<Item> itemResult = items.stream().filter(item ->
+        shopIds.contains(item.getShopId()) && item.getItemTitle().contains(productSearchParam.getKeyword())
+      ).skip((productSearchParam.getPageNo()) * productSearchParam.getPageSize())
+        .limit(productSearchParam.getPageSize())
+        .collect(Collectors.toList());
+      itemResult.forEach(item -> {
+        List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
+        ProductSearchResp productSearchResp = new ProductSearchResp();
+        productSearchResp.setAvatar(item.getTitleImg());
+        productSearchResp.setImage(item.getContentImg());
+        productSearchResp.setType(shopType.getName());
+        productSearchResp.setProductId(item.getId());
+        productSearchResp.setProductName(item.getItemTitle());
+        if (item.getPrice() != null) {
+          BigDecimal b = new BigDecimal(item.getPrice());
+          String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+          productSearchResp.setProductPrice(result);
+        }
+        productSearchResp.setShoID(item.getShopId());
+        productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
+        productSearchResps.add(productSearchResp);
+      });
 
-    return WrapMapper.ok(productSearchResps);
+      return WrapMapper.ok(productSearchResps);
+    }else {
+      List<Shop> shopResults = shops.stream()
+        .filter(shop1 -> shop1.getShopType() == shopType.getCode() && shop1.getShopName().contains(productSearchParam.getKeyword()))
+        .skip((productSearchParam.getPageNo()) * productSearchParam.getPageSize())
+        .limit(productSearchParam.getPageSize())
+        .collect(Collectors.toList());
+
+      shopResults.forEach(shop1 -> {
+        ProductSearchResp productSearchResp = new ProductSearchResp();
+        productSearchResp.setAvatar(shop1.getShopLogo());
+        productSearchResp.setImage(shop1.getShopImg());
+        productSearchResp.setType(shopType.getName());
+        productSearchResp.setProductId(shop1.getId());
+        productSearchResp.setProductName(shop1.getShopName());
+        productSearchResp.setShoID(shop1.getId());
+        productSearchResp.setShopName(shop1.getShopName());
+        productSearchResps.add(productSearchResp);
+      });
+
+      return WrapMapper.ok(productSearchResps);
+    }
   }
 
   @Override

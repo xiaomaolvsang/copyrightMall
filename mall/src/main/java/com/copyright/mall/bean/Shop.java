@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 商铺表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-12-01 16:31
  **/
 public class Shop implements Serializable {
 
-	private static final long serialVersionUID = 8013108644888937032L;
+	private static final long serialVersionUID = 7983309523034482757L;
 
 	/**主键**/
 	private Long id;
@@ -41,6 +41,9 @@ public class Shop implements Serializable {
 
 	/**pdf**/
 	private String certification;
+
+	/**图片**/
+	private String shopImg;
 
 
 
@@ -116,6 +119,14 @@ public class Shop implements Serializable {
 		return this.certification;
 	}
 
+	public void setShopImg(String shopImg){
+		this.shopImg = shopImg;
+	}
+
+	public String getShopImg(){
+		return this.shopImg;
+	}
+
 	@Override
 	public String toString() {
 		return "Shop [ id= "+id+
@@ -126,6 +137,7 @@ public class Shop implements Serializable {
 			",shopLogo= "+shopLogo+
 			",shopType= "+shopType+
 			",companyName= "+companyName+
-			",certification= "+certification+"]";
+			",certification= "+certification+
+			",shopImg= "+shopImg+"]";
 	}
 }

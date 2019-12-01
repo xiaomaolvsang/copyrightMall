@@ -127,7 +127,7 @@ public class Cg {
             //          }
         }*/
         //新的表写在这里
-        tables.add("banner");
+        tables.add("shop");
         return tables;
     }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ShopMapper">
 
-	<!--cg generate by lijian at 2019-10-10 16:30-->
+	<!--cg generate by lijian at 2019-12-01 16:31-->
 
 	<!--通用商铺表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Shop" >
@@ -15,12 +15,13 @@
 		<result property="shopType" column="SHOP_TYPE" jdbcType="INTEGER" />
 		<result property="companyName" column="COMPANY_NAME" jdbcType="VARCHAR" />
 		<result property="certification" column="CERTIFICATION" jdbcType="VARCHAR" />
+		<result property="shopImg" column="SHOP_IMG" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION
+	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -37,6 +38,7 @@
 		<if test="shopType != null "> and SHOP_TYPE = #{shopType,jdbcType=INTEGER} </if>
 		<if test="companyName != null and companyName != '' "> and COMPANY_NAME = #{companyName,jdbcType=VARCHAR} </if>
 		<if test="certification != null and certification != '' "> and CERTIFICATION = #{certification,jdbcType=VARCHAR} </if>
+		<if test="shopImg != null and shopImg != '' "> and SHOP_IMG = #{shopImg,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -66,6 +68,7 @@
 			<if test="shopType != null"> SHOP_TYPE,</if>
 			<if test="companyName != null"> COMPANY_NAME,</if>
 			<if test="certification != null"> CERTIFICATION,</if>
+			<if test="shopImg != null"> SHOP_IMG,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -77,6 +80,7 @@
 			<if test="shopType!=null">#{shopType,jdbcType=INTEGER},</if>
 			<if test="companyName!=null">#{companyName,jdbcType=VARCHAR},</if>
 			<if test="certification!=null">#{certification,jdbcType=VARCHAR},</if>
+			<if test="shopImg!=null">#{shopImg,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -92,6 +96,7 @@
 			<if test="shopType != null">SHOP_TYPE = #{shopType,jdbcType=INTEGER},</if>
 			<if test="companyName != null">COMPANY_NAME = #{companyName,jdbcType=VARCHAR},</if>
 			<if test="certification != null">CERTIFICATION = #{certification,jdbcType=VARCHAR},</if>
+			<if test="shopImg != null">SHOP_IMG = #{shopImg,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

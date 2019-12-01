@@ -3,6 +3,7 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.bean.Banner;
 import com.copyright.mall.bean.BannerItemRelation;
 import com.copyright.mall.bean.Item;
+import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.enumeration.MallType;
 import com.copyright.mall.dao.BannerMapper;
 import com.copyright.mall.domain.exception.BusinessException;
@@ -42,6 +43,9 @@ public class BannerService implements IBannerService {
 
   @Resource
   private IItemService itemService;
+
+  @Resource
+  private ShopService shopService;
 
 	@Override
 	public Banner selectByPrimaryKey(Long id) {
@@ -116,13 +120,33 @@ public class BannerService implements IBannerService {
         items.forEach(item ->{
           BannerVO.Products product = new BannerVO.Products();
           product.setProductId(item.getId());
-          product.setLinkType("");
+          product.setLinkType("product");
           product.setProductImage(item.getTitleImg());
           product.setProductName(item.getItemTitle());
-          product.setTargetUrl(item.getContentImg());
+          product.setTargetUrl("");
           products.add(product);
         });
         bannerList.setProducts(products);
+      }
+      if("artistList".equals(banner1.getType())){
+        BannerItemRelation bannerItemRelation = new BannerItemRelation();
+        bannerItemRelation.setBannerId(banner1.getId());
+        List<BannerItemRelation> list = bannerItemRelationService.selectByObjectList(bannerItemRelation);
+        List<Long> shopIds = list.stream().map(BannerItemRelation::getItemId).collect(Collectors.toList());
+        Shop shop = new Shop();
+        List<Shop> shops = shopService.selectByObjectList(shop);
+
+        List<Shop> shops2 = shops.stream().filter(shop1 -> shopIds.contains(shop1.getId())).collect(Collectors.toList());
+        shops2.forEach(shop1 -> {
+          BannerVO.Products product = new BannerVO.Products();
+          product.setProductId(shop1.getId());
+          product.setLinkType("artist");
+          product.setProductImage(shop1.getShopLogo());
+          product.setProductName(shop1.getShopName());
+          product.setTargetUrl("");
+          products.add(product);
+        });
+
       }
       bannerLists.add(bannerList);
     });
