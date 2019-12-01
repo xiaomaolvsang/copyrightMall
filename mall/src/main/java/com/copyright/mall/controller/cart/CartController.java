@@ -12,6 +12,7 @@ import com.copyright.mall.service.ICartService;
 import com.copyright.mall.service.impl.ShopService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
@@ -82,18 +83,21 @@ public class CartController extends BaseController {
             beanItem.setShopName(shop.getShopName());
             beanItem.setShopId(shop.getId());
             List<CartListVO.RelateProductsBean> beans = Lists.newArrayList();
+            int totalPrice = 0;
             for(CartDTO cartDTO : entry.getValue()){
                 CartListVO.RelateProductsBean productsBean = new CartListVO.RelateProductsBean();
                 ItemDTO itemDTO = productService.querySingleItemBySku(cartDTO.getSkuId());
                 productsBean.setImage(itemDTO.getTitleImg());
                 productsBean.setInstitutionName(shop.getShopName());
                 productsBean.setProductName(itemDTO.getItemTitle());
-                productsBean.setProductPrice(BigDecimal.valueOf(itemDTO.getSku().getPrice()).divide(new BigDecimal(100)));
+                productsBean.setProductPrice(PriceFormat.format(itemDTO.getSku().getPrice()));
                 productsBean.setProductId(itemDTO.getSku().getId());
                 productsBean.setNum(cartDTO.getCount());
+                totalPrice+=itemDTO.getSku().getPrice()*cartDTO.getCount();
                 beans.add(productsBean);
             }
             beanItem.setRelateProducts(beans);
+            beanItem.setTotalPrice(PriceFormat.formatStr(totalPrice));
             shopListBeans.add(beanItem);
         }
         result.setShopList(shopListBeans);

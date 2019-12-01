@@ -6,15 +6,12 @@ import com.copyright.mall.domain.dto.cart.DeleteCartParam;
 import com.copyright.mall.domain.dto.order.CreateOrderParam;
 import com.copyright.mall.domain.dto.order.PayDTO;
 import com.copyright.mall.domain.exception.BusinessException;
-import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.enums.ItemOrderType;
 import com.copyright.mall.enums.MallPayStatusEnum;
 import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.IDUtil;
-import com.copyright.mall.util.wrapper.WrapMapper;
 import com.google.common.collect.Lists;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -49,6 +46,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private ICartService cartService;
+
+    @Resource
+    private IUserAddressService userAddressService;
 
     
     @Override
@@ -90,9 +90,10 @@ public class OrderServiceImpl implements OrderService {
         mallOrder.setMallOrderId(IDUtil.generatorID("MID"));
         mallOrder.setMallId(createOrderDTO.getMallId().toString());
         mallOrder.setPayStatus(MallPayStatusEnum.UNPAID.getCode());
-        mallOrder.setDeliveryAddress(createOrderDTO.getReceiveUserBean().getAddress());
-        mallOrder.setDeliveryName(createOrderDTO.getReceiveUserBean().getConsigneeName());
-        mallOrder.setPhone(createOrderDTO.getReceiveUserBean().getConsigneePnone());
+        UserAddress userAddress = userAddressService.selectByPrimaryKey(createOrderDTO.getReceiveId());
+        mallOrder.setDeliveryAddress(userAddress.getDetail());
+        mallOrder.setDeliveryName(userAddress.getConsigneeName());
+        mallOrder.setPhone(userAddress.getConsigneePhone());
         List<Long> deleteSkus = Lists.newArrayList();
         Integer shopTotalPrice = 0;
         for(CreateOrderParam.ShopInfo shopInfo : createOrderDTO.getShopInfoBeans()) {

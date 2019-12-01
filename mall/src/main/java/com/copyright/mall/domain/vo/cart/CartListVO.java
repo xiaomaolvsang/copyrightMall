@@ -40,6 +40,9 @@ public class CartListVO {
         @ApiModelProperty("商品列表")
         @JSONField(name = "relateProducts")
         private List<RelateProductsBean> relateProducts;
+
+        @ApiModelProperty("总金额")
+        private String totalPrice;
     }
     @Data
     @ApiModel("商品列表")

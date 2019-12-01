@@ -25,28 +25,11 @@ public class CreateOrderParam {
     @NotEmpty(message = "店铺集合不能为空")
     private List<ShopInfo> shopInfoBeans;
 
-    private ReceiveUserBean receiveUserBean;
 
+    @ApiModelProperty(value = "地址ID",required = true)
+    @NotNull(message = "地址ID不能为空")
+    private Long receiveId;
 
-    @Data
-    public static class ReceiveUserBean {
-        @JSONField(name = "avatar")
-        @ApiModelProperty("用户头像")
-        private String avatar;
-        @JSONField(name = "consigneeName")
-        @ApiModelProperty("收货人姓名")
-        @NotBlank
-        private String consigneeName;
-        @JSONField(name = "consigneePhone")
-        @ApiModelProperty("收货人电话")
-        @NotBlank
-        private String consigneePnone;
-        @JSONField(name = "address")
-        @ApiModelProperty("收货地址 待确定 标准省市区？")
-        @NotBlank
-        private String address;
-
-    }
 
     @Data
     public static class ShopInfo{

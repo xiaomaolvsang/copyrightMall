@@ -67,9 +67,6 @@ public class OrderController extends BaseController {
     private IItemOrderService iItemOrderService;
 
     @Resource
-    private ICartService cartService;
-
-    @Resource
     private OrderService orderService;
 
     @Resource
@@ -85,6 +82,9 @@ public class OrderController extends BaseController {
             return WrapMapper.error("地址信息有误");
         }
         ConfirmOrderVO.ReceiveUserBean receiveUserBean = new ConfirmOrderVO.ReceiveUserBean();
+        receiveUserBean.setConsigneeName(userAddress.getConsigneeName());
+        receiveUserBean.setConsigneePnone(userAddress.getConsigneePhone());
+        receiveUserBean.setAddress(userAddress.getDetail());
         result.setReceiveUser(receiveUserBean);
         result.setOrderDesc(confirmOrderParam.getOrderDesc());
         List<ConfirmOrderVO.ProductsBean> productsBeans = Lists.newArrayList();
