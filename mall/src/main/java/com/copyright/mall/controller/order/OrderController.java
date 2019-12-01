@@ -183,7 +183,7 @@ public class OrderController extends BaseController {
                 shopInfoBean.setShopId(shop.getId().toString());
                 shopInfoBean.setShopName(shop.getShopName());
                 shopInfoBean.setOrderStatus(shopOrder.getOrderType().toString());
-                shopInfoBean.setStatusDesc(shopOrder.getOrderType().toString());
+                shopInfoBean.setStatusDesc(ShopOrderType.valueOf(shopOrder.getOrderType()).getDesc());
                 shopInfoBean.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
                 shopInfoBeans.add(shopInfoBean);
             }
