@@ -42,6 +42,21 @@ public abstract class BaseController {
         return user.getId();
     }
 
+    public String getUserPhone() {
+        String token = request.getHeader("X-Mall-TOKEN");
+        User user = null;
+        try {
+            String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+            user =  userService.selectByOpenId(userOpenId);
+        }catch (Exception e){
+            log.warn("解析",e);
+        }
+        if(user==null){
+            throw new BusinessException("用户数据不完整");
+        }
+        return user.getPhone();
+    }
+
     public Long getMallId() {
         String mallId = request.getHeader("X-Mall-Id");
         return StringUtils.isNotBlank(mallId) ? Long.valueOf(mallId) : -1L;
