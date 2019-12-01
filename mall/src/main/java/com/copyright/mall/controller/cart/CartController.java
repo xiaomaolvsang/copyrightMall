@@ -77,6 +77,7 @@ public class CartController extends BaseController {
         result.setTotal(page.getTotal());
         Map<Long,List<CartDTO>> dtos = cartDTOS.stream().collect(Collectors.groupingBy(CartDTO::getShopId,Collectors.toList()));
         List<CartListVO.ShopListBean> shopListBeans = Lists.newArrayList();
+        int allPrice = 0;
         for(Map.Entry<Long,List<CartDTO>> entry : dtos.entrySet()){
             CartListVO.ShopListBean beanItem = new CartListVO.ShopListBean();
             Shop shop = shopService.selectByPrimaryKey(entry.getKey());
@@ -99,7 +100,9 @@ public class CartController extends BaseController {
             beanItem.setRelateProducts(beans);
             beanItem.setTotalPrice(PriceFormat.formatStr(totalPrice));
             shopListBeans.add(beanItem);
+            allPrice+=totalPrice;
         }
+        result.setTotalPrice(PriceFormat.formatStr(allPrice));
         result.setShopList(shopListBeans);
         return WrapMapper.ok(result);
     }

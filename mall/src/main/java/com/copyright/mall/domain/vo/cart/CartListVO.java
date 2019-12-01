@@ -61,4 +61,7 @@ public class CartListVO {
         private int num;
     }
 
+    @ApiModelProperty("总金额")
+    private String totalPrice;
+
 }
