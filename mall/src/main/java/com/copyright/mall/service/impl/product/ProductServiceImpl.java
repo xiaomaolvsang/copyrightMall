@@ -297,22 +297,14 @@ public class ProductServiceImpl implements IProductService {
     ).collect(Collectors.toList());
     List<Copyright> copyrights = copyrightService.selectAllObject();
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
-    itemResult.forEach(item -> {
-      List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
-      List<Copyright> copyrights1 = copyrights.stream()
-        .filter(copyright -> {
-            return copyright.getId().toString().equals(item.getRelatedCopyright());
-          }
-        ).collect(Collectors.toList());
-      if (copyrights1.size() != 0) {
-        AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
-        areaAttr.setImage(copyrights1.get(0).getCopyrightImg());
-        areaAttr.setProductId(String.valueOf(item.getId()));
-        areaAttr.setProductName(item.getItemTitle());
-        areaAttr.setShopID(item.getShopId());
-        areaAttr.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
-        areaAttrs.add(areaAttr);
-      }
+    List<String> copyrightIds = itemResult.stream().map(Item::getRelatedCopyright).collect(Collectors.toList());
+    List<Copyright> copyrights1 = copyrights.stream().filter(copyright -> copyrightIds.contains(copyright.getId().toString())).collect(Collectors.toList());
+    copyrights1.forEach(copyright -> {
+      AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
+      areaAttr.setImage(copyright.getCopyrightImg());
+      areaAttr.setProductId(String.valueOf(copyright.getId()));
+      areaAttr.setProductName(copyright.getName());
+      areaAttrs.add(areaAttr);
     });
     areaVO.setAreaAttrs(areaAttrs);
   }
