@@ -67,10 +67,8 @@ public class JwtService {
     }
 
     public static void main(String[] args) {
-        JwtService jwtService = new JwtService();
-        String token = jwtService.generateToken("1234");
-        System.out.println(token);
-        System.out.println(jwtService.isTokenExpired(token));
-        System.out.println(jwtService.getClaimFromToken(token).getSubject());
+
     }
+
+
 }

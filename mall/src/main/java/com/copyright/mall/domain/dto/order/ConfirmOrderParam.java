@@ -29,7 +29,6 @@ public class ConfirmOrderParam {
      * 地址ID
      */
     @ApiModelProperty(value = "地址ID",required = true)
-    @NotEmpty(message = "地址ID不能为空")
     private Long  receiveId;
 
     @Data

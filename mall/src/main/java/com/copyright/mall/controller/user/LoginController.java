@@ -41,17 +41,17 @@ public class LoginController extends BaseController {
 
     @ApiOperation(value = "登录接口")
     @GetMapping("/login")
-    public Wrapper<LoginInfoVO> login(String weChatCode){
+    public Wrapper<LoginInfoVO> login(String weChatCode) {
         WeChatUserInfo weChatUserInfo = null;
-        try{
-            weChatUserInfo =  wechatUserService.weChatLogin(weChatCode);
+        try {
+            weChatUserInfo = wechatUserService.weChatLogin(weChatCode);
             System.out.println(JSON.toJSONString(weChatUserInfo));
-        }catch (Exception e){
-            log.warn("登录失败",e);
+        } catch (Exception e) {
+            log.warn("登录失败", e);
             return WrapMapper.error("登录失败");
         }
-        User user= userService.selectByOpenId(weChatUserInfo.getOpenid());
-        user = user==null?new User():user;
+        User user = userService.selectByOpenId(weChatUserInfo.getOpenid());
+        user = user == null ? new User() : user;
         user.setOpenId(weChatUserInfo.getOpenid());
         user.setSessionKey(weChatUserInfo.getSession_key());
         userService.saveOrUpdate(user);
@@ -62,8 +62,8 @@ public class LoginController extends BaseController {
 
     @ApiOperation(value = "敏感回调")
     @GetMapping("/login/encryptedInfo")
-    public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam){
-        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(),queryEncryptedInfoParam.getEncryptedData(),queryEncryptedInfoParam.getIv());
+    public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam) {
+        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv());
         User user = new User();
         user.setId(this.getUserId());
         user.setPhone(weChatUserInfo.getPhone());
