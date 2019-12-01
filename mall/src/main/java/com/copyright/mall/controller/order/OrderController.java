@@ -78,14 +78,13 @@ public class OrderController extends BaseController {
     public Wrapper<ConfirmOrderVO> confirmOrder(@ApiParam @Valid @RequestBody ConfirmOrderParam confirmOrderParam) {
         ConfirmOrderVO result = new ConfirmOrderVO();
         UserAddress userAddress =  userAddressService.selectByPrimaryKey(confirmOrderParam.getReceiveId());
-        if(userAddress==null){
-            return WrapMapper.error("地址信息有误");
+        if(userAddress!=null){
+            ConfirmOrderVO.ReceiveUserBean receiveUserBean = new ConfirmOrderVO.ReceiveUserBean();
+            receiveUserBean.setConsigneeName(userAddress.getConsigneeName());
+            receiveUserBean.setConsigneePnone(userAddress.getConsigneePhone());
+            receiveUserBean.setAddress(userAddress.getDetail());
+            result.setReceiveUser(receiveUserBean);
         }
-        ConfirmOrderVO.ReceiveUserBean receiveUserBean = new ConfirmOrderVO.ReceiveUserBean();
-        receiveUserBean.setConsigneeName(userAddress.getConsigneeName());
-        receiveUserBean.setConsigneePnone(userAddress.getConsigneePhone());
-        receiveUserBean.setAddress(userAddress.getDetail());
-        result.setReceiveUser(receiveUserBean);
         result.setOrderDesc(confirmOrderParam.getOrderDesc());
         List<ConfirmOrderVO.ProductsBean> productsBeans = Lists.newArrayList();
         int totalPrice = 0;
