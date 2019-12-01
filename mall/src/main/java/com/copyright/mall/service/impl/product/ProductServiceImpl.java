@@ -298,7 +298,11 @@ public class ProductServiceImpl implements IProductService {
     List<Copyright> copyrights = copyrightService.selectAllObject();
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
     List<String> copyrightIds = itemResult.stream().map(Item::getRelatedCopyright).collect(Collectors.toList());
-    List<Copyright> copyrights1 = copyrights.stream().filter(copyright -> copyrightIds.contains(copyright.getId().toString())).collect(Collectors.toList());
+    List<Copyright> copyrights1 = copyrights.stream()
+      .filter(copyright -> copyrightIds.contains(copyright.getId().toString()))
+      .skip((areaParam.getPageNum() - 1) * areaParam.getPageSize())
+      .limit(areaParam.getPageSize())
+      .collect(Collectors.toList());
     copyrights1.forEach(copyright -> {
       AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
       areaAttr.setImage(copyright.getCopyrightLogo());
