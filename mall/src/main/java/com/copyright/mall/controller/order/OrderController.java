@@ -135,7 +135,9 @@ public class OrderController extends BaseController {
         MallOrder mallQueryParam = new MallOrder();
         mallQueryParam.setBuyer(this.getUserId().toString());
         mallQueryParam.setMallId(this.getMallId().toString());
-        mallQueryParam.setPayStatus(queryOrderListParam.getOrderStatus());
+        if(queryOrderListParam.getOrderStatus()!=-1){
+            mallQueryParam.setPayStatus(queryOrderListParam.getOrderStatus());
+        }
         Page<MallOrder> page = PageHelper.startPage(queryOrderListParam.getPageNum(), queryOrderListParam.getPageSize());
         List<MallOrder> mallOrders = mallOrderService.selectByObjectList(mallQueryParam);
         List<OrderInfoVO> orderInfoVOS = Lists.newArrayList();
