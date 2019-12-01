@@ -2,15 +2,18 @@ package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.ArtistOpus;
 import com.copyright.mall.bean.Item;
+import com.copyright.mall.bean.Shop;
 import com.copyright.mall.dao.ArtistOpusMapper;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.opus.OpusParam;
 import com.copyright.mall.domain.vo.opus.OpusVO;
 import com.copyright.mall.service.IOpusService;
+import com.copyright.mall.service.IShopService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,27 +32,22 @@ public class OpusService implements IOpusService {
   private ArtistOpusMapper artistOpusMapper;
 
   @Resource
-  private ItemService itemService;
+  private IShopService shopService;
 
   @Override
   public OpusVO getOpus(OpusParam opusParam) {
     OpusVO opusVO = new OpusVO();
     OpusVO.DataBean dataBean = new OpusVO.DataBean();
-    List<Item> items = itemService.selectAll();
-
+    Shop shop = shopService.selectByPrimaryKey(opusParam.getShopId());
     ArtistOpus artistOpus = artistOpusMapper.selectByPrimaryKey(opusParam.getOpusId());
-    List<Item> results = items.stream().filter(item -> item.getId().equals(artistOpus.getItemId())).collect(Collectors.toList());
-    if(results.size() == 0){
-      throw new BusinessException("未找到对应的艺术家");
-    }
-    Item aretist = results.get(0);
+
     List<OpusVO.DataBean.ProductImageBean> list = new ArrayList<>();
 
-    dataBean.setArtistAvatar(aretist.getAd());
-    dataBean.setArtistName(aretist.getItemTitle());
-    dataBean.setProductDesc(artistOpus.getOpusDesc());
-    dataBean.setProductTitle(artistOpus.getName());
-    dataBean.setPublishTime(artistOpus.getGmtModified().toString());
+    dataBean.setArtistAvatar(shop.getShopLogo());
+    dataBean.setArtistName(shop.getShopName());
+    dataBean.setProductDesc(shop.getCertification());
+    dataBean.setProductTitle(shop.getShopName());
+    dataBean.setPublishTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(artistOpus.getGmtModified()));
 
 
     String imgs = artistOpus.getImgs();

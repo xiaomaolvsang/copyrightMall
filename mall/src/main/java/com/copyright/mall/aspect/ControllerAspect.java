@@ -27,43 +27,43 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ControllerAspect {
 
-    private static final Logger LOGGER =  Logger.getLogger(ControllerAspect.class);
+  private static final Logger LOGGER = Logger.getLogger(ControllerAspect.class);
 
-    @Around("@annotation(controllerErro)")
-    public Object around(ProceedingJoinPoint pjp, ControllerErro controllerErro)throws Throwable{
-        try {
+  @Around("@annotation(controllerErro)")
+  public Object around(ProceedingJoinPoint pjp, ControllerErro controllerErro) throws Throwable {
+    try {
 
-            // 执行业务操作
-            Stopwatch stopwatch = Stopwatch.createStarted();
-            LOGGER.info("运行开始");
-            Object obj = pjp.proceed();
-            LOGGER.info("运行结束:"+stopwatch.elapsed(TimeUnit.MILLISECONDS));
-            return obj;
-        } catch (Throwable ex) {
+      // 执行业务操作
+      Stopwatch stopwatch = Stopwatch.createStarted();
+      LOGGER.info("运行开始");
+      Object obj = pjp.proceed();
+      LOGGER.info("运行结束:" + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+      return obj;
+    } catch (Throwable ex) {
 
-            // 打印错误日志
-            ex.printStackTrace();
-            LOGGER.error("controller异常,url:{"+getUri()+"} reqMsg:{"+JSON.toJSONString(pjp.getArgs())+"},ex:{"+ex+"}");
-            return WrapMapper.error("后台处理异常");
-        }
+      // 打印错误日志
+      ex.printStackTrace();
+      LOGGER.error("controller异常,url:{" + getUri() + "} reqMsg:{" + JSON.toJSONString(pjp.getArgs()) + "},ex:{" + ex + "}");
+      return WrapMapper.error("后台处理异常：" + ex);
     }
+  }
 
-    private String getUri() {
+  private String getUri() {
 
-        try {
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-            HttpServletRequest request = servletRequestAttributes.getRequest();
+    try {
+      RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+      ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+      HttpServletRequest request = servletRequestAttributes.getRequest();
 
-            String uri = request.getRequestURI();
+      String uri = request.getRequestURI();
 
-            if (StringUtils.isEmpty(uri)) {
-                return "";
-            }
-            return uri;
-        } catch (Exception ex) {
-            // ignore
-        }
+      if (StringUtils.isEmpty(uri)) {
         return "";
+      }
+      return uri;
+    } catch (Exception ex) {
+      // ignore
     }
+    return "";
+  }
 }
