@@ -45,7 +45,7 @@ public class OrderDetailVO {
     private Date orderCreateTime;
     @JSONField(name = "orderPayTime")
     @ApiModelProperty("支付时间")
-    private String orderPayTime;
+    private Date orderPayTime;
     @JSONField(name = "orderDeliveryTime")
     @ApiModelProperty("订单交货时间")
     private String orderDeliveryTime;

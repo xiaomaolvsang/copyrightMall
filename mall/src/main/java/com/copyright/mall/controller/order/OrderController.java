@@ -129,9 +129,6 @@ public class OrderController extends BaseController {
         MallOrder mallQueryParam = new MallOrder();
         mallQueryParam.setBuyer(this.getUserId().toString());
         mallQueryParam.setMallId(this.getMallId().toString());
-        if(queryOrderListParam.getOrderStatus()!=-1){
-            mallQueryParam.setPayStatus(queryOrderListParam.getOrderStatus());
-        }
         Page<MallOrder> page = PageHelper.startPage(queryOrderListParam.getPageNum(), queryOrderListParam.getPageSize());
         List<MallOrder> mallOrders = mallOrderService.selectByObjectList(mallQueryParam);
         List<OrderInfoVO> orderInfoVOS = Lists.newArrayList();
@@ -139,6 +136,9 @@ public class OrderController extends BaseController {
             ShopOrder queryParam = new ShopOrder();
             queryParam.setMallOrderId(mallOrder.getMallOrderId());
             queryParam.setOrderType(queryOrderListParam.getOrderStatus());
+            if(queryOrderListParam.getOrderStatus()!=-1){
+                queryParam.setOrderType(queryOrderListParam.getOrderStatus());
+            }
             List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(queryParam);
             List<OrderInfoVO.ShopInfoBean> shopInfoBeans = Lists.newArrayList();
             OrderInfoVO orderInfoVO = new OrderInfoVO();
@@ -244,7 +244,7 @@ public class OrderController extends BaseController {
         orderDetailVO.setReceiveUser(receiveUserBean);
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
-        orderDetailVO.setOrderPayTime(PriceFormat.formatStr(shopOrder.getPayPrice()));
+        orderDetailVO.setOrderPayTime(shopOrder.getPayTime());
         //todo 交货时间
         //orderDetailVO.setOrderDeliveryTime(mallOrder);
         //todo 退货时间
