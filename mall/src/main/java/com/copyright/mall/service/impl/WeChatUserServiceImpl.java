@@ -1,5 +1,6 @@
 package com.copyright.mall.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.config.WeChatAppInfo;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
@@ -72,8 +73,10 @@ public class WeChatUserServiceImpl implements IWechatUserService {
         if(user==null){
             return null;
         }
-        AES.decrypt(weChatAppInfo.getAppId(),encryptedData,user.getSessionKey(),iv);
-        return null;
+        JSONObject wechatResult =  AES.decrypt(weChatAppInfo.getAppId(),encryptedData,user.getSessionKey(),iv);
+        WeChatUserInfo result = new WeChatUserInfo();
+        result.setPhone(wechatResult.getString("phoneNumber"));
+        return result;
     }
 
 

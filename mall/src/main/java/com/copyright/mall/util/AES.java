@@ -40,7 +40,7 @@ public class AES {
         AES.decrypt("wx138cfb45ada6bdcc","9290921f40da4788eca292719f3ee34d","","");
     }
 
-    public static String decrypt(String appId, String encryptedData, String sessionKey, String iv){
+    public static JSONObject decrypt(String appId, String encryptedData, String sessionKey, String iv){
         String result = "";
         try {
             AES aes = new AES();
@@ -52,7 +52,7 @@ public class AES {
             result = "";
             e.printStackTrace();
         }
-        return result;
+        return JSON.parseObject(result);
     }
 
 

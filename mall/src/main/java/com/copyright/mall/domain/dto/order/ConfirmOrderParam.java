@@ -25,22 +25,11 @@ public class ConfirmOrderParam {
 
     private String orderDesc;
 
-    private ReceiveUserBean receiveUserBean;
-    @Data
-    public static class ReceiveUserBean {
-        @ApiModelProperty("用户头像")
-        private String avatar;
-        @ApiModelProperty("收货人姓名")
-        @NotBlank(message = "收货人姓名不能为空")
-        private String consigneeName;
-        @ApiModelProperty("收货人电话")
-        @NotBlank(message = "收货人电话不能为空")
-        private String consigneePnone;
-        @ApiModelProperty("收货地址 待确定 标准省市区？")
-        @NotBlank(message = "收货地址不能为空")
-        private String address;
-
-    }
+    /**
+     * 地址ID
+     */
+    @ApiModelProperty(value = "地址ID",required = true)
+    private Long  receiveId;
 
     @Data
     public static class SKU{

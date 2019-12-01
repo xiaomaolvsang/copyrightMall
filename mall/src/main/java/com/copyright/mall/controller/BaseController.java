@@ -1,6 +1,10 @@
 package com.copyright.mall.controller;
 
+import com.copyright.mall.bean.User;
+import com.copyright.mall.domain.exception.BusinessException;
+import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.JwtService;
+import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,14 +24,22 @@ public abstract class BaseController {
     @Resource
     private JwtService jwtService;
 
+    @Resource
+    private IUserService userService;
+
     public Long getUserId() {
         String token = request.getHeader("X-Mall-TOKEN");
+        User user = null;
         try {
             String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+            user =  userService.selectByOpenId(userOpenId);
         }catch (Exception e){
             log.warn("解析",e);
         }
-        return 1234L;
+        if(user==null){
+            throw new BusinessException("用户数据不完整");
+        }
+        return user.getId();
     }
 
     public Long getMallId() {

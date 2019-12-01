@@ -72,12 +72,19 @@ public class OrderController extends BaseController {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private IUserAddressService userAddressService;
+
 
     @PostMapping("/confirmOrder")
     @ApiOperation("确认订单")
     public Wrapper<ConfirmOrderVO> confirmOrder(@ApiParam @Valid @RequestBody ConfirmOrderParam confirmOrderParam) {
         ConfirmOrderVO result = new ConfirmOrderVO();
-        ConfirmOrderVO.ReceiveUserBean receiveUserBean = BeanMapperUtils.map(confirmOrderParam.getReceiveUserBean(), ConfirmOrderVO.ReceiveUserBean.class);
+        UserAddress userAddress =  userAddressService.selectByPrimaryKey(confirmOrderParam.getReceiveId());
+        if(userAddress==null){
+            return WrapMapper.error("地址信息有误");
+        }
+        ConfirmOrderVO.ReceiveUserBean receiveUserBean = new ConfirmOrderVO.ReceiveUserBean();
         result.setReceiveUser(receiveUserBean);
         result.setOrderDesc(confirmOrderParam.getOrderDesc());
         List<ConfirmOrderVO.ProductsBean> productsBeans = Lists.newArrayList();

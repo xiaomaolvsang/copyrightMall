@@ -1,5 +1,6 @@
 package com.copyright.mall.controller.user;
 
+import com.alibaba.fastjson.JSON;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.user.QueryEncryptedInfoParam;
@@ -44,6 +45,7 @@ public class LoginController extends BaseController {
         WeChatUserInfo weChatUserInfo = null;
         try{
             weChatUserInfo =  wechatUserService.weChatLogin(weChatCode);
+            System.out.println(JSON.toJSONString(weChatUserInfo));
         }catch (Exception e){
             log.warn("登录失败",e);
             return WrapMapper.error("登录失败");
@@ -51,17 +53,21 @@ public class LoginController extends BaseController {
         User user= userService.selectByOpenId(weChatUserInfo.getOpenid());
         user = user==null?new User():user;
         user.setOpenId(weChatUserInfo.getOpenid());
-        user.setSessionKey(weChatUserInfo.getSessionKey());
+        user.setSessionKey(weChatUserInfo.getSession_key());
         userService.saveOrUpdate(user);
         LoginInfoVO result = new LoginInfoVO();
         result.setToken(jwtService.generateToken(weChatUserInfo.getOpenid()));
         return WrapMapper.ok(result);
     }
 
-    @ApiOperation(value = "登录接口")
+    @ApiOperation(value = "敏感回调")
     @GetMapping("/login/encryptedInfo")
     public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam){
-        wechatUserService.getSensitiveData(this.getUserId(),queryEncryptedInfoParam.getEncryptedData(),queryEncryptedInfoParam.getIv());
+        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(),queryEncryptedInfoParam.getEncryptedData(),queryEncryptedInfoParam.getIv());
+        User user = new User();
+        user.setId(this.getUserId());
+        user.setPhone(weChatUserInfo.getPhone());
+        userService.saveOrUpdate(user);
         return WrapMapper.ok();
     }
 }
