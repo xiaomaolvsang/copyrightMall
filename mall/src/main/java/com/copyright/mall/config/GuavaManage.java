@@ -24,7 +24,7 @@ public class GuavaManage {
 
     @PostConstruct
     public void init() {
-      localMemoryCache = CacheBuilder.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).build();
+      localMemoryCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
     }
 
     public Cache<String, Optional<Object>> getLocalMemoryCache() {
