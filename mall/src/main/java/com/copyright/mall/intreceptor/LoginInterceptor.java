@@ -22,7 +22,7 @@ public class LoginInterceptor implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String path = ((HttpServletRequest) servletRequest).getRequestURI();
-       /* if (path.startsWith("/v1/user/login")||
+/*        if (path.startsWith("/v1/user/login")||
             path.startsWith("/swagger")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {

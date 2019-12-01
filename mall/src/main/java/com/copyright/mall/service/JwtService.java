@@ -22,7 +22,7 @@ public class JwtService {
     /**
      * token生命周期[分钟]
      */
-    private Integer expiration = 4 * 60;
+    private Integer expiration = 4000 * 60;
 
     private String secret = "mall";
 
@@ -67,7 +67,8 @@ public class JwtService {
     }
 
     public static void main(String[] args) {
-
+        boolean result = new JwtService().isTokenExpired("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjpudWxsLCJleHAiOjE1NzUxNzE1ODYsImlhdCI6MTU3NTE3MTM0Nn0.I_8kF6XeZChg7Cp3W1op9oaqleesxfpOFqASYlGf3fQ");
+        System.out.println();;
     }
 
 
