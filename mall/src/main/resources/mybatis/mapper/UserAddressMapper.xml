@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.UserAddressMapper">
+
+	<!--cg generate by lijian at 2019-11-30 10:21-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.UserAddress" >
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="userId" column="USER_ID" jdbcType="INTEGER" />
+		<result property="province" column="PROVINCE" jdbcType="VARCHAR" />
+		<result property="city" column="CITY" jdbcType="VARCHAR" />
+		<result property="area" column="AREA" jdbcType="VARCHAR" />
+		<result property="street" column="STREET" jdbcType="VARCHAR" />
+		<result property="detail" column="DETAIL" jdbcType="VARCHAR" />
+		<result property="consigneeName" column="CONSIGNEE_NAME" jdbcType="VARCHAR" />
+		<result property="consigneePhone" column="CONSIGNEE_PHONE" jdbcType="VARCHAR" />
+		<result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	USER_ID,	PROVINCE,	CITY,	AREA,	STREET,	DETAIL,	CONSIGNEE_NAME,	CONSIGNEE_PHONE,	DEL_FLAG,	CREATE_TIME,	UPDATE_TIME
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null "> and ID = #{id,jdbcType=INTEGER} </if>
+		<if test="userId != null "> and USER_ID = #{userId,jdbcType=INTEGER} </if>
+		<if test="province != null and province != '' "> and PROVINCE = #{province,jdbcType=VARCHAR} </if>
+		<if test="city != null and city != '' "> and CITY = #{city,jdbcType=VARCHAR} </if>
+		<if test="area != null and area != '' "> and AREA = #{area,jdbcType=VARCHAR} </if>
+		<if test="street != null and street != '' "> and STREET = #{street,jdbcType=VARCHAR} </if>
+		<if test="detail != null and detail != '' "> and DETAIL = #{detail,jdbcType=VARCHAR} </if>
+		<if test="consigneeName != null and consigneeName != '' "> and CONSIGNEE_NAME = #{consigneeName,jdbcType=VARCHAR} </if>
+		<if test="consigneePhone != null and consigneePhone != '' "> and CONSIGNEE_PHONE = #{consigneePhone,jdbcType=VARCHAR} </if>
+		<if test="delFlag != null "> and DEL_FLAG = #{delFlag,jdbcType=INTEGER} </if>
+		<if test="createTime != null and createTime != '' "> and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} </if>
+		<if test="updateTime != null and updateTime != '' "> and UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM user_address
+		 WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM user_address
+		 WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.UserAddress">
+		INSERT INTO user_address
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="userId != null"> USER_ID,</if>
+			<if test="province != null"> PROVINCE,</if>
+			<if test="city != null"> CITY,</if>
+			<if test="area != null"> AREA,</if>
+			<if test="street != null"> STREET,</if>
+			<if test="detail != null"> DETAIL,</if>
+			<if test="consigneeName != null"> CONSIGNEE_NAME,</if>
+			<if test="consigneePhone != null"> CONSIGNEE_PHONE,</if>
+			<if test="delFlag != null"> DEL_FLAG,</if>
+			<if test="createTime != null"> CREATE_TIME,</if>
+			<if test="updateTime != null"> UPDATE_TIME,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="userId!=null">#{userId,jdbcType=INTEGER},</if>
+			<if test="province!=null">#{province,jdbcType=VARCHAR},</if>
+			<if test="city!=null">#{city,jdbcType=VARCHAR},</if>
+			<if test="area!=null">#{area,jdbcType=VARCHAR},</if>
+			<if test="street!=null">#{street,jdbcType=VARCHAR},</if>
+			<if test="detail!=null">#{detail,jdbcType=VARCHAR},</if>
+			<if test="consigneeName!=null">#{consigneeName,jdbcType=VARCHAR},</if>
+			<if test="consigneePhone!=null">#{consigneePhone,jdbcType=VARCHAR},</if>
+			<if test="delFlag!=null">#{delFlag,jdbcType=INTEGER},</if>
+			<if test="createTime!=null">#{createTime,jdbcType=TIMESTAMP},</if>
+			<if test="updateTime!=null">#{updateTime,jdbcType=TIMESTAMP},</if>
+		</trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.UserAddress">
+		UPDATE user_address
+		<set>
+			<if test="userId != null">USER_ID = #{userId,jdbcType=INTEGER},</if>
+			<if test="province != null">PROVINCE = #{province,jdbcType=VARCHAR},</if>
+			<if test="city != null">CITY = #{city,jdbcType=VARCHAR},</if>
+			<if test="area != null">AREA = #{area,jdbcType=VARCHAR},</if>
+			<if test="street != null">STREET = #{street,jdbcType=VARCHAR},</if>
+			<if test="detail != null">DETAIL = #{detail,jdbcType=VARCHAR},</if>
+			<if test="consigneeName != null">CONSIGNEE_NAME = #{consigneeName,jdbcType=VARCHAR},</if>
+			<if test="consigneePhone != null">CONSIGNEE_PHONE = #{consigneePhone,jdbcType=VARCHAR},</if>
+			<if test="delFlag != null">DEL_FLAG = #{delFlag,jdbcType=INTEGER},</if>
+			<if test="createTime != null">CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},</if>
+			<if test="updateTime != null">UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},</if>
+
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM user_address
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM user_address
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM user_address
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>

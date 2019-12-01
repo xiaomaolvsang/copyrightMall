@@ -48,7 +48,7 @@ public class WrapMapper {
     }
 
     public static <E> Wrapper<E> ok(E o) {
-        return new Wrapper(200, "操作成功", o);
+        return new Wrapper(0, "操作成功", o);
     }
 
     public static <T> Wrapper<T> handleResult(T result) {

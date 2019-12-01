@@ -1,0 +1,19 @@
+logging:
+  file: ''
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: DEBUG
+    root: INFO
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+server:
+  port: 80
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    password: lin5241!
+    url: jdbc:mysql://cdb-1t8tuop0.bj.tencentcdb.com:10130/go_db?useUnicode=true&characterEncoding=utf-8
+    username: root
