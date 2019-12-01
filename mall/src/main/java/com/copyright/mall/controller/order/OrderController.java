@@ -3,7 +3,6 @@ package com.copyright.mall.controller.order;
 import com.copyright.mall.bean.*;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
-import com.copyright.mall.domain.dto.cart.DeleteCartParam;
 import com.copyright.mall.domain.dto.order.ConfirmOrderParam;
 import com.copyright.mall.domain.dto.order.CreateOrderParam;
 import com.copyright.mall.domain.dto.order.PayDTO;
@@ -12,12 +11,9 @@ import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
-import com.copyright.mall.enums.ItemOrderType;
-import com.copyright.mall.enums.MallPayStatusEnum;
 import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.BeanMapperUtils;
-import com.copyright.mall.util.IDUtil;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -25,7 +21,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,9 +29,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author : zhangyuchen
@@ -129,9 +123,9 @@ public class OrderController extends BaseController {
         return WrapMapper.ok(createOrderVO);
     }
 
-    @GetMapping("/orderList")
-    @ApiOperation("订单列表")
-    public Wrapper<PageInfo<OrderInfoVO>> orderList(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
+    @GetMapping("/unpaidOrderList")
+    @ApiOperation("代付款订单列表")
+    public Wrapper<PageInfo<OrderInfoVO.ShopInfoBean>> orderList(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
         MallOrder mallQueryParam = new MallOrder();
         mallQueryParam.setBuyer(this.getUserId().toString());
         mallQueryParam.setMallId(this.getMallId().toString());
@@ -188,14 +182,16 @@ public class OrderController extends BaseController {
                 shopInfoBeans.add(shopInfoBean);
             }
             orderInfoVO.setShopInfo(shopInfoBeans);
-            orderInfoVO.setMallOrderNO(mallOrder.getMallOrderId());
             orderInfoVOS.add(orderInfoVO);
         }
-        PageInfo<OrderInfoVO> result = PageInfo.of(orderInfoVOS);
+        List<OrderInfoVO.ShopInfoBean> shopInfoBeans = new ArrayList<>();
+        for(OrderInfoVO orderInfoVO : orderInfoVOS){
+            shopInfoBeans.addAll(orderInfoVO.getShopInfo());
+        }
+        PageInfo<OrderInfoVO.ShopInfoBean> result = PageInfo.of(shopInfoBeans);
         result.setTotal(page.getTotal());
         return WrapMapper.ok(result);
     }
-
     @GetMapping("/orderDetail/{shopOrderId}")
     @ApiOperation("订单详情")
     public Wrapper<OrderDetailVO> getOrderDetail(@PathVariable("shopOrderId") String shopOrderId) {
