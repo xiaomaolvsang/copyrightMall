@@ -5,6 +5,7 @@ import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.IWechatUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -39,6 +40,9 @@ public class WeChatUserServiceImpl implements IWechatUserService {
         ResponseEntity<WeChatUserInfo> result = restTemplate.getForEntity("https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", WeChatUserInfo.class,param);
         if(!result.getStatusCode().is2xxSuccessful()){
             throw new BusinessException("调用微信登录失败");
+        }
+        if(StringUtils.isNotBlank(result.getBody().getOpenid())){
+            return result.getBody();
         }
         if(result.getBody().getErrcode()==40029){
             log.warn("code 无效");

@@ -4,5 +4,5 @@ spring:
 
 weChat:
   appId: wx138cfb45ada6bdcc
-  appSecret: 1234
+  appSecret: 9290921f40da4788eca292719f3ee34d
   grantType: authorization_code
