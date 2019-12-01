@@ -51,7 +51,7 @@ public class BannerVO {
     @ApiModelProperty("")
     private String categoryName;
     @ApiModelProperty("")
-    private String categoryId;
+    private Long categoryId;
     @ApiModelProperty("标题")
     private String title;
 

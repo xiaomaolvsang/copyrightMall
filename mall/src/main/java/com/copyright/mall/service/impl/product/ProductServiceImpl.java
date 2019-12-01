@@ -299,7 +299,11 @@ public class ProductServiceImpl implements IProductService {
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
     itemResult.forEach(item -> {
       List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
-      List<Copyright> copyrights1 = copyrights.stream().filter(copyright -> copyright.getId().equals(item.getRelatedCopyright())).collect(Collectors.toList());
+      List<Copyright> copyrights1 = copyrights.stream()
+        .filter(copyright -> {
+            return copyright.getId().toString().equals(item.getRelatedCopyright());
+          }
+        ).collect(Collectors.toList());
       if (copyrights1.size() != 0) {
         AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
         areaAttr.setImage(copyrights1.get(0).getCopyrightImg());
