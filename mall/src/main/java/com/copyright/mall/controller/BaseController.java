@@ -30,13 +30,15 @@ public abstract class BaseController {
     public Long getUserId() {
         String token = request.getHeader("X-Mall-TOKEN");
         User user = null;
+        String userOpenId = null;
         try {
-            String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+            userOpenId = jwtService.getClaimFromToken(token).getSubject();
             user =  userService.selectByOpenId(userOpenId);
         }catch (Exception e){
             log.warn("解析",e);
         }
         if(user==null){
+            log.warn("用户数据不完整=>openId{}",userOpenId);
             throw new BusinessException("用户数据不完整");
         }
         return user.getId();
@@ -45,13 +47,15 @@ public abstract class BaseController {
     public String getUserPhone() {
         String token = request.getHeader("X-Mall-TOKEN");
         User user = null;
+        String userOpenId = null;
         try {
-            String userOpenId = jwtService.getClaimFromToken(token).getSubject();
+            userOpenId = jwtService.getClaimFromToken(token).getSubject();
             user =  userService.selectByOpenId(userOpenId);
         }catch (Exception e){
             log.warn("解析",e);
         }
         if(user==null){
+            log.warn("用户数据不完整=>openId{}",userOpenId);
             throw new BusinessException("用户数据不完整");
         }
         return user.getPhone();
