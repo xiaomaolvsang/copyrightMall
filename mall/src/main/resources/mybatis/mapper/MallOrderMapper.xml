@@ -145,7 +145,7 @@
 		 <where>
 		 	<include refid="conditions" />
 		 </where>
-		order GMT_CREATE desc
+		order by GMT_CREATE desc
 	</select>
 
 </mapper>
