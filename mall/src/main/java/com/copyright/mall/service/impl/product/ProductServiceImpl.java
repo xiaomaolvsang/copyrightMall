@@ -122,6 +122,7 @@ public class ProductServiceImpl implements IProductService {
         productSearchResp.setProductName(shop1.getShopName());
         productSearchResp.setShoID(shop1.getId());
         productSearchResp.setShopName(shop1.getShopName());
+        productSearchResp.setArtCategory(shop1.getShopArtcategory());
         productSearchResps.add(productSearchResp);
       });
 
@@ -148,6 +149,7 @@ public class ProductServiceImpl implements IProductService {
   public AreaVO getArea(AreaParam areaParam) {
     AreaVO areaVO = new AreaVO();
     areaParam.setType(areaParam.getType());
+    areaVO.setType(areaParam.getType());
     if (AreaEnum.productArea.name().equals(areaParam.getType())) {
       getProductArea(areaParam, areaVO);
     } else {

@@ -40,6 +40,7 @@ public class DetailService implements IDetailService {
 
   @Resource
   private CopyrightService copyrightService;
+
   @Override
   public DetailVO getDetail(DetailParam detailParam) {
     if (DetailType.artist.name().equals(detailParam.getType())) {
@@ -63,11 +64,11 @@ public class DetailService implements IDetailService {
 
     List<Item> list = itemService.selectAll();
     List<Item> artists = list.stream().filter(item -> item.getShopId().equals(detailParam.getDataId())).collect(Collectors.toList());
-    if(shop == null){
+    if (shop == null) {
       throw new BusinessException("未查询到数据");
     }
     //Item artist = artists.get(0);
-    detailData.setArtCategory("");
+    detailData.setArtCategory(shop.getShopArtcategory());
     detailData.setArtistId(shop.getId());
     detailData.setArtistName(shop.getShopName());
     detailData.setAvatar(shop.getShopLogo());
@@ -90,9 +91,11 @@ public class DetailService implements IDetailService {
       products1.setImage(item.getTitleImg());
       products1.setProductId(item.getId());
       products1.setProductName(item.getItemTitle());
-      BigDecimal b = new BigDecimal(item.getPrice());
-      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      products1.setProductPrice(result);
+      if (item.getPrice() != null) {
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        products1.setProductPrice(result);
+      }
       products1.setShopID(shop.getId());
       products1.setShopName(shop.getShopName());
       products.add(products1);
@@ -103,7 +106,8 @@ public class DetailService implements IDetailService {
 
     return detailVO;
   }
-  private DetailVO getMall(DetailParam detailParam){
+
+  private DetailVO getMall(DetailParam detailParam) {
     DetailVO detailVO = new DetailVO();
     DetailVO.DetailData detailData = new DetailVO.DetailData();
     List<DetailVO.Opus> opuses = new ArrayList<>();
@@ -112,7 +116,7 @@ public class DetailService implements IDetailService {
     Mall mall = mallService.selectByPrimaryKey(detailParam.getMallId());
     detailData.setOrganizationImage(mall.getMallLogo());
     detailData.setOrganizationName(mall.getMallName());
-    detailData.setIsIdentification(mall.getIsIdentification() == 1?"true":"false");
+    detailData.setIsIdentification(mall.getIsIdentification() == 1 ? "true" : "false");
     detailVO.setData(detailData);
 
     Shop shop = shopService.selectByPrimaryKey(detailParam.getShopId());
@@ -123,9 +127,11 @@ public class DetailService implements IDetailService {
       products1.setImage(item.getTitleImg());
       products1.setProductId(item.getId());
       products1.setProductName(item.getItemTitle());
-      BigDecimal b = new BigDecimal(item.getPrice());
-      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      products1.setProductPrice(result);
+      if (item.getPrice() != null) {
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        products1.setProductPrice(result);
+      }
       products1.setShopID(shop.getId());
       products1.setShopName(shop.getShopName());
       products.add(products1);
@@ -147,13 +153,13 @@ public class DetailService implements IDetailService {
     return detailVO;
   }
 
-  private DetailVO getCopyright(DetailParam detailParam){
+  private DetailVO getCopyright(DetailParam detailParam) {
     DetailVO detailVO = new DetailVO();
     DetailVO.DetailData detailData = new DetailVO.DetailData();
     List<DetailVO.Products> products = new ArrayList<>();
     Copyright copyright = copyrightService.selectByPrimaryKey(detailParam.getDataId());
     Shop shop = shopService.selectByPrimaryKey(detailParam.getShopId());
-    if(copyright == null){
+    if (copyright == null) {
       throw new BusinessException("未查询到任何数据");
     }
     detailData.setOpusIcon(copyright.getCopyrightLogo());
@@ -162,7 +168,7 @@ public class DetailService implements IDetailService {
     List<DetailVO.Images> images = new ArrayList<>();
     String[] copyImgs = copyright.getCopyrightImg().split(",");
 
-    for (String img : copyImgs){
+    for (String img : copyImgs) {
       DetailVO.Images images1 = new DetailVO.Images();
       images1.setImage(img);
       images.add(images1);
@@ -179,9 +185,11 @@ public class DetailService implements IDetailService {
       products1.setImage(item.getTitleImg());
       products1.setProductId(item.getId());
       products1.setProductName(item.getItemTitle());
-      BigDecimal b = new BigDecimal(item.getPrice());
-      String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-      products1.setProductPrice(result);
+      if(item.getPrice() != null) {
+        BigDecimal b = new BigDecimal(item.getPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        products1.setProductPrice(result);
+      }
       products1.setShopID(shop.getId());
       products1.setShopName(shop.getShopName());
       products.add(products1);
