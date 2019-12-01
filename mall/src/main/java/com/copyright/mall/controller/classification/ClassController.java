@@ -42,6 +42,7 @@ public class ClassController  extends BaseController {
   @PostMapping("/classOne")
   @ControllerErro
   public Wrapper<List<ClassResp>> test(@RequestBody @ApiParam @Valid ClassParam classParam){
+    classParam.setMallId(getMallId());
     List<ClassResp> classResps = classificationService.getClassification(classParam);
     return WrapMapper.ok(classResps);
   }

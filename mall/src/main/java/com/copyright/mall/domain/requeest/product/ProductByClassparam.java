@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel("根据分类查商品入参")
 public class ProductByClassparam extends BasePage {
     @ApiModelProperty("商城Id")
-    @NotNull(message = "商城Id不能为空")
     private Long mallId;
     @ApiModelProperty("分类Id")
     @NotNull(message = "分类id不能为空")

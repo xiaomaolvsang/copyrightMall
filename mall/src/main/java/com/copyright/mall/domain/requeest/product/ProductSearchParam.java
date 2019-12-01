@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 public class ProductSearchParam extends Page {
 
   @ApiModelProperty(value = "商城id", required = true)
-  @NotNull(message = "商城id不能为空")
   private Long mallId;
 
   @ApiModelProperty(value = "搜索关键字", required = true)

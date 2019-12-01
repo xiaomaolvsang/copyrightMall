@@ -17,6 +17,5 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 public class ArtBannerParam {
   @ApiModelProperty("商城id")
-  @NotNull(message = "mallId不能为空")
   private Long mallId;
 }

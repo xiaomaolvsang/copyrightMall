@@ -42,12 +42,14 @@ public class BannerController extends BaseController {
   @PostMapping("/bannerSearch")
   @ApiOperation("首页组件查询")
   public Wrapper<BannerVO> bannerSearch(@ApiParam @Valid @RequestBody BannerParam bannerParam){
+    bannerParam.setMallId(getMallId());
     return WrapMapper.ok(bannerService.getBanner(bannerParam));
   }
 
   @PostMapping("/artBanner")
   @ApiOperation("艺术家组件查询")
   public Wrapper<ArtBannerVO> artBanner(@ApiParam @Valid @RequestBody ArtBannerParam artBannerParam){
+    artBannerParam.setMallId(getMallId());
     return WrapMapper.ok(bannerService.getArtBanner(artBannerParam));
   }
 }

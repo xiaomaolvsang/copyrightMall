@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel("DetailParam入参")
 public class DetailParam {
   @ApiModelProperty("商城Id")
-  @NotNull(message = "商城Id不能为空")
   private Long mallId;
   @ApiModelProperty("数据id")
   private Long dataId;

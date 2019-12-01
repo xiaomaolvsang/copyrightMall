@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel("商品详情查询入参")
 public class ProductParam {
   @ApiModelProperty("商城Id")
-  @NotNull(message = "商城Id不能为空")
   private Long mallId;
   @ApiModelProperty("商品id")
   @NotNull(message = "商品id不能为空")

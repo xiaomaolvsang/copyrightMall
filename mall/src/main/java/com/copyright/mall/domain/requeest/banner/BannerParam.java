@@ -21,6 +21,5 @@ public class BannerParam{
   @NotBlank(message = "商城与版权不能为空")
   private String type;
   @ApiModelProperty("商城id")
-  @NotNull(message = "mallId不能为空")
   private Long mallId;
 }
