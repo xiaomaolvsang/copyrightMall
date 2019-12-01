@@ -135,7 +135,6 @@ public class OrderController extends BaseController {
         for (MallOrder mallOrder : mallOrders) {
             ShopOrder queryParam = new ShopOrder();
             queryParam.setMallOrderId(mallOrder.getMallOrderId());
-            queryParam.setOrderType(queryOrderListParam.getOrderStatus());
             if(queryOrderListParam.getOrderStatus()!=-1){
                 queryParam.setOrderType(queryOrderListParam.getOrderStatus());
             }
@@ -151,7 +150,9 @@ public class OrderController extends BaseController {
                 List<OrderInfoVO.RelateProductsBean> relateProductsBeanArrayList = Lists.newArrayList();
                 ItemOrder itemQueryParam = new ItemOrder();
                 itemQueryParam.setShopOrderId(shopOrder.getShopOrderId());
-                itemQueryParam.setItemOrderStatus(queryOrderListParam.getOrderStatus());
+                if(queryOrderListParam.getOrderStatus()!=-1) {
+                    itemQueryParam.setItemOrderStatus(queryOrderListParam.getOrderStatus());
+                }
                 List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQueryParam);
                 for (ItemOrder itemOrder : itemOrders) {
                     OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();
