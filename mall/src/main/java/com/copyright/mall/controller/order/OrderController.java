@@ -196,6 +196,9 @@ public class OrderController extends BaseController {
     @GetMapping("/orderDetail/{shopOrderId}")
     @ApiOperation("订单详情")
     public Wrapper<OrderDetailVO> getOrderDetail(@PathVariable("shopOrderId") String shopOrderId) {
+        if(!shopOrderId.startsWith("SID")){
+            return WrapMapper.error("订单号不合法");
+        }
         OrderDetailVO orderDetailVO = new OrderDetailVO();
         ShopOrder shopOrder = shopOrderService.selectByShopOrderId(shopOrderId);
         Shop shop = shopService.selectByPrimaryKey(shopOrder.getShopId());
