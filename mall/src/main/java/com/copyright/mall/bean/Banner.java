@@ -1,18 +1,17 @@
 package com.copyright.mall.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 /**
  *
  *
  * @author lijian
- * @date 2019-11-23 19:24
+ * @date 2019-12-01 15:23
  **/
 public class Banner implements Serializable {
 
-	private static final long serialVersionUID = 1360279120433327388L;
+	private static final long serialVersionUID = 410110803614712898L;
 
 	/**主键**/
 	private Long id;
@@ -26,12 +25,15 @@ public class Banner implements Serializable {
 	/**组建宽度**/
 	private Integer width;
 
-  /**商城Id**/
+	/**商城id**/
 	private Long mallId;
 
+	/**mall or copyright**/
 	private String mallType;
 
-	private List<BannerAttr> bannerAttrs;
+	/**权重**/
+	private Integer topValue;
+
 
 
 	public void setId(Long id){
@@ -66,35 +68,38 @@ public class Banner implements Serializable {
 		return this.width;
 	}
 
-  public Long getMallId() {
-    return mallId;
-  }
+	public void setMallId(Long mallId){
+		this.mallId = mallId;
+	}
 
-  public void setMallId(Long mallId) {
-    this.mallId = mallId;
-  }
+	public Long getMallId(){
+		return this.mallId;
+	}
 
-  public String getMallType() {
-    return mallType;
-  }
+	public void setMallType(String mallType){
+		this.mallType = mallType;
+	}
 
-  public void setMallType(String mallType) {
-    this.mallType = mallType;
-  }
+	public String getMallType(){
+		return this.mallType;
+	}
 
-  public List<BannerAttr> getBannerAttrs() {
-    return bannerAttrs;
-  }
+	public void setTopValue(Integer topValue){
+		this.topValue = topValue;
+	}
 
-  public void setBannerAttrs(List<BannerAttr> bannerAttrs) {
-    this.bannerAttrs = bannerAttrs;
-  }
+	public Integer getTopValue(){
+		return this.topValue;
+	}
 
-  @Override
+	@Override
 	public String toString() {
 		return "Banner [ id= "+id+
 			",type= "+type+
 			",height= "+height+
-			",width= "+width+"]";
+			",width= "+width+
+			",mallId= "+mallId+
+			",mallType= "+mallType+
+			",topValue= "+topValue+"]";
 	}
 }

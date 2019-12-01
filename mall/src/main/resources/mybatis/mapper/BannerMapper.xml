@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.BannerMapper">
 
-	<!--cg generate by lijian at 2019-11-23 19:24-->
+	<!--cg generate by lijian at 2019-12-01 15:23-->
 
 	<!--通用表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Banner" >
@@ -10,8 +10,9 @@
 		<result property="type" column="TYPE" jdbcType="VARCHAR" />
 		<result property="height" column="HEIGHT" jdbcType="INTEGER" />
 		<result property="width" column="WIDTH" jdbcType="INTEGER" />
-    <result property="mallId" column="MALL_ID" jdbcType="INTEGER" />
-    <result property="mallType" column="mall_type" jdbcType="VARCHAR" />
+		<result property="mallId" column="MALL_ID" jdbcType="BIGINT" />
+		<result property="mallType" column="MALL_TYPE" jdbcType="VARCHAR" />
+		<result property="topValue" column="TOP_VALUE" jdbcType="INTEGER" />
     <collection property="bannerAttrs" ofType="com.copyright.mall.bean.BannerAttr">
       <result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
       <result property="image" column="IMAGE" jdbcType="VARCHAR" />
@@ -26,11 +27,11 @@
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	TYPE,	HEIGHT,	WIDTH, MALL_ID , MALL_TYPE
+	id,	TYPE,	HEIGHT,	WIDTH,	MALL_ID,	MALL_TYPE,	TOP_VALUE
 	</sql>
 
   <sql id="Ban_Column_List">
-	ban.id,	ban.TYPE,ban.HEIGHT,	ban.WIDTH, ban.MALL_ID, ban.MALL_TYPE
+	ban.id,	ban.TYPE,ban.HEIGHT,	ban.WIDTH, ban.MALL_ID, ban.MALL_TYPE,ban.TOP_VALUE
 	</sql>
   <sql id="Attr_Column_List">
 	bana.BANNER_ID,	bana.IMAGE,	bana.LINK_TYPE,	bana.TARGET_URL,	bana.CATEGORY_NAME,	bana.CATEGORY_ID,	bana.TITLE
@@ -45,7 +46,9 @@
 		<if test="type != null and type != '' "> and TYPE = #{type,jdbcType=VARCHAR} </if>
 		<if test="height != null "> and HEIGHT = #{height,jdbcType=INTEGER} </if>
 		<if test="width != null "> and WIDTH = #{width,jdbcType=INTEGER} </if>
-    <if test="mallId != null "> and MALL_ID = #{mallId,jdbcType=BIGINT} </if>
+		<if test="mallId != null and mallId != '' "> and MALL_ID = #{mallId,jdbcType=BIGINT} </if>
+		<if test="mallType != null and mallType != '' "> and MALL_TYPE = #{mallType,jdbcType=VARCHAR} </if>
+		<if test="topValue != null "> and TOP_VALUE = #{topValue,jdbcType=INTEGER} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -70,14 +73,18 @@
 			<if test="type != null"> TYPE,</if>
 			<if test="height != null"> HEIGHT,</if>
 			<if test="width != null"> WIDTH,</if>
-       <if test="mallId != null"> MALL_ID,</if>
+			<if test="mallId != null"> MALL_ID,</if>
+			<if test="mallType != null"> MALL_TYPE,</if>
+			<if test="topValue != null"> TOP_VALUE,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
 			<if test="type!=null">#{type,jdbcType=VARCHAR},</if>
 			<if test="height!=null">#{height,jdbcType=INTEGER},</if>
 			<if test="width!=null">#{width,jdbcType=INTEGER},</if>
-       <if test="mallId != null ">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
+			<if test="mallId!=null">#{mallId,jdbcType=BIGINT},</if>
+			<if test="mallType!=null">#{mallType,jdbcType=VARCHAR},</if>
+			<if test="topValue!=null">#{topValue,jdbcType=INTEGER},</if>
 		 </trim>
 	</insert>
 
@@ -88,7 +95,10 @@
 			<if test="type != null">TYPE = #{type,jdbcType=VARCHAR},</if>
 			<if test="height != null">HEIGHT = #{height,jdbcType=INTEGER},</if>
 			<if test="width != null">WIDTH = #{width,jdbcType=INTEGER},</if>
-       <if test="mallId != null ">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
+			<if test="mallId != null">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
+			<if test="mallType != null">MALL_TYPE = #{mallType,jdbcType=VARCHAR},</if>
+			<if test="topValue != null">TOP_VALUE = #{topValue,jdbcType=INTEGER},</if>
+
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
 	</update>
@@ -127,11 +137,12 @@
     <include refid="Ban_Column_List" />,
     <include refid="Attr_Column_List" />
     FROM
-      banner ban
-      LEFT JOIN banner_attr bana ON ban.id = bana.banner_id
+    banner ban
+    LEFT JOIN banner_attr bana ON ban.id = bana.banner_id
     WHERE
     ban.MALL_ID = #{mallId,jdbcType=BIGINT}
     and ban.MALL_TYPE = #{mallType,jdbcType=BIGINT}
+    order by ban.TOP_VALUE desc
   </select>
 
 
