@@ -14,4 +14,5 @@ public class WeChatUserInfo {
     private String unionId;
     private Integer errcode;
     private String errmsg;
+    private String phone;
 }

@@ -14,4 +14,7 @@ public interface IWechatUserService {
      */
     WeChatUserInfo weChatLogin(String jsCode);
 
+
+
+    WeChatUserInfo getSensitiveData(String sensitiveData,String iv);
 }

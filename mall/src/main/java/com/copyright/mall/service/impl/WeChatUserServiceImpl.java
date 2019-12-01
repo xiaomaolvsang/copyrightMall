@@ -4,15 +4,14 @@ import com.copyright.mall.config.WeChatAppInfo;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.IWechatUserService;
+import com.copyright.mall.util.AES;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +24,11 @@ import java.util.Map;
 public class WeChatUserServiceImpl implements IWechatUserService {
 
     @Resource
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Resource
-    WeChatAppInfo weChatAppInfo;
+    private WeChatAppInfo weChatAppInfo;
+
 
     @Override
     public WeChatUserInfo weChatLogin(String jsCode) {
@@ -63,4 +63,12 @@ public class WeChatUserServiceImpl implements IWechatUserService {
 
         return result.getBody();
     }
+
+    @Override
+    public WeChatUserInfo getSensitiveData(String sensitiveData, String iv) {
+        //AES.decrypt(sensitiveData)
+        return null;
+    }
+
+
 }

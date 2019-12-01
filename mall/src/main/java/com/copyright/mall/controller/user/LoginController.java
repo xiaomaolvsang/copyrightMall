@@ -46,4 +46,10 @@ public class LoginController {
         result.setToken(jwtService.generateToken(weChatUserInfo.getUnionId()));
         return WrapMapper.ok(result);
     }
+
+    @ApiOperation(value = "登录接口")
+    @GetMapping("/login/encryptedInfo")
+    public Wrapper<Boolean> encryptedInfo(String weChatCode){
+        return WrapMapper.ok();
+    }
 }
