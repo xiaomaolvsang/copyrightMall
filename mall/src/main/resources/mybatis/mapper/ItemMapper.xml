@@ -166,5 +166,6 @@
     s.SIZE_KEY,
     s.SIZE_VALUE
     FROM item i left join sku s on i.id = s.ITEM_ID
+    order by i.GMT_MODIFIED desc
   </select>
 </mapper>
