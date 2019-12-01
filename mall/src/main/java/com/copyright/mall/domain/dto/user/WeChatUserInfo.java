@@ -10,7 +10,7 @@ import lombok.Data;
 public class WeChatUserInfo {
 
     private String openid;
-    private String sessionKey;
+    private String session_key;
     private String unionId;
     private Integer errcode;
     private String errmsg;

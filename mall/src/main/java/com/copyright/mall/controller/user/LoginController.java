@@ -1,6 +1,8 @@
 package com.copyright.mall.controller.user;
 
 import com.copyright.mall.bean.User;
+import com.copyright.mall.controller.BaseController;
+import com.copyright.mall.domain.dto.user.QueryEncryptedInfoParam;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.vo.user.LoginInfoVO;
 import com.copyright.mall.service.IUserService;
@@ -25,7 +27,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping("/v1/user")
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Resource
     private IWechatUserService wechatUserService;
@@ -35,8 +37,6 @@ public class LoginController {
 
     @Resource
     private IUserService userService;
-
-
 
     @ApiOperation(value = "登录接口")
     @GetMapping("/login")
@@ -49,16 +49,19 @@ public class LoginController {
             return WrapMapper.error("登录失败");
         }
         User user= userService.selectByOpenId(weChatUserInfo.getOpenid());
+        user = user==null?new User():user;
+        user.setOpenId(weChatUserInfo.getOpenid());
         user.setSessionKey(weChatUserInfo.getSessionKey());
         userService.saveOrUpdate(user);
         LoginInfoVO result = new LoginInfoVO();
-        result.setToken(jwtService.generateToken(weChatUserInfo.getUnionId()));
+        result.setToken(jwtService.generateToken(weChatUserInfo.getOpenid()));
         return WrapMapper.ok(result);
     }
 
     @ApiOperation(value = "登录接口")
     @GetMapping("/login/encryptedInfo")
-    public Wrapper<Boolean> encryptedInfo(String weChatCode){
+    public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam){
+        wechatUserService.getSensitiveData(this.getUserId(),queryEncryptedInfoParam.getEncryptedData(),queryEncryptedInfoParam.getIv());
         return WrapMapper.ok();
     }
 }

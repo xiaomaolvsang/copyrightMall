@@ -1,5 +1,6 @@
 package com.copyright.mall.service.impl;
 
+import com.copyright.mall.bean.User;
 import com.copyright.mall.config.WeChatAppInfo;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
@@ -29,6 +30,8 @@ public class WeChatUserServiceImpl implements IWechatUserService {
 
     @Resource
     private WeChatAppInfo weChatAppInfo;
+    @Resource
+    private IUserService userService;
     @Override
     public WeChatUserInfo weChatLogin(String jsCode) {
         Map<String,Object> param = new HashMap<>(4);
@@ -64,8 +67,12 @@ public class WeChatUserServiceImpl implements IWechatUserService {
     }
 
     @Override
-    public WeChatUserInfo getSensitiveData(String sensitiveData, String iv) {
-        //AES.decrypt(sensitiveData)
+    public WeChatUserInfo getSensitiveData(Long userId,String encryptedData, String iv) {
+        User user = userService.selectByUserId(userId);
+        if(user==null){
+            return null;
+        }
+        AES.decrypt(weChatAppInfo.getAppId(),encryptedData,user.getSessionKey(),iv);
         return null;
     }
 

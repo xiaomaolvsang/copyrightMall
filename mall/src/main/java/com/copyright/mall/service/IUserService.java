@@ -11,5 +11,7 @@ public interface IUserService {
 
     User selectByOpenId(String openId);
 
+    User selectByUserId(Long openId);
+
     void saveOrUpdate(User user);
 }

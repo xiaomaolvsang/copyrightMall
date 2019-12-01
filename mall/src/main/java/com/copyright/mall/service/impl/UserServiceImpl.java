@@ -31,6 +31,17 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User selectByUserId(Long userId) {
+        User parm = new User();
+        parm.setId(userId);
+        List<User> users =  userMapper.selectByObjectList(parm);
+        if(CollectionUtils.isEmpty(users)){
+            return null;
+        }
+        return users.get(0);
+    }
+
+    @Override
     public void saveOrUpdate(User user) {
         if(user.getId()==null){
             userMapper.insertSelective(user);

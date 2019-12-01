@@ -16,5 +16,5 @@ public interface IWechatUserService {
 
 
 
-    WeChatUserInfo getSensitiveData(String sensitiveData,String iv);
+    WeChatUserInfo getSensitiveData(Long userId,String encryptedData,String iv);
 }

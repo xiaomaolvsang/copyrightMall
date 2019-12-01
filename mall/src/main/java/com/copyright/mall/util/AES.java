@@ -47,11 +47,6 @@ public class AES {
             byte[] resultByte = decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
             if(null != resultByte && resultByte.length > 0){
                 result = new String(WxPKCS7Encoder.decode(resultByte));
-                JSONObject jsonObject = JSON.parseObject(result);
-                /*String decryptAppid = jsonObject.getJSONObject(WATERMARK).getString(APPID);
-                if(!appId.equals(decryptAppid)){
-                    result = "";
-                }*/
             }
         } catch (Exception e) {
             result = "";
