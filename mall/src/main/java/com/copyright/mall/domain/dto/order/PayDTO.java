@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class PayDTO {
 
-    @ApiModelProperty(value = "商城订单号")
+    @ApiModelProperty(value = "订单号")
     @NotBlank
-    private String mallOrderID;
+    private String orderId;
 }

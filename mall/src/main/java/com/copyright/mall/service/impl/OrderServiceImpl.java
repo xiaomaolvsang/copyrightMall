@@ -54,32 +54,53 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public void payOrder(PayDTO payDTO) {
-        MallOrder mallOrder = mallOrderService.selectByMallOrderID(payDTO.getMallOrderID());
-        if(mallOrder==null){
-            throw new BusinessException("订单不存在");
-        }
-        ShopOrder shopQuery = new ShopOrder();
-        shopQuery.setMallOrderId(mallOrder.getMallOrderId());
-        List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(shopQuery);
-        for(ShopOrder shopOrderItem : shopOrders){
-            ItemOrder itemQuery = new ItemOrder();
-            itemQuery.setShopOrderId(shopOrderItem.getShopOrderId());
-            List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQuery);
-            for(ItemOrder itemOrder : itemOrders){
-                itemOrder.setPayPrice(itemOrder.getItemTotalPrice());
-                itemOrder.setPayTime(new Date());
-                itemOrder.setItemOrderStatus(ItemOrderType.PAID.getCode());
-                iItemOrderService.updateByPrimaryKeySelective(itemOrder);
+        if(payDTO.getOrderId().startsWith("MID")) {
+            MallOrder mallOrder = mallOrderService.selectByMallOrderID(payDTO.getOrderId());
+            if (mallOrder == null) {
+                throw new BusinessException("订单不存在");
             }
-            shopOrderItem.setPayPrice(shopOrderItem.getPrice());
-            shopOrderItem.setPayTime(new Date());
-            shopOrderItem.setOrderType(ShopOrderType.PAID.getCode());
-            shopOrderService.updateByPrimaryKeySelective(shopOrderItem);
+            ShopOrder shopQuery = new ShopOrder();
+            shopQuery.setMallOrderId(mallOrder.getMallOrderId());
+            List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(shopQuery);
+            for (ShopOrder shopOrderItem : shopOrders) {
+                ItemOrder itemQuery = new ItemOrder();
+                itemQuery.setShopOrderId(shopOrderItem.getShopOrderId());
+                List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQuery);
+                for (ItemOrder itemOrder : itemOrders) {
+                    itemOrder.setPayPrice(itemOrder.getItemTotalPrice());
+                    itemOrder.setPayTime(new Date());
+                    itemOrder.setItemOrderStatus(ItemOrderType.PAID.getCode());
+                    iItemOrderService.updateByPrimaryKeySelective(itemOrder);
+                }
+                shopOrderItem.setPayPrice(shopOrderItem.getPrice());
+                shopOrderItem.setPayTime(new Date());
+                shopOrderItem.setOrderType(ShopOrderType.PAID.getCode());
+                shopOrderService.updateByPrimaryKeySelective(shopOrderItem);
+            }
+            mallOrder.setPayPrice(mallOrder.getPrice());
+            mallOrder.setPayStatus(MallPayStatusEnum.PAID.getCode());
+            mallOrder.setPayTime(new Date());
+            mallOrderService.updateByPrimaryKeySelective(mallOrder);
         }
-        mallOrder.setPayPrice(mallOrder.getPrice()  );
-        mallOrder.setPayStatus(MallPayStatusEnum.PAID.getCode());
-        mallOrder.setPayTime(new Date());
-        mallOrderService.updateByPrimaryKeySelective(mallOrder);
+        if(payDTO.getOrderId().startsWith("SID")){
+            ShopOrder shopQuery = new ShopOrder();
+            List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(shopQuery);
+            for (ShopOrder shopOrderItem : shopOrders) {
+                ItemOrder itemQuery = new ItemOrder();
+                itemQuery.setShopOrderId(shopOrderItem.getShopOrderId());
+                List<ItemOrder> itemOrders = iItemOrderService.selectByObjectList(itemQuery);
+                for (ItemOrder itemOrder : itemOrders) {
+                    itemOrder.setPayPrice(itemOrder.getItemTotalPrice());
+                    itemOrder.setPayTime(new Date());
+                    itemOrder.setItemOrderStatus(ItemOrderType.PAID.getCode());
+                    iItemOrderService.updateByPrimaryKeySelective(itemOrder);
+                }
+                shopOrderItem.setPayPrice(shopOrderItem.getPrice());
+                shopOrderItem.setPayTime(new Date());
+                shopOrderItem.setOrderType(ShopOrderType.PAID.getCode());
+                shopOrderService.updateByPrimaryKeySelective(shopOrderItem);
+            }
+        }
     }
 
     @Override
