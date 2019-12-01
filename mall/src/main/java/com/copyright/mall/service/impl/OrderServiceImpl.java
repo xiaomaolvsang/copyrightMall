@@ -90,6 +90,7 @@ public class OrderServiceImpl implements OrderService {
         mallOrder.setMallOrderId(IDUtil.generatorID("MID"));
         mallOrder.setMallId(createOrderDTO.getMallId().toString());
         mallOrder.setPayStatus(MallPayStatusEnum.UNPAID.getCode());
+        mallOrder.setBuyer(createOrderDTO.getUserId().toString());
         UserAddress userAddress = userAddressService.selectByPrimaryKey(createOrderDTO.getReceiveId());
         mallOrder.setDeliveryAddress(userAddress.getDetail());
         mallOrder.setDeliveryName(userAddress.getConsigneeName());

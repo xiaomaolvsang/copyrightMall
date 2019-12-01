@@ -15,6 +15,8 @@ import lombok.EqualsAndHashCode;
 @ApiModel
 public class QueryOrderListParam extends BasePage {
 
-    @ApiModelProperty("订单状态")
+    @ApiModelProperty("订单状态 " +
+            "UNPAID(10,\"未支付\"),\n" +
+            "PAID(20,\"已支付\");")
     private Integer orderStatus;
 }

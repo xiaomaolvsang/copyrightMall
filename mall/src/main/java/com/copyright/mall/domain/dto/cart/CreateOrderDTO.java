@@ -14,4 +14,5 @@ public class CreateOrderDTO extends CreateOrderParam {
 
     private Long mallId;
     private Long userId;
+
 }
