@@ -3,6 +3,7 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.config.WeChatAppInfo;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
+import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IWechatUserService;
 import com.copyright.mall.util.AES;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,6 @@ public class WeChatUserServiceImpl implements IWechatUserService {
 
     @Resource
     private WeChatAppInfo weChatAppInfo;
-
-
     @Override
     public WeChatUserInfo weChatLogin(String jsCode) {
         Map<String,Object> param = new HashMap<>(4);
