@@ -9,7 +9,10 @@ public enum ShopOrderType {
      * 支付状态枚举
      */
     UNPAID(10,"未支付"),
-    PAID(20,"已支付");
+    PAID(20,"已支付"),
+    TO_BE_SHIPPED(30,"待发货"),
+    SHIPPED(40,"已发货"),
+    ALREADY_SIGNED(50,"已签收");
 
 
     private Integer code;
