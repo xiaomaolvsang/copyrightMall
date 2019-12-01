@@ -231,7 +231,7 @@ public class OrderController extends BaseController {
         shopInfoBean.setRelateProducts(relateProductsBeans);
         orderDetailVO.setShopInfo(shopInfoBean);
         orderDetailVO.setStatus(shopOrder.getOrderType().toString());
-        orderDetailVO.setStatusDesc(shopOrder.getOrderType().toString());
+        orderDetailVO.setStatusDesc(ShopOrderType.valueOf(shopOrder.getOrderType()).getDesc());
         orderDetailVO.setPayPrice(PriceFormat.format(shopOrder.getPrice()));
         OrderDetailVO.ExpressInfoBean expressInfoBean = new OrderDetailVO.ExpressInfoBean();
         expressInfoBean.setCompany(shopOrder.getDelliveryCompanyName());
