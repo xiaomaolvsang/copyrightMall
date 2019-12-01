@@ -133,7 +133,7 @@ public class OrderController extends BaseController {
     @ApiOperation("订单列表")
     public Wrapper<PageInfo<OrderInfoVO>> orderList(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
         MallOrder mallQueryParam = new MallOrder();
-        mallQueryParam.setBuyer(this.getUserPhone());
+        mallQueryParam.setBuyer(this.getUserId().toString());
         mallQueryParam.setMallId(this.getMallId().toString());
         mallQueryParam.setPayStatus(queryOrderListParam.getOrderStatus());
         Page<MallOrder> page = PageHelper.startPage(queryOrderListParam.getPageNum(), queryOrderListParam.getPageSize());
