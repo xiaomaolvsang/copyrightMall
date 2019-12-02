@@ -93,7 +93,7 @@ public class CartServiceImpl implements ICartService {
 			CartDTO createParam = BeanMapperUtils.map(checkExistsParam,CartDTO.class);
 			Preconditions.checkArgument(cartDTO.getModifyCount()>0,"加车数量必须大于0");
 			if(cartDTO.getModifyCount()>0) {
-				cartDTO.setCount(cartDTO.getModifyCount());
+				createParam.setCount(cartDTO.getModifyCount());
 				cartMapper.insertSelective(createParam);
 			}else{
 				throw new IllegalArgumentException("减车商品不存在");
