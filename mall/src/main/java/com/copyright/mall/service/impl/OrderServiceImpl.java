@@ -84,6 +84,7 @@ public class OrderServiceImpl implements OrderService {
         }
         if(payDTO.getOrderId().startsWith("SID")){
             ShopOrder shopQuery = new ShopOrder();
+            shopQuery.setShopOrderId(payDTO.getOrderId());
             List<ShopOrder> shopOrders = shopOrderService.selectByObjectList(shopQuery);
             for (ShopOrder shopOrderItem : shopOrders) {
                 ItemOrder itemQuery = new ItemOrder();
