@@ -28,7 +28,7 @@ public class ConfirmOrderParam {
     /**
      * 地址ID
      */
-    @ApiModelProperty(value = "地址ID",required = true)
+    @ApiModelProperty(value = "地址ID")
     private Long  receiveId;
 
     @Data
