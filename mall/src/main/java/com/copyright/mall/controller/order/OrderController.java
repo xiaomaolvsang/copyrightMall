@@ -1,5 +1,6 @@
 package com.copyright.mall.controller.order;
 
+import com.alibaba.fastjson.JSON;
 import com.copyright.mall.bean.*;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
@@ -70,6 +71,7 @@ public class OrderController extends BaseController {
     @PostMapping("/confirmOrder")
     @ApiOperation("确认订单")
     public Wrapper<ConfirmOrderVO> confirmOrder(@ApiParam @Valid @RequestBody ConfirmOrderParam confirmOrderParam) {
+        log.info("confirmOrder=>{}", JSON.toJSONString(confirmOrderParam));
         ConfirmOrderVO result = new ConfirmOrderVO();
         UserAddress userAddress =  userAddressService.selectByPrimaryKey(confirmOrderParam.getReceiveId());
         if(userAddress!=null){
@@ -114,6 +116,7 @@ public class OrderController extends BaseController {
     @PostMapping("/createOrder")
     @ApiOperation("生单")
     public Wrapper<CreateOrderVO> createOrder(@ApiParam @Valid @RequestBody CreateOrderParam createOrderParam) {
+        log.info("createOrdrer=>{}", JSON.toJSONString(createOrderParam));
         CreateOrderDTO createOrderDTO = BeanMapperUtils.map(createOrderParam, CreateOrderDTO.class);
         createOrderDTO.setUserId(this.getUserId());
         createOrderDTO.setMallId(this.getMallId());
