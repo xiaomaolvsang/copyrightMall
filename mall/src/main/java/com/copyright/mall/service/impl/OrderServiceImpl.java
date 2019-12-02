@@ -118,8 +118,8 @@ public class OrderServiceImpl implements OrderService {
         mallOrder.setDeliveryName(userAddress.getConsigneeName());
         mallOrder.setPhone(userAddress.getConsigneePhone());
         List<Long> deleteSkus = Lists.newArrayList();
-        Integer shopTotalPrice = 0;
         for(CreateOrderParam.ShopInfo shopInfo : createOrderDTO.getShopInfoBeans()) {
+            Integer shopTotalPrice = 0;
             ShopOrder shopOrder = new ShopOrder();
             shopOrder.setMallOrderId(mallOrder.getMallOrderId());
             shopOrder.setShopOrderId(IDUtil.generatorID("SID"));

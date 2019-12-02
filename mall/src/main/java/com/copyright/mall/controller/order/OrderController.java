@@ -249,10 +249,6 @@ public class OrderController extends BaseController {
         orderDetailVO.setOrderNo(shopOrder.getId().toString());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         orderDetailVO.setOrderPayTime(shopOrder.getPayTime());
-        //todo 交货时间
-        //orderDetailVO.setOrderDeliveryTime(mallOrder);
-        //todo 退货时间
-        //orderDetailVO.setOrderRefundTime();
         return WrapMapper.ok(orderDetailVO);
     }
 
