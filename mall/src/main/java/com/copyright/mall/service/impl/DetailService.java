@@ -158,7 +158,7 @@ public class DetailService implements IDetailService {
     DetailVO.DetailData detailData = new DetailVO.DetailData();
     List<DetailVO.Products> products = new ArrayList<>();
     Copyright copyright = copyrightService.selectByPrimaryKey(detailParam.getDataId());
-    Shop shop = shopService.selectByPrimaryKey(detailParam.getShopId());
+    List<Shop> shops = shopService.selectByObjectList(new Shop());
     if (copyright == null) {
       throw new BusinessException("未查询到任何数据");
     }
@@ -178,21 +178,25 @@ public class DetailService implements IDetailService {
 
     List<Item> list = itemService.selectAll();
     List<Item> items = list.stream().filter(item -> item.getRelatedCopyright().equals(detailParam.getDataId().toString())
-      && item.getShopId().equals(detailParam.getShopId())
     ).collect(Collectors.toList());
     items.forEach(item -> {
-      DetailVO.Products products1 = new DetailVO.Products();
-      products1.setImage(item.getTitleImg());
-      products1.setProductId(item.getId());
-      products1.setProductName(item.getItemTitle());
-      if(item.getPrice() != null) {
-        BigDecimal b = new BigDecimal(item.getPrice());
-        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
-        products1.setProductPrice(result);
+      List<Shop> shops1 = shops.stream().filter(shop1 -> item.getShopId().equals(shop1.getId())).collect(Collectors.toList());
+      if(shops1.size() > 0) {
+        Shop shop  = shops1.get(0);
+        DetailVO.Products products1 = new DetailVO.Products();
+        products1.setImage(item.getTitleImg());
+        products1.setProductId(item.getId());
+        products1.setProductName(item.getItemTitle());
+        if (item.getPrice() != null) {
+          BigDecimal b = new BigDecimal(item.getPrice());
+          String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+          products1.setProductPrice(result);
+        }
+
+        products1.setShopID(shop.getId());
+        products1.setShopName(shop.getShopName());
+        products.add(products1);
       }
-      products1.setShopID(shop.getId());
-      products1.setShopName(shop.getShopName());
-      products.add(products1);
     });
     detailVO.setProducts(products);
 

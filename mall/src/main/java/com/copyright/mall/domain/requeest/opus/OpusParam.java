@@ -19,7 +19,6 @@ import java.util.List;
 @ApiModel("作品详情入参")
 public class OpusParam {
   @ApiModelProperty("商铺id")
-  @NotNull(message = "shopId不能为空")
   private Long shopId;
   @ApiModelProperty("版权id")
   @NotNull(message = "opusId不能为空")
