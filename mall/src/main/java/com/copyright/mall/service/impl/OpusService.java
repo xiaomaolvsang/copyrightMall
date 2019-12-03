@@ -38,8 +38,12 @@ public class OpusService implements IOpusService {
   public OpusVO getOpus(OpusParam opusParam) {
     OpusVO opusVO = new OpusVO();
     OpusVO.DataBean dataBean = new OpusVO.DataBean();
-    Shop shop = shopService.selectByPrimaryKey(opusParam.getShopId());
+
     ArtistOpus artistOpus = artistOpusMapper.selectByPrimaryKey(opusParam.getOpusId());
+    if(artistOpus == null){
+      throw new BusinessException("未找到任何数据");
+    }
+    Shop shop = shopService.selectByPrimaryKey(artistOpus.getItemId());
 
     List<OpusVO.DataBean.ProductImageBean> list = new ArrayList<>();
 

@@ -220,7 +220,7 @@ public class ProductServiceImpl implements IProductService {
     Shop shop = shopService.selectByPrimaryKey(item.getShopId());
     institution.setInstitutionName(shop.getShopName());
     institution.setInstitutionId(shop.getId());
-    institution.setInstitutionAvatar(shop.getCertification());
+    institution.setInstitutionAvatar(shop.getShopLogo());
     dataBean.setInstitution(institution);
 
     String imgs = item.getContentImg();
