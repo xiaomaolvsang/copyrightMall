@@ -314,15 +314,10 @@ public class ProductServiceImpl implements IProductService {
     shop.setMallId(areaParam.getMallId());
     List<Shop> shops = shopService.selectByObjectList(shop);
     List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
-    List<Item> items = itemService.selectAll();
-    List<Item> itemResult = items.stream().filter(item ->
-      shopIds.contains(item.getShopId())
-    ).collect(Collectors.toList());
     List<Copyright> copyrights = copyrightService.selectAllObject();
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
-    List<String> copyrightIds = itemResult.stream().map(Item::getRelatedCopyright).collect(Collectors.toList());
     List<Copyright> copyrights1 = copyrights.stream()
-      .filter(copyright -> copyrightIds.contains(copyright.getId().toString()))
+      .filter(copyright -> shopIds.contains(copyright.getShopId()))
       .skip((areaParam.getPageNum() - 1) * areaParam.getPageSize())
       .limit(areaParam.getPageSize())
       .collect(Collectors.toList());

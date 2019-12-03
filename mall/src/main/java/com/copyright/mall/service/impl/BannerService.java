@@ -3,7 +3,6 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.bean.Banner;
 import com.copyright.mall.bean.BannerItemRelation;
 import com.copyright.mall.bean.Item;
-import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.enumeration.MallType;
 import com.copyright.mall.dao.BannerMapper;
 import com.copyright.mall.domain.exception.BusinessException;
@@ -115,14 +114,12 @@ public class BannerService implements IBannerService {
         BannerItemRelation bannerItemRelation = new BannerItemRelation();
         bannerItemRelation.setBannerId(banner1.getId());
         List<BannerItemRelation> list = bannerItemRelationService.selectByObjectList(bannerItemRelation);
-        List<Long> itemIds = list.stream().map(BannerItemRelation::getItemId).collect(Collectors.toList());
-        List<Item> items = itemService.selectAll().stream().filter(item -> itemIds.contains(item.getId())).collect(Collectors.toList());
-        items.forEach(item ->{
+        list.forEach(item ->{
           BannerVO.Products product = new BannerVO.Products();
-          product.setProductId(item.getId());
+          product.setProductId(item.getItemId());
           product.setLinkType("product");
-          product.setProductImage(item.getTitleImg());
-          product.setProductName(item.getItemTitle());
+          product.setProductImage(item.getDataImg());
+          product.setProductName(item.getDataName());
           product.setTargetUrl("");
           products.add(product);
         });
@@ -132,17 +129,12 @@ public class BannerService implements IBannerService {
         BannerItemRelation bannerItemRelation = new BannerItemRelation();
         bannerItemRelation.setBannerId(banner1.getId());
         List<BannerItemRelation> list = bannerItemRelationService.selectByObjectList(bannerItemRelation);
-        List<Long> shopIds = list.stream().map(BannerItemRelation::getItemId).collect(Collectors.toList());
-        Shop shop = new Shop();
-        List<Shop> shops = shopService.selectByObjectList(shop);
-
-        List<Shop> shops2 = shops.stream().filter(shop1 -> shopIds.contains(shop1.getId())).collect(Collectors.toList());
-        shops2.forEach(shop1 -> {
+        list.forEach(shop1 -> {
           BannerVO.Products product = new BannerVO.Products();
-          product.setProductId(shop1.getId());
+          product.setProductId(shop1.getItemId());
           product.setLinkType("artist");
-          product.setProductImage(shop1.getShopLogo());
-          product.setProductName(shop1.getShopName());
+          product.setProductImage(shop1.getDataImg());
+          product.setProductName(shop1.getDataName());
           product.setTargetUrl("");
           products.add(product);
         });
@@ -179,15 +171,11 @@ public class BannerService implements IBannerService {
         BannerItemRelation bannerItemRelation = new BannerItemRelation();
         bannerItemRelation.setBannerId(banner1.getId());
         List<BannerItemRelation> list = bannerItemRelationService.selectByObjectList(bannerItemRelation);
-        List<Long> itemIds = list.stream().map(BannerItemRelation::getItemId).collect(Collectors.toList());
-        List<Item> items = itemService.selectAll().stream().filter(item -> itemIds.contains(item.getId())).collect(Collectors.toList());
-        items.forEach(item -> {
+        list.forEach(item -> {
           ArtBannerVO.Artists art = new ArtBannerVO.Artists();
-          art.setArtCategory(item.getArtCategory());
-          art.setArtistId(item.getId());
-          art.setArtistName(item.getItemTitle());
-          art.setAvatar(item.getAd());
-          art.setPosterPic(item.getTitleImg());
+          art.setArtistId(item.getItemId());
+          art.setArtistName(item.getDataName());
+          art.setPosterPic(item.getDataImg());
           artist.add(art);
         });
       bannerList.setArtist(artist);

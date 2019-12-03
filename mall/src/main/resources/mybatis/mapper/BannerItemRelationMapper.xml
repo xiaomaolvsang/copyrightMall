@@ -2,19 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.BannerItemRelationMapper">
 
-	<!--cg generate by lijian at 2019-11-24 14:53-->
+	<!--cg generate by lijian at 2019-12-03 10:45-->
 
 	<!--通用表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.BannerItemRelation" >
 		<id property="id" column="ID" jdbcType="BIGINT" />
 		<result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
 		<result property="itemId" column="ITEM_ID" jdbcType="BIGINT" />
+		<result property="dataName" column="DATA_NAME" jdbcType="VARCHAR" />
+		<result property="dataImg" column="DATA_IMG" jdbcType="VARCHAR" />
+		<result property="expand1" column="EXPAND1" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	BANNER_ID,	ITEM_ID
+	id,	BANNER_ID,	ITEM_ID,	DATA_NAME,	DATA_IMG,	EXPAND1
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -25,6 +28,9 @@
 		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
 		<if test="bannerId != null and bannerId != '' "> and BANNER_ID = #{bannerId,jdbcType=BIGINT} </if>
 		<if test="itemId != null and itemId != '' "> and ITEM_ID = #{itemId,jdbcType=BIGINT} </if>
+		<if test="dataName != null and dataName != '' "> and DATA_NAME = #{dataName,jdbcType=VARCHAR} </if>
+		<if test="dataImg != null and dataImg != '' "> and DATA_IMG = #{dataImg,jdbcType=VARCHAR} </if>
+		<if test="expand1 != null and expand1 != '' "> and EXPAND1 = #{expand1,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -48,11 +54,17 @@
 			<if test="id != null"> ID,</if>
 			<if test="bannerId != null"> BANNER_ID,</if>
 			<if test="itemId != null"> ITEM_ID,</if>
+			<if test="dataName != null"> DATA_NAME,</if>
+			<if test="dataImg != null"> DATA_IMG,</if>
+			<if test="expand1 != null"> EXPAND1,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
 			<if test="bannerId!=null">#{bannerId,jdbcType=BIGINT},</if>
 			<if test="itemId!=null">#{itemId,jdbcType=BIGINT},</if>
+			<if test="dataName!=null">#{dataName,jdbcType=VARCHAR},</if>
+			<if test="dataImg!=null">#{dataImg,jdbcType=VARCHAR},</if>
+			<if test="expand1!=null">#{expand1,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -62,6 +74,9 @@
  		 <set> 
 			<if test="bannerId != null">BANNER_ID = #{bannerId,jdbcType=BIGINT},</if>
 			<if test="itemId != null">ITEM_ID = #{itemId,jdbcType=BIGINT},</if>
+			<if test="dataName != null">DATA_NAME = #{dataName,jdbcType=VARCHAR},</if>
+			<if test="dataImg != null">DATA_IMG = #{dataImg,jdbcType=VARCHAR},</if>
+			<if test="expand1 != null">EXPAND1 = #{expand1,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

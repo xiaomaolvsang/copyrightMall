@@ -113,13 +113,13 @@ public class DetailService implements IDetailService {
     List<DetailVO.Opus> opuses = new ArrayList<>();
     List<DetailVO.Products> products = new ArrayList<>();
 
-    Mall mall = mallService.selectByPrimaryKey(detailParam.getMallId());
-    detailData.setOrganizationImage(mall.getMallLogo());
-    detailData.setOrganizationName(mall.getMallName());
-    detailData.setIsIdentification(mall.getIsIdentification() == 1 ? "true" : "false");
+    Shop shop = shopService.selectByPrimaryKey(detailParam.getShopId());
+    detailData.setOrganizationImage(shop.getShopLogo());
+    detailData.setOrganizationName(shop.getShopName());
+    detailData.setIsIdentification(shop.getIsIdentification() == 1 ? "true" : "false");
     detailVO.setData(detailData);
 
-    Shop shop = shopService.selectByPrimaryKey(detailParam.getShopId());
+
     List<Item> list = itemService.selectAll();
     List<Item> items = list.stream().filter(item -> item.getShopId().equals(detailParam.getShopId())).collect(Collectors.toList());
     items.forEach(item -> {

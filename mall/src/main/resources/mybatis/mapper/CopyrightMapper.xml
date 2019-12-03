@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.CopyrightMapper">
 
-	<!--cg generate by lijian at 2019-10-10 16:30-->
+	<!--cg generate by lijian at 2019-12-03 11:02-->
 
 	<!--通用版权表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Copyright" >
@@ -15,12 +15,13 @@
 		<result property="copyrightLogo" column="COPYRIGHT_LOGO" jdbcType="VARCHAR" />
 		<result property="copyrightImg" column="COPYRIGHT_IMG" jdbcType="VARCHAR" />
 		<result property="uploadUser" column="UPLOAD_USER" jdbcType="VARCHAR" />
+		<result property="shopId" column="SHOP_ID" jdbcType="BIGINT" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	CHINESE_NAME,	NAME,	AUDIT_STATUS,	COPYRIGHT_LOGO,	COPYRIGHT_IMG,	UPLOAD_USER
+	id,	GMT_CREATE,	GMT_MODIFIED,	CHINESE_NAME,	NAME,	AUDIT_STATUS,	COPYRIGHT_LOGO,	COPYRIGHT_IMG,	UPLOAD_USER,	SHOP_ID
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -37,6 +38,7 @@
 		<if test="copyrightLogo != null and copyrightLogo != '' "> and COPYRIGHT_LOGO = #{copyrightLogo,jdbcType=VARCHAR} </if>
 		<if test="copyrightImg != null and copyrightImg != '' "> and COPYRIGHT_IMG = #{copyrightImg,jdbcType=VARCHAR} </if>
 		<if test="uploadUser != null and uploadUser != '' "> and UPLOAD_USER = #{uploadUser,jdbcType=VARCHAR} </if>
+		<if test="shopId != null and shopId != '' "> and SHOP_ID = #{shopId,jdbcType=BIGINT} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -66,6 +68,7 @@
 			<if test="copyrightLogo != null"> COPYRIGHT_LOGO,</if>
 			<if test="copyrightImg != null"> COPYRIGHT_IMG,</if>
 			<if test="uploadUser != null"> UPLOAD_USER,</if>
+			<if test="shopId != null"> SHOP_ID,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -77,6 +80,7 @@
 			<if test="copyrightLogo!=null">#{copyrightLogo,jdbcType=VARCHAR},</if>
 			<if test="copyrightImg!=null">#{copyrightImg,jdbcType=VARCHAR},</if>
 			<if test="uploadUser!=null">#{uploadUser,jdbcType=VARCHAR},</if>
+			<if test="shopId!=null">#{shopId,jdbcType=BIGINT},</if>
 		 </trim>
 	</insert>
 
@@ -92,6 +96,7 @@
 			<if test="copyrightLogo != null">COPYRIGHT_LOGO = #{copyrightLogo,jdbcType=VARCHAR},</if>
 			<if test="copyrightImg != null">COPYRIGHT_IMG = #{copyrightImg,jdbcType=VARCHAR},</if>
 			<if test="uploadUser != null">UPLOAD_USER = #{uploadUser,jdbcType=VARCHAR},</if>
+			<if test="shopId != null">SHOP_ID = #{shopId,jdbcType=BIGINT},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

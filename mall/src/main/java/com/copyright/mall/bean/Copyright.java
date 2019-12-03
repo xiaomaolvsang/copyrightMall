@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 版权表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2019-12-03 11:02
  **/
 public class Copyright implements Serializable {
 
-	private static final long serialVersionUID = 6110868543068216552L;
+	private static final long serialVersionUID = 3498900603083481044L;
 
 	/**主键**/
 	private Long id;
@@ -41,6 +41,9 @@ public class Copyright implements Serializable {
 
 	/**上传用户**/
 	private String uploadUser;
+
+	/**商铺id**/
+	private Long shopId;
 
 
 
@@ -116,6 +119,14 @@ public class Copyright implements Serializable {
 		return this.uploadUser;
 	}
 
+	public void setShopId(Long shopId){
+		this.shopId = shopId;
+	}
+
+	public Long getShopId(){
+		return this.shopId;
+	}
+
 	@Override
 	public String toString() {
 		return "Copyright [ id= "+id+
@@ -126,6 +137,7 @@ public class Copyright implements Serializable {
 			",auditStatus= "+auditStatus+
 			",copyrightLogo= "+copyrightLogo+
 			",copyrightImg= "+copyrightImg+
-			",uploadUser= "+uploadUser+"]";
+			",uploadUser= "+uploadUser+
+			",shopId= "+shopId+"]";
 	}
 }
