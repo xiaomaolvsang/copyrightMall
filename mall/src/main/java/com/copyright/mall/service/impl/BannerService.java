@@ -83,9 +83,6 @@ public class BannerService implements IBannerService {
 
   @Override
   public BannerVO getBanner(BannerParam bannerParam) {
-    if(!MallType.ifMallType(bannerParam.getType())){
-      throw new BusinessException("商城与版权字段错误");
-    }
     Banner banner = new Banner();
     banner.setMallType(bannerParam.getType());
     banner.setMallId(bannerParam.getMallId());
