@@ -90,8 +90,8 @@ public class ProductServiceImpl implements IProductService {
       itemResult.forEach(item -> {
         List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
         ProductSearchResp productSearchResp = new ProductSearchResp();
-        productSearchResp.setAvatar(item.getTitleImg());
-        productSearchResp.setImage(item.getContentImg());
+        productSearchResp.setAvatar(item.getAd());
+        productSearchResp.setImage(item.getTitleImg());
         productSearchResp.setType(shopType.getName());
         productSearchResp.setProductId(item.getId());
         productSearchResp.setProductName(item.getItemTitle());
@@ -287,7 +287,7 @@ public class ProductServiceImpl implements IProductService {
     List<Item> items = itemService.selectAll();
     List<Item> itemResult = items.stream().filter(item ->
       shopIds.contains(item.getShopId())
-    ).skip((areaParam.getPageNum() - 1) * areaParam.getPageSize())
+    ).skip((areaParam.getPageNum()) * areaParam.getPageSize())
       .limit(areaParam.getPageSize())
       .collect(Collectors.toList());
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
@@ -318,7 +318,7 @@ public class ProductServiceImpl implements IProductService {
     List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
     List<Copyright> copyrights1 = copyrights.stream()
       .filter(copyright -> shopIds.contains(copyright.getShopId()))
-      .skip((areaParam.getPageNum() - 1) * areaParam.getPageSize())
+      .skip((areaParam.getPageNum()) * areaParam.getPageSize())
       .limit(areaParam.getPageSize())
       .collect(Collectors.toList());
     copyrights1.forEach(copyright -> {
