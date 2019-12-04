@@ -252,6 +252,7 @@ public class OrderController extends BaseController {
         orderDetailVO.setOrderNo(shopOrder.getShopOrderId());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         orderDetailVO.setOrderPayTime(shopOrder.getPayTime());
+        orderDetailVO.setShopOrderPrice(PriceFormat.format(shopOrder.getPrice()));
         return WrapMapper.ok(orderDetailVO);
     }
 

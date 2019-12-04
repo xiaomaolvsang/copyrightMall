@@ -52,6 +52,9 @@ public class OrderDetailVO {
     @JSONField(name = "orderRefundTime")
     @ApiModelProperty("订单退款时间")
     private String orderRefundTime;
+    @JSONField(name = "shopOrderPrice")
+    @ApiModelProperty("订单价格")
+    private BigDecimal shopOrderPrice;
 
 
     @Data
