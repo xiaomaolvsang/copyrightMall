@@ -14,6 +14,7 @@
 		<result property="mallType" column="MALL_TYPE" jdbcType="VARCHAR" />
 		<result property="topValue" column="TOP_VALUE" jdbcType="INTEGER" />
     <collection property="bannerAttrs" ofType="com.copyright.mall.bean.BannerAttr">
+      <id property="id" column="AID" jdbcType="BIGINT" />
       <result property="bannerId" column="BANNER_ID" jdbcType="BIGINT" />
       <result property="image" column="IMAGE" jdbcType="VARCHAR" />
       <result property="linkType" column="LINK_TYPE" jdbcType="VARCHAR" />
@@ -34,7 +35,7 @@
 	ban.id,	ban.TYPE,ban.HEIGHT,	ban.WIDTH, ban.MALL_ID, ban.MALL_TYPE,ban.TOP_VALUE
 	</sql>
   <sql id="Attr_Column_List">
-	bana.BANNER_ID,	bana.IMAGE,	bana.LINK_TYPE,	bana.TARGET_URL,	bana.CATEGORY_NAME,	bana.CATEGORY_ID,	bana.TITLE
+	bana.ID as AID,bana.BANNER_ID,	bana.IMAGE,	bana.LINK_TYPE,	bana.TARGET_URL,	bana.CATEGORY_NAME,	bana.CATEGORY_ID,	bana.TITLE
 	</sql>
 
 	<!-- 公共查询条件-->
