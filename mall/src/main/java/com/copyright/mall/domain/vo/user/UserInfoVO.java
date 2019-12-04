@@ -19,4 +19,7 @@ public class UserInfoVO {
     @JSONField(name = "name")
     @ApiModelProperty("名称")
     private String name;
+
+    @ApiModelProperty("电话")
+    private String phone;
 }

@@ -1,5 +1,6 @@
 package com.copyright.mall.controller.user;
 
+import com.copyright.mall.bean.User;
 import com.copyright.mall.bean.UserAddress;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.user.CreateAddressParam;
@@ -8,6 +9,7 @@ import com.copyright.mall.domain.vo.user.UserAddressDetailVO;
 import com.copyright.mall.domain.vo.user.UserAddressVO;
 import com.copyright.mall.domain.vo.user.UserInfoVO;
 import com.copyright.mall.service.IUserAddressService;
+import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IWechatUserService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
@@ -38,12 +40,18 @@ public class UserController extends BaseController {
     @Resource
     private IUserAddressService userAddressService;
 
+    @Resource
+    private IUserService userService;
+
 
 
     @GetMapping("/userInfo")
-    @ApiOperation("获取用户信息")
+    @ApiOperation("获取当前登录用户信息")
     public Wrapper<UserInfoVO> getUserInfo(){
-        return WrapMapper.ok();
+        User user = userService.selectByUserId(this.getUserId());
+        UserInfoVO userInfoVO =BeanMapperUtils.map(user,UserInfoVO.class);
+        userInfoVO.setAvatar(user.getImg());
+        return WrapMapper.ok(userInfoVO);
     }
 
     @PostMapping("/createAddress")
