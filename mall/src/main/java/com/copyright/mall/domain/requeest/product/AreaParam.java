@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel("productAreaParam入参")
 public class AreaParam {
 
-    @ApiModelProperty("商城与版权（productArea/copyrightArea）")
+    @ApiModelProperty("商城与版权（productArea/copyrightArea/artistArea）")
     @NotBlank(message = "商城与版权不能为空")
     private String type;
 
