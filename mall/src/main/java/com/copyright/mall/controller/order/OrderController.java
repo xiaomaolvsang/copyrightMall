@@ -229,7 +229,7 @@ public class OrderController extends BaseController {
             }
             relateProductsBean.setImage(item.getTitleImg());
             relateProductsBean.setProductName(item.getItemTitle());
-            relateProductsBean.setProductPrice(PriceFormat.formatStr(item.getPrice()));
+            relateProductsBean.setProductPrice(PriceFormat.formatStr(sku.getPrice()));
             relateProductsBean.setSkuId(sku.getId().toString());
             relateProductsBean.setNum(itemOrder.getItemCount());
             relateProductsBean.setItemOrderId(itemOrder.getItemOrderId());
@@ -249,7 +249,7 @@ public class OrderController extends BaseController {
         receiveUserBean.setConsigneeName(mallOrder.getDeliveryName());
         receiveUserBean.setConsigneePnone(mallOrder.getPhone());
         orderDetailVO.setReceiveUser(receiveUserBean);
-        orderDetailVO.setOrderNo(shopOrder.getId().toString());
+        orderDetailVO.setOrderNo(shopOrder.getShopOrderId());
         orderDetailVO.setOrderCreateTime(shopOrder.getOrderCreateTime());
         orderDetailVO.setOrderPayTime(shopOrder.getPayTime());
         return WrapMapper.ok(orderDetailVO);
