@@ -35,5 +35,9 @@ public class AreaVO {
     private String productPrice;
     @ApiModelProperty("商品id")
     private String productId;
+    @ApiModelProperty("行业")
+    private String artCategory;
+    @ApiModelProperty("头像")
+    private String avatar;
   }
 }

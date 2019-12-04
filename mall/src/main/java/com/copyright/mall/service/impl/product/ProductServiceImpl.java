@@ -343,9 +343,11 @@ public class ProductServiceImpl implements IProductService {
                 .collect(Collectors.toList())
                 .forEach(shop1 -> {
                     AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
-                    areaAttr.setImage(shop1.getShopLogo());
+                    areaAttr.setImage(shop1.getShopImg());
                     areaAttr.setProductId(shop1.getId().toString());
                     areaAttr.setProductName(shop1.getShopName());
+                    areaAttr.setAvatar(shop1.getShopLogo());
+                    areaAttr.setArtCategory(shop1.getShopArtcategory());
                     areaAttrs.add(areaAttr);
                 });
         areaVO.setAreaAttrs(areaAttrs);
