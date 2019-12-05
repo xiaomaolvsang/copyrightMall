@@ -337,7 +337,7 @@ public class ProductServiceImpl implements IProductService {
         shop.setMallId(areaParam.getMallId());
         List<Shop> shops = shopService.selectByObjectList(shop);
         List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
-        shops.stream().sorted(Comparator.comparing(Shop::getId))
+        shops.stream().filter(shop1 -> ShopTypeEnum.artist.getCode() == shop1.getShopType()).sorted(Comparator.comparing(Shop::getId))
                 .skip((areaParam.getPageNum()) * areaParam.getPageSize())
                 .limit(areaParam.getPageSize())
                 .collect(Collectors.toList())
