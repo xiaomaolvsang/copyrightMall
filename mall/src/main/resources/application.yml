@@ -6,3 +6,10 @@ weChat:
   appId: wx138cfb45ada6bdcc
   appSecret: 9290921f40da4788eca292719f3ee34d
   grantType: authorization_code
+
+server:
+  ssl:
+    key-store: classpath:api.beartcenter.com.pfx
+    key-store-password: 7Oq59KeY
+    key-store-type: PKCS12
+
