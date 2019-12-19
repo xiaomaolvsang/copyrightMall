@@ -10,7 +10,7 @@ mybatis:
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 server:
-  port: 80
+  port: 443
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
