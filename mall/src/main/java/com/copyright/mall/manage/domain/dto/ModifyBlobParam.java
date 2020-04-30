@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * @author zhangyuchen
  */
-@Api("创建内容参数")
+@Api("修改内容参数")
 @Data
 public class ModifyBlobParam {
 
@@ -23,12 +23,6 @@ public class ModifyBlobParam {
 
     @ApiModelProperty("内容")
     private String blob;
-
-    @ApiModelProperty("创建时间")
-    private Date createTime;
-
-    @ApiModelProperty("修改时间")
-    private Date modifyTime;
 
     @ApiModelProperty("创建人")
     private String creator;
