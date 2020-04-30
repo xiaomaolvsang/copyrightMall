@@ -1,6 +1,7 @@
 package com.copyright.mall.manage.controller;
 
 import com.copyright.mall.manage.domain.dto.CreateBlobParam;
+import com.copyright.mall.manage.domain.dto.ModifyBlobParam;
 import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryBlobListParam;
 import com.copyright.mall.manage.domain.vo.BlobRes;
@@ -42,9 +43,9 @@ public class ManageBlobController {
     }
 
     @PostMapping("/modify")
-    @ApiOperation("创建内容")
-    private Wrapper<Boolean> modify(@ApiParam @Valid @RequestBody ModifyPriceParam modifyPriceParam){
-        log.info("modifyPriceParam = {}",modifyPriceParam);
+    @ApiOperation("修改内容")
+    private Wrapper<Boolean> modify(@ApiParam @Valid @RequestBody ModifyBlobParam modifyBlobParam){
+        log.info("modifyPriceParam = {}",modifyBlobParam);
         return WrapMapper.ok();
     }
 }

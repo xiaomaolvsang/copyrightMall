@@ -14,7 +14,6 @@ import java.util.Date;
 @Data
 public class CreateBlobParam {
 
-
     @ApiModelProperty("内容名称")
     private String blobTitle;
 
