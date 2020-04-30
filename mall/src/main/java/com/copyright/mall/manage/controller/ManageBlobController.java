@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "内容管理")
+@Api(tags = "后端内容管理")
 @Slf4j
 @RestController
 @RequestMapping("/manage/v1/blob")
