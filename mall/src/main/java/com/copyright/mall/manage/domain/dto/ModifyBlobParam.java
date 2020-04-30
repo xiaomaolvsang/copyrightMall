@@ -21,7 +21,7 @@ public class ModifyBlobParam {
     @ApiModelProperty("内容名称")
     private String blobTitle;
 
-    @ApiModelProperty("内容")Z
+    @ApiModelProperty("内容")
     private String blob;
 
     @ApiModelProperty("创建时间")
