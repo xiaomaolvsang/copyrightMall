@@ -14,6 +14,10 @@ import java.util.Date;
 @Data
 public class ModifyBlobParam {
 
+    @ApiModelProperty(value = "内容ID",required = true)
+    @NotNull(message = "内容ID不能为空")
+    private Integer id;
+
     @ApiModelProperty("内容名称")
     private String blobTitle;
 
@@ -28,5 +32,4 @@ public class ModifyBlobParam {
 
     @ApiModelProperty("创建人")
     private String creator;
-
 }

@@ -14,9 +14,6 @@ import java.util.Date;
 @Data
 public class CreateBlobParam {
 
-    @ApiModelProperty(value = "内容ID",required = true)
-    @NotNull(message = "内容ID不能为空")
-    private Integer id;
 
     @ApiModelProperty("内容名称")
     private String blobTitle;
