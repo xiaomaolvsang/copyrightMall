@@ -12,11 +12,7 @@ import java.util.Date;
  */
 @Api("创建内容参数")
 @Data
-public class CreateBlobParam {
-
-    @ApiModelProperty(value = "内容ID",required = true)
-    @NotNull(message = "内容ID不能为空")
-    private Integer id;
+public class ModifyBlobParam {
 
     @ApiModelProperty("内容名称")
     private String blobTitle;
