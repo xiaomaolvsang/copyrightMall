@@ -1,9 +1,8 @@
 package com.copyright.mall.manage.controller;
 
 import com.copyright.mall.manage.domain.dto.ModifyShopParam;
-import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
 import com.copyright.mall.manage.domain.dto.QueryShopParam;
-import com.copyright.mall.manage.domain.vo.QueryOrderListRes;
+import com.copyright.mall.manage.domain.vo.ShopListRes;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
@@ -22,22 +21,22 @@ import javax.validation.Valid;
 public class ManageShopController {
 
     @PostMapping("/getShop")
-    @ApiOperation("获取用户下的商品")
-    public Wrapper<PageInfo<QueryOrderListRes>> getShop(@ApiParam @Valid @RequestBody QueryShopParam queryShopParam) {
+    @ApiOperation("获取用户下的商铺")
+    public Wrapper<PageInfo<ShopListRes>> getShop(@ApiParam @Valid @RequestBody QueryShopParam queryShopParam) {
         log.info("getShop = {}", queryShopParam);
         return WrapMapper.ok();
     }
 
     @PostMapping("/createShop")
     @ApiOperation("创建商铺")
-    public Wrapper<PageInfo<QueryOrderListRes>> createShop(@ApiParam @Valid @RequestBody ModifyShopParam modifyShopParam) {
+    public Wrapper<Boolean> createShop(@ApiParam @Valid @RequestBody ModifyShopParam modifyShopParam) {
         log.info("createShop = {}", modifyShopParam);
         return WrapMapper.ok();
     }
 
     @PostMapping("/updateShop")
     @ApiOperation("修改商铺")
-    public Wrapper<PageInfo<QueryOrderListRes>> updateShop(@ApiParam @Valid @RequestBody ModifyShopParam modifyShopParam) {
+    public Wrapper<Boolean> updateShop(@ApiParam @Valid @RequestBody ModifyShopParam modifyShopParam) {
         log.info("updateShop = {}", modifyShopParam);
         return WrapMapper.ok();
     }
