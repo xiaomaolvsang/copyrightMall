@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ApiModel("查询订单列表参数")
+@ApiModel("查询商品参数")
 public class QueryGoodsParam extends BasePage {
     @ApiModelProperty("商品号")
     private String barCode;
