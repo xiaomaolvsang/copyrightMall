@@ -14,6 +14,8 @@ import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
+import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
@@ -256,6 +258,25 @@ public class ProductServiceImpl implements IProductService {
         return productVO;
     }
 
+    @Override
+    public Wrapper<List<ProductSearchResp>> getGoods(QueryGoodsParam queryGoodsParam) {
+        Shop shop = new Shop();
+        shop.setMallId(queryGoodsParam.getMallId());
+
+        ShopTypeEnum shopType = ShopTypeEnum.getTypeByName(queryGoodsParam.getType());
+        if (shopType == null) {
+            return WrapMapper.error("搜索类型有误");
+        }
+        List<Shop> shops = shopService.selectByObjectList(shop);
+        List<ProductSearchResp> productSearchResps = new ArrayList<>();
+        if (ShopTypeEnum.product.getName().equals(queryGoodsParam.getType())) {
+
+        } else {
+
+        }
+        return null;
+    }
+
     private List<Item> getRecommend(Long itemId) {
         ClassItemRelation classItemRelation = new ClassItemRelation();
         classItemRelation.setItemId(itemId);
@@ -353,6 +374,8 @@ public class ProductServiceImpl implements IProductService {
         areaVO.setAreaAttrs(areaAttrs);
 
     }
+
+
 
 
 }

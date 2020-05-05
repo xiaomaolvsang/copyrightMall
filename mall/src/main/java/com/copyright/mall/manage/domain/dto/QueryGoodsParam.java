@@ -20,9 +20,13 @@ public class QueryGoodsParam extends BasePage {
     @ApiModelProperty("商品名称")
     private String itemTitle;
     @ApiModelProperty("商铺号")
-    private String ShopId;
+    private Long ShopId;
     @ApiModelProperty("商品ID")
-    private String goodsId;
+    private Long goodsId;
     @ApiModelProperty("商品是否上架（1上架，0下架）")
     private String itemStatus;
+    @ApiModelProperty("商城ID")
+    private Long mallId;
+    @ApiModelProperty("商品类型")
+    private String type;
 }

@@ -10,6 +10,8 @@ import com.copyright.mall.domain.dto.goods.SkuDTO;
 import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
+import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.util.wrapper.Wrapper;
 
 import java.util.List;
@@ -36,4 +38,12 @@ public interface IProductService {
   ProductByClassVO getProductByClass(ProductByClassparam productByClassparam);
 
   ProductVO getProduct(ProductParam productParam);
+
+  /**
+   * manage service getGoodsByGoodsParam
+   * @param queryGoodsParam 查询订单列表参数
+   * @return result
+   */
+  Wrapper<List<ProductSearchResp>> getGoods(QueryGoodsParam queryGoodsParam);
+
 }
