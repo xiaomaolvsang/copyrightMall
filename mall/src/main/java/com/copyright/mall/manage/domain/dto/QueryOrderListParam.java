@@ -14,8 +14,8 @@ import java.util.Date;
 @ApiModel("查询订单列表参数")
 public class QueryOrderListParam extends BasePage {
 
-    @ApiModelProperty("订单列表")
-    private String orderNum;
+    @ApiModelProperty("订单号")
+    private String orderId;
 
     @ApiModelProperty("用户名")
     private String userName;
@@ -33,3 +33,4 @@ public class QueryOrderListParam extends BasePage {
     private Date orderEndTime;
 
 }
+

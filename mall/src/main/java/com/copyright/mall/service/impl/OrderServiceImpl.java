@@ -1,6 +1,7 @@
 package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.*;
+import com.copyright.mall.dao.ShopOrderMapper;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
 import com.copyright.mall.domain.dto.cart.DeleteCartParam;
 import com.copyright.mall.domain.dto.order.CreateOrderParam;
@@ -9,6 +10,9 @@ import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.enums.ItemOrderType;
 import com.copyright.mall.enums.MallPayStatusEnum;
 import com.copyright.mall.enums.ShopOrderType;
+import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
+import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
+import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.IDUtil;
 import com.google.common.collect.Lists;
@@ -49,6 +53,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private IUserAddressService userAddressService;
+
+    @Resource
+    private ShopOrderMapper shopOrderMapper;
+
+    @Resource
+    private ItemOrderService itemOrderService;
 
     
     @Override
@@ -163,5 +173,37 @@ public class OrderServiceImpl implements OrderService {
         deleteCartParam.setSkus(deleteSkus);
         cartService.deleteBySkus(deleteCartParam);
         return mallOrder.getMallOrderId();
+    }
+
+    @Override
+    public List <ShopOrderDetail> orderDetailList(QueryOrderListParam queryOrderListParam) {
+        return shopOrderMapper.selectOrderDetailList(queryOrderListParam);
+    }
+
+    @Override
+    public void cancelOrder(String orderNo) {
+        ShopOrder shopOrder = new ShopOrder();
+        shopOrder.setDeliveryOrderId(orderNo);
+        shopOrder.setOrderType(ShopOrderType.CANCEL.getCode());
+        shopOrderService.updateByShopOrderId(shopOrder);
+    }
+
+    @Override
+    public void modifyOrder(ModifyPriceParam modifyPriceParam) {
+        ItemOrder itemOrder = itemOrderService.selectShoporderAndItemId(
+                modifyPriceParam.getOrderId(),Long.valueOf(modifyPriceParam.getItemId()));
+        Integer newTotal = new Double(modifyPriceParam.getItemPrice()*100d).intValue()+itemOrder.getItemCount();
+        Integer cha = itemOrder.getItemTotalPrice() - newTotal;
+        itemOrder.setShopOrderId(modifyPriceParam.getOrderId());
+        itemOrder.setItemId(Long.valueOf(modifyPriceParam.getItemId()));
+        itemOrder.setItemPrice(new Double(modifyPriceParam.getItemPrice()* 100d).intValue());
+        itemOrder.setItemTotalPrice(newTotal);
+        itemOrderService.updateByShopOrderIdAndItemIdSelective(itemOrder);
+
+        ShopOrder shopOrder = new ShopOrder();
+        shopOrder.setShopOrderId(modifyPriceParam.getOrderId());
+        shopOrder = shopOrderService.selectByShopOrderId(modifyPriceParam.getOrderId());
+        shopOrder.setPrice(new Double((shopOrder.getPrice()+cha)*100).intValue());
+        shopOrderService.updateByShopOrderId(shopOrder);
     }
 }

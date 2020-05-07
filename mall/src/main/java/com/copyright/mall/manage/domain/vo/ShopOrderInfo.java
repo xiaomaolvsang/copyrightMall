@@ -11,10 +11,7 @@ import java.util.List;
 
 @Data
 @ApiModel("查询订单列表参数")
-public class QueryOrderListRes {
-    @Data
-    public static class ShopInfoBean {
-
+public class ShopOrderInfo {
         @JSONField(name = "shopId")
         @ApiModelProperty("店铺ID")
         private String shopId;
@@ -34,7 +31,7 @@ public class QueryOrderListRes {
         @JSONField(name = "shopOrderId")
         @ApiModelProperty("订单ID")
         private String shopOrderId;
-    }
+
     @Data
     public static class RelateProductsBean {
         @JSONField(name = "image")

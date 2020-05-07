@@ -12,7 +12,8 @@ public enum ShopOrderType {
     PAID(20,"已支付"),
     TO_BE_SHIPPED(30,"待发货"),
     SHIPPED(40,"已发货"),
-    ALREADY_SIGNED(50,"已签收");
+    ALREADY_SIGNED(50,"已签收"),
+    CANCEL(60,"已取消");
 
 
     private Integer code;

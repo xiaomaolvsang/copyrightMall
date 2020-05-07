@@ -33,7 +33,6 @@
 
 	<sql id="conditions">
 		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
-		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
 		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
 		<if test="mallOrderId != null and mallOrderId != '' "> and MALL_ORDER_ID = #{mallOrderId,jdbcType=VARCHAR} </if>
 		<if test="shopOrderId != null and shopOrderId != '' "> and SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR} </if>
@@ -117,6 +116,25 @@
 		 WHERE ID = #{id,jdbcType=BIGINT}
 	</update>
 
+	<update id="updateByShopOrderIdSelective">
+		UPDATE shop_order
+		<set>
+			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="mallOrderId != null">MALL_ORDER_ID = #{mallOrderId,jdbcType=VARCHAR},</if>
+			<if test="shopOrderId != null">SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR},</if>
+			<if test="orderType != null">ORDER_TYPE = #{orderType,jdbcType=INTEGER},</if>
+			<if test="shopId != null">SHOP_ID = #{shopId,jdbcType=BIGINT},</if>
+			<if test="price != null">PRICE = #{price,jdbcType=INTEGER},</if>
+			<if test="deliveryOrderId != null">DELIVERY_ORDER_ID = #{deliveryOrderId,jdbcType=VARCHAR},</if>
+			<if test="delliveryCompanyName != null">DELLIVERY_COMPANY_NAME = #{delliveryCompanyName,jdbcType=VARCHAR},</if>
+			<if test="orderCreateTime != null">ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP},</if>
+			<if test="payPrice != null">PAY_PRICE = #{payPrice,jdbcType=INTEGER},</if>
+			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
+		</set>
+		WHERE SHOP_ID = #{shopOrderId,jdbcType=VARCHAR}
+	</update>
+
 	<!-- 分页查询 -->
 	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
 		 SELECT
@@ -146,6 +164,40 @@
 			 <include refid="conditions" />
 		 </where>
 		order by GMT_CREATE desc
+	</select>
+    <select id="selectOrderDetailList" resultType="com.copyright.mall.manage.domain.dto.ShopOrderDetail">
+		SELECT
+		shop_order.ORDER_TYPE AS orderStatus,
+		shop_order.SHOP_ID AS shopId,
+		shop.SHOP_NAME AS shopName,
+		shop_order.PAY_PRICE AS payPrice,
+		shop_order.SHOP_ORDER_ID as shopOrderId,
+		item_order.item_order_id AS itemOrderId,
+		item_order.SKU_ID AS skuId,
+		item_order.item_Price AS productPrice,
+		item_order.item_Count AS num,
+		item.title_Img as image,
+		item.ITEM_TITLE AS productName
+		FROM
+		mall_order,
+		shop_order,
+		item_order,
+		sku,
+		item,
+		shop
+		<where>
+			mall_order.MALL_ORDER_ID = shop_order.MALL_ORDER_ID
+			AND shop_order.SHOP_ORDER_ID = item_order.SHOP_ORDER_ID
+			AND item_order.SKU_ID = sku.id
+			AND item_order.ITEM_ID = item.id
+			AND shop_order.shop_Id = shop.id
+			<if test="orderId != null and orderId != '' "> and shop_order.SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR} </if>
+			<if test="userName != null and userName != '' "> and mall_order.BUYER = #{userName,jdbcType=VARCHAR} </if>
+			<if test="shopName != null and shopName != '' "> and mall.mallName = #{shopName,jdbcType=VARCHAR} </if>
+			<if test="orderStartTime != null and orderStartTime != '' "> and shop_order.GMT_CREATE <![CDATA[ >= ]]> #{orderStartTime,jdbcType=VARCHAR} </if>
+			<if test="orderEndTime != null and orderEndTime != '' "> and shop_order.GMT_CREATE <![CDATA[ <= ]]> #{orderEndTime,jdbcType=VARCHAR} </if>
+		</where>
+		order by shop_order.GMT_CREATE desc
 	</select>
 
 </mapper>

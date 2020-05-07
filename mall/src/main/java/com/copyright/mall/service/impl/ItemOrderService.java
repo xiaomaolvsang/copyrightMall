@@ -13,6 +13,7 @@ import com.copyright.mall.service.IItemOrderService;
 import com.copyright.mall.bean.ItemOrder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 
 /**
@@ -33,6 +34,16 @@ public class ItemOrderService implements IItemOrderService {
 	public ItemOrder selectByPrimaryKey(Long id) {
 		return itemOrderMapper.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public ItemOrder selectShoporderAndItemId(String shopOrderId , Long itemId) {
+		ItemOrder itemOrder = new ItemOrder();
+		itemOrder.setShopOrderId(shopOrderId);
+		itemOrder.setItemId(itemId);
+		List<ItemOrder> itemOrders = itemOrderMapper.selectByObjectList(itemOrder);
+		return CollectionUtils.isEmpty(itemOrders)?null:itemOrders.get(0);
+	}
+
 	@Override
 	public int deleteByPrimaryKey(Long id) {
 
@@ -49,6 +60,11 @@ public class ItemOrderService implements IItemOrderService {
 	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int updateByPrimaryKeySelective(ItemOrder itemOrder) {
 		return itemOrderMapper.updateByPrimaryKeySelective(itemOrder);
+	}
+
+	@Override
+	public int updateByShopOrderIdAndItemIdSelective(ItemOrder itemOrder) {
+		return itemOrderMapper.updateByShopOrderIdAndItemIdSelective(itemOrder);
 	}
 
 	@Override

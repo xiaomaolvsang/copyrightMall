@@ -114,7 +114,26 @@
 			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
 
  		 </set>
-		 WHERE ID = #{id,jdbcType=BIGINT}
+		WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByShopOrderIdAndItemIdSelective">
+		UPDATE item_order
+		<set>
+			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="itemOrderId != null">ITEM_ORDER_ID = #{itemOrderId,jdbcType=VARCHAR},</if>
+			<if test="shopOrderId != null">SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR},</if>
+			<if test="itemId != null">ITEM_ID = #{itemId,jdbcType=BIGINT},</if>
+			<if test="skuId != null">SKU_ID = #{skuId,jdbcType=BIGINT},</if>
+			<if test="itemOrderStatus != null">ITEM_ORDER_STATUS = #{itemOrderStatus,jdbcType=INTEGER},</if>
+			<if test="itemPrice != null">ITEM_PRICE = #{itemPrice,jdbcType=INTEGER},</if>
+			<if test="itemCount != null">ITEM_COUNT = #{itemCount,jdbcType=INTEGER},</if>
+			<if test="itemTotalPrice != null">ITEM_TOTAL_PRICE = #{itemTotalPrice,jdbcType=INTEGER},</if>
+			<if test="payPrice != null">PAY_PRICE = #{payPrice,jdbcType=INTEGER},</if>
+			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
+		</set>
+		WHERE SHOP_ORDER_ID = #{shopOrderId,jdbcType=BIGINT} and ITEM_ID = #{itemId,jdbcType=BIGINT}
+
 	</update>
 
 	<!-- 分页查询 -->

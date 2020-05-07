@@ -20,12 +20,6 @@ public class CreateBlobParam {
     @ApiModelProperty("内容")
     private String blob;
 
-    @ApiModelProperty("创建时间")
-    private Date createTime;
-
-    @ApiModelProperty("修改时间")
-    private Date modifyTime;
-
     @ApiModelProperty("创建人")
     private String creator;
 
