@@ -2,6 +2,12 @@ package com.copyright.mall.service.impl;
 
 import java.util.List;
 
+import com.copyright.mall.bean.ItemOrder;
+import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
+import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
+import com.copyright.mall.manage.domain.dto.QueryShopParam;
+import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +34,9 @@ public class ShopOrderService implements IShopOrderService {
 
 	@Resource
 	private ShopOrderMapper shopOrderMapper;
+
+	@Resource
+	private ItemOrderService itemOrderService;
 
 	@Override
 	public ShopOrder selectByPrimaryKey(Long id) {
@@ -82,5 +91,28 @@ public class ShopOrderService implements IShopOrderService {
 	@Override
 	public int modifyByShopOrderId(ShopOrder shopOrder) {
 		return shopOrderMapper.updateByShopOrderIdSelective(shopOrder);
+	}
+
+	@Override
+	public List<ShopOrderDetail> selectShopOrder(QueryOrderListParam queryOrderListParam) {
+		List<ShopOrderDetail> shopOrders = shopOrderMapper.selectShopOrder(queryOrderListParam);
+		for(ShopOrderDetail shopOrder : shopOrders){
+			List<ShopOrderDetail.ItemOrder> shopItemOrders = Lists.newArrayList();
+			ItemOrder queryOrder = new ItemOrder();
+			queryOrder.setShopOrderId(shopOrder.getShopOrderId());
+			List<ItemOrderDetail> itemOrders = itemOrderService.selectItemOrderDetail(shopOrder.getShopOrderId());
+			for(ItemOrderDetail itemOrder : itemOrders){
+				ShopOrderDetail.ItemOrder shopItemOrder = new ShopOrderDetail.ItemOrder();
+				shopItemOrder.setItemOrderId(itemOrder.getItemOrderId());
+				shopItemOrder.setNum(itemOrder.getNum());
+				shopItemOrder.setProductName(itemOrder.getProductName());
+				shopItemOrder.setProductPrice(itemOrder.getProductPrice());
+				shopItemOrder.setSkuId(itemOrder.getSkuId());
+				shopItemOrder.setImage(itemOrder.getImage());
+				shopItemOrders.add(shopItemOrder);
+			}
+			shopOrder.setItemOrders(shopItemOrders);
+		}
+		return shopOrders;
 	}
 }

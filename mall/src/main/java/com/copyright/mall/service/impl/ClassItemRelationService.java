@@ -57,7 +57,7 @@ public class ClassItemRelationService implements IClassItemRelationService {
 
 	@Override
 	public List<ClassItemRelation> selectByObjectList(ClassItemRelation classItemRelation){
-		return classItemRelationMapper.selectB/**/yObjectList(classItemRelation);
+		return classItemRelationMapper.selectByObjectList(classItemRelation);
 	}
 
 }

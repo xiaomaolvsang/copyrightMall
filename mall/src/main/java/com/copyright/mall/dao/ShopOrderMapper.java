@@ -33,4 +33,6 @@ public interface ShopOrderMapper {
 
 	List<ShopOrderDetail> selectOrderDetailList(QueryOrderListParam queryOrderListParam);
 
+	List<ShopOrderDetail> selectShopOrder(QueryOrderListParam queryOrderListParam);
+
 }

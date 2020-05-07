@@ -1,24 +1,33 @@
 package com.copyright.mall.manage.controller;
 
 
+import com.copyright.mall.bean.ItemOrder;
 import com.copyright.mall.bean.ShopOrder;
+import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.manage.domain.dto.ExportOrderParam;
+import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
 import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
 import com.copyright.mall.manage.domain.dto.ShipParam;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 import com.copyright.mall.manage.domain.vo.ShopOrderInfo;
 import com.copyright.mall.service.OrderService;
+import com.copyright.mall.service.impl.ItemOrderService;
 import com.copyright.mall.service.impl.ShopOrderService;
+import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,21 +54,43 @@ public class ManageOrderController extends BaseManageController{
     @Resource
     private ShopOrderService shopOrderService;
 
+    @Resource
+    private ItemOrderService itemOrderService;
+
     @GetMapping("/list")
     @ApiOperation("订单列表")
     public Wrapper<PageInfo<ShopOrderInfo>> listOrder(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
         log.info("queryOrderListParam = {}", queryOrderListParam);
-        List<ShopOrderDetail> shopOrderDetails = orderService.orderDetailList(queryOrderListParam);
-        Integer offset = queryOrderListParam.getPageSize()*queryOrderListParam.getPageNum();
-        Integer size = queryOrderListParam.getPageNum();
-        List<ShopOrderDetail> result = Lists.newArrayList();
-        for(ShopOrderDetail item : shopOrderDetails){
-            if(result.size() < size){
-
+        Page<ShopOrderDetail> page = PageHelper.startPage(
+                queryOrderListParam.getPageNum(),queryOrderListParam.getPageSize());
+        List<ShopOrderDetail> shopOrders = shopOrderService.selectShopOrder(queryOrderListParam);
+        List<ShopOrderInfo> shopOrderInfos = Lists.newArrayList();
+        for(ShopOrderDetail shopOrderDetail : shopOrders){
+            ShopOrderInfo shopOrderInfo = new ShopOrderInfo();
+            shopOrderInfo.setOrderStatus(shopOrderDetail.getOrderStatus());
+            shopOrderInfo.setStatusDesc(ShopOrderType.of(Integer.parseInt(shopOrderDetail.getOrderStatus())).getDesc());
+            shopOrderInfo.setPayPrice(PriceFormat.format(shopOrderDetail.getPayPrice()));
+            shopOrderInfo.setShopId(shopOrderDetail.getShopId());
+            shopOrderInfo.setShopName(shopOrderDetail.getShopName());
+            shopOrderInfo.setShopOrderId(shopOrderDetail.getShopOrderId());
+            List<OrderInfoVO.RelateProductsBean> relateProductsBeans = Lists.newArrayList();
+            for(ShopOrderDetail.ItemOrder itemOrder : shopOrderDetail.getItemOrders()){
+                OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();
+                relateProductsBean.setImage(itemOrder.getImage());
+                relateProductsBean.setItemOrderId(itemOrder.getItemOrderId());
+                relateProductsBean.setNum(itemOrder.getNum());
+                relateProductsBean.setProductName(itemOrder.getProductName());
+                relateProductsBean.setProductPrice(itemOrder.getProductPrice());
+                relateProductsBean.setSkuId(itemOrder.getSkuId());
+                relateProductsBeans.add(relateProductsBean);
             }
+            shopOrderInfo.setRelateProducts(relateProductsBeans);
+            shopOrderInfos.add(shopOrderInfo);
         }
-
-        return WrapMapper.ok();
+        PageInfo<ShopOrderInfo> shopOrderInfoPageInfo = PageInfo.of(shopOrderInfos);
+        BeanUtils.copyProperties(page,shopOrderInfoPageInfo);
+        shopOrderInfoPageInfo.setList(shopOrderInfos);
+        return WrapMapper.ok(shopOrderInfoPageInfo);
     }
 
     @PostMapping("/cancelOrder/{orderId}")

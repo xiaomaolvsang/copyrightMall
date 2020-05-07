@@ -2,6 +2,7 @@ package com.copyright.mall.service.impl;
 
 import java.util.List;
 
+import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
 import com.copyright.mall.service.IItemOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,11 @@ public class ItemOrderService implements IItemOrderService {
 	@Override
 	public List<ItemOrder> selectByObjectList(ItemOrder itemOrder){
 		return itemOrderMapper.selectByObjectList(itemOrder);
+	}
+
+	@Override
+	public List<ItemOrderDetail> selectItemOrderDetail(String shopOrderId) {
+		return itemOrderMapper.selectItemOrderDetail(shopOrderId);
 	}
 
 }

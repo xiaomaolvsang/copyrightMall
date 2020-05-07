@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.ShopOrder;
-
+import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
+import com.copyright.mall.manage.domain.dto.QueryShopParam;
+import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 
 
 /**
@@ -35,5 +37,7 @@ public interface IShopOrderService {
 	public ShopOrder selectByShopOrderId(String shopOrderId);
 
 	int modifyByShopOrderId(ShopOrder shopOrder);
+
+	List<ShopOrderDetail> selectShopOrder(QueryOrderListParam queryShopParam);
 
 }

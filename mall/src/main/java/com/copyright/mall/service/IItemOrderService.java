@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.ItemOrder;
-
+import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
 
 
 /**
@@ -33,5 +33,7 @@ public interface IItemOrderService {
 	public List<ItemOrder> selectObjectListPage(ItemOrder itemOrder);
 
 	public List<ItemOrder> selectByObjectList(ItemOrder itemOrder);
+
+	public List<ItemOrderDetail> selectItemOrderDetail(String shopOrderId);
 
 }

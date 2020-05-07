@@ -24,7 +24,7 @@ public enum ShopOrderType {
         this.desc = desc;
     }
 
-    public static ShopOrderType valueOf(Integer code){
+    public static ShopOrderType of(Integer code){
         for(ShopOrderType payStatusEnum : ShopOrderType.values()){
             if(payStatusEnum.getCode().equals(code)){
                 return payStatusEnum;

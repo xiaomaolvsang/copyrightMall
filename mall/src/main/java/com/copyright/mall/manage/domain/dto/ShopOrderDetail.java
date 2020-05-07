@@ -4,6 +4,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class ShopOrderDetail {
@@ -26,18 +28,27 @@ public class ShopOrderDetail {
     @ApiModelProperty("订单ID")
     private String shopOrderId;
 
-    @ApiModelProperty("itemOrdreID")
-    private String itemOrderId;
-    @JSONField(name = "productName")
-    @ApiModelProperty("商品名")
-    private String productName;
-    @JSONField(name = "productPrice")
-    @ApiModelProperty("商品售价")
-    private String productPrice;
-    @JSONField(name = "productId")
-    @ApiModelProperty("skuId")
-    private String skuId;
-    @JSONField(name = "num")
-    @ApiModelProperty("数量")
-    private int num;
+    @ApiModelProperty("ItemOrder列表")
+    private List<ItemOrder> itemOrders;
+
+    @Data
+    public static class ItemOrder{
+        @JSONField(name = "image")
+        @ApiModelProperty("商品图片")
+        private String image;
+        @ApiModelProperty("itemOrdreID")
+        private String itemOrderId;
+        @JSONField(name = "productName")
+        @ApiModelProperty("商品名")
+        private String productName;
+        @JSONField(name = "productPrice")
+        @ApiModelProperty("商品售价")
+        private String productPrice;
+        @JSONField(name = "productId")
+        @ApiModelProperty("skuId")
+        private String skuId;
+        @JSONField(name = "num")
+        @ApiModelProperty("数量")
+        private int num;
+    }
 }
