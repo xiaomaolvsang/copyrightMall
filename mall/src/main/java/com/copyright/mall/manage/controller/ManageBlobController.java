@@ -32,6 +32,7 @@ public class ManageBlobController {
     @ApiOperation("内容列表")
     private Wrapper<PageInfo<BlobRes>> list(@ApiParam @Valid @RequestBody QueryBlobListParam queryBlobListParam){
         log.info("queryBlobListParam = {}",queryBlobListParam);
+
         return WrapMapper.ok();
     }
 

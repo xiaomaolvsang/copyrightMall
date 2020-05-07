@@ -22,5 +22,5 @@ public class ShipParam {
 
     @ApiModelProperty(value = "快递单号",required = true)
     @NotBlank(message = "快递单号不能为空")
-    private Double trackingNumber;
+    private String trackingNumber;
 }

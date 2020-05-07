@@ -32,7 +32,8 @@ public interface IShopOrderService {
 
 	public List<ShopOrder> selectByObjectList(ShopOrder shopOrder);
 
-
 	public ShopOrder selectByShopOrderId(String shopOrderId);
+
+	int modifyByShopOrderId(ShopOrder shopOrder);
 
 }

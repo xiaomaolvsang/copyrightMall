@@ -181,19 +181,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void cancelOrder(String orderNo) {
         ShopOrder shopOrder = new ShopOrder();
-        shopOrder.setDeliveryOrderId(orderNo);
+        shopOrder.setShopOrderId(orderNo);
         shopOrder.setOrderType(ShopOrderType.CANCEL.getCode());
         shopOrderService.updateByShopOrderId(shopOrder);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void modifyOrder(ModifyPriceParam modifyPriceParam) {
         ItemOrder itemOrder = itemOrderService.selectShoporderAndItemId(
                 modifyPriceParam.getOrderId(),Long.valueOf(modifyPriceParam.getItemId()));
-        Integer newTotal = new Double(modifyPriceParam.getItemPrice()*100d).intValue()+itemOrder.getItemCount();
-        Integer cha = itemOrder.getItemTotalPrice() - newTotal;
+        Integer newTotal = new Double(modifyPriceParam.getItemPrice()*100d).intValue()*itemOrder.getItemCount();
+        Integer cha = newTotal - itemOrder.getItemTotalPrice() ;
         itemOrder.setShopOrderId(modifyPriceParam.getOrderId());
         itemOrder.setItemId(Long.valueOf(modifyPriceParam.getItemId()));
         itemOrder.setItemPrice(new Double(modifyPriceParam.getItemPrice()* 100d).intValue());
@@ -203,7 +205,7 @@ public class OrderServiceImpl implements OrderService {
         ShopOrder shopOrder = new ShopOrder();
         shopOrder.setShopOrderId(modifyPriceParam.getOrderId());
         shopOrder = shopOrderService.selectByShopOrderId(modifyPriceParam.getOrderId());
-        shopOrder.setPrice(new Double((shopOrder.getPrice()+cha)*100).intValue());
+        shopOrder.setPrice(shopOrder.getPrice() + cha);
         shopOrderService.updateByShopOrderId(shopOrder);
     }
 }

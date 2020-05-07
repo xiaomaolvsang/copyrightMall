@@ -132,7 +132,7 @@
 			<if test="payPrice != null">PAY_PRICE = #{payPrice,jdbcType=INTEGER},</if>
 			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
 		</set>
-		WHERE SHOP_ID = #{shopOrderId,jdbcType=VARCHAR}
+		WHERE SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR}
 	</update>
 
 	<!-- 分页查询 -->

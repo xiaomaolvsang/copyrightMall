@@ -78,4 +78,9 @@ public class ShopOrderService implements IShopOrderService {
 		List<ShopOrder> shopOrders = shopOrderMapper.selectByObjectList(shopOrder);
 		return CollectionUtils.isEmpty(shopOrders)?null:shopOrders.get(0);
 	}
+
+	@Override
+	public int modifyByShopOrderId(ShopOrder shopOrder) {
+		return shopOrderMapper.updateByShopOrderIdSelective(shopOrder);
+	}
 }

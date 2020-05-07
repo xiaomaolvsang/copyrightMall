@@ -2,6 +2,7 @@ package com.copyright.mall.manage.controller;
 
 
 import com.copyright.mall.bean.ShopOrder;
+import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.manage.domain.dto.ExportOrderParam;
 import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
@@ -9,6 +10,7 @@ import com.copyright.mall.manage.domain.dto.ShipParam;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 import com.copyright.mall.manage.domain.vo.ShopOrderInfo;
 import com.copyright.mall.service.OrderService;
+import com.copyright.mall.service.impl.ShopOrderService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
@@ -27,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author zhangyuchen
@@ -40,6 +41,9 @@ public class ManageOrderController extends BaseManageController{
 
     @Resource
     private OrderService orderService;
+
+    @Resource
+    private ShopOrderService shopOrderService;
 
     @GetMapping("/list")
     @ApiOperation("订单列表")
@@ -71,6 +75,7 @@ public class ManageOrderController extends BaseManageController{
         log.info("modifyPriceParam = {}", modifyPriceParam);
         ShopOrder shopOrder = new ShopOrder();
         shopOrder.setShopOrderId(modifyPriceParam.getOrderId());
+        orderService.modifyOrder(modifyPriceParam);
         return WrapMapper.ok(true);
     }
 
@@ -78,6 +83,12 @@ public class ManageOrderController extends BaseManageController{
     @ApiOperation("发货")
     public Wrapper<Boolean> ship(@ApiParam @Valid @RequestBody ShipParam shipParam) {
         log.info("shipParam = {}", shipParam);
+        ShopOrder shopOrder = new ShopOrder();
+        shopOrder.setShopOrderId(shipParam.getOrderId());
+        shopOrder.setDeliveryOrderId(shipParam.getTrackingNumber());
+        shopOrder.setDelliveryCompanyName(shipParam.getCompanyName());
+        shopOrder.setOrderType(ShopOrderType.SHIPPED.getCode());
+        shopOrderService.modifyByShopOrderId(shopOrder);
         return WrapMapper.ok(true);
     }
 
