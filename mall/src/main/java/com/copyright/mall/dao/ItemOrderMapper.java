@@ -24,6 +24,8 @@ public interface ItemOrderMapper {
 
 	public int updateByPrimaryKeySelective(ItemOrder itemOrder);
 
+	public int updateByShopOrderIdAndItemIdSelective(ItemOrder itemOrder);
+
 	public Long selectObjectListPageTotal(ItemOrder itemOrder);
 
 	public List<ItemOrder> selectObjectListPage(ItemOrder itemOrder);

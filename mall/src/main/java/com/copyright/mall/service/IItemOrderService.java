@@ -18,11 +18,15 @@ public interface IItemOrderService {
 
 	public ItemOrder selectByPrimaryKey(Long id);
 
+	public ItemOrder selectShoporderAndItemId(String shopOrderId , Long itemId);
+
 	public int deleteByPrimaryKey(Long id);
 
 	public int insertSelective(ItemOrder itemOrder);
 
 	public int updateByPrimaryKeySelective(ItemOrder itemOrder);
+
+	public int updateByShopOrderIdAndItemIdSelective(ItemOrder itemOrder);
 
 	public Long selectObjectListPageTotal(ItemOrder itemOrder);
 

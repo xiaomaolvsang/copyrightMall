@@ -24,6 +24,8 @@ public interface IShopOrderService {
 
 	public int updateByPrimaryKeySelective(ShopOrder shopOrder);
 
+	public int updateByShopOrderId(ShopOrder shopOrder);
+
 	public Long selectObjectListPageTotal(ShopOrder shopOrder);
 
 	public List<ShopOrder> selectObjectListPage(ShopOrder shopOrder);

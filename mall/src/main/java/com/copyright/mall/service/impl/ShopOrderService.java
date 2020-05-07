@@ -52,6 +52,11 @@ public class ShopOrderService implements IShopOrderService {
 	}
 
 	@Override
+	public int updateByShopOrderId(ShopOrder shopOrder) {
+		return shopOrderMapper.updateByShopOrderIdSelective(shopOrder);
+	}
+
+	@Override
 	public Long selectObjectListPageTotal(ShopOrder shopOrder) {
 		return shopOrderMapper.selectObjectListPageTotal(shopOrder);
 	}
