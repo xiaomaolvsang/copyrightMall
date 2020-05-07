@@ -1,5 +1,6 @@
 package com.copyright.mall.manage.domain.vo;
 
+import com.copyright.mall.domain.dto.BasePage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("商铺列表")
-public class ShopListRes {
+public class ShopListRes extends BasePage {
     @ApiModelProperty("商铺名称")
     private String shopName;
 

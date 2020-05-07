@@ -63,7 +63,27 @@ public class Item implements Serializable {
   /**尺寸值**/
   private String sizeValue;
 
-  public Integer getPrice() {
+  private String companyName;
+
+  private String className;
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public Integer getPrice() {
     return price;
   }
 

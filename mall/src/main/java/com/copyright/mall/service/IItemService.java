@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.Item;
-
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -31,4 +31,21 @@ public interface IItemService {
 	public List<Item> selectByObjectList(Item item);
 
 	List<Item> selectAll();
+
+	List<Item> selectItemsByParam(List<Long> shopIds,
+								  String itemTitle,
+								  List<Long> itemClassIds,
+								  String barcode,
+								  Long id,
+								  Integer itemStatus,
+								  String shopType,
+								  Integer startOfPage,
+								  Integer pageSize);
+	int selectItemsCountByParam(List<Long> shopIds,
+								String itemTitle,
+								List<Long> itemClassIds,
+								String barcode,
+								Long id,
+								Integer itemStatus,
+								String shopType);
 }

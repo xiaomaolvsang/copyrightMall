@@ -44,6 +44,6 @@ public interface IProductService {
    * @param queryGoodsParam 查询订单列表参数
    * @return result
    */
-  Wrapper<List<ProductSearchResp>> getGoods(QueryGoodsParam queryGoodsParam);
+  Wrapper<List<QueryGoodsParam>> getGoods(QueryGoodsParam queryGoodsParam);
 
 }

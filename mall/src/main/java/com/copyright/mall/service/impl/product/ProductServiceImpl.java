@@ -66,6 +66,9 @@ public class ProductServiceImpl implements IProductService {
     @Resource
     private ClassItemRelationService classItemRelationService;
 
+    @Resource
+    private ClassificationService classificationService;
+
     @Override
     public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
         Shop shop = new Shop();
@@ -259,21 +262,52 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Wrapper<List<ProductSearchResp>> getGoods(QueryGoodsParam queryGoodsParam) {
+    public Wrapper<List<QueryGoodsParam>> getGoods(QueryGoodsParam queryGoodsParam) {
         Shop shop = new Shop();
         shop.setMallId(queryGoodsParam.getMallId());
 
-        ShopTypeEnum shopType = ShopTypeEnum.getTypeByName(queryGoodsParam.getType());
-        if (shopType == null) {
-            return WrapMapper.error("搜索类型有误");
-        }
         List<Shop> shops = shopService.selectByObjectList(shop);
-        List<ProductSearchResp> productSearchResps = new ArrayList<>();
-        if (ShopTypeEnum.product.getName().equals(queryGoodsParam.getType())) {
-
-        } else {
-
+        if (queryGoodsParam.getShopId() != null) {
+            shops = shops.stream().filter(shop1 -> shop1.getId().equals(queryGoodsParam.getShopId()))
+                    .collect(Collectors.toList());
         }
+        List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
+        List<Long> classIds = new ArrayList<>();
+
+        if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelSecond())) {
+            classIds.add(Long.valueOf(queryGoodsParam.getClassLevelSecond()));
+        } else if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelFirst())) {
+            List<Classification> classifications = classificationService.selectByObjectList(null);
+            classIds = classifications.stream()
+                    .filter(classification ->
+                            classification.getUpperId().toString().equals(queryGoodsParam.getClassLevelFirst()))
+                    .map(Classification::getId)
+                    .collect(Collectors.toList());
+        }
+
+        List<Item> items = itemService.selectItemsByParam(shopIds,
+                queryGoodsParam.getItemTitle(),
+                classIds,
+                queryGoodsParam.getBarCode(),
+                queryGoodsParam.getGoodsId(),
+                queryGoodsParam.getItemStatus(),
+                queryGoodsParam.getType(),
+                (queryGoodsParam.getPageNum() - 1) * queryGoodsParam.getPageSize(),
+                queryGoodsParam.getPageSize());
+
+        int allPage = itemService.selectItemsCountByParam(shopIds,
+                queryGoodsParam.getItemTitle(),
+                classIds,
+                queryGoodsParam.getBarCode(),
+                queryGoodsParam.getGoodsId(),
+                queryGoodsParam.getItemStatus(),
+                queryGoodsParam.getType());
+
+
+
+
+
+
         return null;
     }
 
@@ -374,8 +408,6 @@ public class ProductServiceImpl implements IProductService {
         areaVO.setAreaAttrs(areaAttrs);
 
     }
-
-
 
 
 }
