@@ -26,6 +26,10 @@
 	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG,	SHOP_ARTCATEGORY,	IS_IDENTIFICATION
 	</sql>
 
+	<sql id="Shop_Base_Column_List">
+		s.id,	s.GMT_CREATE,	s.GMT_MODIFIED,	s.MALL_ID,	s.SHOP_NAME,	s.SHOP_LOGO,	s.SHOP_TYPE,	s.COMPANY_NAME,	s.CERTIFICATION,	s.SHOP_IMG,	s.SHOP_ARTCATEGORY,	s.IS_IDENTIFICATION
+	</sql>
+
 	<!-- 公共查询条件-->
 	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
 	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
@@ -140,6 +144,17 @@
 		 FROM shop
 		 WHERE 1=1
 		 <include refid="conditions" />
+	</select>
+
+	<select id="selectPageByUserId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="Shop_Base_Column_List" />
+		FROM shop s
+		LEFT JOIN user_shop_relation usr ON s.id = usr.shop_id
+		where
+		1=1
+		<if test="userId != null and userId != ''"> and usr.user_id = #{userId,jdbcType=BIGINT} </if>
+		limit #{startOfPage},#{pageSize}
 	</select>
 
 </mapper>

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.Shop;
-
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -29,5 +29,9 @@ public interface ShopMapper {
 	public List<Shop> selectObjectListPage(Shop shop);
 
 	public List<Shop> selectByObjectList(Shop shop);
+
+	public List<Shop> selectPageByUserId(@Param("userId")Long userId,
+										 @Param("startOfPage") Integer startOfPage,
+										 @Param("pageSize") Integer pageSize);
 
 }

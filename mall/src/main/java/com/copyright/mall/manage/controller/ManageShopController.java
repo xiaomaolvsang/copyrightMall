@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/manage/v1/shop")
-public class ManageShopController {
+public class ManageShopController extends BaseManageController{
 
     @Resource
     private IShopService iShopService;
@@ -29,6 +29,8 @@ public class ManageShopController {
     @ApiOperation("获取用户下的商铺")
     public Wrapper<PageInfo<ShopListRes>> getShop(@ApiParam @Valid @RequestBody QueryShopParam queryShopParam) {
         log.info("getShop = {}", queryShopParam);
+        queryShopParam.setUserId(getUserId());
+
         return WrapMapper.ok();
     }
 

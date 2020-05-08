@@ -52,7 +52,6 @@ public class Shop implements Serializable {
 	private Integer isIdentification;
 
 
-
 	public void setId(Long id){
 		this.id = id;
 	}

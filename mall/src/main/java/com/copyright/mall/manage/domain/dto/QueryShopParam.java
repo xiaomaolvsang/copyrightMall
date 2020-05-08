@@ -12,5 +12,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class QueryShopParam extends BasePage {
     @ApiModelProperty("userId")
-    private String userId;
+    private Long userId;
 }

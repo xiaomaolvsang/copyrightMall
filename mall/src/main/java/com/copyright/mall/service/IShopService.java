@@ -7,6 +7,7 @@ import java.util.Map;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.manage.domain.dto.ModifyShopParam;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.QueryShopParam;
 import com.copyright.mall.manage.domain.vo.ShopListRes;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
@@ -36,5 +37,5 @@ public interface IShopService {
 
 	public Wrapper<Boolean> insertOrUpdateByParam(ModifyShopParam modifyShopParam);
 
-	public Wrapper<PageInfo<ShopListRes>> getShopListByUserId(QueryGoodsParam queryShopParam);
+	public Wrapper<PageInfo<ShopListRes>> getShopListByUserId(QueryShopParam queryShopParam);
 }

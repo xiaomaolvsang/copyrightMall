@@ -8,12 +8,15 @@ import com.copyright.mall.dao.ShopMapper;
 import com.copyright.mall.dao.UserMapper;
 import com.copyright.mall.manage.domain.dto.ModifyShopParam;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.QueryShopParam;
 import com.copyright.mall.manage.domain.vo.ShopListRes;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IUserShopRelationService;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +52,9 @@ public class ShopService implements IShopService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private IUserService iUserService;
 
     @Override
     public Shop selectByPrimaryKey(Long id) {
@@ -135,9 +141,39 @@ public class ShopService implements IShopService {
     }
 
     @Override
-    public Wrapper<PageInfo<ShopListRes>> getShopListByUserId(QueryGoodsParam queryShopParam) {
+    public Wrapper<PageInfo<ShopListRes>> getShopListByUserId(QueryShopParam queryShopParam) {
+        //管理员
+        List<ShopListRes> shopListResList = new ArrayList<>();
 
-        return null;
+        if (UserUtils.isAdmin()) {
+            PageHelper.startPage(queryShopParam.getPageNum(),queryShopParam.getPageSize());
+            List<Shop> shops = shopMapper.selectByObjectList(new Shop());
+            shops.forEach(shop -> {
+                ShopListRes shopListRes = new ShopListRes();
+                shopListRes.setShopName(shop.getShopName());
+                shopListRes.setShopLogo(shop.getShopLogo());
+                shopListRes.setShopType(shop.getShopType());
+                shopListRes.setCompanyName(shop.getCompanyName());
+                shopListRes.setCertification(shop.getCertification());
+                shopListRes.setShopImg(shop.getShopImg());
+                shopListRes.setShopArtCategory(shop.getShopArtcategory());
+                shopListRes.setIsIdentification(shop.getIsIdentification());
+                shopListRes.setShopId(shop.getId());
+                List<ShopListRes.User> users = new ArrayList<>();
+                UserShopRelation userShopRelation = new UserShopRelation();
+                userShopRelation.setShopId(shop.getId());
+                List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
+                list.forEach(userShopRelation1 -> {
+                    User user = iUserService.selectByUserId(userShopRelation1.getUserId());
+                    ShopListRes.User userRes = new ShopListRes.User();
+                    userRes.setPhone(user.getPhone());
+                    userRes.setUserId(user.getId());
+                    users.add(userRes);
+                });
+                shopListResList.add(shopListRes);
+            });
+        }
+        return WrapMapper.ok(PageInfo.of(shopListResList));
     }
 
     private String getKey(Long id) {
