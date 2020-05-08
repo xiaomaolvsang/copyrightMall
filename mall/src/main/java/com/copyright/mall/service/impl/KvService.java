@@ -2,6 +2,7 @@ package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.Kv;
 import com.copyright.mall.dao.KvMapper;
+import com.copyright.mall.manage.domain.dto.QueryBlobListParam;
 import com.copyright.mall.service.IKvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,11 @@ public class KvService implements IKvService {
 	@Override
 	public List<Kv> selectByObjectList(Kv kv){
 		return kvMapper.selectByObjectList(kv);
+	}
+
+	@Override
+	public List<Kv> queryKvList(QueryBlobListParam queryBlobListParam) {
+		return kvMapper.queryKVList(queryBlobListParam);
 	}
 
 }

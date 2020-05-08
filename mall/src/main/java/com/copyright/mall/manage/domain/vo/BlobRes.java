@@ -12,7 +12,7 @@ import java.util.Date;
 public class BlobRes {
 
     @ApiModelProperty("内容ID")
-    private String id;
+    private Integer id;
 
     @ApiModelProperty("内容名称")
     private String blobTitle;

@@ -110,5 +110,23 @@
 		 WHERE 1=1
 		 <include refid="conditions" />
 	</select>
+    <select id="queryKVList" resultType="com.copyright.mall.bean.Kv">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM kv
+		WHERE 1=1
+		<if test="id != null "> and ID = #{id,jdbcType=INTEGER} </if>
+		<if test="blobTitle != null and blobTitle != '' "> and BLOB_TITLE = #{blobTitle,jdbcType=VARCHAR} </if>
+		<if test="starTime != null "> and START_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP} </if>
+		<if test="endTime != null "> and START_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP} </if>
+
+	</select>
+	<select id="queryKVByKey" resultType="com.copyright.mall.bean.Kv">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM kv
+		where
+		BLOB_TITLE = #{key,jdbcType=VARCHAR}
+	</select>
 
 </mapper>

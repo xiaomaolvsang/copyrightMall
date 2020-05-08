@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.Kv;
-
+import com.copyright.mall.manage.domain.dto.QueryBlobListParam;
 
 
 /**
@@ -29,5 +29,7 @@ public interface IKvService {
 	public List<Kv> selectObjectListPage(Kv kv);
 
 	public List<Kv> selectByObjectList(Kv kv);
+
+	List<Kv> queryKvList(QueryBlobListParam queryBlobListParam);
 
 }

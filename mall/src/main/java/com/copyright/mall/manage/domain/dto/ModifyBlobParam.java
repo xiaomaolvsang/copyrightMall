@@ -23,7 +23,4 @@ public class ModifyBlobParam {
 
     @ApiModelProperty("内容")
     private String blob;
-
-    @ApiModelProperty("创建人")
-    private String creator;
 }
