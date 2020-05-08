@@ -1,8 +1,10 @@
 package com.copyright.mall.manage.domain.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -24,8 +26,12 @@ public class ExportOrderParam {
     private String shopId;
 
     @ApiModelProperty("订单开始时间")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderStartTime;
 
     @ApiModelProperty("订单结束时间")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderEndTime;
 }
