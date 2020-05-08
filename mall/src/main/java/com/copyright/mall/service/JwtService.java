@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,7 +55,7 @@ public class JwtService {
     /**
      * 生成token
      */
-    private String doGenerateToken(Map<String,Object> claims, String subject) {
+    public String doGenerateToken(Map<String, Object> claims, String subject) {
         Date createdDate = new Date();
         Date expirationDate = new Date(createdDate.getTime() + expiration * 1000L);
         return Jwts.builder()
@@ -67,8 +68,9 @@ public class JwtService {
     }
 
     public static void main(String[] args) {
-        boolean result = new JwtService().isTokenExpired("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjpudWxsLCJleHAiOjE1NzUxNzE1ODYsImlhdCI6MTU3NTE3MTM0Nn0.I_8kF6XeZChg7Cp3W1op9oaqleesxfpOFqASYlGf3fQ");
-        System.out.println();;
+        boolean result = new JwtService().isTokenExpired("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsxXSwiZXhwIjoxNTg5MTU3NjAyLCJ1c2VySWQiOjIsImlhdCI6MTU4ODkxNzYwMn0.d0FUa7rSGc5E1cWoGBhmHfyETOpcUfq8ZaytUXuf1iw");
+        Map<String,Object> objectMap = new JwtService().getClaimFromToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsxXSwiZXhwIjoxNTg5MTU3NjAyLCJ1c2VySWQiOjIsImlhdCI6MTU4ODkxNzYwMn0.d0FUa7rSGc5E1cWoGBhmHfyETOpcUfq8ZaytUXuf1iw");
+        System.out.println((List<Long>)objectMap.get("roles"));
     }
 
 

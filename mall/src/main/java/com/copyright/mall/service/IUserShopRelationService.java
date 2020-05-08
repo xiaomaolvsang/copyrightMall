@@ -30,4 +30,8 @@ public interface IUserShopRelationService {
 
 	public List<UserShopRelation> selectByObjectList(UserShopRelation userShopRelation);
 
+	List<UserShopRelation> selectByUserId(Long userId);
+
+	List<UserShopRelation> selectByShopId(Long shopId);
+
 }

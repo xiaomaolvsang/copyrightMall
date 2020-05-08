@@ -33,6 +33,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +73,14 @@ public class ManageOrderController extends BaseManageController {
     @GetMapping("/list")
     @ApiOperation("订单列表")
     public Wrapper<PageInfo<ShopOrderInfo>> listOrder(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
+        List<Long> roleid = this.getRoleIds();
+        if(!roleid.contains(1L)){
+            List<Long> shopId = this.getShopIds();
+            if(CollectionUtils.isEmpty(shopId)){
+                return WrapMapper.error("当前用户未关联门店");
+            }
+            queryOrderListParam.setShopId(shopId.get(0).toString());
+        }
         log.info("queryOrderListParam = {}", queryOrderListParam);
         Page<ShopOrderDetail> page = PageHelper.startPage(
                 queryOrderListParam.getPageNum(), queryOrderListParam.getPageSize());
@@ -116,6 +125,11 @@ public class ManageOrderController extends BaseManageController {
     @PostMapping("/export")
     @ApiOperation("导出订单")
     public void exportOrder(@ApiParam @Valid @RequestBody ExportOrderParam exportOrderParam) throws IOException {
+        List<Long> roleid = this.getRoleIds();
+        if(!roleid.contains(1L)){
+            List<Long> shopId = this.getShopIds();
+            exportOrderParam.setShopId(shopId.get(0).toString());
+        }
         QueryOrderListParam queryOrderListParam = BeanMapperUtils.map(exportOrderParam, QueryOrderListParam.class);
         List<ShopItemOrderDetail> shopOrders = orderService.orderDetailList(queryOrderListParam);
         List<ShopOrderExport> shopOrderExports = Lists.newArrayList();

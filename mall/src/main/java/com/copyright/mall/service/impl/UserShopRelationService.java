@@ -60,4 +60,18 @@ public class UserShopRelationService implements IUserShopRelationService {
 		return userShopRelationMapper.selectByObjectList(userShopRelation);
 	}
 
+	@Override
+	public List<UserShopRelation> selectByUserId(Long userId) {
+		UserShopRelation userShopRelation = new UserShopRelation();
+		userShopRelation.setUserId(userId);
+		return userShopRelationMapper.selectByObjectList(userShopRelation);
+	}
+
+	@Override
+	public List<UserShopRelation> selectByShopId(Long shopId) {
+		UserShopRelation userShopRelation = new UserShopRelation();
+		userShopRelation.setShopId(shopId);
+		return userShopRelationMapper.selectByObjectList(userShopRelation);
+	}
+
 }

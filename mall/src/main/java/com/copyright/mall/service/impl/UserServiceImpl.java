@@ -2,11 +2,14 @@ package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.User;
 import com.copyright.mall.dao.UserMapper;
+import com.copyright.mall.manage.domain.dto.LoginParam;
 import com.copyright.mall.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,5 +51,17 @@ public class UserServiceImpl implements IUserService {
         }else{
             userMapper.updateByPrimaryKeySelective(user);
         }
+    }
+
+    @Override
+    public User selectByPhoneAndPwd(String phone , String  pwd) {
+        if(StringUtils.isBlank(pwd)){
+            return null;
+        }
+        User queryParam = new User();
+        queryParam.setPhone(phone);
+        queryParam.setPassword(pwd);
+        List<User> users = userMapper.selectByObjectList(queryParam);
+        return CollectionUtils.isEmpty(users)? null : users.get(0);
     }
 }

@@ -60,4 +60,11 @@ public class UserTRightRelationService implements IUserTRightRelationService {
 		return userTRightRelationMapper.selectByObjectList(userTRightRelation);
 	}
 
+	@Override
+	public List<UserTRightRelation> selectByUserId(Long userId) {
+		UserTRightRelation userTRightRelation = new UserTRightRelation();
+		userTRightRelation.setUserId(userId);
+		return userTRightRelationMapper.selectByObjectList(userTRightRelation);
+	}
+
 }

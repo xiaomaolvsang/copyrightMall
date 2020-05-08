@@ -30,4 +30,6 @@ public interface IUserTRightRelationService {
 
 	public List<UserTRightRelation> selectByObjectList(UserTRightRelation userTRightRelation);
 
+	List<UserTRightRelation> selectByUserId(Long userId);
+
 }
