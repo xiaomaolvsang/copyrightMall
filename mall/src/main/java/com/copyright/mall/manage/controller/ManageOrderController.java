@@ -74,7 +74,7 @@ public class ManageOrderController extends BaseManageController {
     @GetMapping("/list")
     @ApiOperation("订单列表")
     public Wrapper<PageInfo<ShopOrderInfo>> listOrder(@ApiParam @Valid QueryOrderListParam queryOrderListParam) {
-        if(UserUtils.isAdmin()){
+        if(!UserUtils.isAdmin()){
             List<Long> shopId = this.getShopIds();
             if(CollectionUtils.isEmpty(shopId)){
                 return WrapMapper.error("当前用户未关联门店");
@@ -125,7 +125,7 @@ public class ManageOrderController extends BaseManageController {
     @PostMapping("/export")
     @ApiOperation("导出订单")
     public void exportOrder(@ApiParam @Valid @RequestBody ExportOrderParam exportOrderParam) throws IOException {
-        if(UserUtils.isAdmin()){
+        if(!UserUtils.isAdmin()){
             List<Long> shopId = this.getShopIds();
             exportOrderParam.setShopId(shopId.get(0).toString());
         }
