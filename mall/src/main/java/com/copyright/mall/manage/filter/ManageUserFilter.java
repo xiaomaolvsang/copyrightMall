@@ -3,7 +3,6 @@ package com.copyright.mall.manage.filter;
 import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.UserUtils;
 import io.jsonwebtoken.Claims;
-import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -17,8 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
-@Configuration
-@WebFilter(filterName = "manageUserFilter", urlPatterns = { "/manage/**" })
+@WebFilter(filterName = "manageUserFilter", urlPatterns = { "/manage/*" })
 public class ManageUserFilter implements Filter {
 
     @Resource
@@ -26,7 +24,7 @@ public class ManageUserFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("----FilterDemo01过滤器初始化----");
+        System.out.println("ManageUserFilter  init");
     }
 
     @Override

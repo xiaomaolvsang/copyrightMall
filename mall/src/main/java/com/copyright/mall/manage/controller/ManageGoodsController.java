@@ -1,10 +1,8 @@
 package com.copyright.mall.manage.controller;
 
-import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.manage.domain.vo.GetGoodsResp;
-import com.copyright.mall.service.impl.ItemService;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
