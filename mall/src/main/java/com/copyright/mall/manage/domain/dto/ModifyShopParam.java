@@ -5,6 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Api("创建修改商铺接口参数")
 @Data
 public class ModifyShopParam {
@@ -16,7 +18,7 @@ public class ModifyShopParam {
     private String shopLogo;
 
     @ApiModelProperty("商铺类型（0-sale,1-artist）")
-    private String shopType;
+    private Integer shopType;
 
     @ApiModelProperty("单位名")
     private String companyName;
@@ -30,16 +32,25 @@ public class ModifyShopParam {
     @ApiModelProperty("艺术家品类")
     private String shopArtCategory;
 
-    @ApiModelProperty("品类")
-    private String isIdentification;
+    @ApiModelProperty("是否认证（0未认证-1认证）")
+    private Integer isIdentification;
 
     @ApiModelProperty("商铺id")
-    private String shopId;
+    private Long shopId;
 
-    @ApiModelProperty("用户id")
-    private String userId;
+    @ApiModelProperty("用户数据")
+    private List<User> users;
 
-    @ApiModelProperty("密码")
-    private String passWord;
+    @ApiModelProperty("商城id")
+    private Long mallId;
+
+    @Data
+    public static class User{
+        @ApiModelProperty("用户id")
+        private String userId;
+
+        @ApiModelProperty("密码")
+        private String passWord;
+    }
 
 }

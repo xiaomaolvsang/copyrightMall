@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.KvMapper">
+
+	<!--cg generate by lijian at 2020-05-08 14:36-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Kv" >
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="blobTitle" column="BLOB_TITLE" jdbcType="VARCHAR" />
+		<result property="content" column="CONTENT" jdbcType="VARCHAR" />
+		<result property="startTime" column="START_TIME" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="creator" column="CREATOR" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	BLOB_TITLE,	CONTENT,	START_TIME,	UPDATE_TIME,	CREATOR
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null "> and ID = #{id,jdbcType=INTEGER} </if>
+		<if test="blobTitle != null and blobTitle != '' "> and BLOB_TITLE = #{blobTitle,jdbcType=VARCHAR} </if>
+		<if test="content != null and content != '' "> and CONTENT = #{content,jdbcType=VARCHAR} </if>
+		<if test="startTime != null and startTime != '' "> and START_TIME = #{startTime,jdbcType=TIMESTAMP} </if>
+		<if test="updateTime != null and updateTime != '' "> and UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP} </if>
+		<if test="creator != null and creator != '' "> and CREATOR = #{creator,jdbcType=VARCHAR} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM kv
+		 WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		 DELETE FROM kv
+		 WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Kv">
+		 INSERT INTO kv
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="blobTitle != null"> BLOB_TITLE,</if>
+			<if test="content != null"> CONTENT,</if>
+			<if test="startTime != null"> START_TIME,</if>
+			<if test="updateTime != null"> UPDATE_TIME,</if>
+			<if test="creator != null"> CREATOR,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="blobTitle!=null">#{blobTitle,jdbcType=VARCHAR},</if>
+			<if test="content!=null">#{content,jdbcType=VARCHAR},</if>
+			<if test="startTime!=null">#{startTime,jdbcType=TIMESTAMP},</if>
+			<if test="updateTime!=null">#{updateTime,jdbcType=TIMESTAMP},</if>
+			<if test="creator!=null">#{creator,jdbcType=VARCHAR},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Kv">
+		 UPDATE kv
+ 		 <set> 
+			<if test="blobTitle != null">BLOB_TITLE = #{blobTitle,jdbcType=VARCHAR},</if>
+			<if test="content != null">CONTENT = #{content,jdbcType=VARCHAR},</if>
+			<if test="startTime != null">START_TIME = #{startTime,jdbcType=TIMESTAMP},</if>
+			<if test="updateTime != null">UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},</if>
+			<if test="creator != null">CREATOR = #{creator,jdbcType=VARCHAR},</if>
+
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM kv
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM kv
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM kv
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>

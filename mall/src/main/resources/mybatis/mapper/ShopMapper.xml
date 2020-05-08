@@ -60,7 +60,7 @@
 	</delete>
 
 	<!-- 添加 （匹配有值的字段,不建议使用）-->
-	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Shop">
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.copyright.mall.bean.Shop">
 		 INSERT INTO shop
 		 <trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null"> ID,</if>
@@ -90,6 +90,7 @@
 			<if test="shopArtcategory!=null">#{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification!=null">#{isIdentification,jdbcType=INTEGER},</if>
 		 </trim>
+
 	</insert>
 
 	<!-- 根据主键修改输入的值-->
