@@ -51,4 +51,8 @@ public class UserUtils {
         }
         return (List<Long>) userHolder.get().get("shopIds");
     }
+
+    public static boolean isAdmin(){
+        return UserUtils.getRoleIds().contains(1L);
+    }
 }
