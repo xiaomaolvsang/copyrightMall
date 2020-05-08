@@ -123,16 +123,18 @@ public class ManageOrderController extends BaseManageController {
             ShopOrderExport shopOrderExport = new ShopOrderExport();
             shopOrderExport.setShopId(shopItemOrderDetail.getShopId());
             shopOrderExport.setShopName(shopItemOrderDetail.getShopName());
-            shopOrderExport.setOrderStatus(shopItemOrderDetail.getOrderStatus());
             shopOrderExport.setStatusDesc(ShopOrderType.of(Integer.valueOf(shopItemOrderDetail.getOrderStatus())).getDesc());
             shopOrderExport.setPayPrice(PriceFormat.format(shopItemOrderDetail.getPayPrice()));
+            shopOrderExport.setPayTime(shopItemOrderDetail.getPayTime());
             shopOrderExport.setShopOrderId(shopItemOrderDetail.getShopOrderId());
             shopOrderExport.setImage(shopItemOrderDetail.getImage());
-            shopOrderExport.setItemOrderId(shopItemOrderDetail.getItemOrderId());
             shopOrderExport.setProductName(shopItemOrderDetail.getProductName());
             shopOrderExport.setProductPrice(PriceFormat.format(shopItemOrderDetail.getProductPrice()));
             shopOrderExport.setSkuId(shopItemOrderDetail.getSkuId());
             shopOrderExport.setNum(shopItemOrderDetail.getNum());
+            shopOrderExport.setDeliveryOrderId(shopItemOrderDetail.getDeliveryOrderId());
+            shopOrderExport.setDelliveryCompanyName(shopItemOrderDetail.getDelliveryCompanyName());
+            shopOrderExport.setCreateTime(shopItemOrderDetail.getCreateTime());
             shopOrderExports.add(shopOrderExport);
         }
 
@@ -152,9 +154,13 @@ public class ManageOrderController extends BaseManageController {
             shopOrderInfo.setOrderStatus(shopOrderDetail.getOrderStatus());
             shopOrderInfo.setStatusDesc(ShopOrderType.of(Integer.parseInt(shopOrderDetail.getOrderStatus())).getDesc());
             shopOrderInfo.setPayPrice(PriceFormat.format(shopOrderDetail.getPayPrice()));
+            shopOrderInfo.setPayTime(shopOrderDetail.getPayTime());
             shopOrderInfo.setShopId(shopOrderDetail.getShopId());
             shopOrderInfo.setShopName(shopOrderDetail.getShopName());
             shopOrderInfo.setShopOrderId(shopOrderDetail.getShopOrderId());
+            shopOrderInfo.setCreateTime(shopOrderDetail.getCreateTime());
+            shopOrderInfo.setDelliveryCompanyName(shopOrderDetail.getDelliveryCompanyName());
+            shopOrderInfo.setDeliveryOrderId(shopOrderDetail.getDeliveryOrderId());
             List<OrderInfoVO.RelateProductsBean> relateProductsBeans = Lists.newArrayList();
             for (ShopOrderDetail.ItemOrder itemOrder : shopOrderDetail.getItemOrders()) {
                 OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();

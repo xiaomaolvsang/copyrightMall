@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -31,6 +32,14 @@ public class ShopOrderInfo {
         @JSONField(name = "shopOrderId")
         @ApiModelProperty("订单ID")
         private String shopOrderId;
+        @ApiModelProperty("快递公司")
+        private String delliveryCompanyName;
+        @ApiModelProperty("运单号")
+        private String deliveryOrderId;
+        @ApiModelProperty("创建时间")
+        private String createTime;
+        @ApiModelProperty("支付时间")
+        private Date payTime;
 
     @Data
     public static class RelateProductsBean {

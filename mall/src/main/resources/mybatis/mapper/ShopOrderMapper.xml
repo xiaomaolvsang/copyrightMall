@@ -177,7 +177,11 @@
 		item_order.item_Price AS productPrice,
 		item_order.item_Count AS num,
 		item.title_Img as image,
-		item.ITEM_TITLE AS productName
+		item.ITEM_TITLE AS productName,
+		shop_order.DELLIVERY_COMPANY_NAME as delliveryCompanyName,
+		shop_order.ORDER_CREATE_TIME as createTime,
+		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
+		shop_order.pay_time as payTime
 		FROM
 		mall_order,
 		shop_order,
@@ -205,7 +209,11 @@
 		shop_order.SHOP_ID AS shopId,
 		shop.SHOP_NAME AS shopName,
 		shop_order.PAY_PRICE AS payPrice,
-		shop_order.SHOP_ORDER_ID as shopOrderId
+		shop_order.SHOP_ORDER_ID as shopOrderId,
+		shop_order.DELLIVERY_COMPANY_NAME as delliveryCompanyName,
+		shop_order.ORDER_CREATE_TIME as createTime,
+		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
+		shop_order.pay_time as payTime
 		FROM
 		mall_order,
 		shop_order,
