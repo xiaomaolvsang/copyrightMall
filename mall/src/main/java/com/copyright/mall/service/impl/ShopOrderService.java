@@ -7,6 +7,7 @@ import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
 import com.copyright.mall.manage.domain.dto.QueryShopParam;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
+import com.copyright.mall.util.UserUtils;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
