@@ -55,7 +55,7 @@ public class OrderInfoVO {
         private String productName;
         @JSONField(name = "productPrice")
         @ApiModelProperty("商品售价")
-        private String productPrice;
+        private BigDecimal productPrice;
         @JSONField(name = "productId")
         @ApiModelProperty("skuId")
         private String skuId;

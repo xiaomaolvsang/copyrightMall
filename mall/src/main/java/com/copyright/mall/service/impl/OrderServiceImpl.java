@@ -12,6 +12,7 @@ import com.copyright.mall.enums.MallPayStatusEnum;
 import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
+import com.copyright.mall.manage.domain.dto.ShopItemOrderDetail;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 import com.copyright.mall.service.*;
 import com.copyright.mall.util.IDUtil;
@@ -176,7 +177,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List <ShopOrderDetail> orderDetailList(QueryOrderListParam queryOrderListParam) {
+    public List <ShopItemOrderDetail> orderDetailList(QueryOrderListParam queryOrderListParam) {
         return shopOrderMapper.selectOrderDetailList(queryOrderListParam);
     }
 

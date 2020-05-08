@@ -165,7 +165,7 @@
 		 </where>
 		order by GMT_CREATE desc
 	</select>
-    <select id="selectOrderDetailList" resultType="com.copyright.mall.manage.domain.dto.ShopOrderDetail">
+    <select id="selectOrderDetailList" resultType="com.copyright.mall.manage.domain.dto.ShopItemOrderDetail">
 		SELECT
 		shop_order.ORDER_TYPE AS orderStatus,
 		shop_order.SHOP_ID AS shopId,
@@ -191,7 +191,7 @@
 			AND item_order.SKU_ID = sku.id
 			AND item_order.ITEM_ID = item.id
 			AND shop_order.shop_Id = shop.id
-			<if test="orderId != null and orderId != '' "> and shop_order.SHOP_ORDER_ID = #{shopOrderId,jdbcType=VARCHAR} </if>
+			<if test="orderId != null and orderId != '' "> and shop_order.SHOP_ORDER_ID = #{orderId,jdbcType=VARCHAR} </if>
 			<if test="userName != null and userName != '' "> and mall_order.BUYER = #{userName,jdbcType=VARCHAR} </if>
 			<if test="shopName != null and shopName != '' "> and mall.mallName = #{shopName,jdbcType=VARCHAR} </if>
 			<if test="orderStartTime != null and orderStartTime != '' "> and shop_order.GMT_CREATE <![CDATA[ >= ]]> #{orderStartTime,jdbcType=VARCHAR} </if>

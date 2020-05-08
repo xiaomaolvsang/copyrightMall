@@ -16,9 +16,6 @@ public class ShopOrderDetail {
     @JSONField(name = "shopName")
     @ApiModelProperty("店铺名称")
     private String shopName;
-    @JSONField(name = "image")
-    @ApiModelProperty("商品图片")
-    private String image;
     @JSONField(name = "status")
     @ApiModelProperty("订单状态")
     private String orderStatus;
@@ -43,7 +40,7 @@ public class ShopOrderDetail {
         private String productName;
         @JSONField(name = "productPrice")
         @ApiModelProperty("商品售价")
-        private String productPrice;
+        private Integer productPrice;
         @JSONField(name = "productId")
         @ApiModelProperty("skuId")
         private String skuId;

@@ -171,7 +171,7 @@ public class OrderController extends BaseController {
                     }
                     relateProductsBean.setImage(item.getTitleImg());
                     relateProductsBean.setProductName(item.getItemTitle());
-                    relateProductsBean.setProductPrice(PriceFormat.formatStr(itemOrder.getItemPrice()));
+                    relateProductsBean.setProductPrice(PriceFormat.format(itemOrder.getItemPrice()));
                     relateProductsBean.setSkuId(sku.getId().toString());
                     relateProductsBean.setNum(itemOrder.getItemCount());
                     relateProductsBean.setItemOrderId(itemOrder.getItemOrderId());

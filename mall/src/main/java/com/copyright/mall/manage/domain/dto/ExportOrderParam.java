@@ -11,8 +11,8 @@ import java.util.Date;
 public class ExportOrderParam {
 
 
-    @ApiModelProperty("订单列表")
-    private String orderNum;
+    @ApiModelProperty("订单号")
+    private String orderId;
 
     @ApiModelProperty("用户名")
     private String userName;

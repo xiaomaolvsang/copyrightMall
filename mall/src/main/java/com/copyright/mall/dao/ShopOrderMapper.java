@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.copyright.mall.bean.ShopOrder;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
+import com.copyright.mall.manage.domain.dto.ShopItemOrderDetail;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
 
 
@@ -31,7 +32,7 @@ public interface ShopOrderMapper {
 
 	public List<ShopOrder> selectByObjectList(ShopOrder shopOrder);
 
-	List<ShopOrderDetail> selectOrderDetailList(QueryOrderListParam queryOrderListParam);
+	List<ShopItemOrderDetail> selectOrderDetailList(QueryOrderListParam queryOrderListParam);
 
 	List<ShopOrderDetail> selectShopOrder(QueryOrderListParam queryOrderListParam);
 
