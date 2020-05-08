@@ -17,27 +17,27 @@ public class ShopOrderExport {
     private String shopName;
     @ExcelProperty(value = "订单状态枚举",index = 2)
     private String statusDesc;
-    @ExcelProperty(value = "支付金额",index = 4)
+    @ExcelProperty(value = "支付金额",index = 3)
     private BigDecimal payPrice;
-    @ExcelProperty(value = "支付时间",index = 5)
+    @ExcelProperty(value = "支付时间",index = 4)
     private Date payTime;
-    @ExcelProperty(value = "订单ID",index = 7)
+    @ExcelProperty(value = "订单ID",index = 5)
     private String shopOrderId;
-    @ExcelProperty(value = "商品图片",index =8)
+    @ExcelProperty(value = "商品图片",index =6)
     private String image;
-    @ExcelProperty(value = "商品名",index = 9)
+    @ExcelProperty(value = "商品名",index = 7)
     private String productName;
-    @ExcelProperty(value = "商品售价",index = 10)
+    @ExcelProperty(value = "商品售价",index = 8)
     private BigDecimal productPrice;
-    @ExcelProperty(value = "skuId",index = 11)
+    @ExcelProperty(value = "skuId",index = 9)
     private String skuId;
-    @ExcelProperty(value = "数量",index = 12)
+    @ExcelProperty(value = "数量",index = 10)
     private int num;
-    @ExcelProperty(value = "快递公司",index = 13)
+    @ExcelProperty(value = "快递公司",index = 11)
     private String delliveryCompanyName;
-    @ExcelProperty(value = "运单号",index = 14)
+    @ExcelProperty(value = "运单号",index = 12)
     private String deliveryOrderId;
-    @ExcelProperty(value = "创建时间",index = 15)
+    @ExcelProperty(value = "创建时间",index = 13)
     private String createTime;
 
 
