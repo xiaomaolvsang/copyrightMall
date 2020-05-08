@@ -46,4 +46,6 @@ public interface IProductService {
    */
   Wrapper<List<QueryGoodsParam>> getGoods(QueryGoodsParam queryGoodsParam);
 
+
+  Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam);
 }

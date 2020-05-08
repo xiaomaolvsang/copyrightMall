@@ -311,6 +311,18 @@ public class ProductServiceImpl implements IProductService {
         return null;
     }
 
+    @Override
+    public Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam) {
+        if(queryGoodsParam.getGoodsId() == null){
+            return WrapMapper.error("商品id不能为空");
+        }
+        Item item = new Item();
+        item.setItemStatus(0);
+        item.setId(queryGoodsParam.getGoodsId());
+        itemService.updateByPrimaryKeySelective(item);
+        return WrapMapper.ok();
+    }
+
     private List<Item> getRecommend(Long itemId) {
         ClassItemRelation classItemRelation = new ClassItemRelation();
         classItemRelation.setItemId(itemId);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.UserMapper">
 
-	<!--cg generate by lijian at 2019-12-01 11:22-->
+	<!--cg generate by lijian at 2020-05-08 12:46-->
 
 	<!--通用用户表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.User" >
@@ -13,12 +13,13 @@
 		<result property="img" column="IMG" jdbcType="VARCHAR" />
 		<result property="sessionKey" column="SESSION_KEY" jdbcType="VARCHAR" />
 		<result property="openId" column="OPEN_ID" jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	PHONE,	IMG,	SESSION_KEY,	OPEN_ID
+	id,	GMT_CREATE,	GMT_MODIFIED,	PHONE,	IMG,	SESSION_KEY,	OPEN_ID,	PASSWORD
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -33,6 +34,7 @@
 		<if test="img != null and img != '' "> and IMG = #{img,jdbcType=VARCHAR} </if>
 		<if test="sessionKey != null and sessionKey != '' "> and SESSION_KEY = #{sessionKey,jdbcType=VARCHAR} </if>
 		<if test="openId != null and openId != '' "> and OPEN_ID = #{openId,jdbcType=VARCHAR} </if>
+		<if test="password != null and password != '' "> and PASSWORD = #{password,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -60,6 +62,7 @@
 			<if test="img != null"> IMG,</if>
 			<if test="sessionKey != null"> SESSION_KEY,</if>
 			<if test="openId != null"> OPEN_ID,</if>
+			<if test="password != null"> PASSWORD,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -69,6 +72,7 @@
 			<if test="img!=null">#{img,jdbcType=VARCHAR},</if>
 			<if test="sessionKey!=null">#{sessionKey,jdbcType=VARCHAR},</if>
 			<if test="openId!=null">#{openId,jdbcType=VARCHAR},</if>
+			<if test="password!=null">#{password,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -82,6 +86,7 @@
 			<if test="img != null">IMG = #{img,jdbcType=VARCHAR},</if>
 			<if test="sessionKey != null">SESSION_KEY = #{sessionKey,jdbcType=VARCHAR},</if>
 			<if test="openId != null">OPEN_ID = #{openId,jdbcType=VARCHAR},</if>
+			<if test="password != null">PASSWORD = #{password,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

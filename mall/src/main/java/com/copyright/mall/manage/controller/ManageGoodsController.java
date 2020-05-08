@@ -4,6 +4,8 @@ import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.manage.domain.vo.GetGoodsResp;
+import com.copyright.mall.service.impl.ItemService;
+import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Api(tags = "后端商品管理")
@@ -23,6 +26,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/manage/v1/goods")
 public class ManageGoodsController {
+
+    @Resource
+    private IProductService iProductService;
 
     @PostMapping("/getGoods")
     @ApiOperation("获取商品信息")
@@ -35,7 +41,7 @@ public class ManageGoodsController {
     @ApiOperation("下架商品")
     public Wrapper<Boolean> offGoods(@ApiParam @Valid @RequestBody QueryGoodsParam queryGoodsParam) {
         log.info("getShop = {}", queryGoodsParam);
-        return WrapMapper.ok();
+        return iProductService.downGoods(queryGoodsParam);
     }
 
     @PostMapping("/upGoods")
