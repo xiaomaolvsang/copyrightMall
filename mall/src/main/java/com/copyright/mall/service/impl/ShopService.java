@@ -144,9 +144,8 @@ public class ShopService implements IShopService {
     public Wrapper<PageInfo<ShopListRes>> getShopListByUserId(QueryShopParam queryShopParam) {
         //管理员
         List<ShopListRes> shopListResList = new ArrayList<>();
-
+        PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
         if (UserUtils.isAdmin()) {
-            PageHelper.startPage(queryShopParam.getPageNum(),queryShopParam.getPageSize());
             List<Shop> shops = shopMapper.selectByObjectList(new Shop());
             shops.forEach(shop -> {
                 ShopListRes shopListRes = new ShopListRes();
@@ -172,6 +171,11 @@ public class ShopService implements IShopService {
                 });
                 shopListResList.add(shopListRes);
             });
+        } else {
+            UserShopRelation userShopRelation = new UserShopRelation();
+            userShopRelation.setUserId(UserUtils.getUserId());
+            List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
+
         }
         return WrapMapper.ok(PageInfo.of(shopListResList));
     }
