@@ -16,6 +16,8 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ public class Swagger {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(security())
-                .securityContexts(securityContexts());
+                .securityContexts(Collections.singletonList(securityContext()));
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -57,22 +59,21 @@ public class Swagger {
                 new ApiKey("manageToken", "X-MANAGE-TOKEN", "header")
         );
     }
-    private List<SecurityContext> securityContexts() {
-        return Lists.newArrayList(
-                SecurityContext.builder()
-                        .securityReferences(defaultAuth())
-                        .forPaths(PathSelectors.regex("^!(?auth).*$"))
-                        .build()
-        );
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any()).build();
     }
 
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope(
+                "global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(
-                new SecurityReference("Authorization", authorizationScopes));
+        return Arrays.asList(
+                new SecurityReference("token", authorizationScopes),
+                new SecurityReference("manageToken", authorizationScopes));
     }
+
 
 
 }

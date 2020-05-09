@@ -1,8 +1,11 @@
 package com.copyright.mall.manage.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.UserUtils;
+import com.copyright.mall.util.wrapper.WrapMapper;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -35,6 +38,12 @@ public class ManageUserFilter implements Filter {
             return;
         }
         String token = httpServletRequest.getHeader("X-MANAGE-TOKEN");
+        if(StringUtils.isBlank(token)){
+            response.getOutputStream().println(JSON.toJSONString(WrapMapper.error("Invalid authentication")));
+            response.getOutputStream().close();
+            return;
+        }
+
         String userId = null;
         try {
             userId = jwtService.getClaimFromToken(token).getSubject();
