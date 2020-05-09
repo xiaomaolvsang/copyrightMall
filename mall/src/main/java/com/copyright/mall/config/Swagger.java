@@ -35,7 +35,8 @@ public class Swagger {
                 .apis(RequestHandlerSelectors.basePackage("com.copyright.mall"))
                 .paths(PathSelectors.any())
                 .build()
-                .securitySchemes(security());
+                .securitySchemes(security())
+                .securityContexts(securityContexts());
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -56,5 +57,22 @@ public class Swagger {
                 new ApiKey("manageToken", "X-MANAGE-TOKEN", "header")
         );
     }
+    private List<SecurityContext> securityContexts() {
+        return Lists.newArrayList(
+                SecurityContext.builder()
+                        .securityReferences(defaultAuth())
+                        .forPaths(PathSelectors.regex("^!(?auth).*$"))
+                        .build()
+        );
+    }
+
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(
+                new SecurityReference("Authorization", authorizationScopes));
+    }
+
 
 }

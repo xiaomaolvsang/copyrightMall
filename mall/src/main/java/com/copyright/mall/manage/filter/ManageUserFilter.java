@@ -30,6 +30,10 @@ public class ManageUserFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+        if(((HttpServletRequest) request).getRequestURL().toString().contains("/login")){
+            chain.doFilter(request, response);
+            return;
+        }
         String token = httpServletRequest.getHeader("X-MANAGE-TOKEN");
         String userId = null;
         try {
@@ -48,7 +52,7 @@ public class ManageUserFilter implements Filter {
                 UserUtils.setRoleIds((List<Long>) claims.get("roles"));
             }
         }
-        chain.doFilter(request, response); // 让目标资源执行，放行
+        chain.doFilter(request, response);
     }
 
     @Override
