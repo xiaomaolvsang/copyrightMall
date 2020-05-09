@@ -97,7 +97,7 @@
 	</select>
 
 	<!--删除：根据主键ID删除-->
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+	<delete id="deleteByItemId" parameterType="java.lang.Long">
 		DELETE FROM class_item_relation
 		WHERE itemId = #{id,jdbcType=BIGINT}
 	</delete>
