@@ -34,4 +34,5 @@ public interface ShopMapper {
 										 @Param("startOfPage") Integer startOfPage,
 										 @Param("pageSize") Integer pageSize);
 
+	public List<Shop> selectByShopIds(@Param("shopIds") List<Long> shopIds);
 }

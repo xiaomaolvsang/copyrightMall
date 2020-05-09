@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -145,38 +146,42 @@ public class ShopService implements IShopService {
         //管理员
         List<ShopListRes> shopListResList = new ArrayList<>();
         PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
+        List<Shop> shops = new ArrayList<>();
         if (UserUtils.isAdmin()) {
-            List<Shop> shops = shopMapper.selectByObjectList(new Shop());
-            shops.forEach(shop -> {
-                ShopListRes shopListRes = new ShopListRes();
-                shopListRes.setShopName(shop.getShopName());
-                shopListRes.setShopLogo(shop.getShopLogo());
-                shopListRes.setShopType(shop.getShopType());
-                shopListRes.setCompanyName(shop.getCompanyName());
-                shopListRes.setCertification(shop.getCertification());
-                shopListRes.setShopImg(shop.getShopImg());
-                shopListRes.setShopArtCategory(shop.getShopArtcategory());
-                shopListRes.setIsIdentification(shop.getIsIdentification());
-                shopListRes.setShopId(shop.getId());
-                List<ShopListRes.User> users = new ArrayList<>();
-                UserShopRelation userShopRelation = new UserShopRelation();
-                userShopRelation.setShopId(shop.getId());
-                List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
-                list.forEach(userShopRelation1 -> {
-                    User user = iUserService.selectByUserId(userShopRelation1.getUserId());
-                    ShopListRes.User userRes = new ShopListRes.User();
-                    userRes.setPhone(user.getPhone());
-                    userRes.setUserId(user.getId());
-                    users.add(userRes);
-                });
-                shopListResList.add(shopListRes);
-            });
+            shops = shopMapper.selectByObjectList(new Shop());
         } else {
             UserShopRelation userShopRelation = new UserShopRelation();
             userShopRelation.setUserId(UserUtils.getUserId());
             List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
-
+            List<Long> shopIds = list.stream().map(UserShopRelation::getShopId).collect(Collectors.toList());
+            shops = shopMapper.selectByShopIds(shopIds);
         }
+
+        shops.forEach(shop -> {
+            ShopListRes shopListRes = new ShopListRes();
+            shopListRes.setShopName(shop.getShopName());
+            shopListRes.setShopLogo(shop.getShopLogo());
+            shopListRes.setShopType(shop.getShopType());
+            shopListRes.setCompanyName(shop.getCompanyName());
+            shopListRes.setCertification(shop.getCertification());
+            shopListRes.setShopImg(shop.getShopImg());
+            shopListRes.setShopArtCategory(shop.getShopArtcategory());
+            shopListRes.setIsIdentification(shop.getIsIdentification());
+            shopListRes.setShopId(shop.getId());
+            List<ShopListRes.User> users = new ArrayList<>();
+            UserShopRelation userShopRelation = new UserShopRelation();
+            userShopRelation.setShopId(shop.getId());
+            List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
+            list.forEach(userShopRelation1 -> {
+                User user = iUserService.selectByUserId(userShopRelation1.getUserId());
+                ShopListRes.User userRes = new ShopListRes.User();
+                userRes.setPhone(user.getPhone());
+                userRes.setUserId(user.getId());
+                users.add(userRes);
+            });
+            shopListRes.setUsers(users);
+            shopListResList.add(shopListRes);
+        });
         return WrapMapper.ok(PageInfo.of(shopListResList));
     }
 

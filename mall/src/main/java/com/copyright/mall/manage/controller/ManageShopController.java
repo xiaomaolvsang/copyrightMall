@@ -30,8 +30,7 @@ public class ManageShopController extends BaseManageController{
     public Wrapper<PageInfo<ShopListRes>> getShop(@ApiParam @Valid @RequestBody QueryShopParam queryShopParam) {
         log.info("getShop = {}", queryShopParam);
         queryShopParam.setUserId(getUserId());
-        iShopService.getShopListByUserId(queryShopParam);
-        return WrapMapper.ok();
+        return iShopService.getShopListByUserId(queryShopParam);
     }
 
     @PostMapping("/createShop")

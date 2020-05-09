@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class ManageUserController extends BaseManageController{
     @Resource
     private IUserShopRelationService userShopRelationService;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ApiOperation("B端登陆")
     public Wrapper<String> login(@Valid LoginParam loginParam){
         User user = userService.selectByPhoneAndPwd(loginParam.getPhone(),MD5Util.digest(loginParam.getPassword()));

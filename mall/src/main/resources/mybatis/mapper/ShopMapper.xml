@@ -157,4 +157,14 @@
 		limit #{startOfPage},#{pageSize}
 	</select>
 
+
+	<select id="selectByShopIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop
+		where
+		1=1
+		and id in
+		<foreach collection="shopIds" open="(" separator="," close=")" index="index" item="id">#{id,jdbcType=BIGINT}</foreach>
+	</select>
 </mapper>
