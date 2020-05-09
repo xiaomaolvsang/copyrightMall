@@ -30,4 +30,5 @@ public interface IClassItemRelationService {
 
 	public List<ClassItemRelation> selectByObjectList(ClassItemRelation classItemRelation);
 
+	public int deleteByItemId(Long id);
 }

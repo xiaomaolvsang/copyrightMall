@@ -11,8 +11,8 @@ import java.util.List;
 @ApiModel("商品查询返回参数")
 public class GetGoodsResp extends BasePage {
 
-    @ApiModelProperty("商品类型(product/artist)")
-    private String type;
+    @ApiModelProperty("商品类型(0 product/ 1 artist)")
+    private Integer type;
     @ApiModelProperty("缩略图")
     private String avatar;
     @ApiModelProperty("图片url")
@@ -28,11 +28,26 @@ public class GetGoodsResp extends BasePage {
     @ApiModelProperty("行业")
     private String artCategory;
     @ApiModelProperty("分类")
-    private String classLevel;
+    private List<ClassLevel> classLevel;
     @ApiModelProperty("上下架（1上架，0下架）")
     private Integer itemStatus;
 
     private List<SkuResp> skuResps;
+
+    private List<Opus> opuses;
+
+    @Data
+    @ApiModel("分类返回参数")
+    public static class ClassLevel{
+        @ApiModelProperty("子分类")
+        private ClassLevel son;
+        @ApiModelProperty("分类名")
+        private String classname;
+        @ApiModelProperty("分类ID")
+        private Long classId;
+    }
+
+
     @Data
     @ApiModel("sku返回参数")
     public static class SkuResp{
@@ -43,5 +58,23 @@ public class GetGoodsResp extends BasePage {
         @ApiModelProperty("尺寸值")
         private String sizeValue;
     }
+
+    @Data
+    @ApiModel("作品参数")
+    public static class Opus{
+        @ApiModelProperty("头图")
+        private String image;
+        @ApiModelProperty("id")
+        private Long opusId;
+        @ApiModelProperty("作品名称")
+        private String opusName;
+        @ApiModelProperty("作品标题")
+        private String opusTitle;
+        @ApiModelProperty("作品详情")
+        private String opusDesc;
+        @ApiModelProperty("作品图片（用逗号隔开）")
+        private String imgs;
+    }
+
 
 }

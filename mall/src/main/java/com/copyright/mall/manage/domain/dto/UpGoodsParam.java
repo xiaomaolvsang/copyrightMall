@@ -10,18 +10,17 @@ import java.util.List;
 @ApiModel("查询订单列表参数")
 public class UpGoodsParam {
     @ApiModelProperty("商铺id")
-    private String shopId;
+    private Long shopId;
     @ApiModelProperty("商品详情")
     private GoodsParam goodsParam;
-    @ApiModelProperty("艺术作品详情")
-    private ArtOps artOps;
-    @ApiModelProperty("商品ID")
-    private String goodsId;
 
-
+    @Data
+    @ApiModel("商品详情")
     public static class GoodsParam{
+        @ApiModelProperty("商品ID")
+        private Long goodsId;
         @ApiModelProperty("分类id")
-        private String itemClassId;
+        private List<Long> itemClassIds;
         @ApiModelProperty("商标号")
         private String copyRightId;
         @ApiModelProperty("商品名称")
@@ -32,6 +31,19 @@ public class UpGoodsParam {
         private String titleImg;
         @ApiModelProperty("商品详情图片")
         private List<String> contentImg;
+        @ApiModelProperty("sku信息")
+        private List<Sku> skus;
+        @ApiModelProperty("艺术作品详情")
+        private List<ArtOps> artOps;
+        @ApiModelProperty("艺术类别")
+        private String artCategory;
+    }
+
+    @Data
+    @ApiModel("sku详情")
+    public static class Sku{
+        @ApiModelProperty("skuId")
+        private Long skuId;
         @ApiModelProperty("商品价格（单位：分）")
         private Integer price;
         @ApiModelProperty("商品尺寸")
@@ -40,9 +52,11 @@ public class UpGoodsParam {
         private String sizeValue;
     }
 
+    @Data
+    @ApiModel("作品详情")
     public static class ArtOps{
         @ApiModelProperty("商品id")
-        private String itemId;
+        private Long itemId;
         @ApiModelProperty("作品名称")
         private String artOpsName;
         @ApiModelProperty("作品标题")
@@ -50,9 +64,11 @@ public class UpGoodsParam {
         @ApiModelProperty("作品详情")
         private String opusDesc;
         @ApiModelProperty("作品图片")
-        private String imgs;
+        private List<String> imgs;
         @ApiModelProperty("作品头图")
         private String image;
+        @ApiModelProperty("作品id")
+        private Long opusId;
     }
 }
 

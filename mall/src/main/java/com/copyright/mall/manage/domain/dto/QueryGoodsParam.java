@@ -14,9 +14,9 @@ public class QueryGoodsParam extends BasePage {
     @ApiModelProperty("商品号")
     private String barCode;
     @ApiModelProperty("一级分类")
-    private String classLevelFirst;
+    private Long classLevelFirst;
     @ApiModelProperty("二级分类")
-    private String classLevelSecond;
+    private Long classLevelSecond;
     @ApiModelProperty("商品名称")
     private String itemTitle;
     @ApiModelProperty("商铺号")
@@ -29,4 +29,6 @@ public class QueryGoodsParam extends BasePage {
     private Long mallId;
     @ApiModelProperty("商品类型(product/artist)")
     private String type;
+
+
 }

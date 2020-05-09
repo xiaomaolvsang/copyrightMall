@@ -32,20 +32,6 @@ public interface IItemService {
 
 	List<Item> selectAll();
 
-	List<Item> selectItemsByParam(List<Long> shopIds,
-								  String itemTitle,
-								  List<Long> itemClassIds,
-								  String barcode,
-								  Long id,
-								  Integer itemStatus,
-								  String shopType,
-								  Integer startOfPage,
-								  Integer pageSize);
-	int selectItemsCountByParam(List<Long> shopIds,
-								String itemTitle,
-								List<Long> itemClassIds,
-								String barcode,
-								Long id,
-								Integer itemStatus,
-								String shopType);
+	List<Item> selectItemsByParam(List<Long> shopIds, String itemTitle, String barcode,
+								  Integer itemStatus,List<Long> itemIds);
 }

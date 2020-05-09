@@ -32,11 +32,11 @@ public class ManageGoodsController {
     @ApiOperation("获取商品信息")
     public Wrapper<PageInfo<GetGoodsResp>> getGoods(@ApiParam @Valid @RequestBody QueryGoodsParam queryGoodsParam) {
         log.info("getShop = {}", queryGoodsParam);
-        return WrapMapper.ok();
+        return iProductService.getGoods(queryGoodsParam);
     }
 
     @PostMapping("/offGoods")
-    @ApiOperation("下架商品")
+    @ApiOperation("下架/上架商品")
     public Wrapper<Boolean> offGoods(@ApiParam @Valid @RequestBody QueryGoodsParam queryGoodsParam) {
         log.info("getShop = {}", queryGoodsParam);
         return iProductService.downGoods(queryGoodsParam);
@@ -46,13 +46,13 @@ public class ManageGoodsController {
     @ApiOperation("商品新增")
     public Wrapper<Boolean> upGoods(@ApiParam @Valid @RequestBody UpGoodsParam upGoodsParam) {
         log.info("getShop = {}", upGoodsParam);
-        return WrapMapper.ok();
+        return iProductService.upGoods(upGoodsParam);
     }
 
     @PostMapping("/updateGoods")
     @ApiOperation("商品修改")
     public Wrapper<Boolean> updateGoods(@ApiParam @Valid @RequestBody UpGoodsParam upGoodsParam) {
         log.info("getShop = {}", upGoodsParam);
-        return WrapMapper.ok();
+        return iProductService.upGoods(upGoodsParam);
     }
 }

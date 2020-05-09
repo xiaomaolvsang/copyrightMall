@@ -79,18 +79,10 @@ public class ItemService implements IItemService {
     }
 
     @Override
-    public List<Item> selectItemsByParam(List<Long> shopIds, String itemTitle,
-                                         List<Long> itemClassIds, String barcode,
-                                         Long id, Integer itemStatus, String shopType,
-                                         Integer startOfPage, Integer pageSize) {
-        return itemMapper.selectItemsByParam(shopIds, itemTitle, itemClassIds,
-                barcode, id, itemStatus, shopType, startOfPage, pageSize);
-    }
-
-    @Override
-    public int selectItemsCountByParam(List<Long> shopIds, String itemTitle, List<Long> itemClassIds, String barcode, Long id, Integer itemStatus, String shopType) {
-        return itemMapper.selectItemsCountByParam(shopIds, itemTitle, itemClassIds,
-                barcode, id, itemStatus, shopType);
+    public List<Item> selectItemsByParam(List<Long> shopIds, String itemTitle, String barcode,
+                                         Integer itemStatus,List<Long> itemIds) {
+        return itemMapper.selectItemsByParam(shopIds, itemTitle,
+                barcode, itemStatus, itemIds);
     }
 
     private String getKey() {

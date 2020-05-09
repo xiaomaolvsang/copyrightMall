@@ -4,6 +4,7 @@ import com.copyright.mall.bean.*;
 import com.copyright.mall.bean.enumeration.AreaEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
+import com.copyright.mall.dao.ArtistOpusMapper;
 import com.copyright.mall.domain.dto.cart.CartDTO;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.exception.BusinessException;
@@ -21,12 +22,10 @@ import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.ISkuService;
-import com.copyright.mall.service.impl.ClassItemRelationService;
-import com.copyright.mall.service.impl.ClassificationService;
-import com.copyright.mall.service.impl.CopyrightService;
-import com.copyright.mall.service.impl.ShopService;
+import com.copyright.mall.service.impl.*;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
@@ -35,6 +34,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -70,6 +70,9 @@ public class ProductServiceImpl implements IProductService {
 
     @Resource
     private ClassificationService classificationService;
+
+    @Resource
+    private ArtistOpusMapper artistOpusMapper;
 
     @Override
     public Wrapper<List<ProductSearchResp>> search(ProductSearchParam productSearchParam) {
@@ -264,87 +267,144 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Wrapper<List<GetGoodsResp>> getGoods(QueryGoodsParam queryGoodsParam) {
+    public Wrapper<PageInfo<GetGoodsResp>> getGoods(QueryGoodsParam queryGoodsParam) {
+
+        final List<Long> itemIds = new ArrayList<>();
+        List<Long> shopIds = new ArrayList<>();
+        Map<Long, List<Classification>> classifications = classificationService.getAll()
+                .stream().collect(Collectors.groupingBy(Classification::getId));
+
+        if (queryGoodsParam.getClassLevelSecond() != null) {
+            ClassItemRelation classItemRelation = new ClassItemRelation();
+            classItemRelation.setClassId(queryGoodsParam.getClassLevelSecond());
+            itemIds.addAll(classItemRelationService.selectByObjectList(classItemRelation)
+                    .stream()
+                    .map(ClassItemRelation::getItemId).collect(Collectors.toList()));
+        } else if (queryGoodsParam.getClassLevelFirst() != null) {
+            Classification classification = new Classification();
+            classification.setUpperId(queryGoodsParam.getClassLevelFirst());
+            List<Classification> list = classificationService.selectByObjectList(classification);
+            list.forEach(classification1 -> {
+                ClassItemRelation classItemRelation = new ClassItemRelation();
+                classItemRelation.setClassId(classification1.getId());
+                List<Long> itemIdsTemp = classItemRelationService.selectByObjectList(classItemRelation)
+                        .stream()
+                        .map(ClassItemRelation::getItemId)
+                        .collect(Collectors.toList());
+                itemIds.addAll(itemIdsTemp);
+            });
+        }
+        List<Long> items = null;
+        if (CollectionUtils.isEmpty(shopIds)) {
+            shopIds = null;
+        }
+        if (!CollectionUtils.isEmpty(itemIds)) {
+            items = itemIds;
+        }
+
+        PageHelper.startPage(queryGoodsParam.getPageNum(), queryGoodsParam.getPageSize());
+        List<Item> itemsRes = new ArrayList<>();
+        if (UserUtils.isAdmin()) {
+            itemsRes = itemService.selectItemsByParam(shopIds,
+                    queryGoodsParam.getItemTitle(),
+                    queryGoodsParam.getBarCode(),
+                    queryGoodsParam.getItemStatus(),
+                    items);
+        } else {
+            shopIds = UserUtils.getShopIds();
+            itemsRes = itemService.selectItemsByParam(shopIds,
+                    queryGoodsParam.getItemTitle(),
+                    queryGoodsParam.getBarCode(),
+                    queryGoodsParam.getItemStatus(),
+                    items);
+        }
+        List<GetGoodsResp> getGoodsResps = new ArrayList<>();
         Shop shop = new Shop();
         shop.setMallId(queryGoodsParam.getMallId());
-
         List<Shop> shops = shopService.selectByObjectList(shop);
-        if (queryGoodsParam.getShopId() != null) {
-            shops = shops.stream().filter(shop1 -> shop1.getId().equals(queryGoodsParam.getShopId()))
-                    .collect(Collectors.toList());
-        }
-        List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
-        List<Long> classIds = new ArrayList<>();
-
-        if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelSecond())) {
-            classIds.add(Long.valueOf(queryGoodsParam.getClassLevelSecond()));
-        } else if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelFirst())) {
-            List<Classification> classifications = classificationService.selectByObjectList(new Classification());
-            classIds = classifications.stream()
-                    .filter(classification ->
-                            classification.getUpperId().toString().equals(queryGoodsParam.getClassLevelFirst()))
-                    .map(Classification::getId)
-                    .collect(Collectors.toList());
-        }
-
-        List<Item> items = itemService.selectItemsByParam(shopIds,
-                queryGoodsParam.getItemTitle(),
-                classIds,
-                queryGoodsParam.getBarCode(),
-                queryGoodsParam.getGoodsId(),
-                queryGoodsParam.getItemStatus(),
-                queryGoodsParam.getType(),
-                (queryGoodsParam.getPageNum() - 1) * queryGoodsParam.getPageSize(),
-                queryGoodsParam.getPageSize());
-
-        int allPage = itemService.selectItemsCountByParam(shopIds,
-                queryGoodsParam.getItemTitle(),
-                classIds,
-                queryGoodsParam.getBarCode(),
-                queryGoodsParam.getGoodsId(),
-                queryGoodsParam.getItemStatus(),
-                queryGoodsParam.getType());
-
-        List<Sku> skus = skuService.selectByObjectList(new Sku());
-        Map<Long, List<Sku>> map = skus.stream().collect(Collectors.groupingBy(Sku::getItemId));
-        List<GetGoodsResp> list = new ArrayList<>();
-        items.forEach(item -> {
+        Map<Long, List<Shop>> map = shops.stream().collect(Collectors.groupingBy(Shop::getId));
+        itemsRes.forEach(item -> {
             GetGoodsResp getGoodsResp = new GetGoodsResp();
-            getGoodsResp.setType(item.getShopType());
             getGoodsResp.setArtCategory(item.getArtCategory());
             getGoodsResp.setAvatar(item.getTitleImg());
-            getGoodsResp.setClassLevel(item.getClassName());
+            Shop shop1 = map.get(item.getShopId()).get(0);
+            getGoodsResp.setType(shop1.getShopType());
             getGoodsResp.setImage(item.getContentImg());
-            getGoodsResp.setShopName(item.getCompanyName());
-            getGoodsResp.setItemStatus(item.getItemStatus());
-            getGoodsResp.setShoID(item.getShopId());
+            getGoodsResp.setShopName(shop1.getShopName());
+            getGoodsResp.setShoID(shop1.getId());
             getGoodsResp.setProductId(item.getId());
-            getGoodsResp.setProductName(item.getItemTitle());
+            ClassItemRelation itemClass = new ClassItemRelation();
+            itemClass.setItemId(item.getId());
+            List<Long> classIds = classItemRelationService.selectByObjectList(itemClass)
+                    .stream()
+                    .map(ClassItemRelation::getClassId).collect(Collectors.toList());
+            List<GetGoodsResp.ClassLevel> classLevels = new ArrayList<>();
+            //找分类
+            classIds.forEach(classId -> {
+                classLevels.add(findClassLevel(classId, classifications, new GetGoodsResp.ClassLevel()));
+            });
+            getGoodsResp.setClassLevel(classLevels);
+            getGoodsResp.setItemStatus(item.getItemStatus());
+            //sku
+            Sku sku = new Sku();
+            sku.setItemId(item.getId());
+            List<Sku> skus = skuService.selectByObjectList(sku);
+            List<GetGoodsResp.SkuResp> skuResps = new ArrayList<>();
+            skus.forEach(sku1 -> {
+                GetGoodsResp.SkuResp skuResp = new GetGoodsResp.SkuResp();
+                skuResp.setPrice(sku1.getPrice());
+                skuResp.setSizeKey(sku1.getSizeKey());
+                skuResp.setSizeValue(sku1.getSizeValue());
+                skuResps.add(skuResp);
+            });
+            getGoodsResp.setSkuResps(skuResps);
+            //
+            ArtistOpus artistOpus = new ArtistOpus();
+            artistOpus.setItemId(item.getId());
+            List<ArtistOpus> Artists = artistOpusMapper.selectByObjectList(artistOpus);
 
-            List<Sku> skus1 = map.get(item.getId());
-            List<GetGoodsResp.SkuResp> skuRes = new ArrayList<>();
-            if (!CollectionUtils.isEmpty(skus1)) {
-                skus1.forEach(sku -> {
-                    GetGoodsResp.SkuResp skuResp = new GetGoodsResp.SkuResp();
-                    skuResp.setPrice(sku.getPrice());
-                    skuResp.setSizeKey(sku.getSizeKey());
-                    skuResp.setSizeValue(sku.getSizeValue());
-                    skuRes.add(skuResp);
-                });
-            }
-            getGoodsResp.setSkuResps(skuRes);
-            list.add(getGoodsResp);
+            List<GetGoodsResp.Opus> opuses = new ArrayList<>();
+            Artists.forEach(artistOpus1 -> {
+                GetGoodsResp.Opus opus = new GetGoodsResp.Opus();
+                opus.setImage(artistOpus1.getImage());
+                opus.setOpusId(artistOpus1.getId());
+                opus.setOpusName(artistOpus1.getName());
+                opus.setOpusTitle(artistOpus1.getTitle());
+                opus.setOpusDesc(artistOpus1.getOpusDesc());
+                opus.setImgs(artistOpus1.getImgs());
+                opuses.add(opus);
+            });
+            getGoodsResp.setOpuses(opuses);
+            getGoodsResps.add(getGoodsResp);
         });
-        return WrapMapper.ok(list);
+        return WrapMapper.ok(PageInfo.of(getGoodsResps));
+    }
+
+    private GetGoodsResp.ClassLevel findClassLevel(Long classId,
+                                                   Map<Long, List<Classification>> classifications,
+                                                   GetGoodsResp.ClassLevel level) {
+        Optional<Classification> optional = classifications.get(classId).stream().findFirst();
+        if (optional.isPresent()) {
+            Classification classification = optional.get();
+            if (classification.getUpperId() != 0) {
+                level.setSon(findClassLevel(classification.getUpperId(), classifications, level));
+                level.setClassname(classification.getClassName());
+                level.setClassId(classification.getId());
+            } else {
+                level.setClassId(classification.getId());
+                level.setClassname(classification.getClassName());
+            }
+        }
+        return level;
     }
 
     @Override
     public Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam) {
-        if(queryGoodsParam.getGoodsId() == null){
+        if (queryGoodsParam.getGoodsId() == null) {
             return WrapMapper.error("商品id不能为空");
         }
         Item item = new Item();
-        item.setItemStatus(0);
+        item.setItemStatus(queryGoodsParam.getItemStatus());
         item.setId(queryGoodsParam.getGoodsId());
         itemService.updateByPrimaryKeySelective(item);
         return WrapMapper.ok();
@@ -448,5 +508,75 @@ public class ProductServiceImpl implements IProductService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Wrapper<Boolean> upGoods(UpGoodsParam upGoodsParam) {
+        Item item = new Item();
+        if (upGoodsParam == null) {
+            return WrapMapper.error("商品不能为空");
+        }
+        UpGoodsParam.GoodsParam goodsParam = upGoodsParam.getGoodsParam();
+        item.setShopId(upGoodsParam.getShopId());
+        item.setId(goodsParam.getGoodsId());
+        item.setItemStatus(0);
+        item.setAd(goodsParam.getAd());
+        item.setArtCategory(goodsParam.getArtCategory());
+        item.setBarcode("");
+        item.setRelatedCopyright(goodsParam.getCopyRightId());
+        item.setItemTitle(goodsParam.getItemTitle());
+        item.setTitleImg(goodsParam.getTitleImg());
+        item.setContentImg(String.join(",", goodsParam.getContentImg()));
+        if (item.getId() != null) {
+            itemService.updateByPrimaryKeySelective(item);
+        } else {
+            itemService.insertSelective(item);
+        }
+
+        //挂分类
+        List<Long> classIds = goodsParam.getItemClassIds();
+        classItemRelationService.deleteByItemId(item.getId());
+        classIds.forEach(classId -> {
+            ClassItemRelation classItemRelation = new ClassItemRelation();
+            classItemRelation.setItemId(item.getId());
+            classItemRelation.setClassId(classId);
+            classItemRelationService.insertSelective(classItemRelation);
+        });
+
+        //挂sku
+
+        List<UpGoodsParam.Sku> skus = goodsParam.getSkus();
+        skus.forEach(sku -> {
+            Sku sku1 = new Sku();
+            sku1.setItemId(item.getId());
+            sku1.setPrice(sku.getPrice());
+            sku1.setSizeKey(sku.getSizeKey());
+            sku1.setSizeValue(sku.getSizeValue());
+            if (sku.getSkuId() == null) {
+                skuService.insertSelective(sku1);
+            } else {
+                sku1.setId(sku.getSkuId());
+                skuService.updateByPrimaryKeySelective(sku1);
+            }
+        });
+
+        //挂artopus
+        List<UpGoodsParam.ArtOps> artOps = goodsParam.getArtOps();
+        artOps.forEach(artOps1 -> {
+            ArtistOpus artistOpus = new ArtistOpus();
+            artistOpus.setItemId(item.getId());
+            artistOpus.setImage(artOps1.getImage());
+            artistOpus.setImgs(String.join(",", artOps1.getImgs()));
+            artistOpus.setName(artOps1.getArtOpsName());
+            artistOpus.setOpusDesc(artOps1.getOpusDesc());
+            artistOpus.setTitle(artOps1.getArtOpTitle());
+            artistOpus.setId(artOps1.getOpusId());
+            if (artistOpus.getId() == null) {
+                artistOpusMapper.insertSelective(artistOpus);
+            } else {
+                artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
+            }
+        });
+        return WrapMapper.ok();
+    }
 
 }

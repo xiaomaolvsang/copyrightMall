@@ -34,19 +34,7 @@ public interface ItemMapper {
 
 	List<Item> selectItemsByParam(@Param("shopIds") List<Long> shopIds,
 								  @Param("itemTitle") String itemTitle,
-								  @Param("itemClassIds") List<Long> itemClassIds,
 								  @Param("barcode") String barcode,
-								  @Param("id") Long id,
 								  @Param("itemStatus") Integer itemStatus,
-								  @Param("shopType") String shopType,
-								  @Param("startOfPage")Integer startOfPage,
-								  @Param("pageSize") Integer pageSize);
-
-	int selectItemsCountByParam(@Param("shopIds") List<Long> shopIds,
-								@Param("itemTitle") String itemTitle,
-								@Param("itemClassIds") List<Long> itemClassIds,
-								@Param("barcode") String barcode,
-								@Param("id") Long id,
-								@Param("itemStatus") Integer itemStatus,
-								@Param("shopType") String shopType);
+								  @Param("itemIds") List<Long> itemIds);
 }

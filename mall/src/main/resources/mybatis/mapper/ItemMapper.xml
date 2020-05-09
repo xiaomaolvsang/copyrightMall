@@ -66,7 +66,7 @@
 	</delete>
 
 	<!-- 添加 （匹配有值的字段,不建议使用）-->
-	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Item">
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.copyright.mall.bean.Item">
 		 INSERT INTO item
 		 <trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null"> ID,</if>
@@ -173,9 +173,7 @@
 		SELECT
 		i.GMT_CREATE,
 		i.GMT_MODIFIED,
-		s.company_name,
 		i.BARCODE,
-		GROUP_CONCAT(c.class_name),
 		i.RELATED_COPYRIGHT,
 		i.ITEM_STATUS,
 		i.ITEM_TITLE,
@@ -185,9 +183,6 @@
 		i.ART_CATEGORY
 		FROM
 		item i
-		left join class_item_relation cir on cir.item_id = i.id
-		LEFT JOIN classification c ON cir.class_id = c.id
-		LEFT JOIN shop s ON i.shop_id = s.id
 		WHERE
 		1 = 1
 		<if test="shopIds != null">
@@ -197,65 +192,17 @@
 				#{id}
 			</foreach>
 		</if>
-		<if test="itemTitle != null">AND i.item_title = ''</if>
-		<if test="itemClassIds != null">AND cir.class_id IN
-			<foreach collection="itemClassIds" item="id" index="index"
-					 open="(" close=")" separator=",">
-				#{id}
+		<if test="itemTitle != null">AND i.item_title like concat('%',#{itemTitle,jdbcType=VARCHAR},'%')</if>
+		<if test="barcode != null">AND i.barcode like concat('%',#{barcode,jdbcType=VARCHAR},'%')</if>
+		<if test="id != null">AND i.id in
+			<foreach collection="itemIds" item="id" index="index"
+													open="(" close=")" separator=",">
+			#{id}
 			</foreach>
 		</if>
-		<if test="barcode != null">AND i.barcode like concat('%',#{barcode,jdbcType=VARCHAR},'%')</if>
-		<if test="id != null">AND i.id = #{id,jdbcType=BIGINT}</if>
 		<if test="itemStatus != null">AND i.item_status = #{itemStatus,jdbcType=INTEGER}</if>
-		<if test="shopType != null">AND s.shop_type = #{shopType,jdbcType=VARCHAR}</if>
 		group by i.id
 		order by i.id
-		limit #{startOfPage},#{pageSize}
-	</select>
-
-	<select id="selectItemsCountByParam" parameterType="java.util.HashMap">
-		select count(*) from (
-		SELECT
-		i.GMT_CREATE,
-		i.GMT_MODIFIED,
-		s.company_name,
-		s.shop_type,
-		i.BARCODE,
-		GROUP_CONCAT(c.class_name) class_name,
-		i.RELATED_COPYRIGHT,
-		i.ITEM_STATUS,
-		i.ITEM_TITLE,
-		i.AD,
-		i.TITLE_IMG,
-		i.CONTENT_IMG,
-		i.ART_CATEGORY
-		FROM
-		item i
-		left join class_item_relation cir on cir.item_id = i.id
-		LEFT JOIN classification c ON cir.class_id = c.id
-		LEFT JOIN shop s ON i.shop_id = s.id
-		WHERE
-		1 = 1
-		<if test="shopIds != null">
-			AND i.shop_id IN
-			<foreach collection="shopIds" item="id" index="index"
-					 open="(" close=")" separator=",">
-				#{id}
-			</foreach>
-		</if>
-		<if test="itemTitle != null">AND i.item_title = ''</if>
-		<if test="itemClassIds != null">AND cir.class_id IN
-			<foreach collection="itemClassIds" item="id" index="index"
-					 open="(" close=")" separator=",">
-				#{id}
-			</foreach>
-		</if>
-		<if test="barcode != null">AND i.barcode like concat('%',#{barcode,jdbcType=VARCHAR},'%')</if>
-		<if test="id != null">AND i.id = #{id,jdbcType=BIGINT}</if>
-		<if test="itemStatus != null">AND i.item_status = #{itemStatus,jdbcType=INTEGER}</if>
-		<if test="shopType != null">AND s.shop_type = #{shopType,jdbcType=VARCHAR}</if>
-		group by i.id
-		)
 	</select>
 
 </mapper>
