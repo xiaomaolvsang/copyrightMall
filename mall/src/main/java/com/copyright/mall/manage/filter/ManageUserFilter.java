@@ -53,6 +53,5 @@ public class ManageUserFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("----过滤器销毁----");
     }
 }
