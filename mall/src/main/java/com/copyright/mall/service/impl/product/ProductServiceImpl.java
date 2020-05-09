@@ -16,6 +16,7 @@ import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
+import com.copyright.mall.manage.domain.vo.GetGoodsResp;
 import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
@@ -34,6 +35,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.awt.geom.Area;
@@ -262,7 +264,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Wrapper<List<QueryGoodsParam>> getGoods(QueryGoodsParam queryGoodsParam) {
+    public Wrapper<List<GetGoodsResp>> getGoods(QueryGoodsParam queryGoodsParam) {
         Shop shop = new Shop();
         shop.setMallId(queryGoodsParam.getMallId());
 
@@ -277,7 +279,7 @@ public class ProductServiceImpl implements IProductService {
         if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelSecond())) {
             classIds.add(Long.valueOf(queryGoodsParam.getClassLevelSecond()));
         } else if (StringUtils.isNotEmpty(queryGoodsParam.getClassLevelFirst())) {
-            List<Classification> classifications = classificationService.selectByObjectList(null);
+            List<Classification> classifications = classificationService.selectByObjectList(new Classification());
             classIds = classifications.stream()
                     .filter(classification ->
                             classification.getUpperId().toString().equals(queryGoodsParam.getClassLevelFirst()))
@@ -303,12 +305,37 @@ public class ProductServiceImpl implements IProductService {
                 queryGoodsParam.getItemStatus(),
                 queryGoodsParam.getType());
 
+        List<Sku> skus = skuService.selectByObjectList(new Sku());
+        Map<Long, List<Sku>> map = skus.stream().collect(Collectors.groupingBy(Sku::getItemId));
+        List<GetGoodsResp> list = new ArrayList<>();
+        items.forEach(item -> {
+            GetGoodsResp getGoodsResp = new GetGoodsResp();
+            getGoodsResp.setType(item.getShopType());
+            getGoodsResp.setArtCategory(item.getArtCategory());
+            getGoodsResp.setAvatar(item.getTitleImg());
+            getGoodsResp.setClassLevel(item.getClassName());
+            getGoodsResp.setImage(item.getContentImg());
+            getGoodsResp.setShopName(item.getCompanyName());
+            getGoodsResp.setItemStatus(item.getItemStatus());
+            getGoodsResp.setShoID(item.getShopId());
+            getGoodsResp.setProductId(item.getId());
+            getGoodsResp.setProductName(item.getItemTitle());
 
-
-
-
-
-        return null;
+            List<Sku> skus1 = map.get(item.getId());
+            List<GetGoodsResp.SkuResp> skuRes = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(skus1)) {
+                skus1.forEach(sku -> {
+                    GetGoodsResp.SkuResp skuResp = new GetGoodsResp.SkuResp();
+                    skuResp.setPrice(sku.getPrice());
+                    skuResp.setSizeKey(sku.getSizeKey());
+                    skuResp.setSizeValue(sku.getSizeValue());
+                    skuRes.add(skuResp);
+                });
+            }
+            getGoodsResp.setSkuResps(skuRes);
+            list.add(getGoodsResp);
+        });
+        return WrapMapper.ok(list);
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
+import com.copyright.mall.manage.domain.vo.GetGoodsResp;
 import com.copyright.mall.util.wrapper.Wrapper;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public interface IProductService {
    * @param queryGoodsParam 查询订单列表参数
    * @return result
    */
-  Wrapper<List<QueryGoodsParam>> getGoods(QueryGoodsParam queryGoodsParam);
+  Wrapper<List<GetGoodsResp>> getGoods(QueryGoodsParam queryGoodsParam);
 
 
   Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam);
