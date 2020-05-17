@@ -35,6 +35,8 @@ public class GetGoodsResp extends BasePage {
     private List<SkuResp> skuResps;
 
     private List<Opus> opuses;
+    @ApiModelProperty("是否为虚拟商品（0正常，1虚拟）")
+    private Integer itemType;
 
     @Data
     @ApiModel("分类返回参数")

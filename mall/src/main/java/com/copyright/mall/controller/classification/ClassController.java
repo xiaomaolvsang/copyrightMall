@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ClassController
@@ -65,19 +66,14 @@ public class ClassController extends BaseController {
 
     @PostMapping("/getClassAll")
     @ApiOperation("分类查询")
-    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassByShopParam classParam) {
+    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassParam classParam) {
         List<Classification> classifications = classificationService.getAll();
         List<ManageClassResp> manageClassResps = new ArrayList<>();
-        Shop[] shop = new Shop[1];
-        if (classParam.getShopId() != null) {
-            shop[0] = shopService.selectByPrimaryKey(classParam.getShopId());
-        }
+        classifications = classifications.stream().filter(classification -> classification.getMallId().equals(classParam.getMallId())).collect(Collectors.toList());
         classifications.forEach(classification -> {
-            if (shop[0] == null || shop[0].getMallId().equals(classification.getMallId())) {
-                ManageClassResp manageClassResp = new ManageClassResp();
-                BeanUtils.copyProperties(classification, manageClassResp);
-                manageClassResps.add(manageClassResp);
-            }
+            ManageClassResp manageClassResp = new ManageClassResp();
+            BeanUtils.copyProperties(classification, manageClassResp);
+            manageClassResps.add(manageClassResp);
         });
         return WrapMapper.ok(manageClassResps);
     }

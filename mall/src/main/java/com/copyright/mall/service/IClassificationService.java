@@ -36,5 +36,5 @@ public interface IClassificationService {
 
 	public List<ClassResp> getClassTwo(ClassTwoParam classTwoParam);
 
-  public List<Classification> getAll();
+    public List<Classification> getAll();
 }

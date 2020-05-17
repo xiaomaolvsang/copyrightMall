@@ -333,6 +333,7 @@ public class ProductServiceImpl implements IProductService {
             getGoodsResp.setShopName(shop1.getShopName());
             getGoodsResp.setShoID(shop1.getId());
             getGoodsResp.setProductId(item.getId());
+            getGoodsResp.setItemType(item.getItemType());
             ClassItemRelation itemClass = new ClassItemRelation();
             itemClass.setItemId(item.getId());
             List<Long> classIds = classItemRelationService.selectByObjectList(itemClass)
@@ -526,6 +527,7 @@ public class ProductServiceImpl implements IProductService {
         item.setItemTitle(goodsParam.getItemTitle());
         item.setTitleImg(goodsParam.getTitleImg());
         item.setContentImg(String.join(",", goodsParam.getContentImg()));
+        item.setItemType(goodsParam.getItemType());
         if (item.getId() != null) {
             itemService.updateByPrimaryKeySelective(item);
         } else {

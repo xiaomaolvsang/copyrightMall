@@ -16,7 +16,7 @@ public class ManageClassResp {
     private String className;
 
     /**一二级分类 一级分类为0**/
-    @ApiModelProperty("父分类id")
+    @ApiModelProperty("父分类id(一级分类为0)")
     private Long upperId;
 
     /**商城id**/

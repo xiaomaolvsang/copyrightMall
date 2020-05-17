@@ -37,6 +37,8 @@ public class UpGoodsParam {
         private List<ArtOps> artOps;
         @ApiModelProperty("艺术类别")
         private String artCategory;
+        @ApiModelProperty("虚拟商品类型 （0正常，1虚拟）")
+        private Integer itemType;
     }
 
     @Data
