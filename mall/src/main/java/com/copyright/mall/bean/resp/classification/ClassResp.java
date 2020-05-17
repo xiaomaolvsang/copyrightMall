@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * ClassResp
+ * ManageClassResp
  *
  * @author lijian
  * @version 1.0

@@ -1,4 +1,4 @@
-package com.copyright.mall.manage.domain.vo;
+package com.copyright.mall.bean.resp.classification;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("b端分类返回参数")
-public class ClassResp {
+public class ManageClassResp {
     /**主键**/
     @ApiModelProperty("分类id")
     private Long id;
