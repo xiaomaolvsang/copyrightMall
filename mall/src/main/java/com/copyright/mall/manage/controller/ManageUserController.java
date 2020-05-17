@@ -85,6 +85,7 @@ public class ManageUserController extends BaseManageController{
             userInfo.setShopName(shop == null ? null : shop.getShopName());
         }
         userInfo.setRoleIds(UserUtils.getRoleIds());
+        userInfo.setMallId(UserUtils.getMallId());
         return WrapMapper.ok(userInfo);
     }
 

@@ -19,4 +19,7 @@ public class UserInfo {
     @ApiModelProperty("/电话")
     private String mobile;
 
+    @ApiModelProperty("mallId")
+    private Long mallId;
+
 }
