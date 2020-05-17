@@ -71,7 +71,7 @@ public class ManageUserFilter implements Filter {
                 UserUtils.setRoleIds((List<Long>) claims.get("roles"));
             }
             if (claims.get("mallId") != null) {
-                UserUtils.setMallId((Long) claims.get("mallId"));
+                UserUtils.setMallId(Long.valueOf(claims.get("mallId").toString()));
             }
         }
         chain.doFilter(request, response);
