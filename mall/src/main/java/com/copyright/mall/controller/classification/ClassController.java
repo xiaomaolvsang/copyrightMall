@@ -11,6 +11,7 @@ import com.copyright.mall.domain.requeest.classification.ClassParam;
 import com.copyright.mall.domain.requeest.classification.ClassTwoParam;
 import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IShopService;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -61,21 +62,6 @@ public class ClassController extends BaseController {
     public Wrapper<List<ClassResp>> twoLevelClass(@RequestBody @ApiParam @Valid ClassTwoParam classTwoParam) {
         List<ClassResp> classResps = classificationService.getClassTwo(classTwoParam);
         return WrapMapper.ok(classResps);
-    }
-
-
-    @PostMapping("/getClassAll")
-    @ApiOperation("分类查询")
-    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassParam classParam) {
-        List<Classification> classifications = classificationService.getAll();
-        List<ManageClassResp> manageClassResps = new ArrayList<>();
-        classifications = classifications.stream().filter(classification -> classification.getMallId().equals(classParam.getMallId())).collect(Collectors.toList());
-        classifications.forEach(classification -> {
-            ManageClassResp manageClassResp = new ManageClassResp();
-            BeanUtils.copyProperties(classification, manageClassResp);
-            manageClassResps.add(manageClassResp);
-        });
-        return WrapMapper.ok(manageClassResps);
     }
 
 }
