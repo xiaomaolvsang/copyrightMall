@@ -33,41 +33,43 @@ import java.util.List;
 @Api(tags = "分类相关")
 @RequestMapping("/class")
 @Slf4j
-public class ClassController  extends BaseController {
+public class ClassController extends BaseController {
 
 
-  @Resource
-  private IClassificationService classificationService;
+    @Resource
+    private IClassificationService classificationService;
 
-  @ApiOperation(value = "一级分类查询")
-  @PostMapping("/classOne")
-  @ControllerErro
-  public Wrapper<List<ClassResp>> test(@RequestBody @ApiParam @Valid ClassParam classParam){
-    classParam.setMallId(getMallId());
-    List<ClassResp> classResps = classificationService.getClassification(classParam);
-    return WrapMapper.ok(classResps);
-  }
+    @ApiOperation(value = "一级分类查询")
+    @PostMapping("/classOne")
+    @ControllerErro
+    public Wrapper<List<ClassResp>> test(@RequestBody @ApiParam @Valid ClassParam classParam) {
+        classParam.setMallId(getMallId());
+        List<ClassResp> classResps = classificationService.getClassification(classParam);
+        return WrapMapper.ok(classResps);
+    }
 
-  @ApiOperation(value = "二级分类查询")
-  @PostMapping("/classTwo")
-  @ControllerErro
-  public Wrapper<List<ClassResp>> twoLevelClass(@RequestBody @ApiParam @Valid ClassTwoParam classTwoParam){
-    List<ClassResp> classResps = classificationService.getClassTwo(classTwoParam);
-    return WrapMapper.ok(classResps);
-  }
+    @ApiOperation(value = "二级分类查询")
+    @PostMapping("/classTwo")
+    @ControllerErro
+    public Wrapper<List<ClassResp>> twoLevelClass(@RequestBody @ApiParam @Valid ClassTwoParam classTwoParam) {
+        List<ClassResp> classResps = classificationService.getClassTwo(classTwoParam);
+        return WrapMapper.ok(classResps);
+    }
 
 
-  @GetMapping("/getClassAll")
-  @ApiOperation("分类查询")
-  public Wrapper<List<ManageClassResp>> getClassAll(){
-    List<Classification> classifications = classificationService.getAll();
-    List<ManageClassResp> manageClassResps = new ArrayList<>();
-    classifications.forEach(classification -> {
-      ManageClassResp manageClassResp = new ManageClassResp();
-      BeanUtils.copyProperties(classification, manageClassResp);
-      manageClassResps.add(manageClassResp);
-    });
-    return WrapMapper.ok(manageClassResps);
-  }
+    @PostMapping("/getClassAll")
+    @ApiOperation("分类查询")
+    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassParam classParam) {
+        List<Classification> classifications = classificationService.getAll();
+        List<ManageClassResp> manageClassResps = new ArrayList<>();
+        classifications.forEach(classification -> {
+            if (classParam.getMallId() == null || classParam.getMallId().equals(classification.getMallId())) {
+                ManageClassResp manageClassResp = new ManageClassResp();
+                BeanUtils.copyProperties(classification, manageClassResp);
+                manageClassResps.add(manageClassResp);
+            }
+        });
+        return WrapMapper.ok(manageClassResps);
+    }
 
 }
