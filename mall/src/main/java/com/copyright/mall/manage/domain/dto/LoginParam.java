@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Api("登陆参数")
 @Data
@@ -17,6 +17,6 @@ public class LoginParam {
     @NotBlank(message = "密码不能为空")
     private String password;
     @ApiModelProperty("mallId")
-    @NotEmpty(message = "mallid不能为空")
+    @NotNull(message = "mallid不能为空")
     private Long mallId;
 }
