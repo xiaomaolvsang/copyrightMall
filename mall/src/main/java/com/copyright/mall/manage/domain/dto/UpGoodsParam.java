@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel("查询订单列表参数")
+@ApiModel("查询商品列表参数")
 public class UpGoodsParam {
     @ApiModelProperty("商铺id")
     private Long shopId;
