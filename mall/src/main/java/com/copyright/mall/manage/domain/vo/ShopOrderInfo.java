@@ -40,6 +40,8 @@ public class ShopOrderInfo {
         private String createTime;
         @ApiModelProperty("支付时间")
         private Date payTime;
+        @ApiModelProperty("虚拟订单")
+        private boolean virtual;
 
     @Data
     @ApiModel("商品订单")

@@ -176,6 +176,7 @@ public class ManageOrderController extends BaseManageController {
                 relateProductsBean.setSkuId(itemOrder.getSkuId());
                 if(1 == itemOrder.getItemType()){
                     relateProductsBean.setVirtual(true);
+                    shopOrderInfo.setVirtual(true);
                 }
                 relateProductsBeans.add(relateProductsBean);
             }
