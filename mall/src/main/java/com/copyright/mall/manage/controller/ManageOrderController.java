@@ -139,6 +139,11 @@ public class ManageOrderController extends BaseManageController {
             shopOrderExport.setDeliveryOrderId(shopItemOrderDetail.getDeliveryOrderId());
             shopOrderExport.setDelliveryCompanyName(shopItemOrderDetail.getDelliveryCompanyName());
             shopOrderExport.setCreateTime(shopItemOrderDetail.getCreateTime());
+            if(1 == shopItemOrderDetail.getItemType()) {
+                shopOrderExport.setVirtual("是");
+            }else{
+                shopOrderExport.setVirtual("否");
+            }
             shopOrderExports.add(shopOrderExport);
         }
 

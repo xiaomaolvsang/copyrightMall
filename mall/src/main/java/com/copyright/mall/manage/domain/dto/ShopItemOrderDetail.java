@@ -1,11 +1,9 @@
 package com.copyright.mall.manage.domain.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Data
@@ -41,4 +39,6 @@ public class ShopItemOrderDetail {
     private String createTime;
     @ApiModelProperty("支付时间")
     private Date payTime;
+    @ApiModelProperty("支付时间")
+    private int itemType;
 }

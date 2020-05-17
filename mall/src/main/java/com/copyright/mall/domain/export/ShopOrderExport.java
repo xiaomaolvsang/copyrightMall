@@ -2,7 +2,6 @@ package com.copyright.mall.domain.export;
 
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -39,6 +38,8 @@ public class ShopOrderExport {
     private String deliveryOrderId;
     @ExcelProperty(value = "创建时间",index = 13)
     private String createTime;
+    @ExcelProperty(value = "虚拟订单",index = 14)
+    private String virtual;
 
 
 }

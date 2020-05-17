@@ -181,7 +181,8 @@
 		shop_order.DELLIVERY_COMPANY_NAME as delliveryCompanyName,
 		shop_order.ORDER_CREATE_TIME as createTime,
 		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
-		shop_order.pay_time as payTime
+		shop_order.pay_time as payTime,
+		item.item_type as itemType
 		FROM
 		mall_order,
 		shop_order,
