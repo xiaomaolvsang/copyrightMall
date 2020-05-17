@@ -2,12 +2,15 @@ package com.copyright.mall.controller.classification;
 
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.bean.Classification;
+import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.resp.classification.ClassResp;
 import com.copyright.mall.bean.resp.classification.ManageClassResp;
 import com.copyright.mall.controller.BaseController;
+import com.copyright.mall.domain.requeest.classification.ClassByShopParam;
 import com.copyright.mall.domain.requeest.classification.ClassParam;
 import com.copyright.mall.domain.requeest.classification.ClassTwoParam;
 import com.copyright.mall.service.IClassificationService;
+import com.copyright.mall.service.IShopService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -39,6 +42,9 @@ public class ClassController extends BaseController {
     @Resource
     private IClassificationService classificationService;
 
+    @Resource
+    private IShopService shopService;
+
     @ApiOperation(value = "一级分类查询")
     @PostMapping("/classOne")
     @ControllerErro
@@ -59,11 +65,15 @@ public class ClassController extends BaseController {
 
     @PostMapping("/getClassAll")
     @ApiOperation("分类查询")
-    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassParam classParam) {
+    public Wrapper<List<ManageClassResp>> getClassAll(@RequestBody @ApiParam @Valid ClassByShopParam classParam) {
         List<Classification> classifications = classificationService.getAll();
         List<ManageClassResp> manageClassResps = new ArrayList<>();
+        Shop[] shop = new Shop[1];
+        if (classParam.getShopId() != null) {
+            shop[0] = shopService.selectByPrimaryKey(classParam.getShopId());
+        }
         classifications.forEach(classification -> {
-            if (classParam.getMallId() == null || classParam.getMallId().equals(classification.getMallId())) {
+            if (shop[0] == null || shop[0].getMallId().equals(classification.getMallId())) {
                 ManageClassResp manageClassResp = new ManageClassResp();
                 BeanUtils.copyProperties(classification, manageClassResp);
                 manageClassResps.add(manageClassResp);
