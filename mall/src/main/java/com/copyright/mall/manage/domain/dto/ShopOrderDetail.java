@@ -29,7 +29,6 @@ public class ShopOrderDetail {
     private String createTime;
     @ApiModelProperty("支付时间")
     private Date payTime;
-
     @ApiModelProperty("ItemOrder列表")
     private List<ItemOrder> itemOrders;
 

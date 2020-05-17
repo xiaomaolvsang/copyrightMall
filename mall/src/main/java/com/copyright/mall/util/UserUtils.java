@@ -31,6 +31,10 @@ public class UserUtils {
         userHolder.get().put("shopIds",shopIds);
     }
 
+    public static void setMallId(Long mallID){
+        userHolder.get().put("mallId",mallID);
+    }
+
     public static Long getUserId(){
         if(userHolder.get().get("userId")== null ){
             return null;
@@ -58,6 +62,13 @@ public class UserUtils {
             result.add(Long.valueOf(shopId));
         }
         return result;
+    }
+
+    public static Long getMallId(){
+        if(userHolder.get().get("mallId")== null ){
+            return null;
+        }
+        return (Long) userHolder.get().get("mallId");
     }
 
     public static boolean isAdmin(){

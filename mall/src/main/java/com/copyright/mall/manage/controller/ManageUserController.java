@@ -70,6 +70,7 @@ public class ManageUserController extends BaseManageController{
             claims.put("shop",userShopRelations.stream().map(UserShopRelation::getShopId).collect(Collectors.toList()));
         }
         claims.put("userId", user.getId());
+        claims.put("mallId",loginParam.getMallId());
         return WrapMapper.ok(jwtService.doGenerateToken(claims,user.getId().toString()));
     }
 

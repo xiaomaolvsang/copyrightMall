@@ -60,6 +60,8 @@ public class ShopOrderInfo {
         @JSONField(name = "num")
         @ApiModelProperty("数量")
         private int num;
+        @ApiModelProperty("虚拟商品")
+        private boolean isVirtual;
     }
 
 
