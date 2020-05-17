@@ -16,7 +16,7 @@ public class LoginParam {
     @ApiModelProperty("密码")
     @NotBlank(message = "密码不能为空")
     private String password;
-    @ApiModelProperty("mallID")
+    @ApiModelProperty("mallId")
     @NotEmpty(message = "mallid不能为空")
     private Long mallId;
 }
