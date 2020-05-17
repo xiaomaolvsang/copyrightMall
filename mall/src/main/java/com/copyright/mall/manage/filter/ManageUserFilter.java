@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebFilter(filterName = "manageUserFilter", urlPatterns = { "/manage/*" })
+@WebFilter(filterName = "manageUserFilter", urlPatterns = {"/manage/*"})
 public class ManageUserFilter implements Filter {
 
     @Resource
@@ -34,16 +34,17 @@ public class ManageUserFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        if(((HttpServletRequest) request).getRequestURL().toString().contains("/login")){
+        if (((HttpServletRequest) request).getRequestURL().toString().contains("/login")) {
             chain.doFilter(request, response);
             return;
         }
         String token = httpServletRequest.getHeader("X-MANAGE-TOKEN");
-        if(StringUtils.isBlank(token)){
+        if (StringUtils.isBlank(token)) {
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            httpServletResponse.getOutputStream().println(JSON.toJSONString(WrapMapper.error("Invalid authentication")));
+            httpServletResponse.getOutputStream().println(JSON.toJSONString(WrapMapper.wrap(HttpStatus.UNAUTHORIZED.value()
+                    , "Invalid authentication")));
             httpServletResponse.getOutputStream().close();
             return;
         }
@@ -51,21 +52,22 @@ public class ManageUserFilter implements Filter {
         String userId = null;
         try {
             userId = jwtService.getClaimFromToken(token).getSubject();
-        }catch (Exception e){
+        } catch (Exception e) {
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            httpServletResponse.getOutputStream().println(JSON.toJSONString(WrapMapper.error("Invalid authentication")));
+            httpServletResponse.getOutputStream().println(JSON.toJSONString(WrapMapper.wrap(HttpStatus.UNAUTHORIZED.value(),
+                    "Invalid authentication")));
             httpServletResponse.getOutputStream().close();
             return;
         }
-        if(userId != null){
+        if (userId != null) {
             UserUtils.setUserId(Long.valueOf(userId));
         }
         Claims claims = jwtService.getClaimFromToken(token);
-        if(claims != null){
-            if(claims.get("shop")!=null){
+        if (claims != null) {
+            if (claims.get("shop") != null) {
                 UserUtils.setShopIds((List<Long>) claims.get("shop"));
             }
-            if(claims.get("roles")!=null){
+            if (claims.get("roles") != null) {
                 UserUtils.setRoleIds((List<Long>) claims.get("roles"));
             }
         }
