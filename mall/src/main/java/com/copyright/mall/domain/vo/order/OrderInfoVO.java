@@ -1,7 +1,6 @@
 package com.copyright.mall.domain.vo.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -62,6 +61,8 @@ public class OrderInfoVO {
         @JSONField(name = "num")
         @ApiModelProperty("数量")
         private int num;
+        @ApiModelProperty("虚拟商品")
+        private boolean virtual;
     }
 
 }

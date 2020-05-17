@@ -42,6 +42,7 @@ public class ShopOrderInfo {
         private Date payTime;
 
     @Data
+    @ApiModel("商品订单")
     public static class RelateProductsBean {
         @JSONField(name = "image")
         @ApiModelProperty("商品图片")
@@ -61,7 +62,7 @@ public class ShopOrderInfo {
         @ApiModelProperty("数量")
         private int num;
         @ApiModelProperty("虚拟商品")
-        private boolean isVirtual;
+        private boolean virtual;
     }
 
 

@@ -25,4 +25,7 @@ public class ItemOrderDetail {
     @JSONField(name = "num")
     @ApiModelProperty("数量")
     private int num;
+    @JSONField(name = "itemType")
+    @ApiModelProperty("itenm类型")
+    private int itemType;
 }

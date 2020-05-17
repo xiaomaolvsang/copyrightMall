@@ -1,25 +1,22 @@
 package com.copyright.mall.service.impl;
 
-import java.util.List;
-
 import com.copyright.mall.bean.ItemOrder;
+import com.copyright.mall.bean.ShopOrder;
+import com.copyright.mall.dao.ShopOrderMapper;
 import com.copyright.mall.manage.domain.dto.ItemOrderDetail;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
-import com.copyright.mall.manage.domain.dto.QueryShopParam;
 import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
-import com.copyright.mall.util.UserUtils;
+import com.copyright.mall.service.IShopOrderService;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import com.copyright.mall.dao.ShopOrderMapper;
-import com.copyright.mall.service.IShopOrderService;
-
-import com.copyright.mall.bean.ShopOrder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -110,6 +107,7 @@ public class ShopOrderService implements IShopOrderService {
 				shopItemOrder.setProductPrice(itemOrder.getProductPrice());
 				shopItemOrder.setSkuId(itemOrder.getSkuId());
 				shopItemOrder.setImage(itemOrder.getImage());
+				shopItemOrder.setItemType(itemOrder.getItemType());
 				shopItemOrders.add(shopItemOrder);
 			}
 			shopOrder.setItemOrders(shopItemOrders);

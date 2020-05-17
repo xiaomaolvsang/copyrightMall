@@ -173,7 +173,8 @@
 		item_order.item_Price AS productPrice,
 		item_order.item_Count AS num,
 		item.title_Img as image,
-		item.ITEM_TITLE AS productName
+		item.ITEM_TITLE AS productName,
+        item.item_type as itemType
 		from item_order,item,sku
 		where  item_order.SKU_ID = sku.id
 			AND item_order.ITEM_ID = item.id

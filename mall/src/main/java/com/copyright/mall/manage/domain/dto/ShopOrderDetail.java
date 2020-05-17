@@ -51,5 +51,11 @@ public class ShopOrderDetail {
         @JSONField(name = "num")
         @ApiModelProperty("数量")
         private int num;
+        @JSONField(name = "itemType")
+        @ApiModelProperty("itemType")
+        private int itemType;
+        @ApiModelProperty("虚拟商品")
+        private boolean virtual;
+
     }
 }
