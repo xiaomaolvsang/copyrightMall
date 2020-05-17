@@ -1,14 +1,18 @@
 package com.copyright.mall.manage.controller;
 
+import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.bean.UserShopRelation;
 import com.copyright.mall.bean.UserTRightRelation;
 import com.copyright.mall.manage.domain.dto.LoginParam;
+import com.copyright.mall.manage.domain.vo.UserInfo;
+import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IUserShopRelationService;
 import com.copyright.mall.service.IUserTRightRelationService;
 import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.MD5Util;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
@@ -46,6 +50,9 @@ public class ManageUserController extends BaseManageController{
     @Resource
     private IUserShopRelationService userShopRelationService;
 
+    @Resource
+    private IShopService shopService;
+
     @PostMapping("/login")
     @ApiOperation("B端登陆")
     public Wrapper<String> login(@Valid LoginParam loginParam){
@@ -64,6 +71,20 @@ public class ManageUserController extends BaseManageController{
         }
         claims.put("userId", user.getId());
         return WrapMapper.ok(jwtService.doGenerateToken(claims,user.getId().toString()));
+    }
+
+    @GetMapping("/info")
+    @ApiOperation("B端用户信息")
+    public Wrapper<UserInfo> userInfo() {
+        UserInfo userInfo = new UserInfo();
+        User user = userService.selectByUserId(UserUtils.getUserId());
+        userInfo.setMobile(user.getPhone());
+        if (!CollectionUtils.isEmpty(UserUtils.getShopIds())) {
+            Shop shop = shopService.selectByPrimaryKey(UserUtils.getShopIds().get(0));
+            userInfo.setShopName(shop == null ? null : shop.getShopName());
+        }
+        userInfo.setRoleIds(UserUtils.getRoleIds());
+        return WrapMapper.ok(userInfo);
     }
 
     public static void main(String[] args) {

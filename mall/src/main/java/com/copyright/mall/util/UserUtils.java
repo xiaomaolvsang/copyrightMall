@@ -39,17 +39,25 @@ public class UserUtils {
     }
 
     public static List<Long> getRoleIds(){
+        List<Long> result = Lists.newArrayList();
         if(userHolder.get().get("roleIds")== null ){
-            return Lists.newArrayList();
+            return result;
         }
-        return (List<Long>) userHolder.get().get("roleIds");
+        for (Integer roleId : (List<Integer>)userHolder.get().get("roleIds")){
+            result.add(Long.valueOf(roleId));
+        }
+        return result;
     }
 
     public static List<Long> getShopIds(){
+        List<Long> result = Lists.newArrayList();
         if(userHolder.get().get("shopIds")== null ){
             return Lists.newArrayList();
         }
-        return (List<Long>) userHolder.get().get("shopIds");
+        for (Integer shopId : (List<Integer>)userHolder.get().get("shopIds")){
+            result.add(Long.valueOf(shopId));
+        }
+        return result;
     }
 
     public static boolean isAdmin(){
