@@ -21,7 +21,7 @@ public class GetGoodsResp extends BasePage {
     @ApiModelProperty("商铺名称")
     private String shopName;
     @ApiModelProperty("商铺id")
-    private Long shoID;
+    private Long shopID;
     @ApiModelProperty("product名称")
     private String productName;
     @ApiModelProperty("productId")
