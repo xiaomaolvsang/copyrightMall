@@ -5,7 +5,6 @@ import com.copyright.mall.bean.enumeration.AreaEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.dao.ArtistOpusMapper;
-import com.copyright.mall.domain.dto.cart.CartDTO;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.product.AreaParam;
@@ -16,9 +15,9 @@ import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.UpDownGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.manage.domain.vo.GetGoodsResp;
-import com.copyright.mall.service.IClassificationService;
 import com.copyright.mall.service.IItemService;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.ISkuService;
@@ -32,14 +31,12 @@ import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -387,7 +384,7 @@ public class ProductServiceImpl implements IProductService {
         return WrapMapper.ok(res);
     }
 
-    private GetGoodsResp.ClassLevel findClassLevel(Long classId,
+    public GetGoodsResp.ClassLevel findClassLevel(Long classId,
                                                    Map<Long, List<Classification>> classifications,
                                                    GetGoodsResp.ClassLevel level) {
         Optional<Classification> optional = classifications.get(classId).stream().findFirst();
@@ -408,13 +405,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam) {
-        if (queryGoodsParam.getGoodsId() == null) {
+    public Wrapper<Boolean> downGoods(UpDownGoodsParam upDownGoodsParam) {
+        if (upDownGoodsParam.getGoodsId() == null) {
             return WrapMapper.error("商品id不能为空");
         }
         Item item = new Item();
-        item.setItemStatus(queryGoodsParam.getItemStatus());
-        item.setId(queryGoodsParam.getGoodsId());
+        item.setItemStatus(upDownGoodsParam.getItemStatus());
+        item.setId(upDownGoodsParam.getGoodsId());
         itemService.updateByPrimaryKeySelective(item);
         return WrapMapper.ok();
     }

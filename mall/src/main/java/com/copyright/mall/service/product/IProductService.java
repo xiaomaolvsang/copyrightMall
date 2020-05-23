@@ -6,11 +6,11 @@ import com.copyright.mall.domain.requeest.product.ProductParam;
 import com.copyright.mall.domain.requeest.product.ProductSearchParam;
 import com.copyright.mall.bean.resp.product.ProductSearchResp;
 import com.copyright.mall.domain.dto.goods.ItemDTO;
-import com.copyright.mall.domain.dto.goods.SkuDTO;
 import com.copyright.mall.domain.vo.product.AreaVO;
 import com.copyright.mall.domain.vo.product.ProductByClassVO;
 import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.UpDownGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.manage.domain.vo.GetGoodsResp;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -49,7 +49,7 @@ public interface IProductService {
   Wrapper<PageInfo<GetGoodsResp>> getGoods(QueryGoodsParam queryGoodsParam);
 
 
-  Wrapper<Boolean> downGoods(QueryGoodsParam queryGoodsParam);
+  Wrapper<Boolean> downGoods(UpDownGoodsParam upDownGoodsParam);
 
   Wrapper<Boolean> upGoods(UpGoodsParam upGoodsParam);
 }

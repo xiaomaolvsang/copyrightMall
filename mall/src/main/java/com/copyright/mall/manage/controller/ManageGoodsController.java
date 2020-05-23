@@ -1,6 +1,7 @@
 package com.copyright.mall.manage.controller;
 
 import com.copyright.mall.manage.domain.dto.QueryGoodsParam;
+import com.copyright.mall.manage.domain.dto.UpDownGoodsParam;
 import com.copyright.mall.manage.domain.dto.UpGoodsParam;
 import com.copyright.mall.manage.domain.vo.GetGoodsResp;
 import com.copyright.mall.service.product.IProductService;
@@ -37,9 +38,9 @@ public class ManageGoodsController {
 
     @PostMapping("/offGoods")
     @ApiOperation("下架/上架商品")
-    public Wrapper<Boolean> offGoods(@ApiParam @Valid @RequestBody QueryGoodsParam queryGoodsParam) {
-        log.info("getShop = {}", queryGoodsParam);
-        return iProductService.downGoods(queryGoodsParam);
+    public Wrapper<Boolean> offGoods(@ApiParam @Valid @RequestBody UpDownGoodsParam upDownGoodsParam) {
+        log.info("getShop = {}", upDownGoodsParam);
+        return iProductService.downGoods(upDownGoodsParam);
     }
 
     @PostMapping("/upGoods")

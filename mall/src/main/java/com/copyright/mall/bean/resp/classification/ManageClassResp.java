@@ -2,7 +2,10 @@ package com.copyright.mall.bean.resp.classification;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jdk.internal.dynalink.linker.LinkerServices;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @ApiModel("b端分类返回参数")
@@ -22,4 +25,7 @@ public class ManageClassResp {
     /**商城id**/
     @ApiModelProperty("商城id")
     private Long mallId;
+
+    @ApiModelProperty("子分类")
+    private List<ManageClassResp> son;
 }
