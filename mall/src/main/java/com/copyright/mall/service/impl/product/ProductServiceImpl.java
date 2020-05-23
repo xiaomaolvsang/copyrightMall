@@ -391,9 +391,11 @@ public class ProductServiceImpl implements IProductService {
         if (optional.isPresent()) {
             Classification classification = optional.get();
             if (classification.getUpperId() != 0) {
-                level.setSon(findClassLevel(classification.getUpperId(), classifications, level));
-                level.setClassname(classification.getClassName());
-                level.setClassId(classification.getId());
+                level = findClassLevel(classification.getUpperId(), classifications, level);
+                GetGoodsResp.ClassLevel classLevel1 = new GetGoodsResp.ClassLevel();
+                classLevel1.setClassname(classification.getClassName());
+                classLevel1.setClassId(classification.getId());
+                level.setSon(classLevel1);
             } else {
                 level.setClassId(classification.getId());
                 level.setClassname(classification.getClassName());
