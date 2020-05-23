@@ -200,7 +200,7 @@
 		</if>
 		<if test="itemTitle != null">AND i.item_title like concat('%',#{itemTitle,jdbcType=VARCHAR},'%')</if>
 		<if test="barcode != null">AND i.barcode like concat('%',#{barcode,jdbcType=VARCHAR},'%')</if>
-		<if test="id != null">AND i.id in
+		<if test="itemIds != null">AND i.id in
 			<foreach collection="itemIds" item="id" index="index"
 													open="(" close=")" separator=",">
 			#{id}
