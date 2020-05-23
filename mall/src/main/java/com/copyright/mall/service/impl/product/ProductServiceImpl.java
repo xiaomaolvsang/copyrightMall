@@ -25,6 +25,7 @@ import com.copyright.mall.service.ISkuService;
 import com.copyright.mall.service.impl.*;
 import com.copyright.mall.service.product.IProductService;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.TimeUtil;
 import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -335,6 +336,8 @@ public class ProductServiceImpl implements IProductService {
             getGoodsResp.setProductId(item.getId());
             getGoodsResp.setItemType(item.getItemType());
             getGoodsResp.setProductName(item.getItemTitle());
+            getGoodsResp.setCreateTime(TimeUtil.formatDate(item.getGmtCreate()));
+            getGoodsResp.setUpdateTime(TimeUtil.formatDate(item.getGmtModified()));
             ClassItemRelation itemClass = new ClassItemRelation();
             itemClass.setItemId(item.getId());
             List<Long> classIds = classItemRelationService.selectByObjectList(itemClass)

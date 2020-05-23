@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -37,6 +38,11 @@ public class GetGoodsResp extends BasePage {
     private List<Opus> opuses;
     @ApiModelProperty("是否为虚拟商品（0正常，1虚拟）")
     private Integer itemType;
+
+    @ApiModelProperty("创建时间")
+    private String createTime;
+    @ApiModelProperty("修改时间")
+    private String updateTime;
 
     @Data
     @ApiModel("分类返回参数")
