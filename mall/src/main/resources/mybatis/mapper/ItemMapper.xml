@@ -100,7 +100,7 @@
 			<if test="titleImg!=null">#{titleImg,jdbcType=VARCHAR},</if>
 			<if test="contentImg!=null">#{contentImg,jdbcType=VARCHAR},</if>
 			<if test="artCategory!=null">#{artCategory,jdbcType=VARCHAR},</if>
-			 <if test="itemType!=null">#{ITEM_TYPE,jdbcType=INTEGER},</if>
+			 <if test="itemType!=null">#{itemType,jdbcType=INTEGER},</if>
 		 </trim>
 	</insert>
 

@@ -527,7 +527,7 @@ public class ProductServiceImpl implements IProductService {
         UpGoodsParam.GoodsParam goodsParam = upGoodsParam.getGoodsParam();
         item.setShopId(upGoodsParam.getShopId());
         item.setId(goodsParam.getGoodsId());
-        item.setItemStatus(0);
+        item.setItemStatus(1);
         item.setAd(goodsParam.getAd());
         item.setArtCategory(goodsParam.getArtCategory());
         item.setBarcode("");
@@ -571,21 +571,23 @@ public class ProductServiceImpl implements IProductService {
 
         //挂artopus
         List<UpGoodsParam.ArtOps> artOps = goodsParam.getArtOps();
-        artOps.forEach(artOps1 -> {
-            ArtistOpus artistOpus = new ArtistOpus();
-            artistOpus.setItemId(item.getId());
-            artistOpus.setImage(artOps1.getImage());
-            artistOpus.setImgs(String.join(",", artOps1.getImgs()));
-            artistOpus.setName(artOps1.getArtOpsName());
-            artistOpus.setOpusDesc(artOps1.getOpusDesc());
-            artistOpus.setTitle(artOps1.getArtOpTitle());
-            artistOpus.setId(artOps1.getOpusId());
-            if (artistOpus.getId() == null) {
-                artistOpusMapper.insertSelective(artistOpus);
-            } else {
-                artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
-            }
-        });
+        if (!CollectionUtils.isEmpty(artOps)) {
+            artOps.forEach(artOps1 -> {
+                ArtistOpus artistOpus = new ArtistOpus();
+                artistOpus.setItemId(item.getId());
+                artistOpus.setImage(artOps1.getImage());
+                artistOpus.setImgs(String.join(",", artOps1.getImgs()));
+                artistOpus.setName(artOps1.getArtOpsName());
+                artistOpus.setOpusDesc(artOps1.getOpusDesc());
+                artistOpus.setTitle(artOps1.getArtOpTitle());
+                artistOpus.setId(artOps1.getOpusId());
+                if (artistOpus.getId() == null) {
+                    artistOpusMapper.insertSelective(artistOpus);
+                } else {
+                    artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
+                }
+            });
+        }
         return WrapMapper.ok();
     }
 
