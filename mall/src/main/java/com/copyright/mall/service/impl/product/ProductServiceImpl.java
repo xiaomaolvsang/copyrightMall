@@ -329,7 +329,7 @@ public class ProductServiceImpl implements IProductService {
             getGoodsResp.setType(shop1.getShopType());
             getGoodsResp.setImage(item.getContentImg());
             getGoodsResp.setShopName(shop1.getShopName());
-            getGoodsResp.setShoID(shop1.getId());
+            getGoodsResp.setShopID(shop1.getId());
             getGoodsResp.setProductId(item.getId());
             getGoodsResp.setItemType(item.getItemType());
             getGoodsResp.setProductName(item.getItemTitle());
