@@ -72,6 +72,6 @@ public class UserUtils {
     }
 
     public static boolean isAdmin(){
-        return UserUtils.getRoleIds().contains(1);
+        return UserUtils.getRoleIds().contains(1L);
     }
 }
