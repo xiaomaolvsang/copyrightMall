@@ -302,7 +302,7 @@ public class ProductServiceImpl implements IProductService {
             items = itemIds;
         }
 
-        PageHelper.startPage(queryGoodsParam.getPageNum(), queryGoodsParam.getPageSize());
+        Page page = PageHelper.startPage(queryGoodsParam.getPageNum(), queryGoodsParam.getPageSize());
         List<Item> itemsRes = new ArrayList<>();
         if (UserUtils.isAdmin()) {
             itemsRes = itemService.selectItemsByParam(shopIds,
@@ -334,6 +334,7 @@ public class ProductServiceImpl implements IProductService {
             getGoodsResp.setShoID(shop1.getId());
             getGoodsResp.setProductId(item.getId());
             getGoodsResp.setItemType(item.getItemType());
+            getGoodsResp.setProductName(item.getItemTitle());
             ClassItemRelation itemClass = new ClassItemRelation();
             itemClass.setItemId(item.getId());
             List<Long> classIds = classItemRelationService.selectByObjectList(itemClass)
@@ -378,7 +379,9 @@ public class ProductServiceImpl implements IProductService {
             getGoodsResp.setOpuses(opuses);
             getGoodsResps.add(getGoodsResp);
         });
-        return WrapMapper.ok(PageInfo.of(getGoodsResps));
+        PageInfo res = PageInfo.of(getGoodsResps);
+        res.setTotal(page.getTotal());
+        return WrapMapper.ok(res);
     }
 
     private GetGoodsResp.ClassLevel findClassLevel(Long classId,

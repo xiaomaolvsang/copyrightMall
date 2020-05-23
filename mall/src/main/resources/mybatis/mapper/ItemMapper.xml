@@ -187,7 +187,8 @@
 		i.CONTENT_IMG,
 		i.ART_CATEGORY,
 		i.ITEM_TYPE,
-		i.SHOP_ID
+		i.SHOP_ID,
+		i.ID
 		FROM
 		item i
 		WHERE
