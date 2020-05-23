@@ -1,6 +1,7 @@
 package com.copyright.mall.manage.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.qiniu.http.Response;
@@ -32,6 +33,7 @@ public class BasicToolController {
 
     @PostMapping("/uploadImg")
     public Wrapper<String> uploadImg(@RequestParam("fileName") MultipartFile file){
+        UserUtils.isAdmin();
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
         try {
