@@ -299,6 +299,9 @@ public class ProductServiceImpl implements IProductService {
         if (!CollectionUtils.isEmpty(itemIds)) {
             items = itemIds;
         }
+        if(queryGoodsParam.getGoodsId() != null){
+            items.add(queryGoodsParam.getGoodsId());
+        }
 
         Page page = PageHelper.startPage(queryGoodsParam.getPageNum(), queryGoodsParam.getPageSize());
         List<Item> itemsRes = new ArrayList<>();
