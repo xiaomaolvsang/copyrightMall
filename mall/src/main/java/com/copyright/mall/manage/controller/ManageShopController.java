@@ -4,6 +4,7 @@ import com.copyright.mall.manage.domain.dto.ModifyShopParam;
 import com.copyright.mall.manage.domain.dto.QueryShopParam;
 import com.copyright.mall.manage.domain.vo.ShopListRes;
 import com.copyright.mall.service.IShopService;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
@@ -29,7 +30,7 @@ public class ManageShopController extends BaseManageController{
     @ApiOperation("获取用户下的商铺")
     public Wrapper<PageInfo<ShopListRes>> getShop(@ApiParam @Valid @RequestBody QueryShopParam queryShopParam) {
         log.info("getShop = {}", queryShopParam);
-        queryShopParam.setUserId(getUserId());
+        queryShopParam.setUserId(UserUtils.getUserId());
         return iShopService.getShopListByUserId(queryShopParam);
     }
 

@@ -11,6 +11,5 @@ import lombok.EqualsAndHashCode;
 @Api("商铺查询接口参数")
 @Data
 public class QueryShopParam extends BasePage {
-    @ApiModelProperty("userId")
     private Long userId;
 }

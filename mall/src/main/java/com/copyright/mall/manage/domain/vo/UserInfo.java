@@ -22,4 +22,7 @@ public class UserInfo {
     @ApiModelProperty("mallId")
     private Long mallId;
 
+    @ApiModelProperty("userId")
+    private Long userId;
+
 }

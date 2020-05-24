@@ -4,6 +4,7 @@ import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.bean.UserShopRelation;
 import com.copyright.mall.bean.UserTRightRelation;
+import com.copyright.mall.manage.domain.dto.GetUserByPhoneParam;
 import com.copyright.mall.manage.domain.dto.LoginParam;
 import com.copyright.mall.manage.domain.vo.UserInfo;
 import com.copyright.mall.service.IShopService;
@@ -91,6 +92,17 @@ public class ManageUserController extends BaseManageController{
 
     public static void main(String[] args) {
         System.out.println(MD5Util.digest("1"));
+    }
+
+    @PostMapping("/getUserByPhone")
+    @ApiOperation("根据phone查询B端用户信息")
+    public Wrapper<UserInfo> getUserByPhone(@Valid GetUserByPhoneParam getUserByPhoneParam) {
+        UserInfo userInfo = new UserInfo();
+        User user = userService.selectByPhone(getUserByPhoneParam.getPhone());
+        userInfo.setMobile(user.getPhone());
+        userInfo.setMallId(UserUtils.getMallId());
+        userInfo.setUserId(user.getId());
+        return WrapMapper.ok(userInfo);
     }
 
 }

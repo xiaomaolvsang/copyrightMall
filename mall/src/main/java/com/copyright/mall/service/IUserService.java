@@ -1,7 +1,8 @@
 package com.copyright.mall.service;
 
 import com.copyright.mall.bean.User;
-import com.copyright.mall.manage.domain.dto.LoginParam;
+
+import java.util.List;
 
 /**
  * @author : zhangyuchen
@@ -17,4 +18,6 @@ public interface IUserService {
     void saveOrUpdate(User user);
 
     User selectByPhoneAndPwd(String phone ,String pwd);
+
+    public User selectByPhone(String phone);
 }

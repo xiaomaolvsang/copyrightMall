@@ -13,6 +13,7 @@ import com.copyright.mall.manage.domain.vo.ShopListRes;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IUserShopRelationService;
+import com.copyright.mall.util.MD5Util;
 import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -127,16 +128,18 @@ public class ShopService implements IShopService {
         });
 
         modifyShopParam.getUsers().forEach(user -> {
-            //添加关系
-            UserShopRelation newUserShopRelation = new UserShopRelation();
-            newUserShopRelation.setShopId(shop.getId());
-            newUserShopRelation.setUserId(Long.valueOf(user.getUserId()));
-            iUserShopRelationService.insertSelective(newUserShopRelation);
-            //修改密码
-            User user1 = new User();
-            user1.setId(Long.valueOf(user.getUserId()));
-            user1.setPassword(user.getPassWord());
-            userMapper.updateByPrimaryKeySelective(user1);
+            if (StringUtils.isNotEmpty(user.getPassWord())) {
+                //添加关系
+                UserShopRelation newUserShopRelation = new UserShopRelation();
+                newUserShopRelation.setShopId(shop.getId());
+                newUserShopRelation.setUserId(Long.valueOf(user.getUserId()));
+                iUserShopRelationService.insertSelective(newUserShopRelation);
+                //修改密码
+                User user1 = new User();
+                user1.setId(Long.valueOf(user.getUserId()));
+                user1.setPassword(MD5Util.digest(user.getPassWord()));
+                userMapper.updateByPrimaryKeySelective(user1);
+            }
         });
         return WrapMapper.ok();
     }

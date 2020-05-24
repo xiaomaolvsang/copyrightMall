@@ -64,4 +64,15 @@ public class UserServiceImpl implements IUserService {
         List<User> users = userMapper.selectByObjectList(queryParam);
         return CollectionUtils.isEmpty(users)? null : users.get(0);
     }
+
+    @Override
+    public User selectByPhone(String phone) {
+        User parm = new User();
+        parm.setPhone(phone);
+        List<User> users =  userMapper.selectByObjectList(parm);
+        if(CollectionUtils.isEmpty(users)){
+            return null;
+        }
+        return users.get(0);
+    }
 }
