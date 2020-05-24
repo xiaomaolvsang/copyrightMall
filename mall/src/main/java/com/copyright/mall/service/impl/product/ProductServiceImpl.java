@@ -300,6 +300,9 @@ public class ProductServiceImpl implements IProductService {
             items = itemIds;
         }
         if(queryGoodsParam.getGoodsId() != null){
+            if(items == null){
+                items = new ArrayList<>();
+            }
             items.add(queryGoodsParam.getGoodsId());
         }
 
