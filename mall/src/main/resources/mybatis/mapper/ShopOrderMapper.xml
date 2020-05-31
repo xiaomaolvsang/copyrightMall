@@ -205,6 +205,13 @@
 			<if test="shopId != null and shopId != '' "> and shop_order.shop_id = #{shopId,jdbcType=BIGINT}</if>
 			<if test="orderStartTime != null "> and shop_order.GMT_CREATE <![CDATA[ >= ]]> #{orderStartTime,jdbcType=TIMESTAMP} </if>
 			<if test="orderEndTime != null  "> and shop_order.GMT_CREATE <![CDATA[ <= ]]> #{orderEndTime,jdbcType=TIMESTAMP} </if>
+			<if	test="itemName!= null " >and exists(
+				select 1 from item_order , item
+				where item_order.shop_order_id = shop_order.shop_order_id
+				and item_order.item_id = item.id
+				and item.item_title like CONCAT('%' ,#{itemName,jdbcType=VARCHAR} , '%')
+				)
+			</if>
 		</where>
 		order by shop_order.GMT_CREATE desc
 	</select>
@@ -235,6 +242,13 @@
 			<if test="shopId != null and shopId != '' "> and shop_order.shop_id = #{shopId,jdbcType=BIGINT}</if>
 			<if test="orderStartTime != null "> and shop_order.GMT_CREATE <![CDATA[ >= ]]> #{orderStartTime,jdbcType=TIMESTAMP} </if>
 			<if test="orderEndTime != null "> and shop_order.GMT_CREATE <![CDATA[ <= ]]> #{orderEndTime,jdbcType=TIMESTAMP} </if>
+			<if	test="itemName!= null " >and exists(
+				select 1 from item_order , item
+				where item_order.shop_order_id = shop_order.shop_order_id
+				and item_order.item_id = item.id
+				and item.item_title like CONCAT('%' ,#{itemName,jdbcType=VARCHAR} , '%')
+				)
+			</if>
 		</where>
 
 	</select>

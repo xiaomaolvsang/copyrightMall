@@ -34,4 +34,8 @@ public class ExportOrderParam {
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderEndTime;
+
+
+    @ApiModelProperty("商品名称")
+    private String itemName;
 }
