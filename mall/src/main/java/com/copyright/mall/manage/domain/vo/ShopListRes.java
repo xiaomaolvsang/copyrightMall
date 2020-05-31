@@ -39,7 +39,7 @@ public class ShopListRes extends BasePage {
     private Long shopId;
 
     @ApiModelProperty("创建时间")
-    private String createName;
+    private String createTime;
 
     @ApiModelProperty("用户列表")
     private List<User> users;

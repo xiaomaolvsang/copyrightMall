@@ -183,7 +183,7 @@ public class ShopService implements IShopService {
             shopListRes.setShopImg(shop.getShopImg());
             shopListRes.setShopArtCategory(shop.getShopArtcategory());
             shopListRes.setIsIdentification(shop.getIsIdentification());
-            shopListRes.setCreateName(TimeUtil.formatDate(shop.getGmtCreate()));
+            shopListRes.setCreateTime(TimeUtil.formatDate(shop.getGmtCreate()));
             shopListRes.setShopId(shop.getId());
             List<ShopListRes.User> users = new ArrayList<>();
             UserShopRelation userShopRelation = new UserShopRelation();
