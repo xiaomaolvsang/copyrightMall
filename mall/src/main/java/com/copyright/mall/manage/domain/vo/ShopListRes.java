@@ -38,6 +38,9 @@ public class ShopListRes extends BasePage {
     @ApiModelProperty("商铺id")
     private Long shopId;
 
+    @ApiModelProperty("创建时间")
+    private String createName;
+
     @ApiModelProperty("用户列表")
     private List<User> users;
 

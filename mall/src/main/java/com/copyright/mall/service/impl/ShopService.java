@@ -14,6 +14,7 @@ import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.IUserShopRelationService;
 import com.copyright.mall.util.MD5Util;
+import com.copyright.mall.util.TimeUtil;
 import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -182,6 +183,7 @@ public class ShopService implements IShopService {
             shopListRes.setShopImg(shop.getShopImg());
             shopListRes.setShopArtCategory(shop.getShopArtcategory());
             shopListRes.setIsIdentification(shop.getIsIdentification());
+            shopListRes.setCreateName(TimeUtil.formatDate(shop.getGmtCreate()));
             shopListRes.setShopId(shop.getId());
             List<ShopListRes.User> users = new ArrayList<>();
             UserShopRelation userShopRelation = new UserShopRelation();
