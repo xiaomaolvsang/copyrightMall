@@ -39,7 +39,7 @@
 		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
 		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
 		<if test="mallId != null and mallId != '' "> and MALL_ID = #{mallId,jdbcType=BIGINT} </if>
-		<if test="shopName != null and shopName != '' "> and SHOP_NAME = #{shopName,jdbcType=VARCHAR} </if>
+		<if test="shopName != null and shopName != '' "> and SHOP_NAME like CONCAT('%',#{shopName,jdbcType=VARCHAR},'%') </if>
 		<if test="shopLogo != null and shopLogo != '' "> and SHOP_LOGO = #{shopLogo,jdbcType=VARCHAR} </if>
 		<if test="shopType != null "> and SHOP_TYPE = #{shopType,jdbcType=INTEGER} </if>
 		<if test="companyName != null and companyName != '' "> and COMPANY_NAME = #{companyName,jdbcType=VARCHAR} </if>
