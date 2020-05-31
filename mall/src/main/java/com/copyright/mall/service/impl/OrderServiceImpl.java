@@ -1,6 +1,11 @@
 package com.copyright.mall.service.impl;
 
-import com.copyright.mall.bean.*;
+import com.copyright.mall.bean.Item;
+import com.copyright.mall.bean.ItemOrder;
+import com.copyright.mall.bean.MallOrder;
+import com.copyright.mall.bean.ShopOrder;
+import com.copyright.mall.bean.Sku;
+import com.copyright.mall.bean.UserAddress;
 import com.copyright.mall.dao.ShopOrderMapper;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
 import com.copyright.mall.domain.dto.cart.DeleteCartParam;
@@ -13,8 +18,14 @@ import com.copyright.mall.enums.ShopOrderType;
 import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryOrderListParam;
 import com.copyright.mall.manage.domain.dto.ShopItemOrderDetail;
-import com.copyright.mall.manage.domain.dto.ShopOrderDetail;
-import com.copyright.mall.service.*;
+import com.copyright.mall.service.ICartService;
+import com.copyright.mall.service.IItemOrderService;
+import com.copyright.mall.service.IItemService;
+import com.copyright.mall.service.IMallOrderService;
+import com.copyright.mall.service.IShopOrderService;
+import com.copyright.mall.service.ISkuService;
+import com.copyright.mall.service.IUserAddressService;
+import com.copyright.mall.service.OrderService;
 import com.copyright.mall.util.IDUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -80,16 +91,16 @@ public class OrderServiceImpl implements OrderService {
                 for (ItemOrder itemOrder : itemOrders) {
                     itemOrder.setPayPrice(itemOrder.getItemTotalPrice());
                     itemOrder.setPayTime(new Date());
-                    itemOrder.setItemOrderStatus(ItemOrderType.PAID.getCode());
+                    itemOrder.setItemOrderStatus(ShopOrderType.TO_BE_SHIPPED.getCode());
                     iItemOrderService.updateByPrimaryKeySelective(itemOrder);
                 }
                 shopOrderItem.setPayPrice(shopOrderItem.getPrice());
                 shopOrderItem.setPayTime(new Date());
-                shopOrderItem.setOrderType(ShopOrderType.PAID.getCode());
+                shopOrderItem.setOrderType(ShopOrderType.TO_BE_SHIPPED.getCode());
                 shopOrderService.updateByPrimaryKeySelective(shopOrderItem);
             }
             mallOrder.setPayPrice(mallOrder.getPrice());
-            mallOrder.setPayStatus(MallPayStatusEnum.PAID.getCode());
+            mallOrder.setPayStatus(ShopOrderType.TO_BE_SHIPPED.getCode());
             mallOrder.setPayTime(new Date());
             mallOrderService.updateByPrimaryKeySelective(mallOrder);
         }
@@ -104,12 +115,12 @@ public class OrderServiceImpl implements OrderService {
                 for (ItemOrder itemOrder : itemOrders) {
                     itemOrder.setPayPrice(itemOrder.getItemTotalPrice());
                     itemOrder.setPayTime(new Date());
-                    itemOrder.setItemOrderStatus(ItemOrderType.PAID.getCode());
+                    itemOrder.setItemOrderStatus(ShopOrderType.TO_BE_SHIPPED.getCode());
                     iItemOrderService.updateByPrimaryKeySelective(itemOrder);
                 }
                 shopOrderItem.setPayPrice(shopOrderItem.getPrice());
                 shopOrderItem.setPayTime(new Date());
-                shopOrderItem.setOrderType(ShopOrderType.PAID.getCode());
+                shopOrderItem.setOrderType(ShopOrderType.TO_BE_SHIPPED.getCode());
                 shopOrderService.updateByPrimaryKeySelective(shopOrderItem);
             }
         }
