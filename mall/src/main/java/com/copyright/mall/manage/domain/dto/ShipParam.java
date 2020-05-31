@@ -5,11 +5,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@ApiModel("修改订单价格")
+@ApiModel("发货接口")
 public class ShipParam {
 
     @ApiModelProperty(value = "订单ID",required = true)
