@@ -124,7 +124,8 @@ public class ShopService implements IShopService {
         UserShopRelation userShopRelation = new UserShopRelation();
         userShopRelation.setShopId(shop.getId());
         List<UserShopRelation> userShopRelations = iUserShopRelationService.selectByObjectList(userShopRelation);
-        userShopRelations.forEach(userShopRelation1 -> {
+        List<String> userList = modifyShopParam.getUsers().stream().map(ModifyShopParam.User::getUserId).collect(Collectors.toList());
+        userShopRelations.stream().filter(userShopRelation1 -> !userList.contains(userShopRelation1.getUserId().toString())).forEach(userShopRelation1 -> {
             iUserShopRelationService.deleteByPrimaryKey(userShopRelation1.getId());
         });
 

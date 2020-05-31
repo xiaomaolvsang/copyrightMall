@@ -99,6 +99,9 @@ public class ManageUserController extends BaseManageController{
     public Wrapper<UserInfo> getUserByPhone(@Valid GetUserByPhoneParam getUserByPhoneParam) {
         UserInfo userInfo = new UserInfo();
         User user = userService.selectByPhone(getUserByPhoneParam.getPhone());
+        if(user == null){
+            return WrapMapper.error("未查到相关用户");
+        }
         userInfo.setMobile(user.getPhone());
         userInfo.setMallId(UserUtils.getMallId());
         userInfo.setUserId(user.getId());
