@@ -139,6 +139,7 @@ public class ManageOrderController extends BaseManageController {
             shopOrderExport.setDeliveryOrderId(shopItemOrderDetail.getDeliveryOrderId());
             shopOrderExport.setDelliveryCompanyName(shopItemOrderDetail.getDelliveryCompanyName());
             shopOrderExport.setCreateTime(shopItemOrderDetail.getCreateTime());
+
             if(1 == shopItemOrderDetail.getItemType()) {
                 shopOrderExport.setVirtual("是");
             }else{
@@ -170,6 +171,9 @@ public class ManageOrderController extends BaseManageController {
             shopOrderInfo.setCreateTime(shopOrderDetail.getCreateTime());
             shopOrderInfo.setDelliveryCompanyName(shopOrderDetail.getDelliveryCompanyName());
             shopOrderInfo.setDeliveryOrderId(shopOrderDetail.getDeliveryOrderId());
+            shopOrderInfo.setDeliveryName(shopOrderDetail.getDeliveryName());
+            shopOrderInfo.setDeliveryAddress(shopOrderDetail.getDeliveryAddress());
+            shopOrderInfo.setDeliveryPhone(shopOrderDetail.getDeliveryPhone());
             List<OrderInfoVO.RelateProductsBean> relateProductsBeans = Lists.newArrayList();
             for (ShopOrderDetail.ItemOrder itemOrder : shopOrderDetail.getItemOrders()) {
                 OrderInfoVO.RelateProductsBean relateProductsBean = new OrderInfoVO.RelateProductsBean();

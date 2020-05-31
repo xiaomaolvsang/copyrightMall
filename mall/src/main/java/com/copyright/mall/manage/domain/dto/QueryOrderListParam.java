@@ -38,5 +38,10 @@ public class QueryOrderListParam extends BasePage {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderEndTime;
 
+
+    @ApiModelProperty("商品名称")
+    private String itemName;
+    
+
 }
 

@@ -41,4 +41,11 @@ public class ShopItemOrderDetail {
     private Date payTime;
     @ApiModelProperty("支付时间")
     private int itemType;
+    @ApiModelProperty("收货人姓名")
+    private String deliveryName;
+    @ApiModelProperty("收货人地址")
+    private String deliveryAddress;
+    @ApiModelProperty("电话")
+    private String deliveryPhone;
+
 }

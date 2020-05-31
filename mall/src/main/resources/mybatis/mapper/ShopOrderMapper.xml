@@ -182,7 +182,10 @@
 		shop_order.ORDER_CREATE_TIME as createTime,
 		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
 		shop_order.pay_time as payTime,
-		item.item_type as itemType
+		item.item_type as itemType,
+		mall_order.delivery_name as deliveryName,
+		mall_order.delivery_address as deliveryAddress,
+		mall_order.phone as deliveryPhone
 		FROM
 		mall_order,
 		shop_order,
@@ -215,7 +218,10 @@
 		shop_order.DELLIVERY_COMPANY_NAME as delliveryCompanyName,
 		shop_order.ORDER_CREATE_TIME as createTime,
 		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
-		shop_order.pay_time as payTime
+		shop_order.pay_time as payTime,
+		mall_order.delivery_name as deliveryName,
+		mall_order.delivery_address as deliveryAddress,
+		mall_order.phone as deliveryPhone
 		FROM
 		mall_order,
 		shop_order,
