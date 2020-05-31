@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  time-zone: GMT+8
   profiles:
     active: dev
 
@@ -12,4 +15,3 @@ server:
     key-store: classpath:api.beartcenter.com.pfx
     key-store-password: 7Oq59KeY
     key-store-type: PKCS12
-

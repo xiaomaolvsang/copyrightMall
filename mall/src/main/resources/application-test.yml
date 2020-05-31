@@ -15,5 +15,5 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     password: rightcopy!MALL
-    url: jdbc:mysql://rm-2ze7348dnu2p4ou9mlo.mysql.rds.aliyuncs.com:3306/copyright_mall_db?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://rm-2ze7348dnu2p4ou9mlo.mysql.rds.aliyuncs.com:3306/copyright_mall_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: copyright
