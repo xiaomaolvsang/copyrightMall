@@ -121,6 +121,7 @@
 		<if test="endTime != null "> and START_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP} </if>
 		<if test="blobType != null and blobType == 0">and START_TIME <![CDATA[ <= ]]> UPDATE_TIME </if>
 		<if test="blobType != null and blobType == 1">and START_TIME <![CDATA[ > ]]> UPDATE_TIME </if>
+		order by UPDATE_TIME DESC
 	</select>
 	<select id="queryKVByKey" resultType="com.copyright.mall.bean.Kv">
 		SELECT
