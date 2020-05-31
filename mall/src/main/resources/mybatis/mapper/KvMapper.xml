@@ -119,7 +119,8 @@
 		<if test="blobTitle != null and blobTitle != '' "> and BLOB_TITLE = #{blobTitle,jdbcType=VARCHAR} </if>
 		<if test="starTime != null "> and START_TIME <![CDATA[ >= ]]> #{startTime,jdbcType=TIMESTAMP} </if>
 		<if test="endTime != null "> and START_TIME <![CDATA[ <= ]]> #{endTime,jdbcType=TIMESTAMP} </if>
-
+		<if test="blobType != null and blobType == 0">and START_TIME <![CDATA[ <= ]]> UPDATE_TIME </if>
+		<if test="blobType != null and blobType == 1">and START_TIME <![CDATA[ > ]]> UPDATE_TIME </if>
 	</select>
 	<select id="queryKVByKey" resultType="com.copyright.mall.bean.Kv">
 		SELECT

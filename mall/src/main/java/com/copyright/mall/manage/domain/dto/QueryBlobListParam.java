@@ -24,4 +24,7 @@ public class QueryBlobListParam extends BasePage {
 
     @ApiModelProperty("结束时间")
     private Date endTime;
+
+    @ApiModelProperty("内容状态 0-正常 1-已删除")
+    private int blobType;
 }

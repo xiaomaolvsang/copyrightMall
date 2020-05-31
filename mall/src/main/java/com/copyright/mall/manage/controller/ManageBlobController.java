@@ -3,11 +3,11 @@ package com.copyright.mall.manage.controller;
 import com.copyright.mall.bean.Kv;
 import com.copyright.mall.manage.domain.dto.CreateBlobParam;
 import com.copyright.mall.manage.domain.dto.ModifyBlobParam;
-import com.copyright.mall.manage.domain.dto.ModifyPriceParam;
 import com.copyright.mall.manage.domain.dto.QueryBlobListParam;
 import com.copyright.mall.manage.domain.vo.BlobRes;
 import com.copyright.mall.service.IKvService;
 import com.copyright.mall.util.BeanMapperUtils;
+import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageHelper;
@@ -17,7 +17,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Api(tags = "后端内容管理")
 @Slf4j
@@ -49,9 +53,9 @@ public class ManageBlobController extends BaseManageController{
             blobRes.setId(kv.getId());
             blobRes.setBlobTitle(kv.getBlobTitle());
             blobRes.setBlob(kv.getContent());
-            blobRes.setCreateTime(blobRes.getCreateTime());
-            blobRes.setModifyTime(blobRes.getModifyTime());
-            blobRes.setCreator(blobRes.getCreator());
+            blobRes.setCreateTime(kv.getStartTime());
+            blobRes.setModifyTime(kv.getUpdateTime());
+            blobRes.setCreator(kv.getCreator());
             blobResList.add(blobRes);
         }
         PageInfo<BlobRes> response = BeanMapperUtils.map(kvPageInfo,PageInfo.class);
@@ -66,6 +70,7 @@ public class ManageBlobController extends BaseManageController{
         Kv kv = new Kv();
         kv.setBlobTitle(createBlobParam.getBlobTitle());
         kv.setContent(createBlobParam.getBlob());
+        kv.setCreator(Objects.requireNonNull(UserUtils.getUserId()).toString());
         if(this.getUserId() != null) {
             kv.setCreator(this.getUserId().toString());
         }
@@ -81,6 +86,21 @@ public class ManageBlobController extends BaseManageController{
         kv.setId(modifyBlobParam.getId());
         kv.setBlobTitle(modifyBlobParam.getBlobTitle());
         kv.setContent(modifyBlobParam.getBlob());
+        kv.setCreator(Objects.requireNonNull(UserUtils.getUserId()).toString());
+        if(this.getUserId() != null) {
+            kv.setCreator(this.getUserId().toString());
+        }
+        kvService.updateByPrimaryKeySelective(kv);
+        return WrapMapper.ok();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation("删除内容")
+    private Wrapper<Boolean> delete(@PathVariable("id") Integer id){
+        Kv kv = new Kv();
+        kv.setId(id);
+        kv.setUpdateTime(new Date(0));
+        kv.setCreator(Objects.requireNonNull(UserUtils.getUserId()).toString());
         if(this.getUserId() != null) {
             kv.setCreator(this.getUserId().toString());
         }
