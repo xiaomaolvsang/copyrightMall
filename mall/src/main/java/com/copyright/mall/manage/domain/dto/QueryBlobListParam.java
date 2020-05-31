@@ -24,7 +24,7 @@ public class QueryBlobListParam extends BasePage {
     @ApiModelProperty("起始时间")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date starTime;
+    private Date startTime;
 
     @ApiModelProperty("结束时间")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
