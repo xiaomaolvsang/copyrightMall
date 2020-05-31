@@ -3,6 +3,7 @@ package com.copyright.mall.manage.domain.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -47,5 +48,7 @@ public class ShopItemOrderDetail {
     private String deliveryAddress;
     @ApiModelProperty("电话")
     private String deliveryPhone;
+    @ApiModelProperty("订单总价")
+    private BigDecimal price;
 
 }

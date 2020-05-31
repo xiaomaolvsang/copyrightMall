@@ -48,6 +48,8 @@ public class ShopOrderInfo {
     private String deliveryAddress;
     @ApiModelProperty("电话")
     private String deliveryPhone;
+    @ApiModelProperty("订单总价")
+    private BigDecimal price;
 
     @Data
     @ApiModel("商品订单")

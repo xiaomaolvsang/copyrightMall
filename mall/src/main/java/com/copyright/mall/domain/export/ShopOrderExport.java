@@ -46,6 +46,8 @@ public class ShopOrderExport {
     private String deliveryAddress;
     @ExcelProperty(value = "电话", index = 17)
     private String deliveryPhone;
+    @ExcelProperty(value = "电话", index = 18)
+    private BigDecimal price;
 
 
 }

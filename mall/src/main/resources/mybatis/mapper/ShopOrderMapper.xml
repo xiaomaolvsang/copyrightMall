@@ -182,6 +182,7 @@
 		shop_order.ORDER_CREATE_TIME as createTime,
 		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
 		shop_order.pay_time as payTime,
+		shop_order.price as price,
 		item.item_type as itemType,
 		mall_order.delivery_name as deliveryName,
 		mall_order.delivery_address as deliveryAddress,
@@ -226,6 +227,7 @@
 		shop_order.ORDER_CREATE_TIME as createTime,
 		shop_order.DELIVERY_ORDER_ID as deliveryOrderId,
 		shop_order.pay_time as payTime,
+		shop_order.price as price,
 		mall_order.delivery_name as deliveryName,
 		mall_order.delivery_address as deliveryAddress,
 		mall_order.phone as deliveryPhone
