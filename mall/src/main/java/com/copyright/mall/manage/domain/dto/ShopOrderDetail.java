@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class ShopOrderDetail {
     @ApiModelProperty("电话")
     private String deliveryPhone;
     @ApiModelProperty("订单总价")
-    private BigDecimal price;
+    private Integer price;
 
     @Data
     public static class ItemOrder{
