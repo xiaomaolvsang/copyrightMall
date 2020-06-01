@@ -2,6 +2,7 @@ package com.copyright.mall.manage.filter;
 
 
 import org.springframework.http.HttpMethod;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 @WebFilter(filterName = "corsFilter", urlPatterns = {"/manage/*"})
 public class CorsFilter implements Filter {
@@ -29,5 +31,13 @@ public class CorsFilter implements Filter {
             return;
         }
         chain.doFilter(req, res);
+    }
+
+    public static void main(String[] args) {
+        PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
+        String text = "测试${text}替换";
+        Properties props = new Properties();
+        props.setProperty("text", "文本");
+        System.out.println(helper.replacePlaceholders(text,props));
     }
 }
