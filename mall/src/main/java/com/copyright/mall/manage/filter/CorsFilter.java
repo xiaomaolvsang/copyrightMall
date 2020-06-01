@@ -25,11 +25,12 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 
         HttpServletRequest request = (HttpServletRequest) res;
-        // 如果是OPTIONS则结束请求
         if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
             response.setStatus(HttpStatus.NO_CONTENT.value());
-            return ;
+            response.getOutputStream().close();
+            return;
         }
+
 
         chain.doFilter(req, res);
     }
