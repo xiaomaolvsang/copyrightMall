@@ -21,7 +21,7 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)res;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,X-MANAGE-TOKEN");
 
         // 如果是option请求，直接返回200
         if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
