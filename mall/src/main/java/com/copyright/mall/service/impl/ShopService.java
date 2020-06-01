@@ -18,6 +18,7 @@ import com.copyright.mall.util.TimeUtil;
 import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -152,6 +153,7 @@ public class ShopService implements IShopService {
         List<ShopListRes> shopListResList = new ArrayList<>();
 
         List<Shop> shops = new ArrayList<>();
+        Page page ;
         if (UserUtils.isAdmin()) {
             Shop shop = new Shop();
             if (queryShopParam.getShopId() != null) {
@@ -163,14 +165,14 @@ public class ShopService implements IShopService {
             if (queryShopParam.getShopType() != null) {
                 shop.setShopType(queryShopParam.getShopType());
             }
-            PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
+            page = PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
             shops = shopMapper.selectByObjectList(shop);
         } else {
             UserShopRelation userShopRelation = new UserShopRelation();
             userShopRelation.setUserId(UserUtils.getUserId());
             List<UserShopRelation> list = iUserShopRelationService.selectByObjectList(userShopRelation);
             List<Long> shopIds = list.stream().map(UserShopRelation::getShopId).collect(Collectors.toList());
-            PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
+            page = PageHelper.startPage(queryShopParam.getPageNum(), queryShopParam.getPageSize());
             shops = shopMapper.selectByShopIds(shopIds);
         }
 
@@ -200,7 +202,9 @@ public class ShopService implements IShopService {
             shopListRes.setUsers(users);
             shopListResList.add(shopListRes);
         });
-        return WrapMapper.ok(PageInfo.of(shopListResList));
+        PageInfo pageInfo = PageInfo.of(shopListResList);
+                pageInfo.setTotal(page.getTotal());
+        return WrapMapper.ok(pageInfo);
     }
 
     private String getKey(Long id) {
