@@ -1,4 +1,4 @@
-package com.copyright.mall.config;
+package com.copyright.mall.manage.filter;
 
 
 import javax.servlet.Filter;
@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter
+@WebFilter(filterName = "corsFilter", urlPatterns = {"/manage/*"})
 public class CorsFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
