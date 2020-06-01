@@ -31,6 +31,9 @@ public class BlobController extends BaseController {
     @GetMapping("/content/{id}")
     public Wrapper<BlobVO> content(@PathVariable("id") Integer id){
         Kv kv = kvService.selectByPrimaryKey(id);
+        if(kv == null){
+            return WrapMapper.wrap(1,"不存在");
+        }
         BlobVO blobVO = new BlobVO();
         blobVO.setContent(kv.getContent());
         blobVO.setTitle(kv.getBlobTitle());
