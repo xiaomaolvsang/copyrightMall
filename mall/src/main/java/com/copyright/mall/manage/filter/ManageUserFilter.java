@@ -7,6 +7,7 @@ import com.copyright.mall.util.wrapper.WrapMapper;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
 import javax.annotation.Resource;
@@ -42,6 +43,17 @@ public class ManageUserFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,X-MANAGE-TOKEN");
+
+        // 如果是option请求，直接返回200
+        if (httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
+
         String token = httpServletRequest.getHeader("X-MANAGE-TOKEN");
         if (StringUtils.isBlank(token)) {
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
