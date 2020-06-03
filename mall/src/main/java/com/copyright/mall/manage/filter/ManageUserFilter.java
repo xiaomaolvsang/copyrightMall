@@ -6,7 +6,7 @@ import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 
 import javax.annotation.Resource;
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebFilter(filterName = "manageUserFilter", urlPatterns = {"/manage/*"})
+@Order(2)
 public class ManageUserFilter implements Filter {
 
     @Resource
@@ -39,11 +40,6 @@ public class ManageUserFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         if (((HttpServletRequest) request).getRequestURL().toString().contains("/login")) {
             chain.doFilter(request, response);
-            return;
-        }
-        // 如果是option请求，直接返回200
-        if (httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.name())) {
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             return;
         }
         String token = httpServletRequest.getHeader("X-MANAGE-TOKEN");
