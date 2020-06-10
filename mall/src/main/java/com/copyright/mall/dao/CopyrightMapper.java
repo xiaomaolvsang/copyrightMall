@@ -1,10 +1,8 @@
 package com.copyright.mall.dao;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-
 import com.copyright.mall.bean.Copyright;
+
+import java.util.List;
 
 
 
@@ -12,7 +10,7 @@ import com.copyright.mall.bean.Copyright;
  * 
  * 版权表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2020-06-10 10:35
  **/
 public interface CopyrightMapper {
 

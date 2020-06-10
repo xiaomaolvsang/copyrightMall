@@ -1,13 +1,14 @@
 package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.Copyright;
-import com.copyright.mall.bean.Shop;
 import com.copyright.mall.config.GuavaManage;
 import com.copyright.mall.dao.CopyrightMapper;
 import com.copyright.mall.service.ICopyrightService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.Optional;
 
 
 /**
- *
+ * 
  * 版权表
  * @author lijian
- * @date 2019-10-10 16:30
+ * @date 2020-06-10 10:35
  **/
 @Service
 public class CopyrightService implements ICopyrightService {
@@ -27,10 +28,10 @@ public class CopyrightService implements ICopyrightService {
 	private static Logger logger = LoggerFactory.getLogger(CopyrightService.class);
 
 	@Resource
+	private GuavaManage guavaManage;
+	
+	@Resource
 	private CopyrightMapper copyrightMapper;
-
-  @Resource
-  private GuavaManage guavaManage;
 
 	@Override
 	public Copyright selectByPrimaryKey(Long id) {
@@ -43,6 +44,7 @@ public class CopyrightService implements ICopyrightService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(Copyright copyright) {
 		return copyrightMapper.insertSelective(copyright);
 	}
@@ -68,19 +70,20 @@ public class CopyrightService implements ICopyrightService {
 	}
 
 	public List<Copyright> selectAllObject(){
-	  Copyright copyright = new Copyright();
-    Optional<Object> infoOptional = guavaManage.getCache(getKey(),
-      () -> Optional.ofNullable(selectByObjectList(copyright)));
-    List<Copyright> result = new ArrayList<>();
-    if (infoOptional.isPresent()) {
-      result = (List<Copyright>)infoOptional.get();
-    }
-    return result;
-  }
+		Copyright copyright = new Copyright();
+		Optional<Object> infoOptional = guavaManage.getCache(getKey(),
+				() -> Optional.ofNullable(selectByObjectList(copyright)));
+		List<Copyright> result = new ArrayList<>();
+		if (infoOptional.isPresent()) {
+			result = (List<Copyright>)infoOptional.get();
+		}
+		return result;
+	}
 
-  private String getKey(){
-	  return "copyright";
-  }
+
+	private String getKey(){
+		return "copyright";
+	}
 
 
 }

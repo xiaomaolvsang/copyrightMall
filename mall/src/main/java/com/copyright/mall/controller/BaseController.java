@@ -4,7 +4,6 @@ import com.copyright.mall.bean.User;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.service.JwtService;
-import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,4 +64,6 @@ public abstract class BaseController {
         String mallId = request.getHeader("X-Mall-Id");
         return StringUtils.isNotBlank(mallId) ? Long.valueOf(mallId) : -1L;
     }
+
+
 }

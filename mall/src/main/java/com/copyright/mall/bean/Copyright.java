@@ -1,28 +1,35 @@
 package com.copyright.mall.bean;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 
 /**
  * 
  * 版权表
  * @author lijian
- * @date 2019-12-03 11:02
+ * @date 2020-06-10 13:48
  **/
 public class Copyright implements Serializable {
 
-	private static final long serialVersionUID = 3498900603083481044L;
+	private static final long serialVersionUID = 4875944118171682313L;
 
 	/**主键**/
 	private Long id;
+
+	/****/
+	private String copyrightId;
 
 	/**创建时间**/
 	private Date gmtCreate;
 
 	/**修改时间**/
 	private Date gmtModified;
+
+	/**认证时间**/
+	private Date certificationTime;
+
+	/**创作日期**/
+	private Date creationTime;
 
 	/**中文名称**/
 	private String chineseName;
@@ -45,6 +52,24 @@ public class Copyright implements Serializable {
 	/**商铺id**/
 	private Long shopId;
 
+	/**版权人证件**/
+	private String certificateOfCopyrightOwner;
+
+	/**登记号**/
+	private String registrationNo;
+
+	/**类别**/
+	private String category;
+
+	/**作品图片**/
+	private String picturesOfWorks;
+
+	/**版权证书**/
+	private String copyrightCertificate;
+
+	/**版权人**/
+	private String copyrightOwner;
+
 
 
 	public void setId(Long id){
@@ -53,6 +78,14 @@ public class Copyright implements Serializable {
 
 	public Long getId(){
 		return this.id;
+	}
+
+	public void setCopyrightId(String copyrightId){
+		this.copyrightId = copyrightId;
+	}
+
+	public String getCopyrightId(){
+		return this.copyrightId;
 	}
 
 	public void setGmtCreate(Date gmtCreate){
@@ -69,6 +102,22 @@ public class Copyright implements Serializable {
 
 	public Date getGmtModified(){
 		return this.gmtModified;
+	}
+
+	public void setCertificationTime(Date certificationTime){
+		this.certificationTime = certificationTime;
+	}
+
+	public Date getCertificationTime(){
+		return this.certificationTime;
+	}
+
+	public void setCreationTime(Date creationTime){
+		this.creationTime = creationTime;
+	}
+
+	public Date getCreationTime(){
+		return this.creationTime;
 	}
 
 	public void setChineseName(String chineseName){
@@ -127,17 +176,74 @@ public class Copyright implements Serializable {
 		return this.shopId;
 	}
 
+	public void setCertificateOfCopyrightOwner(String certificateOfCopyrightOwner){
+		this.certificateOfCopyrightOwner = certificateOfCopyrightOwner;
+	}
+
+	public String getCertificateOfCopyrightOwner(){
+		return this.certificateOfCopyrightOwner;
+	}
+
+	public void setRegistrationNo(String registrationNo){
+		this.registrationNo = registrationNo;
+	}
+
+	public String getRegistrationNo(){
+		return this.registrationNo;
+	}
+
+	public void setCategory(String category){
+		this.category = category;
+	}
+
+	public String getCategory(){
+		return this.category;
+	}
+
+	public void setPicturesOfWorks(String picturesOfWorks){
+		this.picturesOfWorks = picturesOfWorks;
+	}
+
+	public String getPicturesOfWorks(){
+		return this.picturesOfWorks;
+	}
+
+	public void setCopyrightCertificate(String copyrightCertificate){
+		this.copyrightCertificate = copyrightCertificate;
+	}
+
+	public String getCopyrightCertificate(){
+		return this.copyrightCertificate;
+	}
+
+	public void setCopyrightOwner(String copyrightOwner){
+		this.copyrightOwner = copyrightOwner;
+	}
+
+	public String getCopyrightOwner(){
+		return this.copyrightOwner;
+	}
+
 	@Override
 	public String toString() {
 		return "Copyright [ id= "+id+
+			",copyrightId= "+copyrightId+
 			",gmtCreate= "+gmtCreate+
 			",gmtModified= "+gmtModified+
+			",certificationTime= "+certificationTime+
+			",creationTime= "+creationTime+
 			",chineseName= "+chineseName+
 			",name= "+name+
 			",auditStatus= "+auditStatus+
 			",copyrightLogo= "+copyrightLogo+
 			",copyrightImg= "+copyrightImg+
 			",uploadUser= "+uploadUser+
-			",shopId= "+shopId+"]";
+			",shopId= "+shopId+
+			",certificateOfCopyrightOwner= "+certificateOfCopyrightOwner+
+			",registrationNo= "+registrationNo+
+			",category= "+category+
+			",picturesOfWorks= "+picturesOfWorks+
+			",copyrightCertificate= "+copyrightCertificate+
+			",copyrightOwner= "+copyrightOwner+"]";
 	}
 }

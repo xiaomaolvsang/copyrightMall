@@ -2,8 +2,6 @@ package com.copyright.mall.service;
 
 import com.copyright.mall.bean.User;
 
-import java.util.List;
-
 /**
  * @author : zhangyuchen
  * @date : 2019/12/1 11:28
@@ -20,4 +18,5 @@ public interface IUserService {
     User selectByPhoneAndPwd(String phone ,String pwd);
 
     public User selectByPhone(String phone);
+
 }

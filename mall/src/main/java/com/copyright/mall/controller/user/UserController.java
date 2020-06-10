@@ -10,7 +10,6 @@ import com.copyright.mall.domain.vo.user.UserAddressVO;
 import com.copyright.mall.domain.vo.user.UserInfoVO;
 import com.copyright.mall.service.IUserAddressService;
 import com.copyright.mall.service.IUserService;
-import com.copyright.mall.service.IWechatUserService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -21,7 +20,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -102,5 +108,10 @@ public class UserController extends BaseController {
         return WrapMapper.ok(result);
     }
 
+    @GetMapping("/checkExists")
+    public Wrapper<Boolean> checkExists(String phone){
+        User user = userService.selectByPhone(phone);
+        return WrapMapper.ok(user != null);
+    }
 
 }

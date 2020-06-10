@@ -2,13 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.CopyrightMapper">
 
-	<!--cg generate by lijian at 2019-12-03 11:02-->
+	<!--cg generate by lijian at 2020-06-10 13:48-->
 
 	<!--通用版权表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Copyright" >
 		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="copyrightId" column="COPYRIGHT_ID" jdbcType="VARCHAR" />
 		<result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP" />
 		<result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP" />
+		<result property="certificationTime" column="CERTIFICATION_TIME" jdbcType="TIMESTAMP" />
+		<result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP" />
 		<result property="chineseName" column="CHINESE_NAME" jdbcType="VARCHAR" />
 		<result property="name" column="NAME" jdbcType="VARCHAR" />
 		<result property="auditStatus" column="AUDIT_STATUS" jdbcType="INTEGER" />
@@ -16,12 +19,18 @@
 		<result property="copyrightImg" column="COPYRIGHT_IMG" jdbcType="VARCHAR" />
 		<result property="uploadUser" column="UPLOAD_USER" jdbcType="VARCHAR" />
 		<result property="shopId" column="SHOP_ID" jdbcType="BIGINT" />
+		<result property="certificateOfCopyrightOwner" column="CERTIFICATE_OF_COPYRIGHT_OWNER" jdbcType="VARCHAR" />
+		<result property="registrationNo" column="REGISTRATION_NO" jdbcType="VARCHAR" />
+		<result property="category" column="CATEGORY" jdbcType="VARCHAR" />
+		<result property="picturesOfWorks" column="PICTURES_OF_WORKS" jdbcType="VARCHAR" />
+		<result property="copyrightCertificate" column="COPYRIGHT_CERTIFICATE" jdbcType="VARCHAR" />
+		<result property="copyrightOwner" column="COPYRIGHT_OWNER" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	CHINESE_NAME,	NAME,	AUDIT_STATUS,	COPYRIGHT_LOGO,	COPYRIGHT_IMG,	UPLOAD_USER,	SHOP_ID
+	id,	COPYRIGHT_ID,	GMT_CREATE,	GMT_MODIFIED,	CERTIFICATION_TIME,	CREATION_TIME,	CHINESE_NAME,	NAME,	AUDIT_STATUS,	COPYRIGHT_LOGO,	COPYRIGHT_IMG,	UPLOAD_USER,	SHOP_ID,	CERTIFICATE_OF_COPYRIGHT_OWNER,	REGISTRATION_NO,	CATEGORY,	PICTURES_OF_WORKS,	COPYRIGHT_CERTIFICATE,	COPYRIGHT_OWNER
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -30,8 +39,11 @@
 
 	<sql id="conditions">
 		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="copyrightId != null and copyrightId != '' "> and COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR} </if>
 		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
 		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
+		<if test="certificationTime != null and certificationTime != '' "> and CERTIFICATION_TIME = #{certificationTime,jdbcType=TIMESTAMP} </if>
+		<if test="creationTime != null and creationTime != '' "> and CREATION_TIME = #{creationTime,jdbcType=TIMESTAMP} </if>
 		<if test="chineseName != null and chineseName != '' "> and CHINESE_NAME = #{chineseName,jdbcType=VARCHAR} </if>
 		<if test="name != null and name != '' "> and NAME = #{name,jdbcType=VARCHAR} </if>
 		<if test="auditStatus != null "> and AUDIT_STATUS = #{auditStatus,jdbcType=INTEGER} </if>
@@ -39,6 +51,12 @@
 		<if test="copyrightImg != null and copyrightImg != '' "> and COPYRIGHT_IMG = #{copyrightImg,jdbcType=VARCHAR} </if>
 		<if test="uploadUser != null and uploadUser != '' "> and UPLOAD_USER = #{uploadUser,jdbcType=VARCHAR} </if>
 		<if test="shopId != null and shopId != '' "> and SHOP_ID = #{shopId,jdbcType=BIGINT} </if>
+		<if test="certificateOfCopyrightOwner != null and certificateOfCopyrightOwner != '' "> and CERTIFICATE_OF_COPYRIGHT_OWNER = #{certificateOfCopyrightOwner,jdbcType=VARCHAR} </if>
+		<if test="registrationNo != null and registrationNo != '' "> and REGISTRATION_NO = #{registrationNo,jdbcType=VARCHAR} </if>
+		<if test="category != null and category != '' "> and CATEGORY = #{category,jdbcType=VARCHAR} </if>
+		<if test="picturesOfWorks != null and picturesOfWorks != '' "> and PICTURES_OF_WORKS = #{picturesOfWorks,jdbcType=VARCHAR} </if>
+		<if test="copyrightCertificate != null and copyrightCertificate != '' "> and COPYRIGHT_CERTIFICATE = #{copyrightCertificate,jdbcType=VARCHAR} </if>
+		<if test="copyrightOwner != null and copyrightOwner != '' "> and COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -60,8 +78,11 @@
 		 INSERT INTO copyright
 		 <trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null"> ID,</if>
+			<if test="copyrightId != null"> COPYRIGHT_ID,</if>
 			<if test="gmtCreate != null"> GMT_CREATE,</if>
 			<if test="gmtModified != null"> GMT_MODIFIED,</if>
+			<if test="certificationTime != null"> CERTIFICATION_TIME,</if>
+			<if test="creationTime != null"> CREATION_TIME,</if>
 			<if test="chineseName != null"> CHINESE_NAME,</if>
 			<if test="name != null"> NAME,</if>
 			<if test="auditStatus != null"> AUDIT_STATUS,</if>
@@ -69,11 +90,20 @@
 			<if test="copyrightImg != null"> COPYRIGHT_IMG,</if>
 			<if test="uploadUser != null"> UPLOAD_USER,</if>
 			<if test="shopId != null"> SHOP_ID,</if>
+			<if test="certificateOfCopyrightOwner != null"> CERTIFICATE_OF_COPYRIGHT_OWNER,</if>
+			<if test="registrationNo != null"> REGISTRATION_NO,</if>
+			<if test="category != null"> CATEGORY,</if>
+			<if test="picturesOfWorks != null"> PICTURES_OF_WORKS,</if>
+			<if test="copyrightCertificate != null"> COPYRIGHT_CERTIFICATE,</if>
+			<if test="copyrightOwner != null"> COPYRIGHT_OWNER,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="copyrightId!=null">#{copyrightId,jdbcType=VARCHAR},</if>
 			<if test="gmtCreate!=null">#{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="certificationTime!=null">#{certificationTime,jdbcType=TIMESTAMP},</if>
+			<if test="creationTime!=null">#{creationTime,jdbcType=TIMESTAMP},</if>
 			<if test="chineseName!=null">#{chineseName,jdbcType=VARCHAR},</if>
 			<if test="name!=null">#{name,jdbcType=VARCHAR},</if>
 			<if test="auditStatus!=null">#{auditStatus,jdbcType=INTEGER},</if>
@@ -81,6 +111,12 @@
 			<if test="copyrightImg!=null">#{copyrightImg,jdbcType=VARCHAR},</if>
 			<if test="uploadUser!=null">#{uploadUser,jdbcType=VARCHAR},</if>
 			<if test="shopId!=null">#{shopId,jdbcType=BIGINT},</if>
+			<if test="certificateOfCopyrightOwner!=null">#{certificateOfCopyrightOwner,jdbcType=VARCHAR},</if>
+			<if test="registrationNo!=null">#{registrationNo,jdbcType=VARCHAR},</if>
+			<if test="category!=null">#{category,jdbcType=VARCHAR},</if>
+			<if test="picturesOfWorks!=null">#{picturesOfWorks,jdbcType=VARCHAR},</if>
+			<if test="copyrightCertificate!=null">#{copyrightCertificate,jdbcType=VARCHAR},</if>
+			<if test="copyrightOwner!=null">#{copyrightOwner,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -88,8 +124,11 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Copyright">
 		 UPDATE copyright
  		 <set> 
+			<if test="copyrightId != null">COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR},</if>
 			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="certificationTime != null">CERTIFICATION_TIME = #{certificationTime,jdbcType=TIMESTAMP},</if>
+			<if test="creationTime != null">CREATION_TIME = #{creationTime,jdbcType=TIMESTAMP},</if>
 			<if test="chineseName != null">CHINESE_NAME = #{chineseName,jdbcType=VARCHAR},</if>
 			<if test="name != null">NAME = #{name,jdbcType=VARCHAR},</if>
 			<if test="auditStatus != null">AUDIT_STATUS = #{auditStatus,jdbcType=INTEGER},</if>
@@ -97,6 +136,12 @@
 			<if test="copyrightImg != null">COPYRIGHT_IMG = #{copyrightImg,jdbcType=VARCHAR},</if>
 			<if test="uploadUser != null">UPLOAD_USER = #{uploadUser,jdbcType=VARCHAR},</if>
 			<if test="shopId != null">SHOP_ID = #{shopId,jdbcType=BIGINT},</if>
+			<if test="certificateOfCopyrightOwner != null">CERTIFICATE_OF_COPYRIGHT_OWNER = #{certificateOfCopyrightOwner,jdbcType=VARCHAR},</if>
+			<if test="registrationNo != null">REGISTRATION_NO = #{registrationNo,jdbcType=VARCHAR},</if>
+			<if test="category != null">CATEGORY = #{category,jdbcType=VARCHAR},</if>
+			<if test="picturesOfWorks != null">PICTURES_OF_WORKS = #{picturesOfWorks,jdbcType=VARCHAR},</if>
+			<if test="copyrightCertificate != null">COPYRIGHT_CERTIFICATE = #{copyrightCertificate,jdbcType=VARCHAR},</if>
+			<if test="copyrightOwner != null">COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

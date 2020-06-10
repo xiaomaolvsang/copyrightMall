@@ -1,4 +1,4 @@
-package com.copyright.mall.manage.controller;
+package com.copyright.mall.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.copyright.mall.util.QRcodeUtil;
@@ -24,11 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-@Api(tags = "后端基础工具")
+@Api(tags = "小程序基础工具")
 @Slf4j
 @RestController
-@RequestMapping("/manage/v1/basic/tool")
-public class BasicToolController {
+@RequestMapping("/v1/basic/tool")
+public class CBasicToolController {
 
     Configuration cfg = new Configuration(Region.region1());
     UploadManager uploadManager = new UploadManager(cfg);
@@ -43,7 +43,6 @@ public class BasicToolController {
     @PostMapping("/uploadImg")
     @ApiOperation("图片上传")
     public Wrapper<String> uploadImg(@RequestParam("fileName") MultipartFile file){
-        UserUtils.isAdmin();
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
         try {

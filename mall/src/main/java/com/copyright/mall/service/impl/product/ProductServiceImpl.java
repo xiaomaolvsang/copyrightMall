@@ -479,7 +479,7 @@ public class ProductServiceImpl implements IProductService {
         shop.setMallId(areaParam.getMallId());
         List<Shop> shops = shopService.selectByObjectList(shop);
         List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
-        List<Copyright> copyrights = copyrightService.selectAllObject();
+        List<Copyright> copyrights = copyrightService.selectByObjectList(new Copyright());
         List<AreaVO.AreaAttr> areaAttrs = new ArrayList<>();
         List<Copyright> copyrights1 = copyrights.stream()
                 .filter(copyright -> shopIds.contains(copyright.getShopId()))

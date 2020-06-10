@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,9 +67,9 @@ public class JwtService {
     }
 
     public static void main(String[] args) {
-        boolean result = new JwtService().isTokenExpired("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsxXSwiZXhwIjoxNTg5MTU3NjAyLCJ1c2VySWQiOjIsImlhdCI6MTU4ODkxNzYwMn0.d0FUa7rSGc5E1cWoGBhmHfyETOpcUfq8ZaytUXuf1iw");
-        Map<String,Object> objectMap = new JwtService().getClaimFromToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsxXSwiZXhwIjoxNTg5MTU3NjAyLCJ1c2VySWQiOjIsImlhdCI6MTU4ODkxNzYwMn0.d0FUa7rSGc5E1cWoGBhmHfyETOpcUfq8ZaytUXuf1iw");
-        System.out.println((List<Long>)objectMap.get("roles"));
+        //管理员  oCxeq5U8YORcLW1WuvHLIihSp4fg
+        String token = new JwtService().generateToken("oCxeq5U8YORcLW1WuvHLIihSp4fg");
+        System.out.println(token);
     }
 
 
