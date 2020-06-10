@@ -52,7 +52,7 @@ public class CBasicToolController {
             Response response = uploadManager.put(file.getInputStream(),key,upToken,null, null);
             //解析上传成功的结果
             JSONObject putRet = JSON.parseObject(response.bodyString());
-            return WrapMapper.ok("http://img.beartcenter.com/"+putRet.getString("key")+"?imageInfo.width="+putRet.getString("mageInfo.width")
+            return WrapMapper.ok("http://img.beartcenter.com/"+putRet.getString("key")+"?imageInfo.width="+putRet.getString("imageInfo.width")
                     +"&imageInfo.height="+putRet.getString("imageInfo.height"));
         } catch (Exception ex) {
             log.error("upload error");
