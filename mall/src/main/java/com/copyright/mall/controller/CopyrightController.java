@@ -21,6 +21,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +54,7 @@ public class CopyrightController extends BaseController{
     private IUserService userService;
 
     @PostMapping("/create")
+    @ApiOperation("创建确权")
     public Wrapper<String> createCopyright(@RequestBody @Valid CopyrightCreateParam copyrightCreateParam){
         Copyright copyright = BeanMapperUtils.map(copyrightCreateParam,Copyright.class);
         try{
@@ -86,6 +88,7 @@ public class CopyrightController extends BaseController{
     }
 
     @GetMapping("/list")
+    @ApiOperation("获取证书列表")
     public Wrapper<PageInfo<CertificateVO>> list( @Valid CopyrightQueryParam queryParam){
         Certificate certificate = new Certificate();
         certificate.setAuthorizedPerson(this.getUserPhone());
@@ -99,6 +102,7 @@ public class CopyrightController extends BaseController{
     }
 
     @GetMapping("/detail/{certificateId}")
+    @ApiOperation("证书详情")
     public Wrapper<CertificateVO> detail(@PathVariable("certificateId") String certificateId){
         Certificate certificate = new Certificate();
         certificate.setCertificateId(certificateId);
@@ -111,6 +115,7 @@ public class CopyrightController extends BaseController{
     }
 
     @PostMapping("/authorization")
+    @ApiOperation("授权")
     public Wrapper<Boolean> authorization (@RequestBody @Valid AuthorizationParam authorizationParam){
 
         CertificateDetail pCertificateDetail = certificateService.selectByCertificateId(authorizationParam.getPCertificateId());

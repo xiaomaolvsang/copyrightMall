@@ -11,6 +11,7 @@ import com.copyright.mall.service.ICopyrightService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class CertificateController {
     private ICopyrightService copyrightService;
 
     @PostMapping("/examine")
+    @ApiOperation("授权")
     public Wrapper<Boolean> examine(@RequestBody @Valid CertificateParam certificateParam){
         if("certificate".equals(certificateParam.getType())){
             Copyright copyright = new Copyright();
