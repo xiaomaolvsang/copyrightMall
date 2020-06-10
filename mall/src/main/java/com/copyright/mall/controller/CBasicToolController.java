@@ -45,15 +45,15 @@ public class CBasicToolController {
     public Wrapper<String> uploadImg(@RequestParam("fileName") MultipartFile file){
         StringMap putPolicy = new StringMap();
         putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":\"$(fsize)}\"" +
-                ",\"imageInfo.width\":\"${imageInfo.width}\",\"imageInfo.height\":\"${imageInfo.height}\"}");
+                ",\"width\":\"${imageInfo.width}\",\"height\":\"${imageInfo.height}\"}");
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket, null, 3600, putPolicy);
         try {
             Response response = uploadManager.put(file.getInputStream(),key,upToken,null, null);
             //解析上传成功的结果
             JSONObject putRet = JSON.parseObject(response.bodyString());
-            return WrapMapper.ok("http://img.beartcenter.com/"+putRet.getString("key")+"?imageInfo.width="+putRet.getString("imageInfo.width")
-                    +"&imageInfo.height="+putRet.getString("imageInfo.height"));
+            return WrapMapper.ok("http://img.beartcenter.com/"+putRet.getString("key")+"?imageInfo.width="+putRet.getString("width")
+                    +"height="+putRet.getString("imageInfo.height"));
         } catch (Exception ex) {
             log.error("upload error");
             return WrapMapper.error(String.format("上传失败 %s", ex.getMessage()));

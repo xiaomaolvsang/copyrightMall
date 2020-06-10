@@ -47,7 +47,7 @@ public class BasicToolController {
         UserUtils.isAdmin();
         StringMap putPolicy = new StringMap();
         putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":\"$(fsize)}\"" +
-                ",\"imageInfo.width\":\"${imageInfo.width}\",\"imageInfo.height\":\"${imageInfo.height}\"}");
+                ",\"width\":\"${imageInfo.width}\",\"height\":\"${imageInfo.height}\"}");
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket, null, 3600, putPolicy);
         try {
