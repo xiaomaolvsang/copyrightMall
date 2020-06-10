@@ -23,143 +23,135 @@
 	</resultMap>
 
 
-    <!-- 通用查询结果集合-->
-    <sql id="Base_Column_List">
-        id, CERTIFICATE_ID, PCERTIFICATE_ID, COPYRIGHT_ID, CERIFICATE_STATUS, AUTHORIZER, AUTHORIZER_NAME, TIME_LINE,
-        AUTHORIZED_PERSON, TYPE, AUTHORIZATION_DATE, CLOSING_DATE, AUTHORIZATION_TYPE
-    </sql>
 
-    <!-- 公共查询条件-->
-    <!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
-    <!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+		id,	CERTIFICATE_ID,	PCERTIFICATE_ID,	COPYRIGHT_ID,	CERIFICATE_STATUS,	AUTHORIZER,	AUTHORIZER_NAME,	TIME_LINE,	AUTHORIZED_PERSON,	AUTHORIZED_PERSION_NAME,	TYPE,	AUTHORIZATION_DATE,	CLOSING_DATE,	AUTHORIZATION_TYPE
+	</sql>
 
-    <sql id="conditions">
-        <if test="id != null ">and ID = #{id,jdbcType=INTEGER}</if>
-        <if test="certificateId != null and certificateId != '' ">and CERTIFICATE_ID =
-            #{certificateId,jdbcType=VARCHAR}
-        </if>
-        <if test="pcertificateId != null and pcertificateId != '' ">and PCERTIFICATE_ID =
-            #{pcertificateId,jdbcType=VARCHAR}
-        </if>
-        <if test="copyrightId != null and copyrightId != '' ">and COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR}</if>
-        <if test="cerificateStatus != null ">and CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER}</if>
-        <if test="authorizer != null and authorizer != '' ">and AUTHORIZER = #{authorizer,jdbcType=VARCHAR}</if>
-        <if test="authorizerName != null and authorizerName != '' ">and AUTHORIZER_NAME =
-            #{authorizerName,jdbcType=VARCHAR}
-        </if>
-        <if test="timeLine != null and timeLine != '' ">and TIME_LINE = #{timeLine,jdbcType=VARCHAR}</if>
-        <if test="authorizedPerson != null and authorizedPerson != '' ">and AUTHORIZED_PERSON =
-            #{authorizedPerson,jdbcType=VARCHAR}
-        </if>
-        <if test="type != null ">and TYPE = #{type,jdbcType=INTEGER}</if>
-        <if test="authorizationDate != null and authorizationDate != '' ">and AUTHORIZATION_DATE =
-            #{authorizationDate,jdbcType=TIMESTAMP}
-        </if>
-        <if test="closingDate != null and closingDate != '' ">and CLOSING_DATE = #{closingDate,jdbcType=TIMESTAMP}</if>
-        <if test="authorizationType != null and authorizationType != '' ">and AUTHORIZATION_TYPE =
-            #{authorizationType,jdbcType=VARCHAR}
-        </if>
-    </sql>
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
 
-    <!-- 查询（根据主键ID查询） -->
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM certificate
-        WHERE ID = #{id,jdbcType=INTEGER}
-    </select>
+	<sql id="conditions">
+		<if test="id != null "> and ID = #{id,jdbcType=INTEGER} </if>
+		<if test="certificateId != null and certificateId != '' "> and CERTIFICATE_ID = #{certificateId,jdbcType=VARCHAR} </if>
+		<if test="pcertificateId != null and pcertificateId != '' "> and PCERTIFICATE_ID = #{pcertificateId,jdbcType=VARCHAR} </if>
+		<if test="copyrightId != null and copyrightId != '' "> and COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR} </if>
+		<if test="cerificateStatus != null "> and CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER} </if>
+		<if test="authorizer != null and authorizer != '' "> and AUTHORIZER = #{authorizer,jdbcType=VARCHAR} </if>
+		<if test="authorizerName != null and authorizerName != '' "> and AUTHORIZER_NAME = #{authorizerName,jdbcType=VARCHAR} </if>
+		<if test="timeLine != null and timeLine != '' "> and TIME_LINE = #{timeLine,jdbcType=VARCHAR} </if>
+		<if test="authorizedPerson != null and authorizedPerson != '' "> and AUTHORIZED_PERSON = #{authorizedPerson,jdbcType=VARCHAR} </if>
+		<if test="authorizedPersionName != null and authorizedPersionName != '' "> and AUTHORIZED_PERSION_NAME = #{authorizedPersionName,jdbcType=VARCHAR} </if>
+		<if test="type != null "> and TYPE = #{type,jdbcType=INTEGER} </if>
+		<if test="authorizationDate != null and authorizationDate != '' "> and AUTHORIZATION_DATE = #{authorizationDate,jdbcType=TIMESTAMP} </if>
+		<if test="closingDate != null and closingDate != '' "> and CLOSING_DATE = #{closingDate,jdbcType=TIMESTAMP} </if>
+		<if test="authorizationType != null and authorizationType != '' "> and AUTHORIZATION_TYPE = #{authorizationType,jdbcType=VARCHAR} </if>
+	</sql>
 
-    <!--删除：根据主键ID删除-->
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM certificate
-        WHERE ID = #{id,jdbcType=INTEGER}
-    </delete>
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM certificate
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
 
-    <!-- 添加 （匹配有值的字段,不建议使用）-->
-    <insert id="insertSelective" parameterType="com.copyright.mall.bean.Certificate">
-        INSERT INTO certificate
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">ID,</if>
-            <if test="certificateId != null">CERTIFICATE_ID,</if>
-            <if test="pcertificateId != null">PCERTIFICATE_ID,</if>
-            <if test="copyrightId != null">COPYRIGHT_ID,</if>
-            <if test="cerificateStatus != null">CERIFICATE_STATUS,</if>
-            <if test="authorizer != null">AUTHORIZER,</if>
-            <if test="authorizerName != null">AUTHORIZER_NAME,</if>
-            <if test="timeLine != null">TIME_LINE,</if>
-            <if test="authorizedPerson != null">AUTHORIZED_PERSON,</if>
-            <if test="type != null">TYPE,</if>
-            <if test="authorizationDate != null">AUTHORIZATION_DATE,</if>
-            <if test="closingDate != null">CLOSING_DATE,</if>
-            <if test="authorizationType != null">AUTHORIZATION_TYPE,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id!=null">#{id,jdbcType=INTEGER},</if>
-            <if test="certificateId!=null">#{certificateId,jdbcType=VARCHAR},</if>
-            <if test="pcertificateId!=null">#{pcertificateId,jdbcType=VARCHAR},</if>
-            <if test="copyrightId!=null">#{copyrightId,jdbcType=VARCHAR},</if>
-            <if test="cerificateStatus!=null">#{cerificateStatus,jdbcType=INTEGER},</if>
-            <if test="authorizer!=null">#{authorizer,jdbcType=VARCHAR},</if>
-            <if test="authorizerName!=null">#{authorizerName,jdbcType=VARCHAR},</if>
-            <if test="timeLine!=null">#{timeLine,jdbcType=VARCHAR},</if>
-            <if test="authorizedPerson!=null">#{authorizedPerson,jdbcType=VARCHAR},</if>
-            <if test="type!=null">#{type,jdbcType=INTEGER},</if>
-            <if test="authorizationDate!=null">#{authorizationDate,jdbcType=TIMESTAMP},</if>
-            <if test="closingDate!=null">#{closingDate,jdbcType=TIMESTAMP},</if>
-            <if test="authorizationType!=null">#{authorizationType,jdbcType=VARCHAR},</if>
-        </trim>
-    </insert>
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM certificate
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
 
-    <!-- 根据主键修改输入的值-->
-    <update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Certificate">
-        UPDATE certificate
-        <set>
-            <if test="certificateId != null">CERTIFICATE_ID = #{certificateId,jdbcType=VARCHAR},</if>
-            <if test="pcertificateId != null">PCERTIFICATE_ID = #{pcertificateId,jdbcType=VARCHAR},</if>
-            <if test="copyrightId != null">COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR},</if>
-            <if test="cerificateStatus != null">CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER},</if>
-            <if test="authorizer != null">AUTHORIZER = #{authorizer,jdbcType=VARCHAR},</if>
-            <if test="authorizerName != null">AUTHORIZER_NAME = #{authorizerName,jdbcType=VARCHAR},</if>
-            <if test="timeLine != null">TIME_LINE = #{timeLine,jdbcType=VARCHAR},</if>
-            <if test="authorizedPerson != null">AUTHORIZED_PERSON = #{authorizedPerson,jdbcType=VARCHAR},</if>
-            <if test="type != null">TYPE = #{type,jdbcType=INTEGER},</if>
-            <if test="authorizationDate != null">AUTHORIZATION_DATE = #{authorizationDate,jdbcType=TIMESTAMP},</if>
-            <if test="closingDate != null">CLOSING_DATE = #{closingDate,jdbcType=TIMESTAMP},</if>
-            <if test="authorizationType != null">AUTHORIZATION_TYPE = #{authorizationType,jdbcType=VARCHAR},</if>
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Certificate">
+		INSERT INTO certificate
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="certificateId != null"> CERTIFICATE_ID,</if>
+			<if test="pcertificateId != null"> PCERTIFICATE_ID,</if>
+			<if test="copyrightId != null"> COPYRIGHT_ID,</if>
+			<if test="cerificateStatus != null"> CERIFICATE_STATUS,</if>
+			<if test="authorizer != null"> AUTHORIZER,</if>
+			<if test="authorizerName != null"> AUTHORIZER_NAME,</if>
+			<if test="timeLine != null"> TIME_LINE,</if>
+			<if test="authorizedPerson != null"> AUTHORIZED_PERSON,</if>
+			<if test="authorizedPersionName != null"> AUTHORIZED_PERSION_NAME,</if>
+			<if test="type != null"> TYPE,</if>
+			<if test="authorizationDate != null"> AUTHORIZATION_DATE,</if>
+			<if test="closingDate != null"> CLOSING_DATE,</if>
+			<if test="authorizationType != null"> AUTHORIZATION_TYPE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=INTEGER},</if>
+			<if test="certificateId!=null">#{certificateId,jdbcType=VARCHAR},</if>
+			<if test="pcertificateId!=null">#{pcertificateId,jdbcType=VARCHAR},</if>
+			<if test="copyrightId!=null">#{copyrightId,jdbcType=VARCHAR},</if>
+			<if test="cerificateStatus!=null">#{cerificateStatus,jdbcType=INTEGER},</if>
+			<if test="authorizer!=null">#{authorizer,jdbcType=VARCHAR},</if>
+			<if test="authorizerName!=null">#{authorizerName,jdbcType=VARCHAR},</if>
+			<if test="timeLine!=null">#{timeLine,jdbcType=VARCHAR},</if>
+			<if test="authorizedPerson!=null">#{authorizedPerson,jdbcType=VARCHAR},</if>
+			<if test="authorizedPersionName!=null">#{authorizedPersionName,jdbcType=VARCHAR},</if>
+			<if test="type!=null">#{type,jdbcType=INTEGER},</if>
+			<if test="authorizationDate!=null">#{authorizationDate,jdbcType=TIMESTAMP},</if>
+			<if test="closingDate!=null">#{closingDate,jdbcType=TIMESTAMP},</if>
+			<if test="authorizationType!=null">#{authorizationType,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
 
-        </set>
-        WHERE ID = #{id,jdbcType=INTEGER}
-    </update>
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.Certificate">
+		UPDATE certificate
+		<set>
+			<if test="certificateId != null">CERTIFICATE_ID = #{certificateId,jdbcType=VARCHAR},</if>
+			<if test="pcertificateId != null">PCERTIFICATE_ID = #{pcertificateId,jdbcType=VARCHAR},</if>
+			<if test="copyrightId != null">COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR},</if>
+			<if test="cerificateStatus != null">CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER},</if>
+			<if test="authorizer != null">AUTHORIZER = #{authorizer,jdbcType=VARCHAR},</if>
+			<if test="authorizerName != null">AUTHORIZER_NAME = #{authorizerName,jdbcType=VARCHAR},</if>
+			<if test="timeLine != null">TIME_LINE = #{timeLine,jdbcType=VARCHAR},</if>
+			<if test="authorizedPerson != null">AUTHORIZED_PERSON = #{authorizedPerson,jdbcType=VARCHAR},</if>
+			<if test="authorizedPersionName != null">AUTHORIZED_PERSION_NAME = #{authorizedPersionName,jdbcType=VARCHAR},</if>
+			<if test="type != null">TYPE = #{type,jdbcType=INTEGER},</if>
+			<if test="authorizationDate != null">AUTHORIZATION_DATE = #{authorizationDate,jdbcType=TIMESTAMP},</if>
+			<if test="closingDate != null">CLOSING_DATE = #{closingDate,jdbcType=TIMESTAMP},</if>
+			<if test="authorizationType != null">AUTHORIZATION_TYPE = #{authorizationType,jdbcType=VARCHAR},</if>
 
-    <!-- 分页查询 -->
-    <select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM certificate
-        WHERE 1=1
-        <include refid="conditions"/>
-        ORDER BY id DESC
-        limit #{startOfPage},#{pageSize}
-    </select>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
 
-    <!-- 分页查询总数 -->
-    <select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap"
-            useCache="false">
-        SELECT
-        count(*)
-        FROM certificate
-        WHERE 1=1
-        <include refid="conditions"/>
-    </select>
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM certificate
+		WHERE 1=1
+		<include refid="conditions" />
+		ORDER BY id DESC
+		limit #{startOfPage},#{pageSize}
+	</select>
 
-    <!-- 按条件查询列表 -->
-    <select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM certificate
-        WHERE 1=1
-        <include refid="conditions"/>
-    </select>
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		SELECT
+		count(*)
+		FROM certificate
+		WHERE 1=1
+		<include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM certificate
+		WHERE 1=1
+		<include refid="conditions" />
+	</select>
+
     <select id="selectDetail" resultType="com.copyright.mall.domain.dto.copyright.CertificateDetail">
         select * from certificate a ,copyright b where a.copyright_id = b.copyright_id
         <if test="id != null ">and a.ID = #{id,jdbcType=INTEGER}</if>
