@@ -85,4 +85,16 @@ public class CertificateVO {
     @ApiModelProperty("时间线")
     private TimeLineDTO timeLineDTO;
 
+    @ApiModelProperty("授权人")
+    private String authorizer;
+
+    @ApiModelProperty("授权日期")
+    private Date authorizationDate;
+
+    @ApiModelProperty("截止日期")
+    private Date closingDate;
+
+    @ApiModelProperty("授权类型")
+    private String authorizationType;
+
 }

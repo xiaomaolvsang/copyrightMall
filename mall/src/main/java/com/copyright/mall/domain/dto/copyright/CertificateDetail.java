@@ -40,7 +40,7 @@ public class CertificateDetail implements Serializable {
 	/**证书类型  0 主 1 子**/
 	private Integer type;
 
-	/**授权日志**/
+	/**授权日期**/
 	private Date authorizationDate;
 
 	/**截止日期**/
