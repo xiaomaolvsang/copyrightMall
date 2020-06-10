@@ -7,11 +7,11 @@ import java.util.Date;
  * 
  * 
  * @author lijian
- * @date 2020-06-10 15:48
+ * @date 2020-06-10 17:27
  **/
 public class Certificate implements Serializable {
 
-	private static final long serialVersionUID = 2203891882403170415L;
+	private static final long serialVersionUID = 9051489377499395264L;
 
 	/****/
 	private Integer id;
@@ -31,7 +31,7 @@ public class Certificate implements Serializable {
 	/**授权人**/
 	private String authorizer;
 
-	/****/
+	/**授权人名**/
 	private String authorizerName;
 
 	/**时间线**/
@@ -39,6 +39,9 @@ public class Certificate implements Serializable {
 
 	/**被授权人**/
 	private String authorizedPerson;
+
+	/**被授权人名**/
+	private String authorizedPersionName;
 
 	/**证书类型  0 主 1 子**/
 	private Integer type;
@@ -126,6 +129,14 @@ public class Certificate implements Serializable {
 		return this.authorizedPerson;
 	}
 
+	public void setAuthorizedPersionName(String authorizedPersionName){
+		this.authorizedPersionName = authorizedPersionName;
+	}
+
+	public String getAuthorizedPersionName(){
+		return this.authorizedPersionName;
+	}
+
 	public void setType(Integer type){
 		this.type = type;
 	}
@@ -169,6 +180,7 @@ public class Certificate implements Serializable {
 			",authorizerName= "+authorizerName+
 			",timeLine= "+timeLine+
 			",authorizedPerson= "+authorizedPerson+
+			",authorizedPersionName= "+authorizedPersionName+
 			",type= "+type+
 			",authorizationDate= "+authorizationDate+
 			",closingDate= "+closingDate+

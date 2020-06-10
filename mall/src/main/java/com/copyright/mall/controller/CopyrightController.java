@@ -75,9 +75,6 @@ public class CopyrightController extends BaseController{
             timelineItem.setEvent("提交申请");
             timeLineDTO.appendItem(timelineItem);
             certificate.setTimeLine(timeLineDTO.toBaseString());
-            certificate.setAuthorizedPerson(this.getUserId().toString());
-            certificate.setAuthorizer(this.getUserId().toString());
-            certificate.setAuthorizerName(copyrightCreateParam.getCopyrightOwner());
             certificate.setType(0);
             certificateService.insertSelective(certificate);
         } catch (Exception e){
@@ -135,19 +132,21 @@ public class CopyrightController extends BaseController{
         certificate.setPcertificateId(authorizationParam.getPCertificateId());
         certificate.setCopyrightId(pCertificateDetail.getCopyrightId());
         certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
-        certificate.setAuthorizer(pCertificateDetail.getCopyrightOwner());
+        certificate.setAuthorizer(this.getUserId().toString());
+        certificate.setAuthorizerName(pCertificateDetail.getCopyrightOwner());
+        certificate.setAuthorizedPerson(user.getId().toString());
+        certificate.setAuthorizedPersionName(authorizationParam.getName());
         TimeLineDTO timeLineDTO = TimeLineDTO.fromBaseStr(pCertificateDetail.getTimeLine());
         TimeLineDTO.TimelineItem item = new TimeLineDTO.TimelineItem();
         item.setTime(new Date());
         item.setEvent("版权链授权");
         timeLineDTO.appendItem(item);
         certificate.setTimeLine(timeLineDTO.toBaseString());
-        certificate.setAuthorizedPerson(user.getId().toString());
+
         certificate.setType(1);
         certificate.setAuthorizationDate(new Date());
         certificate.setClosingDate(authorizationParam.getClosingDate());
         certificate.setAuthorizationType(authorizationParam.getType().toString());
-        certificate.setAuthorizerName(authorizationParam.getName());
         certificateService.insertSelective(certificate);
         return WrapMapper.ok(true);
     }
