@@ -117,9 +117,19 @@ public class CopyrightController extends BaseController{
     @PostMapping("/authorization")
     @ApiOperation("授权")
     public Wrapper<Boolean> authorization (@RequestBody @Valid AuthorizationParam authorizationParam){
-
-        CertificateDetail pCertificateDetail = certificateService.selectByCertificateId(authorizationParam.getPCertificateId());
         User user = userService.selectByPhone(authorizationParam.getPhone());
+        if(user == null){
+            return WrapMapper.error("被授权用户不存在");
+        }
+        Certificate checkParam = new Certificate();
+        checkParam.setPcertificateId(authorizationParam.getPCertificateId());
+        checkParam.setAuthorizedPerson(user.getId().toString());
+        checkParam.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
+        List<Certificate> checkExists = certificateService.selectByObjectList(checkParam);
+        if(!CollectionUtils.isEmpty(checkExists)){
+            return WrapMapper.error("当前被授权用户已存在授权");
+        }
+        CertificateDetail pCertificateDetail = certificateService.selectByCertificateId(authorizationParam.getPCertificateId());
         Certificate certificate = new Certificate();
         certificate.setCertificateId(IDUtil.generatorID(""));
         certificate.setPcertificateId(authorizationParam.getPCertificateId());
