@@ -135,7 +135,7 @@ public class CopyrightController extends BaseController{
         certificate.setPcertificateId(authorizationParam.getPCertificateId());
         certificate.setCopyrightId(pCertificateDetail.getCopyrightId());
         certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
-        certificate.setAuthorizer(this.getUserId().toString());
+        certificate.setAuthorizer(pCertificateDetail.getCopyrightOwner());
         TimeLineDTO timeLineDTO = TimeLineDTO.fromBaseStr(pCertificateDetail.getTimeLine());
         TimeLineDTO.TimelineItem item = new TimeLineDTO.TimelineItem();
         item.setTime(new Date());
