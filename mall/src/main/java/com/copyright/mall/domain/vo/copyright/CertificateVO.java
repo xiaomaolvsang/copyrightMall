@@ -76,6 +76,18 @@ public class CertificateVO {
     @ApiModelProperty("版权证书")
     private String copyrightCertificate;
 
+    @ApiModelProperty("授权人")
+    private String authorizer;
+
+    @ApiModelProperty("授权人名")
+    private String authorizerName;
+
+    @ApiModelProperty("被授权人")
+    private String authorizedPerson;
+
+    @ApiModelProperty("被授权人名")
+    private String authorizedPersionName;
+
     @ApiModelProperty("版权人")
     private String copyrightOwner;
 
@@ -85,8 +97,6 @@ public class CertificateVO {
     @ApiModelProperty("时间线")
     private TimeLineDTO timeLineDTO;
 
-    @ApiModelProperty("授权人")
-    private String authorizer;
 
     @ApiModelProperty("授权日期")
     private Date authorizationDate;

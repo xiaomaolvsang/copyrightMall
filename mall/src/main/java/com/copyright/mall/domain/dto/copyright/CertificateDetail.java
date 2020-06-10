@@ -31,11 +31,17 @@ public class CertificateDetail implements Serializable {
 	/**授权人**/
 	private String authorizer;
 
+	/**授权人名**/
+	private String authorizerName;
+
 	/**时间线**/
 	private String timeLine;
 
 	/**被授权人**/
 	private String authorizedPerson;
+
+	/**被授权人名**/
+	private String authorizedPersionName;
 
 	/**证书类型  0 主 1 子**/
 	private Integer type;
