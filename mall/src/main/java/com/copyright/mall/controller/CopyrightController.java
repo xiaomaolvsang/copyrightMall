@@ -76,6 +76,10 @@ public class CopyrightController extends BaseController{
             timeLineDTO.appendItem(timelineItem);
             certificate.setTimeLine(timeLineDTO.toBaseString());
             certificate.setType(0);
+            certificate.setAuthorizedPerson(this.getUserId().toString());
+            certificate.setAuthorizedPersionName(copyrightCreateParam.getCopyrightOwner());
+            certificate.setAuthorizer(this.getUserId().toString());
+            certificate.setAuthorizerName(copyrightCreateParam.getCopyrightOwner());
             certificateService.insertSelective(certificate);
         } catch (Exception e){
             log.error("copyright insert error ",e);
