@@ -15,6 +15,7 @@ import com.copyright.mall.service.ICopyrightService;
 import com.copyright.mall.service.IUserService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.IDUtil;
+import com.copyright.mall.util.Utils;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
@@ -160,6 +161,10 @@ public class CopyrightController extends BaseController{
         CertificateVO copyrightVO = BeanMapperUtils.map(certificate,CertificateVO.class);
         copyrightVO.setTimeLine(certificate.getTimeLine());
         copyrightVO.setCerificateStatusDesc(Objects.requireNonNull(CopyRightStatusEnum.valueOf(certificate.getCerificateStatus())).getDesc());
+        copyrightVO.setCertificateOfCopyrightOwnerList(Utils.toStringList(certificate.getCertificateOfCopyrightOwner()));
+        copyrightVO.setPicturesOfWorksList(Utils.toStringList(certificate.getPicturesOfWorks()));
+        copyrightVO.setCopyrightCertificateList(Utils.toStringList(certificate.getCopyrightCertificate()));
+        copyrightVO.setCategoryList(Utils.toStringList(certificate.getCategory()));
         return copyrightVO;
     }
 
@@ -167,6 +172,12 @@ public class CopyrightController extends BaseController{
         CertificateVO certificateVO = BeanMapperUtils.map(certificate,CertificateVO.class);
         certificateVO.setCerificateStatusDesc(Objects.requireNonNull(CopyRightStatusEnum.valueOf(certificate.getCerificateStatus())).getDesc());
         certificateVO.setTimeLineDTO(TimeLineDTO.fromBaseStr(certificate.getTimeLine()));
+        certificateVO.setCertificateOfCopyrightOwnerList(Utils.toStringList(certificate.getCertificateOfCopyrightOwner()));
+        certificateVO.setPicturesOfWorksList(Utils.toStringList(certificate.getPicturesOfWorks()));
+        certificateVO.setCopyrightCertificateList(Utils.toStringList(certificate.getCopyrightCertificate()));
+        certificateVO.setCategoryList(Utils.toStringList(certificate.getCategory()));
         return certificateVO;
     }
+
+
 }

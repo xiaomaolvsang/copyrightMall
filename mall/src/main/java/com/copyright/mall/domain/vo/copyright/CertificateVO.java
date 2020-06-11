@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ApiModel("版权")
@@ -62,19 +63,19 @@ public class CertificateVO {
     private Long shopId;
 
     @ApiModelProperty("版权人证件")
-    private String certificateOfCopyrightOwner;
+    private List<String> certificateOfCopyrightOwnerList;
 
     @ApiModelProperty("登记号")
     private String registrationNo;
 
     @ApiModelProperty("类别")
-    private String category;
+    private List<String> categoryList;
 
     @ApiModelProperty("作品图片")
-    private String picturesOfWorks;
+    private List<String> picturesOfWorksList;
 
     @ApiModelProperty("版权证书")
-    private String copyrightCertificate;
+    private List<String> copyrightCertificateList;
 
     @ApiModelProperty("授权人")
     private String authorizer;
