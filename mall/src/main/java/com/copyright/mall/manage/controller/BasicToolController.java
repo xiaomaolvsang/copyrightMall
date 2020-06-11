@@ -55,7 +55,7 @@ public class BasicToolController {
             //解析上传成功的结果
             JSONObject putRet = JSON.parseObject(response.bodyString());
             return WrapMapper.ok("http://img.beartcenter.com/"+putRet.getString("key")+"?imageInfo.width="+putRet.getString("imageInfo.width")
-                    +"&imageInfo.height="+putRet.getString("imageInfo.height"));
+                    +"&height="+putRet.getString("imageInfo.height"));
         } catch (Exception ex) {
             log.error("upload error");
             return WrapMapper.error(String.format("上传失败 %s", ex.getMessage()));
