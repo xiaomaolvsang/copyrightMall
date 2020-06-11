@@ -44,6 +44,9 @@ public class ModifyShopParam {
     @ApiModelProperty("商城id")
     private Long mallId;
 
+    @ApiModelProperty("联系电话")
+    private Integer phone;
+
     @Data
     public static class User{
         @ApiModelProperty("用户id")

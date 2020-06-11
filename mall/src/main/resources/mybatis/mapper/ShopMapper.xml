@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ShopMapper">
 
-	<!--cg generate by lijian at 2019-12-03 10:45-->
+	<!--cg generate by lijian at 2020-06-11 20:11-->
 
 	<!--通用商铺表表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.Shop" >
@@ -18,16 +18,14 @@
 		<result property="shopImg" column="SHOP_IMG" jdbcType="VARCHAR" />
 		<result property="shopArtcategory" column="SHOP_ARTCATEGORY" jdbcType="VARCHAR" />
 		<result property="isIdentification" column="IS_IDENTIFICATION" jdbcType="INTEGER" />
+		<result property="shopStatus" column="SHOP_STATUS" jdbcType="INTEGER" />
+		<result property="phone" column="PHONE" jdbcType="INTEGER" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG,	SHOP_ARTCATEGORY,	IS_IDENTIFICATION
-	</sql>
-
-	<sql id="Shop_Base_Column_List">
-		s.id,	s.GMT_CREATE,	s.GMT_MODIFIED,	s.MALL_ID,	s.SHOP_NAME,	s.SHOP_LOGO,	s.SHOP_TYPE,	s.COMPANY_NAME,	s.CERTIFICATION,	s.SHOP_IMG,	s.SHOP_ARTCATEGORY,	s.IS_IDENTIFICATION
+	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG,	SHOP_ARTCATEGORY,	IS_IDENTIFICATION,	SHOP_STATUS,	PHONE
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -39,14 +37,15 @@
 		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
 		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
 		<if test="mallId != null and mallId != '' "> and MALL_ID = #{mallId,jdbcType=BIGINT} </if>
-		<if test="shopName != null and shopName != '' "> and SHOP_NAME like CONCAT('%',#{shopName,jdbcType=VARCHAR},'%') </if>
-		<if test="shopLogo != null and shopLogo != '' "> and SHOP_LOGO = #{shopLogo,jdbcType=VARCHAR} </if>
+		<if test="shopName != null and shopName != '' "> and SHOP_NAME like CONCAT('%',#{shopName,jdbcType=VARCHAR},'%') </if>		<if test="shopLogo != null and shopLogo != '' "> and SHOP_LOGO = #{shopLogo,jdbcType=VARCHAR} </if>
 		<if test="shopType != null "> and SHOP_TYPE = #{shopType,jdbcType=INTEGER} </if>
 		<if test="companyName != null and companyName != '' "> and COMPANY_NAME = #{companyName,jdbcType=VARCHAR} </if>
 		<if test="certification != null and certification != '' "> and CERTIFICATION = #{certification,jdbcType=VARCHAR} </if>
 		<if test="shopImg != null and shopImg != '' "> and SHOP_IMG = #{shopImg,jdbcType=VARCHAR} </if>
 		<if test="shopArtcategory != null and shopArtcategory != '' "> and SHOP_ARTCATEGORY = #{shopArtcategory,jdbcType=VARCHAR} </if>
 		<if test="isIdentification != null "> and IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER} </if>
+		<if test="shopStatus != null "> and SHOP_STATUS = #{shopStatus,jdbcType=INTEGER} </if>
+		<if test="phone != null "> and PHONE = #{phone,jdbcType=INTEGER} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -79,6 +78,8 @@
 			<if test="shopImg != null"> SHOP_IMG,</if>
 			<if test="shopArtcategory != null"> SHOP_ARTCATEGORY,</if>
 			<if test="isIdentification != null"> IS_IDENTIFICATION,</if>
+			<if test="shopStatus != null"> SHOP_STATUS,</if>
+			<if test="phone != null"> PHONE,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -93,8 +94,9 @@
 			<if test="shopImg!=null">#{shopImg,jdbcType=VARCHAR},</if>
 			<if test="shopArtcategory!=null">#{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification!=null">#{isIdentification,jdbcType=INTEGER},</if>
+			<if test="shopStatus!=null">#{shopStatus,jdbcType=INTEGER},</if>
+			<if test="phone!=null">#{phone,jdbcType=INTEGER},</if>
 		 </trim>
-
 	</insert>
 
 	<!-- 根据主键修改输入的值-->
@@ -112,6 +114,8 @@
 			<if test="shopImg != null">SHOP_IMG = #{shopImg,jdbcType=VARCHAR},</if>
 			<if test="shopArtcategory != null">SHOP_ARTCATEGORY = #{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification != null">IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER},</if>
+			<if test="shopStatus != null">SHOP_STATUS = #{shopStatus,jdbcType=INTEGER},</if>
+			<if test="phone != null">PHONE = #{phone,jdbcType=INTEGER},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
@@ -145,6 +149,7 @@
 		 WHERE 1=1
 		 <include refid="conditions" />
 	</select>
+
 
 	<select id="selectPageByUserId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 		SELECT

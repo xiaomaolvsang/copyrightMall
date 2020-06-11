@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.copyright.mall.dao.ArtistOpusMapper">
 
-	<!--cg generate by lijian at 2019-11-28 17:43-->
+	<!--cg generate by lijian at 2020-06-11 15:22-->
 
 	<!--通用表映射-->
 	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.ArtistOpus" >
@@ -15,12 +15,14 @@
 		<result property="imgs" column="IMGS" jdbcType="VARCHAR" />
 		<result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP" />
 		<result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP" />
+		<result property="likesNum" column="LIKES_NUM" jdbcType="BIGINT" />
+		<result property="status" column="STATUS" jdbcType="INTEGER" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	IMAGE,	ITEM_ID,	NAME,	TITLE,	OPUS_DESC,	IMGS,	GMT_CREATE,	GMT_MODIFIED
+	id,	IMAGE,	ITEM_ID,	NAME,	TITLE,	OPUS_DESC,	IMGS,	GMT_CREATE,	GMT_MODIFIED,	LIKES_NUM,	STATUS
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -37,6 +39,8 @@
 		<if test="imgs != null and imgs != '' "> and IMGS = #{imgs,jdbcType=VARCHAR} </if>
 		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
 		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
+		<if test="likesNum != null and likesNum != '' "> and LIKES_NUM = #{likesNum,jdbcType=BIGINT} </if>
+		<if test="status != null "> and STATUS = #{status,jdbcType=INTEGER} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -66,6 +70,8 @@
 			<if test="imgs != null"> IMGS,</if>
 			<if test="gmtCreate != null"> GMT_CREATE,</if>
 			<if test="gmtModified != null"> GMT_MODIFIED,</if>
+			<if test="likesNum != null"> LIKES_NUM,</if>
+			<if test="status != null"> STATUS,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -77,6 +83,8 @@
 			<if test="imgs!=null">#{imgs,jdbcType=VARCHAR},</if>
 			<if test="gmtCreate!=null">#{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="likesNum!=null">#{likesNum,jdbcType=BIGINT},</if>
+			<if test="status!=null">#{status,jdbcType=INTEGER},</if>
 		 </trim>
 	</insert>
 
@@ -92,6 +100,8 @@
 			<if test="imgs != null">IMGS = #{imgs,jdbcType=VARCHAR},</if>
 			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="likesNum != null">LIKES_NUM = #{likesNum,jdbcType=BIGINT},</if>
+			<if test="status != null">STATUS = #{status,jdbcType=INTEGER},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
@@ -125,5 +135,14 @@
 		 WHERE 1=1
 		 <include refid="conditions" />
 	</select>
+
+    <select id="selectByObjectListDesc" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM artist_opus
+        WHERE 1=1
+        <include refid="conditions" />
+        order by gmtModified desc
+    </select>
 
 </mapper>

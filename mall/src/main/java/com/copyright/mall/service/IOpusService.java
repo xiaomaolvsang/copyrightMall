@@ -1,9 +1,13 @@
 package com.copyright.mall.service;
 
+import com.copyright.mall.domain.requeest.opus.CreateOpusReq;
+import com.copyright.mall.domain.requeest.opus.DeleteOpusParam;
 import com.copyright.mall.domain.requeest.opus.OpusParam;
+import com.copyright.mall.domain.requeest.opus.OpusReq;
+import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
-
-import java.util.List;
+import com.copyright.mall.util.wrapper.Wrapper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * IOpusService
@@ -14,4 +18,12 @@ import java.util.List;
  */
 public interface IOpusService {
   OpusVO getOpus(OpusParam opusParam);
+
+  PageInfo<OpusResp> selectByObjectListDesc(OpusReq opusReq);
+
+  Wrapper<Boolean> createOpus(CreateOpusReq createOpusReq);
+
+  Wrapper<Boolean> delete(DeleteOpusParam deleteOpusParam);
+
+  Wrapper<PageInfo<OpusResp>> selectByObjectListOfMyDesc(OpusReq opusReq);
 }

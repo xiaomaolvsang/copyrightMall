@@ -30,4 +30,5 @@ public interface ArtistOpusMapper {
 
 	public List<ArtistOpus> selectByObjectList(ArtistOpus artistOpus);
 
+	public List<ArtistOpus> selectByObjectListDesc(ArtistOpus artistOpus);
 }

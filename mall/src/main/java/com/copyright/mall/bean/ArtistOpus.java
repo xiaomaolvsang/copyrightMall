@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * 
  * @author lijian
- * @date 2019-11-28 17:43
+ * @date 2020-06-11 15:22
  **/
 public class ArtistOpus implements Serializable {
 
-	private static final long serialVersionUID = 715307093410726949L;
+	private static final long serialVersionUID = 1985363246782310981L;
 
 	/**主键**/
 	private Long id;
@@ -41,6 +41,12 @@ public class ArtistOpus implements Serializable {
 
 	/**修改时间**/
 	private Date gmtModified;
+
+	/**点赞数**/
+	private Long likesNum;
+
+	/**发布状态（0审核未通过，1审核通过）**/
+	private Integer status;
 
 
 
@@ -116,6 +122,22 @@ public class ArtistOpus implements Serializable {
 		return this.gmtModified;
 	}
 
+	public void setLikesNum(Long likesNum){
+		this.likesNum = likesNum;
+	}
+
+	public Long getLikesNum(){
+		return this.likesNum;
+	}
+
+	public void setStatus(Integer status){
+		this.status = status;
+	}
+
+	public Integer getStatus(){
+		return this.status;
+	}
+
 	@Override
 	public String toString() {
 		return "ArtistOpus [ id= "+id+
@@ -126,6 +148,8 @@ public class ArtistOpus implements Serializable {
 			",opusDesc= "+opusDesc+
 			",imgs= "+imgs+
 			",gmtCreate= "+gmtCreate+
-			",gmtModified= "+gmtModified+"]";
+			",gmtModified= "+gmtModified+
+			",likesNum= "+likesNum+
+			",status= "+status+"]";
 	}
 }
