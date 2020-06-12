@@ -19,7 +19,7 @@
 		<result property="shopArtcategory" column="SHOP_ARTCATEGORY" jdbcType="VARCHAR" />
 		<result property="isIdentification" column="IS_IDENTIFICATION" jdbcType="INTEGER" />
 		<result property="shopStatus" column="SHOP_STATUS" jdbcType="INTEGER" />
-		<result property="phone" column="PHONE" jdbcType="INTEGER" />
+		<result property="phone" column="PHONE" jdbcType="VARCHAR" />
 	</resultMap>
 
 
@@ -49,7 +49,7 @@
 		<if test="shopArtcategory != null and shopArtcategory != '' "> and SHOP_ARTCATEGORY = #{shopArtcategory,jdbcType=VARCHAR} </if>
 		<if test="isIdentification != null "> and IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER} </if>
 		<if test="shopStatus != null "> and SHOP_STATUS = #{shopStatus,jdbcType=INTEGER} </if>
-		<if test="phone != null "> and PHONE = #{phone,jdbcType=INTEGER} </if>
+		<if test="phone != null "> and PHONE = #{phone,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -99,7 +99,7 @@
 			<if test="shopArtcategory!=null">#{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification!=null">#{isIdentification,jdbcType=INTEGER},</if>
 			<if test="shopStatus!=null">#{shopStatus,jdbcType=INTEGER},</if>
-			<if test="phone!=null">#{phone,jdbcType=INTEGER},</if>
+			<if test="phone!=null">#{phone,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -119,7 +119,7 @@
 			<if test="shopArtcategory != null">SHOP_ARTCATEGORY = #{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification != null">IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER},</if>
 			<if test="shopStatus != null">SHOP_STATUS = #{shopStatus,jdbcType=INTEGER},</if>
-			<if test="phone != null">PHONE = #{phone,jdbcType=INTEGER},</if>
+			<if test="phone != null">PHONE = #{phone,jdbcType=VARCHAR},</if>
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}

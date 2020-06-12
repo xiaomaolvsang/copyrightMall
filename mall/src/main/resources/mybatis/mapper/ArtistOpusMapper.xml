@@ -142,7 +142,7 @@
         FROM artist_opus
         WHERE 1=1
         <include refid="conditions" />
-        order by gmtModified desc
+        order by GMT_MODIFIED desc
     </select>
 
 </mapper>

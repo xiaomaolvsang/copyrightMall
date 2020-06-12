@@ -38,6 +38,7 @@ public class ManageShopController extends BaseManageController{
     @ApiOperation("创建商铺")
     public Wrapper<Boolean> createShop(@ApiParam @Valid @RequestBody ModifyShopParam modifyShopParam) {
         log.info("createShop = {}", modifyShopParam);
+        modifyShopParam.setMallId(UserUtils.getMallId());
         return iShopService.insertOrUpdateByParam(modifyShopParam);
     }
 

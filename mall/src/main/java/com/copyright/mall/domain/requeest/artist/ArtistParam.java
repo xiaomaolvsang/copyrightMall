@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @ApiModel("艺术家param")
@@ -17,7 +18,7 @@ public class ArtistParam {
     private String petName;
     @ApiModelProperty("电话")
     @NotBlank(message = "电话不能为空")
-    private Integer phone;
+    private String phone;
     @ApiModelProperty("标签")
     private String shopArtCategory;
     @ApiModelProperty("头像")

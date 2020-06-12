@@ -68,6 +68,7 @@ public class OpusController extends BaseController {
   @PostMapping("/getMyOpusList")
   @ControllerErro
   public Wrapper<PageInfo<OpusResp>> getMyOpusList(@RequestBody @ApiParam @Valid OpusReq opusReq){
+    opusReq.setUserId(getUserId());
     return opusService.selectByObjectListOfMyDesc(opusReq);
   }
 

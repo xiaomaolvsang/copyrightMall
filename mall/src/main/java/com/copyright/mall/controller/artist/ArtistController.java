@@ -3,6 +3,7 @@ package com.copyright.mall.controller.artist;
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.UserShopRelation;
+import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.requeest.artist.ArtistParam;
 import com.copyright.mall.service.IShopService;
@@ -54,6 +55,7 @@ public class ArtistController extends BaseController {
         shop.setShopArtcategory(artistParam.getShopArtCategory());
         shop.setShopLogo(artistParam.getLogo());
         shop.setShopImg(artistParam.getOpusImg());
+        shop.setShopType(ShopTypeEnum.artist.getCode());
         shop.setCertification(artistParam.getCertification());
         shopService.insertSelective(shop);
 

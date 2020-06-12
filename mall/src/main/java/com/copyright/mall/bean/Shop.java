@@ -55,7 +55,7 @@ public class Shop implements Serializable {
 	private Integer shopStatus;
 
 	/**联系电话**/
-	private Integer phone;
+	private String phone;
 
 
 
@@ -163,11 +163,11 @@ public class Shop implements Serializable {
 		return this.shopStatus;
 	}
 
-	public void setPhone(Integer phone){
+	public void setPhone(String phone){
 		this.phone = phone;
 	}
 
-	public Integer getPhone(){
+	public String getPhone(){
 		return this.phone;
 	}
 

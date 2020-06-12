@@ -135,12 +135,12 @@ public class OpusService implements IOpusService {
         artistOpus.setTitle(createOpusReq.getTitle());
         artistOpus.setOpusDesc(createOpusReq.getOpusDesc());
         artistOpus.setImage(createOpusReq.getImgs().get(0));
-        artistOpus.setImgs(String.join(",",createOpusReq.getImgs()));
+        artistOpus.setImgs(String.join(",", createOpusReq.getImgs()));
         artistOpus.setItemId(userShopRelation.get().getShopId());
-        if(createOpusReq.getId() != null){
+        if (createOpusReq.getId() != null) {
             artistOpus.setId(createOpusReq.getId());
             artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
-        }else {
+        } else {
             artistOpusMapper.insertSelective(artistOpus);
         }
         return WrapMapper.ok();
@@ -150,10 +150,16 @@ public class OpusService implements IOpusService {
     public Wrapper<Boolean> delete(DeleteOpusParam deleteOpusParam) {
         Shop shop = new Shop();
         shop.setMallId(1L);
-
         ArtistOpus artistOpus = artistOpusMapper.selectByPrimaryKey(deleteOpusParam.getId());
-        List<Shop> shops = getShopMap(shop).filter(shop1 -> shop1.getId() == artistOpus.getItemId()).collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(shops)){
+        if (artistOpus == null) {
+            return WrapMapper.error("未找到数据");
+        }
+        List<UserShopRelation> userShopRelation = userShopRelationService.selectByUserId(deleteOpusParam.getUserId());
+        if(CollectionUtils.isEmpty(userShopRelation)){
+            return WrapMapper.error("请先申请艺术家");
+        }
+        Optional<UserShopRelation> userShopRelation1 = userShopRelation.stream().findFirst();
+        if(!userShopRelation1.isPresent() || !userShopRelation1.get().getShopId().equals(artistOpus.getItemId())){
             return WrapMapper.error("不能删除非自己的作品");
         }
         artistOpusMapper.deleteByPrimaryKey(deleteOpusParam.getId());
@@ -169,14 +175,17 @@ public class OpusService implements IOpusService {
         Shop shop = new Shop();
         shop.setMallId(1L);
         Map<Long, List<Shop>> map = getShopMap(shop).collect(Collectors.groupingBy(Shop::getId));
+        if (map.get(userShopRelations.get(0).getShopId()) == null) {
+            return WrapMapper.error("请先申请艺术家");
+        }
         Optional<Shop> shopOptional = map.get(userShopRelations.get(0).getShopId()).stream().findFirst();
-        if(!shopOptional.isPresent()){
+        if (!shopOptional.isPresent()) {
             return WrapMapper.error("请先申请艺术家");
         }
         Shop shop1 = shopOptional.get();
         Page page = PageHelper.startPage(opusReq.getPageNum(), opusReq.getPageSize());
         ArtistOpus artistOpus = new ArtistOpus();
-        artistOpus.setId(shop1.getId());
+        artistOpus.setItemId(shop1.getId());
         List<ArtistOpus> artistOpuses = artistOpusMapper.selectByObjectListDesc(artistOpus);
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus1 : artistOpuses) {
@@ -187,6 +196,7 @@ public class OpusService implements IOpusService {
             opusResp.setLikesNum(artistOpus1.getLikesNum());
             opusResp.setArtHeadPortrait(shop1.getShopLogo());
             opusResp.setArtName(shop1.getShopName());
+            opusResp.setOpusId(artistOpus1.getId());
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);
@@ -198,7 +208,6 @@ public class OpusService implements IOpusService {
         List<Shop> shops = shopService.selectByObjectList(shop);
         return shops.stream().filter(shop1 -> shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.success.getCode());
     }
-
 
 
 }

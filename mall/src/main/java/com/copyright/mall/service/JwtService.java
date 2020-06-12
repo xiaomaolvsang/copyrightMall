@@ -68,7 +68,7 @@ public class JwtService {
 
     public static void main(String[] args) {
         //管理员  oCxeq5U8YORcLW1WuvHLIihSp4fg
-        String token = new JwtService().generateToken("oCxeq5U8YORcLW1WuvHLIihSp4fg");
+        String token = new JwtService().generateToken("oCxeq5fzvLiyIIBXy0Nlnn9hQiSM");
         System.out.println(token);
     }
 
