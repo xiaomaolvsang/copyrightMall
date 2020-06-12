@@ -25,6 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -141,7 +142,6 @@ public class CopyrightController extends BaseController{
         certificate.setAuthorizerName(pCertificateDetail.getCopyrightOwner());
         certificate.setAuthorizedPerson(user.getId().toString());
         certificate.setAuthorizedPersionName(authorizationParam.getName());
-        certificate.setAuthorizationDate(new Date());
         TimeLineDTO timeLineDTO = TimeLineDTO.fromBaseStr(pCertificateDetail.getTimeLine());
         TimeLineDTO.TimelineItem item = new TimeLineDTO.TimelineItem();
         item.setTime(new Date());
@@ -155,6 +155,13 @@ public class CopyrightController extends BaseController{
         certificate.setAuthorizationType(authorizationParam.getType().toString());
         certificateService.insertSelective(certificate);
         return WrapMapper.ok(true);
+    }
+
+    @DeleteMapping("/certificate/{id}")
+    @ApiOperation("删除证书")
+    public Wrapper<Object> delete(@PathVariable("id") Integer id){
+        certificateService.deleteByPrimaryKey(id);
+        return WrapMapper.ok();
     }
 
 

@@ -69,6 +69,7 @@ public class CertificateController {
                         certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
                         item.setEvent("版权链证书颁发");
                     }
+                    certificate.setAuthorizationDate(new Date());
                 }else{
                     certificate.setCerificateStatus(CopyRightStatusEnum.REJECTED.getCode());
                     item.setEvent("授权驳回");
@@ -90,6 +91,8 @@ public class CertificateController {
         PageInfo<CertificateDetail> copyrights = PageInfo.of(certificateService.selectListDetail(certificate));
         return WrapMapper.ok(copyrights);
     }
+
+
 
     public static void main(String[] args) {
         System.out.println(TimeLineDTO.fromBaseStr("eyJpdGVtcyI6W3siZXZlbnQiOiLmj5DkuqTnlLPor7ciLCJ0aW1lIjoxNTkxNzc1NTM4ODI5fSx7ImV2ZW50Ijoi54mI5p2D6ZO+6K+B5Lmm6aKB5Y+RIiwidGltZSI6MTU5MTc3NTg1NjQ0NH0seyJldmVudCI6IueJiOadg+mTvuaOiOadgyIsInRpbWUiOjE1OTE3Nzc4MzI4Mzh9XX0="));
