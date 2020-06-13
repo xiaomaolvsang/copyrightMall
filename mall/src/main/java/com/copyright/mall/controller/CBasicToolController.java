@@ -2,6 +2,7 @@ package com.copyright.mall.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.QRcodeUtil;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -65,4 +66,7 @@ public class CBasicToolController {
     public void QRCode(String text,Integer width, Integer height){
         QRcodeUtil.encodeQRCode(text,response,width,height);
     }
+
+    public static void main(String[] args) {
+        System.out.println(        new JwtService().isTokenExpired("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvQ3hlcTVmQ1h0TmhWY3JrSmpFSkh5Q3kyRlFVIiwidXNlcl9pZCI6Im9DeGVxNWZDWHROaFZjcmtKakVKSHlDeTJGUVUiLCJleHAiOjE1OTIxMjQ5MzYsImlhdCI6MTU5MTg4NDkzNn0.BslVpDdNl_FFeh7OjrJRddqHtzk6a796wKPAyKZ7S_I"));    }
 }
