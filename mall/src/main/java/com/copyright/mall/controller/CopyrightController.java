@@ -173,6 +173,7 @@ public class CopyrightController extends BaseController{
         copyrightVO.setPicturesOfWorksList(Utils.toStringList(certificate.getPicturesOfWorks()));
         copyrightVO.setCopyrightCertificateList(Utils.toStringList(certificate.getCopyrightCertificate()));
         copyrightVO.setCategoryList(Utils.toStringList(certificate.getCategory()));
+        copyrightVO.setAuthorizationTypeList(Utils.toStringList(certificate.getAuthorizationType()));
         return copyrightVO;
     }
 
@@ -184,6 +185,7 @@ public class CopyrightController extends BaseController{
         certificateVO.setPicturesOfWorksList(Utils.toStringList(certificate.getPicturesOfWorks()));
         certificateVO.setCopyrightCertificateList(Utils.toStringList(certificate.getCopyrightCertificate()));
         certificateVO.setCategoryList(Utils.toStringList(certificate.getCategory()));
+        certificateVO.setAuthorizationTypeList(Utils.toStringList(certificate.getAuthorizationType()));
         return certificateVO;
     }
 

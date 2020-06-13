@@ -107,5 +107,6 @@ public class CertificateVO {
 
     @ApiModelProperty("授权类型")
     private String authorizationType;
+    private List<String> authorizationTypeList;
 
 }
