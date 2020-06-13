@@ -2,6 +2,10 @@ package com.copyright.mall.manage.controller;
 
 import com.copyright.mall.bean.Certificate;
 import com.copyright.mall.bean.Copyright;
+import com.copyright.mall.bean.Shop;
+import com.copyright.mall.bean.enumeration.ShopStatusEnum;
+import com.copyright.mall.bean.enumeration.ShopTypeEnum;
+import com.copyright.mall.domain.dto.copyright.ArtistResp;
 import com.copyright.mall.domain.dto.copyright.CertificateDetail;
 import com.copyright.mall.domain.dto.copyright.CopyrightQueryParam;
 import com.copyright.mall.domain.dto.copyright.TimeLineDTO;
@@ -9,6 +13,8 @@ import com.copyright.mall.enums.CopyRightStatusEnum;
 import com.copyright.mall.manage.domain.dto.CertificateParam;
 import com.copyright.mall.service.ICertificateService;
 import com.copyright.mall.service.ICopyrightService;
+import com.copyright.mall.service.IShopService;
+import com.copyright.mall.service.impl.ShopService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageHelper;
@@ -25,8 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = "后端版权查询")
 @Slf4j
@@ -39,6 +47,9 @@ public class CertificateController {
 
     @Resource
     private ICopyrightService copyrightService;
+
+    @Resource
+    private IShopService shopService;
 
     @PostMapping("/examine")
     @ApiOperation("审核")
@@ -79,6 +90,17 @@ public class CertificateController {
                 certificateService.updateByPrimaryKeySelective(certificate);
             }
         }
+        if("artist".equals(certificateParam.getType())){
+            Shop shop = new Shop();
+            shop.setId(Long.valueOf(certificateParam.getId()));
+            if(0==certificateParam.getStatus()){
+                shop.setShopStatus(ShopStatusEnum.success.getCode());
+            }
+            if(1==certificateParam.getStatus()){
+                shop.setShopStatus(ShopStatusEnum.erro.getCode());
+            }
+            shopService.updateByPrimaryKeySelective(shop);
+        }
         return WrapMapper.ok(true);
     }
 
@@ -90,6 +112,43 @@ public class CertificateController {
         certificate.setCerificateStatus(queryParam.getStatus());
         PageInfo<CertificateDetail> copyrights = PageInfo.of(certificateService.selectListDetail(certificate));
         return WrapMapper.ok(copyrights);
+    }
+
+    @GetMapping("/listArtist")
+    @ApiOperation("获取艺术家审核列表")
+    public Wrapper<PageInfo<ArtistResp>> listArtist(@Valid CopyrightQueryParam queryParam){
+        Shop shop = new Shop();
+        shop.setMallId(1L);
+        List<Shop> shops = shopService.selectByObjectList(shop);
+        List<Shop> shopsA = shops.stream().filter(shop1 -> {
+            if(queryParam.getStatus() == 10){
+                return shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.init.getCode();
+            }
+            if(queryParam.getStatus() == 20){
+                return shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.erro.getCode();
+            }
+            if(queryParam.getStatus() == 30){
+                return shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.success.getCode();
+            }
+            return false;
+        }).collect(Collectors.toList());
+        List<Shop> shops1 = shopsA.stream().skip(queryParam.getPageSize() * (queryParam.getPageNum() - 1)).limit(queryParam.getPageSize()).collect(Collectors.toList());
+        List<ArtistResp> list = new ArrayList<>();
+        shops1.forEach(shop1 -> {
+            ArtistResp artistResp = new ArtistResp();
+            artistResp.setCertification(shop1.getCertification());
+            artistResp.setId(shop1.getId());
+            artistResp.setLogo(shop1.getShopLogo());
+            artistResp.setName(shop1.getCompanyName());
+            artistResp.setPetName(shop1.getShopName());
+            artistResp.setOpusImg(shop1.getShopImg());
+            artistResp.setPhone(shop1.getPhone());
+            artistResp.setShopArtCategory(shop1.getShopArtcategory());
+            list.add(artistResp);
+        });
+        PageInfo<ArtistResp> pageInfo = PageInfo.of(list);
+        pageInfo.setTotal(shopsA.size());
+        return WrapMapper.ok(pageInfo);
     }
 
 

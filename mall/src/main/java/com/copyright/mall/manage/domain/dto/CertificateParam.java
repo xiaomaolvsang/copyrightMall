@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class CertificateParam {
 
-    @ApiModelProperty("审核类型 copyright 版权 certificate 证书")
+    @ApiModelProperty("审核类型 copyright 版权 certificate 证书 artist 艺术家")
     @NotBlank(message = "审核类型不能为空")
     private String type;
 

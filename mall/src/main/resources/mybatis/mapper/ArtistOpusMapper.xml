@@ -145,4 +145,9 @@
         order by GMT_MODIFIED desc
     </select>
 
+	<update id="likeOpus" parameterType="java.lang.Long">
+		UPDATE artist_opus
+		set LIKES_NUM = LIKES_NUM + 1
+		WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
 </mapper>

@@ -2,10 +2,7 @@ package com.copyright.mall.controller.opus;
 
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.controller.BaseController;
-import com.copyright.mall.domain.requeest.opus.CreateOpusReq;
-import com.copyright.mall.domain.requeest.opus.DeleteOpusParam;
-import com.copyright.mall.domain.requeest.opus.OpusParam;
-import com.copyright.mall.domain.requeest.opus.OpusReq;
+import com.copyright.mall.domain.requeest.opus.*;
 import com.copyright.mall.domain.requeest.product.ProductParam;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
@@ -78,6 +75,14 @@ public class OpusController extends BaseController {
   public Wrapper<Boolean> deleteOpus(@RequestBody @ApiParam @Valid DeleteOpusParam deleteOpusParam){
     deleteOpusParam.setUserId(getUserId());
     return opusService.delete(deleteOpusParam);
+  }
+
+  @ApiOperation(value = "点赞")
+  @PostMapping("/likeIt")
+  @ControllerErro
+  public Wrapper<Boolean> likeIt(@RequestBody @ApiParam @Valid LikeOpusParam likeOpusParam){
+    likeOpusParam.setUserId(getUserId());
+    return opusService.likeIt(likeOpusParam);
   }
 
 }

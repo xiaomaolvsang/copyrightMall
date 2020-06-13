@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.copyright.mall.dao.LikeOpusRelationMapper">
+
+	<!--cg generate by lijian at 2020-06-13 12:26-->
+
+	<!--通用表映射-->
+	<resultMap id="BaseResultMap" type="com.copyright.mall.bean.LikeOpusRelation" >
+		<id property="id" column="ID" jdbcType="BIGINT" />
+		<result property="gmtCreate" column="GMT_CREATE" jdbcType="TIMESTAMP" />
+		<result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP" />
+		<result property="opusId" column="OPUS_ID" jdbcType="BIGINT" />
+		<result property="userId" column="USER_ID" jdbcType="BIGINT" />
+	</resultMap>
+
+
+	<!-- 通用查询结果集合-->
+	<sql id="Base_Column_List">
+	id,	GMT_CREATE,	GMT_MODIFIED,	OPUS_ID,	USER_ID
+	</sql>
+
+	<!-- 公共查询条件-->
+	<!-- collection foreach DATE_FORMAT(create_time,'%Y-%m-%d') like CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%') -->
+	<!-- <![CDATA[<=]]> date_format(FROM_UNIXTIME(expire_time),'%Y-%c-%d %h:%i:%s') as showExpireTime-->
+
+	<sql id="conditions">
+		<if test="id != null and id != '' "> and ID = #{id,jdbcType=BIGINT} </if>
+		<if test="gmtCreate != null and gmtCreate != '' "> and GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP} </if>
+		<if test="gmtModified != null and gmtModified != '' "> and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP} </if>
+		<if test="opusId != null and opusId != '' "> and OPUS_ID = #{opusId,jdbcType=BIGINT} </if>
+		<if test="userId != null and userId != '' "> and USER_ID = #{userId,jdbcType=BIGINT} </if>
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM like_opus_relation
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		 DELETE FROM like_opus_relation
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段,不建议使用）-->
+	<insert id="insertSelective" parameterType="com.copyright.mall.bean.LikeOpusRelation">
+		 INSERT INTO like_opus_relation
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null"> ID,</if>
+			<if test="gmtCreate != null"> GMT_CREATE,</if>
+			<if test="gmtModified != null"> GMT_MODIFIED,</if>
+			<if test="opusId != null"> OPUS_ID,</if>
+			<if test="userId != null"> USER_ID,</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
+			<if test="gmtCreate!=null">#{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="opusId!=null">#{opusId,jdbcType=BIGINT},</if>
+			<if test="userId!=null">#{userId,jdbcType=BIGINT},</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.copyright.mall.bean.LikeOpusRelation">
+		 UPDATE like_opus_relation
+ 		 <set> 
+			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
+			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
+			<if test="opusId != null">OPUS_ID = #{opusId,jdbcType=BIGINT},</if>
+			<if test="userId != null">USER_ID = #{userId,jdbcType=BIGINT},</if>
+
+ 		 </set>
+		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 分页查询 -->
+	<select id="selectObjectListPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM like_opus_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+		 ORDER BY id DESC
+		 limit #{startOfPage},#{pageSize}
+	</select>
+
+	<!-- 分页查询总数 -->
+	<select id="selectObjectListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+		 SELECT
+		 count(*) 
+		 FROM like_opus_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+	<!-- 按条件查询列表 -->
+	<select id="selectByObjectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM like_opus_relation
+		 WHERE 1=1
+		 <include refid="conditions" />
+	</select>
+
+</mapper>

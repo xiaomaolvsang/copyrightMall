@@ -1,16 +1,15 @@
 package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.ArtistOpus;
+import com.copyright.mall.bean.LikeOpusRelation;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.UserShopRelation;
 import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.dao.ArtistOpusMapper;
+import com.copyright.mall.dao.LikeOpusRelationMapper;
 import com.copyright.mall.domain.exception.BusinessException;
-import com.copyright.mall.domain.requeest.opus.CreateOpusReq;
-import com.copyright.mall.domain.requeest.opus.DeleteOpusParam;
-import com.copyright.mall.domain.requeest.opus.OpusParam;
-import com.copyright.mall.domain.requeest.opus.OpusReq;
+import com.copyright.mall.domain.requeest.opus.*;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
 import com.copyright.mall.service.IOpusService;
@@ -22,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -49,6 +49,8 @@ public class OpusService implements IOpusService {
     @Resource
     private UserShopRelationService userShopRelationService;
 
+    @Resource
+    private LikeOpusRelationMapper likeOpusRelationMapper;
     @Override
     public OpusVO getOpus(OpusParam opusParam) {
         OpusVO opusVO = new OpusVO();
@@ -209,5 +211,18 @@ public class OpusService implements IOpusService {
         return shops.stream().filter(shop1 -> shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.success.getCode());
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public Wrapper<Boolean> likeIt(LikeOpusParam likeOpusParam){
+        LikeOpusRelation likeOpusRelation = new LikeOpusRelation();
+        likeOpusRelation.setOpusId(likeOpusParam.getId());
+        likeOpusRelation.setUserId(likeOpusParam.getUserId());
+        List<LikeOpusRelation> likeOpusRelations = likeOpusRelationMapper.selectByObjectList(likeOpusRelation);
+        if(!CollectionUtils.isEmpty(likeOpusRelations)){
+            return WrapMapper.error("已点赞");
+        }
+        likeOpusRelationMapper.insertSelective(likeOpusRelation);
+        artistOpusMapper.likeOpus(likeOpusParam.getId());
+        return WrapMapper.ok();
+    }
 
 }
