@@ -36,5 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
         loginRegistry.excludePathPatterns("/v2/*");
         //证书详情不鉴权
         loginRegistry.excludePathPatterns("/V1/copyright/detail/*");
+        loginRegistry.excludePathPatterns("/v1/basic/tool/uploadImg");
     }
 }
