@@ -142,7 +142,7 @@
         FROM artist_opus
         WHERE 1=1
         <include refid="conditions" />
-        order by GMT_MODIFIED desc
+        order by ID desc
     </select>
 
 	<update id="likeOpus" parameterType="java.lang.Long">
