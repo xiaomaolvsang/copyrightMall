@@ -94,7 +94,7 @@ public class OpusService implements IOpusService {
         Shop shop = new Shop();
         shop.setMallId(1L);
         Map<Long, List<Shop>> map = getShopMap(shop).collect(Collectors.groupingBy(Shop::getId));
-        Collections.shuffle(artistOpuses);
+        Collections.shuffle(artistOpuses,new Random(opusReq.getUserId()));
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus : artistOpuses) {
 
