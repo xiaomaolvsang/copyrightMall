@@ -74,7 +74,7 @@ public class ArtistController extends BaseController {
         shop.setCertification(artistParam.getCertification());
         shop.setShopStatus(ShopStatusEnum.init.getCode());
         shop.setMallId(1L);
-        if(shop.getId() != null){
+        if(shop.getId() == null){
             shopService.insertSelective(shop);
         }else{
             shopService.updateByPrimaryKeySelective(shop);
