@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (request.getRequestURL().toString().contains("swagger")) {
             return true;
         }
-        if (request.getRequestURL().toString().contains("/login")) {
+        if (request.getRequestURL().toString().contains("/manage")) {
             return true;
         }
         String token = request.getHeader("X-Mall-TOKEN");
