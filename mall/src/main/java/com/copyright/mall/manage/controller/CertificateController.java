@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -132,7 +133,7 @@ public class CertificateController {
             }
             return false;
         }).collect(Collectors.toList());
-        List<Shop> shops1 = shopsA.stream().skip(queryParam.getPageSize() * (queryParam.getPageNum() - 1)).limit(queryParam.getPageSize()).collect(Collectors.toList());
+        List<Shop> shops1 = shopsA.stream().sorted((o1, o2) -> o1.getId().compareTo(o2.getId())).skip(queryParam.getPageSize() * (queryParam.getPageNum() - 1)).limit(queryParam.getPageSize()).collect(Collectors.toList());
         List<ArtistResp> list = new ArrayList<>();
         shops1.forEach(shop1 -> {
             ArtistResp artistResp = new ArtistResp();
