@@ -252,7 +252,7 @@
 				)
 			</if>
 		</where>
-
+		order by shop_order.id desc
 	</select>
 
 </mapper>
