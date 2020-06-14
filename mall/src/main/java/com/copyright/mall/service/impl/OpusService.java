@@ -108,6 +108,7 @@ public class OpusService implements IOpusService {
                 opusResp.setArtHeadPortrait(shopOptional.get().get(0).getShopLogo());
                 opusResp.setArtName(shopOptional.get().get(0).getShopName());
             }
+            opusResp.setOpusId(artistOpus.getId());
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);

@@ -3,6 +3,7 @@ package com.copyright.mall.service.impl;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.bean.UserShopRelation;
+import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.config.GuavaManage;
 import com.copyright.mall.dao.ShopMapper;
 import com.copyright.mall.dao.UserMapper;
@@ -116,6 +117,7 @@ public class ShopService implements IShopService {
         shop.setShopArtcategory(modifyShopParam.getShopArtCategory());
         shop.setIsIdentification(modifyShopParam.getIsIdentification());
         shop.setShopType(modifyShopParam.getShopType());
+        shop.setShopStatus(ShopStatusEnum.success.getCode());
         if (shop.getId() != null) {
             shopMapper.updateByPrimaryKeySelective(shop);
         } else {
