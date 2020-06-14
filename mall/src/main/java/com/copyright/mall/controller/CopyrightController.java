@@ -132,6 +132,11 @@ public class CopyrightController extends BaseController{
         if(!CollectionUtils.isEmpty(checkExists)){
             return WrapMapper.error("当前被授权用户已存在授权");
         }
+        checkParam.setCerificateStatus(CopyRightStatusEnum.CONFIRMED_RIGHT.getCode());
+        checkExists = certificateService.selectByObjectList(checkParam);
+        if(!CollectionUtils.isEmpty(checkExists)){
+            return WrapMapper.error("当前被授权用户已存在授权");
+        }
         CertificateDetail pCertificateDetail = certificateService.selectByCertificateId(authorizationParam.getPCertificateId());
         Certificate certificate = new Certificate();
         certificate.setCertificateId(IDUtil.generatorID(""));
