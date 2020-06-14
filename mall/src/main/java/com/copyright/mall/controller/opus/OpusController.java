@@ -2,11 +2,13 @@ package com.copyright.mall.controller.opus;
 
 import com.copyright.mall.aspect.ControllerErro;
 import com.copyright.mall.controller.BaseController;
-import com.copyright.mall.domain.requeest.opus.*;
-import com.copyright.mall.domain.requeest.product.ProductParam;
+import com.copyright.mall.domain.requeest.opus.CreateOpusReq;
+import com.copyright.mall.domain.requeest.opus.DeleteOpusParam;
+import com.copyright.mall.domain.requeest.opus.LikeOpusParam;
+import com.copyright.mall.domain.requeest.opus.OpusParam;
+import com.copyright.mall.domain.requeest.opus.OpusReq;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
-import com.copyright.mall.domain.vo.product.ProductVO;
 import com.copyright.mall.service.impl.OpusService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -50,6 +52,7 @@ public class OpusController extends BaseController {
   @PostMapping("/getOpusList")
   @ControllerErro
   public Wrapper<PageInfo<OpusResp>> getOpusList(@RequestBody @ApiParam @Valid OpusReq opusReq){
+    opusReq.setUserId(getUserId());
     return WrapMapper.ok(opusService.selectByObjectListDesc(opusReq));
   }
 
