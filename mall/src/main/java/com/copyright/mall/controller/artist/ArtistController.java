@@ -50,12 +50,20 @@ public class ArtistController extends BaseController {
     public Wrapper<Boolean> createArtist(@RequestBody @ApiParam @Valid ArtistParam artistParam) {
 
         List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(getUserId());
-
+        Shop shop = new Shop();
+        UserShopRelation userShopRelation = new UserShopRelation();
         if (userShopRelations.size() > 0) {
-            return WrapMapper.error("审核中");
+            Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
+            if(shop1.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop1.getShopStatus() == ShopStatusEnum.erro.getCode()){
+                shop.setId(userShopRelations.get(0).getShopId());
+                userShopRelation.setId(userShopRelations.get(0).getId());
+            }else{
+                return WrapMapper.error("无法申请");
+            }
         }
 
-        Shop shop = new Shop();
+
         shop.setShopName(artistParam.getPetName());
         shop.setCompanyName(artistParam.getName());
         shop.setPhone(artistParam.getPhone());
@@ -65,13 +73,17 @@ public class ArtistController extends BaseController {
         shop.setShopType(ShopTypeEnum.artist.getCode());
         shop.setCertification(artistParam.getCertification());
         shop.setMallId(1L);
-        shopService.insertSelective(shop);
+        if(shop.getId() != null){
+            shopService.insertSelective(shop);
+        }else{
+            shopService.updateByPrimaryKeySelective(shop);
+        }
 
-        UserShopRelation userShopRelation = new UserShopRelation();
         userShopRelation.setUserId(getUserId());
         userShopRelation.setShopId(shop.getId());
-        userShopRelationService.insertSelective(userShopRelation);
-
+        if(userShopRelation.getId() == null){
+            userShopRelationService.insertSelective(userShopRelation);
+        }
         return WrapMapper.ok();
     }
 
