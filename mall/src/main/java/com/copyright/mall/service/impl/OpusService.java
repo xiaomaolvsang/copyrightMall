@@ -194,6 +194,8 @@ public class OpusService implements IOpusService {
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus1 : artistOpuses) {
             OpusResp opusResp = new OpusResp();
+            String imgs =  artistOpus1.getImgs();
+            List<String> list = Arrays.asList(imgs.split(","));
             opusResp.setOpusImg(artistOpus1.getImage());
             opusResp.setOpusTitle(artistOpus1.getTitle());
             opusResp.setLikesNum(artistOpus1.getLikesNum());
@@ -201,6 +203,7 @@ public class OpusService implements IOpusService {
             opusResp.setArtName(shop1.getShopName());
             opusResp.setOpusId(artistOpus1.getId());
             opusResp.setOpusDesc(artistOpus1.getOpusDesc());
+            opusResp.setOpusImgs(list);
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);

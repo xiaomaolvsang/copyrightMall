@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @ApiModel("作品列表")
 public class OpusResp extends BasePage {
@@ -22,4 +24,6 @@ public class OpusResp extends BasePage {
     private Long opusId;
     @ApiModelProperty("作品详情")
     private String opusDesc;
+    @ApiModelProperty("作品图片集")
+    private List<String> opusImgs;
 }
