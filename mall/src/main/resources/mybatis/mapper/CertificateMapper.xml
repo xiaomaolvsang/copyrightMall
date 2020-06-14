@@ -179,7 +179,7 @@
         <if test="authorizationType != null and authorizationType != '' ">and AUTHORIZATION_TYPE =
             #{authorizationType,jdbcType=VARCHAR}
         </if>
-		order by certificate.CERIFICATE_STATUS , id desc
+		order by certificate.CERIFICATE_STATUS , certificate.id desc
     </select>
 
 
