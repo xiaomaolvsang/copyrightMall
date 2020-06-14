@@ -133,7 +133,7 @@ public class CertificateController {
             }
             return false;
         }).collect(Collectors.toList());
-        List<Shop> shops1 = shopsA.stream().sorted((o1, o2) -> o1.getId().compareTo(o2.getId())).skip(queryParam.getPageSize() * (queryParam.getPageNum() - 1)).limit(queryParam.getPageSize()).collect(Collectors.toList());
+        List<Shop> shops1 = shopsA.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).skip(queryParam.getPageSize() * (queryParam.getPageNum() - 1)).limit(queryParam.getPageSize()).collect(Collectors.toList());
         List<ArtistResp> list = new ArrayList<>();
         shops1.forEach(shop1 -> {
             ArtistResp artistResp = new ArtistResp();
