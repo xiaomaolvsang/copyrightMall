@@ -26,6 +26,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (request.getRequestURL().toString().contains("swagger")) {
             return true;
         }
+        if (request.getRequestURL().toString().contains("/login")) {
+            return true;
+        }
         String token = request.getHeader("X-Mall-TOKEN");
         if (StringUtils.isBlank(token) || jwtService.isTokenExpired(token)) {
             response.setStatus(401);
