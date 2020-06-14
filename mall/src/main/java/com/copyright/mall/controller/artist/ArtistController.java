@@ -95,6 +95,12 @@ public class ArtistController extends BaseController {
             if (shop.getShopType() == ShopTypeEnum.artist.getCode()
                     && shop.getShopStatus() == ShopStatusEnum.success.getCode()) {
                 return wrap(10000, "就是艺术家");
+            }else if(shop.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop.getShopStatus() == ShopStatusEnum.init.getCode()){
+                return wrap(10040, "审核中");
+            }else if(shop.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop.getShopStatus() == ShopStatusEnum.erro.getCode()){
+                return wrap(10050, "被驳回");
             } else {
                 return wrap(10020, "无法申请艺术家");
             }
