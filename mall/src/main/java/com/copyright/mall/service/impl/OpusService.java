@@ -109,6 +109,7 @@ public class OpusService implements IOpusService {
                 opusResp.setArtName(shopOptional.get().get(0).getShopName());
             }
             opusResp.setOpusId(artistOpus.getId());
+            opusResp.setOpusDesc(artistOpus.getOpusDesc());
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);
@@ -192,7 +193,6 @@ public class OpusService implements IOpusService {
         List<ArtistOpus> artistOpuses = artistOpusMapper.selectByObjectListDesc(artistOpus);
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus1 : artistOpuses) {
-
             OpusResp opusResp = new OpusResp();
             opusResp.setOpusImg(artistOpus1.getImage());
             opusResp.setOpusTitle(artistOpus1.getTitle());
@@ -200,6 +200,7 @@ public class OpusService implements IOpusService {
             opusResp.setArtHeadPortrait(shop1.getShopLogo());
             opusResp.setArtName(shop1.getShopName());
             opusResp.setOpusId(artistOpus1.getId());
+            opusResp.setOpusDesc(artistOpus1.getOpusDesc());
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);

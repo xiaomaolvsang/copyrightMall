@@ -20,4 +20,6 @@ public class OpusResp extends BasePage {
     private Long likesNum;
     @ApiModelProperty("id")
     private Long opusId;
+    @ApiModelProperty("作品详情")
+    private String opusDesc;
 }
