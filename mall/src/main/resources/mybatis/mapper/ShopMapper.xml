@@ -152,6 +152,7 @@
 		 FROM shop
 		 WHERE 1=1
 		 <include refid="conditions" />
+		ORDER BY ID DESC
 	</select>
 
 
