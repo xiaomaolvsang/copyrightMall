@@ -66,8 +66,8 @@ public class OpusService implements IOpusService {
 
         dataBean.setArtistAvatar(shop.getShopLogo());
         dataBean.setArtistName(shop.getShopName());
-        dataBean.setProductDesc(shop.getCertification());
-        dataBean.setProductTitle(shop.getShopName());
+        dataBean.setProductDesc(artistOpus.getOpusDesc());
+        dataBean.setProductTitle(artistOpus.getTitle());
         dataBean.setPublishTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(artistOpus.getGmtModified()));
 
 
