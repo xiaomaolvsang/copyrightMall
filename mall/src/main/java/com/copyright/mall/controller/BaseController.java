@@ -32,7 +32,7 @@ public abstract class BaseController {
         String userOpenId = null;
         try {
             userOpenId = jwtService.getClaimFromToken(token).getSubject();
-            user =  userService.selectByOpenId(userOpenId);
+            user =  userService.selectByPhone(this.getUserPhone());
         }catch (Exception e){
             log.warn("解析",e);
         }
