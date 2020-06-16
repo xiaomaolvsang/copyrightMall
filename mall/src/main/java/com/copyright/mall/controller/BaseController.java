@@ -26,13 +26,30 @@ public abstract class BaseController {
     @Resource
     private IUserService userService;
 
+    public Long getRealUserId(){
+        String token = request.getHeader("X-Mall-TOKEN");
+        User user = null;
+        String userOpenId = null;
+        try {
+            userOpenId = jwtService.getClaimFromToken(token).getSubject();
+            user =  userService.selectByUserId(this.getUserId());
+        }catch (Exception e){
+            log.warn("解析",e);
+        }
+        if(user==null){
+            log.warn("用户数据不完整=>openId{}",userOpenId);
+            throw new BusinessException("用户数据不完整");
+        }
+        return user.getId();
+    }
+
     public Long getUserId() {
         String token = request.getHeader("X-Mall-TOKEN");
         User user = null;
         String userOpenId = null;
         try {
             userOpenId = jwtService.getClaimFromToken(token).getSubject();
-            user =  userService.selectByOpenId(userOpenId);
+            user =  userService.selectByPhone(this.getUserPhone());
         }catch (Exception e){
             log.warn("解析",e);
         }

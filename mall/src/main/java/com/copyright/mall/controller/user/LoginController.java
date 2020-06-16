@@ -63,7 +63,7 @@ public class LoginController extends BaseController {
     @ApiOperation(value = "敏感回调")
     @GetMapping("/login/encryptedInfo")
     public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam) {
-        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv(),"v1");
+        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getRealUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv(),"v1");
         User user = new User();
         user.setId(this.getUserId());
         user.setPhone(weChatUserInfo.getPhone());
