@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
         loginRegistry.excludePathPatterns("/detail/*");
         loginRegistry.excludePathPatterns("/checkHealth");
         loginRegistry.excludePathPatterns("/v1/user/login");
+        loginRegistry.excludePathPatterns("/v2/user/login");
         loginRegistry.excludePathPatterns("/webjars/**");
         loginRegistry.excludePathPatterns("/v2/*");
         //证书详情不鉴权
