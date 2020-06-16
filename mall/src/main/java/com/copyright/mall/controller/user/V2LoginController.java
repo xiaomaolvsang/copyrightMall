@@ -27,8 +27,8 @@ import javax.annotation.Resource;
 @Api(tags = "登录接口")
 @Slf4j
 @RestController
-@RequestMapping("/v1/user")
-public class LoginController extends BaseController {
+@RequestMapping("/v2/user")
+public class V2LoginController extends BaseController {
 
     @Resource
     private IWechatUserService wechatUserService;
@@ -44,7 +44,7 @@ public class LoginController extends BaseController {
     public Wrapper<LoginInfoVO> login(String weChatCode) {
         WeChatUserInfo weChatUserInfo = null;
         try {
-            weChatUserInfo = wechatUserService.weChatLogin(weChatCode,"v1");
+            weChatUserInfo = wechatUserService.weChatLogin(weChatCode,"v2");
             System.out.println(JSON.toJSONString(weChatUserInfo));
         } catch (Exception e) {
             log.warn("登录失败", e);
@@ -63,7 +63,7 @@ public class LoginController extends BaseController {
     @ApiOperation(value = "敏感回调")
     @GetMapping("/login/encryptedInfo")
     public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam) {
-        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv(),"v1");
+        WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv() , "v2");
         User user = new User();
         user.setId(this.getUserId());
         user.setPhone(weChatUserInfo.getPhone());

@@ -12,9 +12,9 @@ public interface IWechatUserService {
      * @param jsCode 登录时获取的code
      * @return
      */
-    WeChatUserInfo weChatLogin(String jsCode);
+    WeChatUserInfo weChatLogin(String jsCode, String version);
 
 
 
-    WeChatUserInfo getSensitiveData(Long userId,String encryptedData,String iv);
+    WeChatUserInfo getSensitiveData(Long userId,String encryptedData,String iv, String version);
 }

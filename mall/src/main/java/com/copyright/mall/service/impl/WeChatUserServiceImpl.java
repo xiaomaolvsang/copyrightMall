@@ -2,6 +2,7 @@ package com.copyright.mall.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.copyright.mall.bean.User;
+import com.copyright.mall.config.V2WeChatAppInfo;
 import com.copyright.mall.config.WeChatAppInfo;
 import com.copyright.mall.domain.dto.user.WeChatUserInfo;
 import com.copyright.mall.domain.exception.BusinessException;
@@ -31,15 +32,27 @@ public class WeChatUserServiceImpl implements IWechatUserService {
 
     @Resource
     private WeChatAppInfo weChatAppInfo;
+
+    @Resource
+    private V2WeChatAppInfo v2WeChatAppInfo;
+
     @Resource
     private IUserService userService;
+
     @Override
-    public WeChatUserInfo weChatLogin(String jsCode) {
+    public WeChatUserInfo weChatLogin(String jsCode,String version) {
         Map<String,Object> param = new HashMap<>(4);
-        param.put("appid",weChatAppInfo.getAppId());
-        param.put("secret",weChatAppInfo.getAppSecret());
-        param.put("js_code",jsCode);
-        param.put("grant_type",weChatAppInfo.getGrantType());
+        if("v2".equals(version)){
+            param.put("appid", v2WeChatAppInfo.getAppId());
+            param.put("secret", v2WeChatAppInfo.getAppSecret());
+            param.put("js_code", jsCode);
+            param.put("grant_type", v2WeChatAppInfo.getGrantType());
+        }else {
+            param.put("appid", weChatAppInfo.getAppId());
+            param.put("secret", weChatAppInfo.getAppSecret());
+            param.put("js_code", jsCode);
+            param.put("grant_type", weChatAppInfo.getGrantType());
+        }
         ResponseEntity<WeChatUserInfo> result = restTemplate.getForEntity("https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", WeChatUserInfo.class,param);
         if(!result.getStatusCode().is2xxSuccessful()){
             throw new BusinessException("调用微信登录失败");
@@ -68,14 +81,19 @@ public class WeChatUserServiceImpl implements IWechatUserService {
     }
 
     @Override
-    public WeChatUserInfo getSensitiveData(Long userId,String encryptedData, String iv) {
+    public WeChatUserInfo getSensitiveData(Long userId,String encryptedData, String iv , String version) {
         User user = userService.selectByUserId(userId);
         if(user==null){
             return null;
         }
-        JSONObject wechatResult =  AES.decrypt(weChatAppInfo.getAppId(),encryptedData,user.getSessionKey(),iv);
         WeChatUserInfo result = new WeChatUserInfo();
-        result.setPhone(wechatResult.getString("phoneNumber"));
+        if("v2".equals(version)) {
+            JSONObject wechatResult = AES.decrypt(v2WeChatAppInfo.getAppId(), encryptedData, user.getSessionKey(), iv);
+            result.setPhone(wechatResult.getString("phoneNumber"));
+        }else{
+            JSONObject wechatResult = AES.decrypt(weChatAppInfo.getAppId(), encryptedData, user.getSessionKey(), iv);
+            result.setPhone(wechatResult.getString("phoneNumber"));
+        }
         return result;
     }
 
