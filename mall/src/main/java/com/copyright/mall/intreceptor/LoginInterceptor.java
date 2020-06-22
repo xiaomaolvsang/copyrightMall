@@ -29,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (request.getRequestURL().toString().contains("zmanage")) {
             return true;
         }
-        if (request.getRequestURL().toString().contains("v2")) {
+        if (request.getRequestURL().toString().toUpperCase().contains("v2".toUpperCase())) {
             return true;
         }
         String token = request.getHeader("X-Mall-TOKEN");
