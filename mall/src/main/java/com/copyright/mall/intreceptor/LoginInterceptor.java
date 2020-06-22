@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (request.getRequestURL().toString().contains("swagger")) {
             return true;
         }
-        if (request.getRequestURL().toString().contains("zmanage")) {
+        if (request.getRequestURL().toString().contains("manage")) {
             return true;
         }
         if (request.getRequestURL().toString().toUpperCase().contains("v2".toUpperCase())) {
