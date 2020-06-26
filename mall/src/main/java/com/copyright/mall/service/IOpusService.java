@@ -6,6 +6,9 @@ import com.copyright.mall.domain.requeest.opus.OpusParam;
 import com.copyright.mall.domain.requeest.opus.OpusReq;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
+import com.copyright.mall.manage.domain.dto.OpusManageParam;
+import com.copyright.mall.manage.domain.dto.OpusUpdateParam;
+import com.copyright.mall.manage.domain.vo.OpusManageResp;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageInfo;
 
@@ -26,4 +29,8 @@ public interface IOpusService {
   Wrapper<Boolean> delete(DeleteOpusParam deleteOpusParam);
 
   Wrapper<PageInfo<OpusResp>> selectByObjectListOfMyDesc(OpusReq opusReq);
+
+  Wrapper<PageInfo<OpusManageResp>> selectManageByObjectList(OpusManageParam opusManageParam);
+
+  public Wrapper<Boolean> manageUpdate(OpusUpdateParam opusUpdateParam);
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.ArtistOpus;
-
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -33,4 +33,6 @@ public interface ArtistOpusMapper {
 	public List<ArtistOpus> selectByObjectListDesc(ArtistOpus artistOpus);
 
 	public int likeOpus(Long id);
+
+	public List<ArtistOpus> selectByShopIds(@Param("shopIds") List<Long> shopIds,@Param("opusTitle") String opusTitle);
 }

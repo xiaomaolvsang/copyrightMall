@@ -12,8 +12,12 @@ import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.opus.*;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
+import com.copyright.mall.manage.domain.dto.OpusManageParam;
+import com.copyright.mall.manage.domain.dto.OpusUpdateParam;
+import com.copyright.mall.manage.domain.vo.OpusManageResp;
 import com.copyright.mall.service.IOpusService;
 import com.copyright.mall.service.IShopService;
+import com.copyright.mall.util.TimeUtil;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
@@ -51,6 +55,7 @@ public class OpusService implements IOpusService {
 
     @Resource
     private LikeOpusRelationMapper likeOpusRelationMapper;
+
     @Override
     public OpusVO getOpus(OpusParam opusParam) {
         OpusVO opusVO = new OpusVO();
@@ -94,7 +99,7 @@ public class OpusService implements IOpusService {
         Shop shop = new Shop();
         shop.setMallId(1L);
         Map<Long, List<Shop>> map = getShopMap(shop).collect(Collectors.groupingBy(Shop::getId));
-        Collections.shuffle(artistOpuses,new Random(opusReq.getUserId()));
+        Collections.shuffle(artistOpuses, new Random(opusReq.getUserId()));
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus : artistOpuses) {
 
@@ -159,11 +164,11 @@ public class OpusService implements IOpusService {
             return WrapMapper.error("未找到数据");
         }
         List<UserShopRelation> userShopRelation = userShopRelationService.selectByUserId(deleteOpusParam.getUserId());
-        if(CollectionUtils.isEmpty(userShopRelation)){
+        if (CollectionUtils.isEmpty(userShopRelation)) {
             return WrapMapper.error("请先申请艺术家");
         }
         Optional<UserShopRelation> userShopRelation1 = userShopRelation.stream().findFirst();
-        if(!userShopRelation1.isPresent() || !userShopRelation1.get().getShopId().equals(artistOpus.getItemId())){
+        if (!userShopRelation1.isPresent() || !userShopRelation1.get().getShopId().equals(artistOpus.getItemId())) {
             return WrapMapper.error("不能删除非自己的作品");
         }
         artistOpusMapper.deleteByPrimaryKey(deleteOpusParam.getId());
@@ -194,7 +199,7 @@ public class OpusService implements IOpusService {
         List<OpusResp> resp = new ArrayList<>();
         for (ArtistOpus artistOpus1 : artistOpuses) {
             OpusResp opusResp = new OpusResp();
-            String imgs =  artistOpus1.getImgs();
+            String imgs = artistOpus1.getImgs();
             List<String> list = Arrays.asList(imgs.split(","));
             opusResp.setOpusImg(artistOpus1.getImage());
             opusResp.setOpusTitle(artistOpus1.getTitle());
@@ -211,22 +216,81 @@ public class OpusService implements IOpusService {
         return WrapMapper.ok(pageResp);
     }
 
+    @Override
+    public Wrapper<PageInfo<OpusManageResp>> selectManageByObjectList(OpusManageParam opusManageParam) {
+        Shop shop = new Shop();
+        shop.setMallId(1L);
+        List<Shop> shops = shopService.selectByObjectList(shop);
+        if (CollectionUtils.isEmpty(shops)) {
+            return WrapMapper.ok();
+        }
+        List<Shop> manageShop = shops.stream().filter(s -> {
+            if (opusManageParam.getArtistId() == null && StringUtils.isEmpty(opusManageParam.getArtistName())) {
+                return true;
+            } else if (opusManageParam.getArtistId() != null && opusManageParam.getArtistId().equals(s.getId())) {
+                if (StringUtils.isEmpty(opusManageParam.getArtistName())) {
+                    return true;
+                } else return s.getShopName().contains(opusManageParam.getArtistName());
+            } else if (StringUtils.isNotEmpty(opusManageParam.getArtistName())) {
+                return s.getShopName().contains(opusManageParam.getArtistName());
+            }
+            return false;
+        }).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(manageShop)) {
+            return WrapMapper.ok();
+        }
+
+        Map<Long, String> shopMap = manageShop.stream().collect(Collectors.toMap(Shop::getId, Shop::getShopName));
+        List<Long> shopIds = new ArrayList<>(shopMap.keySet());
+        Page page = PageHelper.startPage(opusManageParam.getPageNum(), opusManageParam.getPageSize());
+        List<ArtistOpus> opuses = artistOpusMapper.selectByShopIds(shopIds, opusManageParam.getOpusTitle());
+        List<OpusManageResp> list = new ArrayList<>();
+        for (ArtistOpus artistOpus : opuses) {
+            OpusManageResp opusManageResp = new OpusManageResp();
+            opusManageResp.setArtistId(artistOpus.getItemId());
+            opusManageResp.setId(artistOpus.getId());
+            opusManageResp.setArtistName(shopMap.get(artistOpus.getItemId()));
+            opusManageResp.setCreateDate(TimeUtil.formatDate(artistOpus.getGmtCreate()));
+            opusManageResp.setModifyDate(TimeUtil.formatDate(artistOpus.getGmtModified()));
+            opusManageResp.setOpusContent(artistOpus.getOpusDesc());
+            opusManageResp.setOpusImgs(Arrays.asList(artistOpus.getImgs().split(",")));
+            opusManageResp.setOpusName(artistOpus.getTitle());
+            list.add(opusManageResp);
+        }
+        PageInfo<OpusManageResp> pageResp = PageInfo.of(list);
+        pageResp.setTotal(page.getTotal());
+        return WrapMapper.ok(pageResp);
+    }
+
     private Stream<Shop> getShopMap(Shop shop) {
         List<Shop> shops = shopService.selectByObjectList(shop);
         return shops.stream().filter(shop1 -> shop1.getShopType() == ShopTypeEnum.artist.getCode() && shop1.getShopStatus() == ShopStatusEnum.success.getCode());
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Wrapper<Boolean> likeIt(LikeOpusParam likeOpusParam){
+    public Wrapper<Boolean> likeIt(LikeOpusParam likeOpusParam) {
         LikeOpusRelation likeOpusRelation = new LikeOpusRelation();
         likeOpusRelation.setOpusId(likeOpusParam.getId());
         likeOpusRelation.setUserId(likeOpusParam.getUserId());
         List<LikeOpusRelation> likeOpusRelations = likeOpusRelationMapper.selectByObjectList(likeOpusRelation);
-        if(!CollectionUtils.isEmpty(likeOpusRelations)){
+        if (!CollectionUtils.isEmpty(likeOpusRelations)) {
             return WrapMapper.error("已点赞");
         }
         likeOpusRelationMapper.insertSelective(likeOpusRelation);
         artistOpusMapper.likeOpus(likeOpusParam.getId());
+        return WrapMapper.ok();
+    }
+
+    @Override
+    public Wrapper<Boolean> manageUpdate(OpusUpdateParam opusUpdateParam) {
+        ArtistOpus artistOpus = new ArtistOpus();
+        artistOpus.setId(opusUpdateParam.getId());
+        if (!CollectionUtils.isEmpty(opusUpdateParam.getOpusImgs())) {
+            artistOpus.setImgs(String.join(",", opusUpdateParam.getOpusImgs()));
+        }
+        artistOpus.setTitle(opusUpdateParam.getOpusTitle());
+        artistOpus.setOpusDesc(opusUpdateParam.getOpusContent());
+        artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
         return WrapMapper.ok();
     }
 
