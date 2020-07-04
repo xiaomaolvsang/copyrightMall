@@ -153,7 +153,7 @@
 	</select>
 
     <select id="selectDetail" resultType="com.copyright.mall.domain.dto.copyright.CertificateDetail">
-        select * from certificate a ,copyright b where a.copyright_id = b.copyright_id
+        select * from certificate a ,copyright b ,user c where a.copyright_id = b.copyright_id and a.AUTHORIZED_PERSON = c.id
         <if test="id != null ">and a.ID = #{id,jdbcType=INTEGER}</if>
         <if test="certificateId != null and certificateId != '' ">and CERTIFICATE_ID =
             #{certificateId,jdbcType=VARCHAR}
@@ -164,8 +164,8 @@
         <if test="copyrightId != null and copyrightId != '' ">and COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR}</if>
         <if test="cerificateStatus != null ">and CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER}</if>
         <if test="authorizer != null and authorizer != '' ">and AUTHORIZER = #{authorizer,jdbcType=VARCHAR}</if>
-        <if test="authorizerName != null and authorizerName != '' ">and AUTHORIZER_NAME =
-            #{authorizerName,jdbcType=VARCHAR}
+        <if test="authorizerName != null and authorizerName != '' ">and AUTHORIZER_NAME
+			like CONCAT('%',#{authorizerName,jdbcType=VARCHAR},'%')
         </if>
         <if test="timeLine != null and timeLine != '' ">and TIME_LINE = #{timeLine,jdbcType=VARCHAR}</if>
         <if test="authorizedPerson != null and authorizedPerson != '' ">and AUTHORIZED_PERSON =
@@ -179,6 +179,15 @@
         <if test="authorizationType != null and authorizationType != '' ">and AUTHORIZATION_TYPE =
             #{authorizationType,jdbcType=VARCHAR}
         </if>
+		<if test="phone != null and phone != '' ">and c.phone =
+			#{phone,jdbcType=VARCHAR}
+		</if>
+		<if test="chineseName != null and chineseName != '' ">and b.chinese_name
+			like CONCAT('%',#{chineseName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="copyrightOwner != null and copyrightOwner != '' ">and b.copyright_owner
+			like CONCAT('%',#{copyrightOwner,jdbcType=VARCHAR},'%')
+		</if>
 		order by a.CERIFICATE_STATUS , a.id desc
     </select>
 

@@ -11,10 +11,10 @@ import com.copyright.mall.domain.dto.copyright.CopyrightQueryParam;
 import com.copyright.mall.domain.dto.copyright.TimeLineDTO;
 import com.copyright.mall.enums.CopyRightStatusEnum;
 import com.copyright.mall.manage.domain.dto.CertificateParam;
+import com.copyright.mall.manage.domain.dto.CopyrightModifyParam;
 import com.copyright.mall.service.ICertificateService;
 import com.copyright.mall.service.ICopyrightService;
 import com.copyright.mall.service.IShopService;
-import com.copyright.mall.service.impl.ShopService;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +22,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,8 +111,60 @@ public class CertificateController {
         Certificate certificate = new Certificate();
         PageHelper.startPage(queryParam.getPageNum(),queryParam.getPageSize());
         certificate.setCerificateStatus(queryParam.getStatus());
+        certificate.setPhone(queryParam.getPhone());
+        certificate.setChineseName(queryParam.getChineName());
+        certificate.setCopyrightOwner(queryParam.getCopyRightOwner());
+        certificate.setId(queryParam.getId());
         PageInfo<CertificateDetail> copyrights = PageInfo.of(certificateService.selectListDetail(certificate));
         return WrapMapper.ok(copyrights);
+    }
+
+    @PostMapping("/modifyCopyright")
+    @ApiOperation("版权修改")
+    public Wrapper<String> createCopyright(@RequestBody @Valid CopyrightModifyParam copyrightModifyParam){
+        try{
+            Certificate certificate = certificateService.selectByPrimaryKey(copyrightModifyParam.getId());
+            Copyright copyright = copyrightService.selectByCopyRightId(certificate.getCopyrightId());
+            if(copyright == null) {
+                return WrapMapper.error("对应版权不存在");
+            }
+            if(StringUtils.isNotBlank(copyrightModifyParam.getChineseName())) {
+                copyright.setChineseName(copyrightModifyParam.getChineseName());
+            }
+            if(StringUtils.isNotBlank(copyrightModifyParam.getCopyrightOwner())) {
+                copyright.setCopyrightOwner(copyrightModifyParam.getCopyrightOwner());
+            }
+            if(copyrightModifyParam.getCategory() != null) {
+                copyright.setCategory(copyrightModifyParam.getCategory().toString());
+            }
+            if(copyrightModifyParam.getCreationDate() != null) {
+                copyright.setGmtCreate(copyrightModifyParam.getCreationDate());
+            }
+            if(copyrightModifyParam.getRegistrationNo() != null) {
+                copyright.setRegistrationNo(copyrightModifyParam.getRegistrationNo());
+            }
+            if(copyrightModifyParam.getCertificateOfCopyrightOwner() != null){
+                copyright.setCertificateOfCopyrightOwner(copyrightModifyParam.getCertificateOfCopyrightOwner().toString());
+            }
+            if(copyright.getPicturesOfWorks() != null) {
+                copyright.setPicturesOfWorks(copyright.getPicturesOfWorks());
+            }
+            if(copyrightModifyParam.getCertificateOfCopyrightOwner() != null) {
+                copyright.setCopyrightCertificate(copyrightModifyParam.getCopyrightCertificate().toString());
+            }
+            TimeLineDTO timeLineDTO = new TimeLineDTO();
+            TimeLineDTO.TimelineItem timelineItem = new TimeLineDTO.TimelineItem();
+            timelineItem.setTime(new Date());
+            timelineItem.setEvent("修改版权");
+            timeLineDTO.appendItem(timelineItem);
+            certificate.setTimeLine(timeLineDTO.toBaseString());
+            copyrightService.updateByPrimaryKeySelective(copyright);
+            certificateService.updateByPrimaryKeySelective(certificate);
+        } catch (Exception e){
+            log.error("copyright insert error ",e);
+            return WrapMapper.error(e.getMessage());
+        }
+        return WrapMapper.ok();
     }
 
     @GetMapping("/listArtist")

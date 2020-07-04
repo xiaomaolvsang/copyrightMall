@@ -55,8 +55,18 @@ public class Certificate implements Serializable {
 	/**授权类型**/
 	private String authorizationType;
 
+	/**
+	 * 查询条件
+	 */
+	private String phone;
 
+	/**查询条件版权人**/
+	private String copyrightOwner;
 
+	/**
+	 * 查询条件
+	 */
+	private String chineseName;
 	public void setId(Integer id){
 		this.id = id;
 	}
@@ -167,6 +177,30 @@ public class Certificate implements Serializable {
 
 	public String getAuthorizationType(){
 		return this.authorizationType;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getChineseName() {
+		return chineseName;
+	}
+
+	public void setChineseName(String chineseName) {
+		this.chineseName = chineseName;
+	}
+
+	public String getCopyrightOwner() {
+		return copyrightOwner;
+	}
+
+	public void setCopyrightOwner(String copyrightOwner) {
+		this.copyrightOwner = copyrightOwner;
 	}
 
 	@Override

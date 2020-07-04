@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -67,6 +68,17 @@ public class CopyrightService implements ICopyrightService {
 	@Override
 	public List<Copyright> selectByObjectList(Copyright copyright){
 		return copyrightMapper.selectByObjectList(copyright);
+	}
+
+	@Override
+	public Copyright selectByCopyRightId(String copyrightID) {
+		Copyright copyright = new Copyright();
+		copyright.setCopyrightId(copyrightID);
+		List<Copyright> copyrights = this.selectByObjectList(copyright);
+		if(CollectionUtils.isEmpty(copyrights)){
+			return null;
+		}
+		return copyrights.stream().findFirst().orElse(null);
 	}
 
 	public List<Copyright> selectAllObject(){

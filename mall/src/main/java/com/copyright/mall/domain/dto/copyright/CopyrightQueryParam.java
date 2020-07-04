@@ -9,4 +9,17 @@ public class CopyrightQueryParam extends BasePage {
 
     @ApiModelProperty(value = "状态 10待审核 20已驳回 30已确权 40已授权")
     private int status;
+
+    @ApiModelProperty(value = "版权名称")
+    private String chineName;
+
+    @ApiModelProperty(value = "版权人")
+    private String copyRightOwner;
+
+    @ApiModelProperty("手机号")
+    private String phone;
+
+    @ApiModelProperty
+    private Integer id;
+
 }

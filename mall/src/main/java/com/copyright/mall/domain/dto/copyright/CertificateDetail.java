@@ -105,4 +105,7 @@ public class CertificateDetail implements Serializable {
 
 	/**版权人**/
 	private String copyrightOwner;
+
+	/** 电话 **/
+	private String phone;
 }

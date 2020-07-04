@@ -28,4 +28,5 @@ public interface ICopyrightService {
 
 	public List<Copyright> selectByObjectList(Copyright copyright);
 
+	public Copyright selectByCopyRightId(String copyrightID);
 }
