@@ -4,6 +4,8 @@ import com.copyright.mall.domain.dto.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CopyrightQueryParam extends BasePage {
 
@@ -21,5 +23,8 @@ public class CopyrightQueryParam extends BasePage {
 
     @ApiModelProperty
     private Integer id;
+
+    @ApiModelProperty(value = "状态 10待审核 20已驳回 30已确权 40已授权")
+    private List<Integer> statuses;
 
 }

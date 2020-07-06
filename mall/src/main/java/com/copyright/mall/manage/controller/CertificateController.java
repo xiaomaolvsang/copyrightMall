@@ -5,10 +5,12 @@ import com.copyright.mall.bean.Copyright;
 import com.copyright.mall.bean.Shop;
 import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
+import com.copyright.mall.controller.CopyrightController;
 import com.copyright.mall.domain.dto.copyright.ArtistResp;
 import com.copyright.mall.domain.dto.copyright.CertificateDetail;
 import com.copyright.mall.domain.dto.copyright.CopyrightQueryParam;
 import com.copyright.mall.domain.dto.copyright.TimeLineDTO;
+import com.copyright.mall.domain.vo.copyright.CertificateVO;
 import com.copyright.mall.enums.CopyRightStatusEnum;
 import com.copyright.mall.manage.domain.dto.CertificateParam;
 import com.copyright.mall.manage.domain.dto.CopyrightModifyParam;
@@ -107,23 +109,28 @@ public class CertificateController {
 
     @GetMapping("/listCertificate")
     @ApiOperation("获取证书列表")
-    public Wrapper<PageInfo<CertificateDetail>> listCertificate(@Valid CopyrightQueryParam queryParam){
+    public Wrapper<PageInfo<CertificateVO>> listCertificate(@Valid CopyrightQueryParam queryParam){
         Certificate certificate = new Certificate();
         PageHelper.startPage(queryParam.getPageNum(),queryParam.getPageSize());
-        certificate.setCerificateStatus(queryParam.getStatus());
+        certificate.setStatuses(queryParam.getStatuses());
         certificate.setPhone(queryParam.getPhone());
         certificate.setChineseName(queryParam.getChineName());
         certificate.setCopyrightOwner(queryParam.getCopyRightOwner());
         certificate.setId(queryParam.getId());
         PageInfo<CertificateDetail> copyrights = PageInfo.of(certificateService.selectListDetail(certificate));
-        return WrapMapper.ok(copyrights);
+        PageInfo<CertificateVO> certificateVOPageInfo = PageInfo.of(copyrights.getList().stream().map(CopyrightController::toVO).collect(Collectors.toList()));
+        certificateVOPageInfo.setTotal(copyrights.getTotal());
+        return WrapMapper.ok(certificateVOPageInfo);
     }
 
     @PostMapping("/modifyCopyright")
     @ApiOperation("版权修改")
-    public Wrapper<String> createCopyright(@RequestBody @Valid CopyrightModifyParam copyrightModifyParam){
+    public Wrapper<String> modify(@RequestBody @Valid CopyrightModifyParam copyrightModifyParam){
         try{
             Certificate certificate = certificateService.selectByPrimaryKey(copyrightModifyParam.getId());
+            if(certificate == null){
+                return WrapMapper.error("对应版权不存在");
+            }
             Copyright copyright = copyrightService.selectByCopyRightId(certificate.getCopyrightId());
             if(copyright == null) {
                 return WrapMapper.error("对应版权不存在");
@@ -157,6 +164,22 @@ public class CertificateController {
             timelineItem.setTime(new Date());
             timelineItem.setEvent("修改版权");
             timeLineDTO.appendItem(timelineItem);
+            if(copyrightModifyParam.getResult() != null){
+                TimeLineDTO.TimelineItem item1 = new TimeLineDTO.TimelineItem();
+                if(0==copyrightModifyParam.getResult()) {
+                    if (certificate.getType() == 0) {
+                        certificate.setCerificateStatus(CopyRightStatusEnum.CONFIRMED_RIGHT.getCode());
+                    } else {
+                        certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
+                    }
+                    item1.setEvent("版权链证书颁发");
+                    certificate.setAuthorizationDate(new Date());
+                }else{
+                    certificate.setCerificateStatus(CopyRightStatusEnum.REJECTED.getCode());
+                    item1.setEvent("授权驳回");
+                }
+                timeLineDTO.appendItem(item1);
+            }
             certificate.setTimeLine(timeLineDTO.toBaseString());
             copyrightService.updateByPrimaryKeySelective(copyright);
             certificateService.updateByPrimaryKeySelective(certificate);

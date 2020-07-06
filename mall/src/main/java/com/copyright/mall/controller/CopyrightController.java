@@ -98,7 +98,7 @@ public class CopyrightController extends BaseController{
         certificate.setAuthorizedPerson(this.getUserId().toString());
         Page<Copyright> page = PageHelper.startPage(queryParam.getPageNum(),queryParam.getPageSize());
         List<CertificateDetail> copyrights = certificateService.selectListDetail(certificate);
-        List<CertificateVO> copyrightVOS = copyrights.stream().map(this::toVO).collect(Collectors.toList());
+        List<CertificateVO> copyrightVOS = copyrights.stream().map(CopyrightController::toVO).collect(Collectors.toList());
         PageInfo<CertificateVO> copyrightVoPageInfo = PageInfo.of(copyrightVOS);
         copyrightVoPageInfo.setTotal(page.getTotal());
         return WrapMapper.ok(copyrightVoPageInfo);
@@ -170,7 +170,7 @@ public class CopyrightController extends BaseController{
     }
 
 
-    private CertificateVO toVO(CertificateDetail certificate){
+    public static CertificateVO toVO(CertificateDetail certificate){
         CertificateVO copyrightVO = BeanMapperUtils.map(certificate,CertificateVO.class);
         copyrightVO.setTimeLine(certificate.getTimeLine());
         copyrightVO.setCerificateStatusDesc(Objects.requireNonNull(CopyRightStatusEnum.valueOf(certificate.getCerificateStatus())).getDesc());

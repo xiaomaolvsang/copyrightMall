@@ -163,7 +163,12 @@
         </if>
         <if test="copyrightId != null and copyrightId != '' ">and COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR}</if>
         <if test="cerificateStatus != null ">and CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER}</if>
-        <if test="authorizer != null and authorizer != '' ">and AUTHORIZER = #{authorizer,jdbcType=VARCHAR}</if>
+		<if test="statuses != null ">and CERIFICATE_STATUS In
+			<foreach collection="statuses" item="item" separator="," open="(" close=")">
+				#{item,jdbcType=INTEGER}
+			</foreach>
+		</if>
+		<if test="authorizer != null and authorizer != '' ">and AUTHORIZER = #{authorizer,jdbcType=VARCHAR}</if>
         <if test="authorizerName != null and authorizerName != '' ">and AUTHORIZER_NAME
 			like CONCAT('%',#{authorizerName,jdbcType=VARCHAR},'%')
         </if>

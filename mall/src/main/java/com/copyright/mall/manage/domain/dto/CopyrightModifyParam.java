@@ -43,4 +43,7 @@ public class CopyrightModifyParam {
 
     @ApiModelProperty(value = "登记号")
     private String registrationNo;
+
+    @ApiModelProperty(value = "通过 0 驳回 1")
+    private Integer result;
 }
