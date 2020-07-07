@@ -109,4 +109,7 @@ public class CertificateVO {
     private String authorizationType;
     private List<String> authorizationTypeList;
 
+    @ApiModelProperty("手机号")
+    private String phone;
+
 }
