@@ -1,6 +1,7 @@
 package com.copyright.mall.manage.controller;
 
 import com.copyright.mall.domain.requeest.opus.OpusParam;
+import com.copyright.mall.manage.domain.dto.OpusDelParam;
 import com.copyright.mall.manage.domain.dto.OpusManageParam;
 import com.copyright.mall.manage.domain.dto.OpusUpdateParam;
 import com.copyright.mall.manage.domain.dto.QueryShopParam;
@@ -41,4 +42,9 @@ public class ManageOpusController extends BaseManageController {
         return opusService.manageUpdate(opusUpdateParam);
     }
 
+    @PostMapping("/DelOpus")
+    @ApiOperation("作品删除")
+    public Wrapper<Boolean> delOpus(@ApiParam @Valid @RequestBody OpusDelParam opusDelParam) {
+        return opusService.delOpus(opusDelParam);
+    }
 }

@@ -12,6 +12,7 @@ import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.opus.*;
 import com.copyright.mall.domain.vo.opus.OpusResp;
 import com.copyright.mall.domain.vo.opus.OpusVO;
+import com.copyright.mall.manage.domain.dto.OpusDelParam;
 import com.copyright.mall.manage.domain.dto.OpusManageParam;
 import com.copyright.mall.manage.domain.dto.OpusUpdateParam;
 import com.copyright.mall.manage.domain.vo.OpusManageResp;
@@ -292,6 +293,12 @@ public class OpusService implements IOpusService {
         artistOpus.setOpusDesc(opusUpdateParam.getOpusContent());
         artistOpusMapper.updateByPrimaryKeySelective(artistOpus);
         return WrapMapper.ok();
+    }
+
+    @Override
+    public Wrapper<Boolean> delOpus(OpusDelParam opusDelParam) {
+        artistOpusMapper.deleteByPrimaryKey(opusDelParam.getId());
+        return  WrapMapper.ok();
     }
 
 }

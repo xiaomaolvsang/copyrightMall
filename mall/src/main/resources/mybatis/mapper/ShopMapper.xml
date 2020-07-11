@@ -110,17 +110,16 @@
 			<if test="gmtCreate != null">GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},</if>
 			<if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
 			<if test="mallId != null">MALL_ID = #{mallId,jdbcType=BIGINT},</if>
-			<if test="shopName != null">SHOP_NAME like concat('%',#{shopName,jdbcType=VARCHAR},'%'),</if>
+			<if test="shopName != null">SHOP_NAME = #{shopName,jdbcType=VARCHAR},</if>
 			<if test="shopLogo != null">SHOP_LOGO = #{shopLogo,jdbcType=VARCHAR},</if>
 			<if test="shopType != null">SHOP_TYPE = #{shopType,jdbcType=INTEGER},</if>
-			<if test="companyName != null">COMPANY_NAME like concat('%',#{companyName,jdbcType=VARCHAR},'%'),</if>
+			<if test="companyName != null">COMPANY_NAME = #{companyName,jdbcType=VARCHAR},</if>
 			<if test="certification != null">CERTIFICATION = #{certification,jdbcType=VARCHAR},</if>
 			<if test="shopImg != null">SHOP_IMG = #{shopImg,jdbcType=VARCHAR},</if>
 			<if test="shopArtcategory != null">SHOP_ARTCATEGORY = #{shopArtcategory,jdbcType=VARCHAR},</if>
 			<if test="isIdentification != null">IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER},</if>
 			<if test="shopStatus != null">SHOP_STATUS = #{shopStatus,jdbcType=INTEGER},</if>
 			<if test="phone != null">PHONE = #{phone,jdbcType=VARCHAR},</if>
-
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
 	</update>
