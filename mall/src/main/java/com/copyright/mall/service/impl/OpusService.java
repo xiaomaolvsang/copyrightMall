@@ -103,6 +103,7 @@ public class OpusService implements IOpusService {
                 opusGoods.setGoodsName(item.getItemTitle());
                 opusGoods.setPrice(item.getPrice());
                 opusGoods.setShopName(shop.getShopName());
+                opusGoods.setGoodsId(item.getId());
                 dataBean.setOpusGoods(opusGoods);
             }
         }

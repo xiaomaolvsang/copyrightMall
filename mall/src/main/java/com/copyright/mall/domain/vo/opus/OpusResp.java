@@ -41,5 +41,7 @@ public class OpusResp extends BasePage {
         private String shopName;
         @ApiModelProperty("价格")
         private int price;
+        @ApiModelProperty("商品id")
+        private Long goodsId;
     }
 }
