@@ -74,6 +74,18 @@ public class OpusService implements IOpusService {
         }
         Shop shop = shopService.selectByPrimaryKey(artistOpus.getItemId());
 
+        List<Item> items = itemService.selectAll();
+        Map<Long, List<Item>> itemsMap = items.stream().collect(Collectors.groupingBy(Item::getId));
+        CollectionUser collectionUser = new CollectionUser();
+        collectionUser.setUserId(opusParam.getUserId());
+        List<CollectionUser> collectionUsers = collectionUserMapper.selectByObjectList(collectionUser);
+        List<Long> opusIds;
+        if (collectionUsers != null && collectionUsers.size() > 0) {
+            opusIds = collectionUsers.stream().map(CollectionUser::getOpusId).collect(Collectors.toList());
+        } else {
+            opusIds = new ArrayList<>();
+        }
+
         List<OpusVO.DataBean.ProductImageBean> list = new ArrayList<>();
 
         dataBean.setArtistAvatar(shop.getShopLogo());
@@ -81,7 +93,19 @@ public class OpusService implements IOpusService {
         dataBean.setProductDesc(artistOpus.getOpusDesc());
         dataBean.setProductTitle(artistOpus.getTitle());
         dataBean.setPublishTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(artistOpus.getGmtModified()));
-
+        dataBean.setIfCollection(opusIds.contains(opusParam.getOpusId()));
+        if (itemsMap != null && itemsMap.get(artistOpus.getGoodsId()) != null) {
+            Optional<Item> optional = itemsMap.get(artistOpus.getGoodsId()).stream().findFirst();
+            if (optional.isPresent()) {
+                Item item = optional.get();
+                OpusResp.OpusGoods opusGoods = new OpusResp.OpusGoods();
+                opusGoods.setGoodsImg(item.getTitleImg());
+                opusGoods.setGoodsName(item.getItemTitle());
+                opusGoods.setPrice(item.getPrice());
+                opusGoods.setShopName(shop.getShopName());
+                dataBean.setOpusGoods(opusGoods);
+            }
+        }
 
         String imgs = artistOpus.getImgs();
         if (StringUtils.isNotBlank(imgs)) {

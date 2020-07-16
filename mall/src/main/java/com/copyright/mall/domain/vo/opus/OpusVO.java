@@ -39,6 +39,9 @@ public class OpusVO {
     private String productTitle;
     private String productDesc;
     private List<ProductImageBean> productImage;
+    private Boolean ifCollection;
+
+    private OpusResp.OpusGoods opusGoods;
 
     @Data
     public static class ProductImageBean {

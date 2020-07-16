@@ -45,6 +45,7 @@ public class OpusController extends BaseController {
   @PostMapping("/opusDesc")
   @ControllerErro
   public Wrapper<OpusVO> productDesc(@RequestBody @ApiParam @Valid OpusParam opusParam){
+    opusParam.setUserId(getUserId());
     return WrapMapper.ok(opusService.getOpus(opusParam));
   }
 

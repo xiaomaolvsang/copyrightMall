@@ -23,4 +23,6 @@ public class OpusParam {
   @ApiModelProperty("版权id")
   @NotNull(message = "opusId不能为空")
   private Long opusId;
+
+  private Long userId;
 }
