@@ -57,7 +57,15 @@ public class Shop implements Serializable {
 	/**联系电话**/
 	private String phone;
 
+	private String idCard;
 
+	public String getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
 
 	public void setId(Long id){
 		this.id = id;

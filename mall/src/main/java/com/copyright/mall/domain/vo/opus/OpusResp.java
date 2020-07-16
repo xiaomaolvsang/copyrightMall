@@ -26,4 +26,20 @@ public class OpusResp extends BasePage {
     private String opusDesc;
     @ApiModelProperty("作品图片集")
     private List<String> opusImgs;
+    @ApiModelProperty("相关商品")
+    private OpusGoods opusGoods;
+    @ApiModelProperty("是否收藏 true(是)")
+    private Boolean ifCollection;
+
+    @Data
+    public static class OpusGoods{
+        @ApiModelProperty("商品图片")
+        private String goodsImg;
+        @ApiModelProperty("商品名称")
+        private String goodsName;
+        @ApiModelProperty("店铺名称")
+        private String shopName;
+        @ApiModelProperty("价格")
+        private int price;
+    }
 }

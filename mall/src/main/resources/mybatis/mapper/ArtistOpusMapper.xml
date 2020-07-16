@@ -17,12 +17,13 @@
         <result property="gmtModified" column="GMT_MODIFIED" jdbcType="TIMESTAMP"/>
         <result property="likesNum" column="LIKES_NUM" jdbcType="BIGINT"/>
         <result property="status" column="STATUS" jdbcType="INTEGER"/>
+        <result property="goodsId" column="GOODS_ID" jdbcType="BIGINT"/>
     </resultMap>
 
 
     <!-- 通用查询结果集合-->
     <sql id="Base_Column_List">
-        id, IMAGE, ITEM_ID, NAME, TITLE, OPUS_DESC, IMGS, GMT_CREATE, GMT_MODIFIED, LIKES_NUM, STATUS
+        id, IMAGE, ITEM_ID, NAME, TITLE, OPUS_DESC, IMGS, GMT_CREATE, GMT_MODIFIED, LIKES_NUM, STATUS, GOODS_ID
     </sql>
 
     <!-- 公共查询条件-->
@@ -41,6 +42,7 @@
         <if test="gmtModified != null and gmtModified != '' ">and GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP}</if>
         <if test="likesNum != null and likesNum != '' ">and LIKES_NUM = #{likesNum,jdbcType=BIGINT}</if>
         <if test="status != null ">and STATUS = #{status,jdbcType=INTEGER}</if>
+        <if test="goodsId != null ">and GOODS_ID = #{goodsId,jdbcType=BIGINT}</if>
     </sql>
 
     <!-- 查询（根据主键ID查询） -->
@@ -72,6 +74,7 @@
             <if test="gmtModified != null">GMT_MODIFIED,</if>
             <if test="likesNum != null">LIKES_NUM,</if>
             <if test="status != null">STATUS,</if>
+            <if test="goodsId != null">GOODS_ID,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -85,6 +88,7 @@
             <if test="gmtModified!=null">#{gmtModified,jdbcType=TIMESTAMP},</if>
             <if test="likesNum!=null">#{likesNum,jdbcType=BIGINT},</if>
             <if test="status!=null">#{status,jdbcType=INTEGER},</if>
+            <if test="goodsId!=null">#{goodsId,jdbcType=BIGINT},</if>
         </trim>
     </insert>
 
@@ -102,7 +106,7 @@
             <if test="gmtModified != null">GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},</if>
             <if test="likesNum != null">LIKES_NUM = #{likesNum,jdbcType=BIGINT},</if>
             <if test="status != null">STATUS = #{status,jdbcType=INTEGER},</if>
-
+            <if test="goodsId!=null">GOODS_ID = #{goodsId,jdbcType=BIGINT},</if>
         </set>
         WHERE ID = #{id,jdbcType=BIGINT}
     </update>
@@ -163,6 +167,17 @@
         <if test="opusTitle!=null">
             and TITLE like concat('%',#{opusTitle,jdbcType=VARCHAR},'%')
         </if>
+        order by ID desc
+    </select>
+
+    <select id="selectByOpusIds" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artist_opus
+        WHERE 1=1
+        and ID in
+        <foreach collection="opusIds" open="(" separator="," close=")" index="index" item="id">#{id,jdbcType=BIGINT}
+        </foreach>
         order by ID desc
     </select>
 </mapper>

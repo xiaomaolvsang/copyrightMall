@@ -71,6 +71,7 @@ public class ManageArtistController extends BaseManageController {
             artistManageResp.setName(s.getCompanyName());
             artistManageResp.setPetName(s.getShopName());
             artistManageResp.setPhone(s.getPhone());
+            artistManageResp.setIdCardImg(s.getIdCard());
             List<UserShopRelation> userShopRelations = userShopRelationService.selectByShopId(s.getId());
             if (!CollectionUtils.isEmpty(userShopRelations)) {
                 UserShopRelation shopRelation = userShopRelations.get(0);
@@ -97,6 +98,7 @@ public class ManageArtistController extends BaseManageController {
         shop.setShopStatus(passArtistParam.getStatus());
         shop.setShopLogo(passArtistParam.getLogo());
         shop.setShopArtcategory(passArtistParam.getArtCategory());
+        shop.setIdCard(passArtistParam.getIdCard());
         shopMapper.updateByPrimaryKeySelective(shop);
 
         User user = userService.selectByPhone(passArtistParam.getUserPhone());

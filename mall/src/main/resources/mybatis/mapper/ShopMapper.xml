@@ -20,16 +20,17 @@
 		<result property="isIdentification" column="IS_IDENTIFICATION" jdbcType="INTEGER" />
 		<result property="shopStatus" column="SHOP_STATUS" jdbcType="INTEGER" />
 		<result property="phone" column="PHONE" jdbcType="VARCHAR" />
+		<result property="idCard" column="ID_CARD" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG,	SHOP_ARTCATEGORY,	IS_IDENTIFICATION,	SHOP_STATUS,	PHONE
+	id,	GMT_CREATE,	GMT_MODIFIED,	MALL_ID,	SHOP_NAME,	SHOP_LOGO,	SHOP_TYPE,	COMPANY_NAME,	CERTIFICATION,	SHOP_IMG,	SHOP_ARTCATEGORY,	IS_IDENTIFICATION,	SHOP_STATUS,	PHONE, ID_CARD
 	</sql>
 
 	<sql id="Shop_Base_Column_List">
-		s.id,	s.GMT_CREATE,	s.GMT_MODIFIED,	s.MALL_ID,	s.SHOP_NAME,	s.SHOP_LOGO,	s.SHOP_TYPE,	s.COMPANY_NAME,	s.CERTIFICATION,	s.SHOP_IMG,	s.SHOP_ARTCATEGORY,	s.IS_IDENTIFICATION
+		s.id,	s.GMT_CREATE,	s.GMT_MODIFIED,	s.MALL_ID,	s.SHOP_NAME,	s.SHOP_LOGO,	s.SHOP_TYPE,	s.COMPANY_NAME,	s.CERTIFICATION,	s.SHOP_IMG,	s.SHOP_ARTCATEGORY,	s.IS_IDENTIFICATION ,s.ID_CARD
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -50,6 +51,7 @@
 		<if test="isIdentification != null "> and IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER} </if>
 		<if test="shopStatus != null "> and SHOP_STATUS = #{shopStatus,jdbcType=INTEGER} </if>
 		<if test="phone != null "> and PHONE = #{phone,jdbcType=VARCHAR} </if>
+		<if test="idCard != null "> and ID_CARD = #{idCard,jdbcType=VARCHAR} </if>
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
@@ -84,6 +86,7 @@
 			<if test="isIdentification != null"> IS_IDENTIFICATION,</if>
 			<if test="shopStatus != null"> SHOP_STATUS,</if>
 			<if test="phone != null"> PHONE,</if>
+			 <if test="idCard != null"> ID_CARD,</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id!=null">#{id,jdbcType=BIGINT},</if>
@@ -100,6 +103,7 @@
 			<if test="isIdentification!=null">#{isIdentification,jdbcType=INTEGER},</if>
 			<if test="shopStatus!=null">#{shopStatus,jdbcType=INTEGER},</if>
 			<if test="phone!=null">#{phone,jdbcType=VARCHAR},</if>
+			 <if test="idCard!=null">#{idCard,jdbcType=VARCHAR},</if>
 		 </trim>
 	</insert>
 
@@ -120,6 +124,7 @@
 			<if test="isIdentification != null">IS_IDENTIFICATION = #{isIdentification,jdbcType=INTEGER},</if>
 			<if test="shopStatus != null">SHOP_STATUS = #{shopStatus,jdbcType=INTEGER},</if>
 			<if test="phone != null">PHONE = #{phone,jdbcType=VARCHAR},</if>
+			 <if test="idCard != null">ID_CARD = #{idCard,jdbcType=VARCHAR},</if>
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
 	</update>

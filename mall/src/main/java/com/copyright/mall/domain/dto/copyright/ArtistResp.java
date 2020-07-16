@@ -26,4 +26,6 @@ public class ArtistResp {
     private String certification;
     @ApiModelProperty("艺术家id")
     private Long id;
+    @ApiModelProperty("证件照")
+    private String idCardImg;
 }

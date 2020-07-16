@@ -63,7 +63,6 @@ public class ArtistController extends BaseController {
             }
         }
 
-
         shop.setShopName(artistParam.getPetName());
         shop.setCompanyName(artistParam.getName());
         shop.setPhone(artistParam.getPhone());
@@ -73,6 +72,8 @@ public class ArtistController extends BaseController {
         shop.setShopType(ShopTypeEnum.artist.getCode());
         shop.setCertification(artistParam.getCertification());
         shop.setShopStatus(ShopStatusEnum.init.getCode());
+        shop.setIdCard(artistParam.getIdCardImg());
+
         shop.setMallId(1L);
         if(shop.getId() == null){
             shopService.insertSelective(shop);

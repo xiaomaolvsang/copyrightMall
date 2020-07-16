@@ -29,4 +29,6 @@ public class ArtistParam {
     private String certification;
     @ApiModelProperty("我自己取")
     private String userId;
+    @ApiModelProperty("证件照")
+    private String idCardImg;
 }

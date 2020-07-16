@@ -48,7 +48,15 @@ public class ArtistOpus implements Serializable {
 	/**发布状态（0审核未通过，1审核通过）**/
 	private Integer status;
 
+	private Long goodsId;
 
+	public Long getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(Long goodsId) {
+		this.goodsId = goodsId;
+	}
 
 	public void setId(Long id){
 		this.id = id;

@@ -1,16 +1,15 @@
 package com.copyright.mall.service.impl;
 
-import com.copyright.mall.bean.ArtistOpus;
-import com.copyright.mall.bean.LikeOpusRelation;
-import com.copyright.mall.bean.Shop;
-import com.copyright.mall.bean.UserShopRelation;
+import com.copyright.mall.bean.*;
 import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.dao.ArtistOpusMapper;
+import com.copyright.mall.dao.CollectionUserMapper;
 import com.copyright.mall.dao.LikeOpusRelationMapper;
 import com.copyright.mall.domain.exception.BusinessException;
 import com.copyright.mall.domain.requeest.opus.*;
 import com.copyright.mall.domain.vo.opus.OpusResp;
+import com.copyright.mall.domain.vo.opus.OpusResp.OpusGoods;
 import com.copyright.mall.domain.vo.opus.OpusVO;
 import com.copyright.mall.manage.domain.dto.OpusDelParam;
 import com.copyright.mall.manage.domain.dto.OpusManageParam;
@@ -18,6 +17,7 @@ import com.copyright.mall.manage.domain.dto.OpusUpdateParam;
 import com.copyright.mall.manage.domain.vo.OpusManageResp;
 import com.copyright.mall.service.IOpusService;
 import com.copyright.mall.service.IShopService;
+import com.copyright.mall.util.ListUtil;
 import com.copyright.mall.util.TimeUtil;
 import com.copyright.mall.util.wrapper.WrapMapper;
 import com.copyright.mall.util.wrapper.Wrapper;
@@ -56,6 +56,12 @@ public class OpusService implements IOpusService {
 
     @Resource
     private LikeOpusRelationMapper likeOpusRelationMapper;
+
+    @Resource
+    private ItemService itemService;
+
+    @Resource
+    private CollectionUserMapper collectionUserMapper;
 
     @Override
     public OpusVO getOpus(OpusParam opusParam) {
@@ -97,6 +103,17 @@ public class OpusService implements IOpusService {
     public PageInfo<OpusResp> selectByObjectListDesc(OpusReq opusReq) {
         Page page = PageHelper.startPage(opusReq.getPageNum(), opusReq.getPageSize());
         List<ArtistOpus> artistOpuses = artistOpusMapper.selectByObjectListDesc(new ArtistOpus());
+        List<Item> items = itemService.selectAll();
+        Map<Long, List<Item>> itemsMap = items.stream().collect(Collectors.groupingBy(Item::getId));
+        CollectionUser collectionUser = new CollectionUser();
+        collectionUser.setUserId(opusReq.getUserId());
+        List<CollectionUser> collectionUsers = collectionUserMapper.selectByObjectList(collectionUser);
+        List<Long> opusIds;
+        if (collectionUsers != null && collectionUsers.size() > 0) {
+            opusIds = collectionUsers.stream().map(CollectionUser::getOpusId).collect(Collectors.toList());
+        } else {
+            opusIds = new ArrayList<>();
+        }
         Shop shop = new Shop();
         shop.setMallId(1L);
         Map<Long, List<Shop>> map = getShopMap(shop).collect(Collectors.groupingBy(Shop::getId));
@@ -116,6 +133,23 @@ public class OpusService implements IOpusService {
             }
             opusResp.setOpusId(artistOpus.getId());
             opusResp.setOpusDesc(artistOpus.getOpusDesc());
+            if (itemsMap != null && itemsMap.get(artistOpus.getGoodsId()) != null) {
+                Optional<Item> optional = itemsMap.get(artistOpus.getGoodsId()).stream().findFirst();
+                if (optional.isPresent() && shopOptional.isPresent()) {
+                    Item item = optional.get();
+                    OpusResp.OpusGoods opusGoods = new OpusResp.OpusGoods();
+                    opusGoods.setGoodsImg(item.getTitleImg());
+                    opusGoods.setGoodsName(item.getItemTitle());
+                    opusGoods.setPrice(item.getPrice());
+                    opusGoods.setShopName(shopOptional.get().get(0).getShopName());
+                    opusResp.setOpusGoods(opusGoods);
+                }
+            }
+            if (opusIds.contains(artistOpus.getId())) {
+                opusResp.setIfCollection(true);
+            } else {
+                opusResp.setIfCollection(false);
+            }
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);
@@ -193,6 +227,8 @@ public class OpusService implements IOpusService {
             return WrapMapper.error("请先申请艺术家");
         }
         Shop shop1 = shopOptional.get();
+        List<Item> items = itemService.selectAll();
+        Map<Long, List<Item>> itemsMap = items.stream().collect(Collectors.groupingBy(Item::getId));
         Page page = PageHelper.startPage(opusReq.getPageNum(), opusReq.getPageSize());
         ArtistOpus artistOpus = new ArtistOpus();
         artistOpus.setItemId(shop1.getId());
@@ -210,6 +246,18 @@ public class OpusService implements IOpusService {
             opusResp.setOpusId(artistOpus1.getId());
             opusResp.setOpusDesc(artistOpus1.getOpusDesc());
             opusResp.setOpusImgs(list);
+            if (itemsMap != null && itemsMap.get(artistOpus.getGoodsId()) != null) {
+                Optional<Item> optional = itemsMap.get(artistOpus.getGoodsId()).stream().findFirst();
+                if (optional.isPresent() && shopOptional.isPresent()) {
+                    Item item = optional.get();
+                    OpusResp.OpusGoods opusGoods = new OpusResp.OpusGoods();
+                    opusGoods.setGoodsImg(item.getTitleImg());
+                    opusGoods.setGoodsName(item.getItemTitle());
+                    opusGoods.setPrice(item.getPrice());
+                    opusGoods.setShopName(shopOptional.get().getShopName());
+                    opusResp.setOpusGoods(opusGoods);
+                }
+            }
             resp.add(opusResp);
         }
         PageInfo<OpusResp> pageResp = PageInfo.of(resp);
@@ -298,7 +346,7 @@ public class OpusService implements IOpusService {
     @Override
     public Wrapper<Boolean> delOpus(OpusDelParam opusDelParam) {
         artistOpusMapper.deleteByPrimaryKey(opusDelParam.getId());
-        return  WrapMapper.ok();
+        return WrapMapper.ok();
     }
 
 }

@@ -26,4 +26,6 @@ public class PassArtistParam {
     private String userPhone;
     @ApiModelProperty("密码")
     private String passwd;
+    @ApiModelProperty("证件照")
+    private String idCard;
 }

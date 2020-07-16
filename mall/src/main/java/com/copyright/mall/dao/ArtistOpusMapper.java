@@ -35,4 +35,7 @@ public interface ArtistOpusMapper {
 	public int likeOpus(Long id);
 
 	public List<ArtistOpus> selectByShopIds(@Param("shopIds") List<Long> shopIds,@Param("opusTitle") String opusTitle);
+
+	public List<ArtistOpus> selectByOpusIds(@Param("opusIds") List<Long> opusIds);
+
 }

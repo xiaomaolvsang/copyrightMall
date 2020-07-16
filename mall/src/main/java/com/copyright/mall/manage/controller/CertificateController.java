@@ -220,6 +220,7 @@ public class CertificateController {
             artistResp.setOpusImg(shop1.getShopImg());
             artistResp.setPhone(shop1.getPhone());
             artistResp.setShopArtCategory(shop1.getShopArtcategory());
+            artistResp.setIdCardImg(shop1.getIdCard());
             list.add(artistResp);
         });
         PageInfo<ArtistResp> pageInfo = PageInfo.of(list);

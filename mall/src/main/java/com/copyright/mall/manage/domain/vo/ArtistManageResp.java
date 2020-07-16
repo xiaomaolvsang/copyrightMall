@@ -26,4 +26,6 @@ public class ArtistManageResp extends BasePage {
     private String userPhone;
     @ApiModelProperty("用户id")
     private Long userId;
+    @ApiModelProperty("证件照")
+    private String idCardImg;
 }
