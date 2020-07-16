@@ -94,8 +94,8 @@ public class CollectionUserController extends BaseController {
             }
             opusResp.setOpusId(artistOpus.getId());
             opusResp.setOpusDesc(artistOpus.getOpusDesc());
-            Optional<Item> optional = itemsMap.get(artistOpus.getGoodsId()).stream().findFirst();
             if (itemsMap != null && itemsMap.get(artistOpus.getGoodsId()) != null) {
+                Optional<Item> optional = itemsMap.get(artistOpus.getGoodsId()).stream().findFirst();
                 if (optional.isPresent() && shopOptional.isPresent()) {
                     Item item = optional.get();
                     OpusResp.OpusGoods opusGoods = new OpusResp.OpusGoods();
