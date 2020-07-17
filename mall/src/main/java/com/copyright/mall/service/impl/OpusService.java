@@ -75,7 +75,7 @@ public class OpusService implements IOpusService {
         Shop shop = shopService.selectByPrimaryKey(artistOpus.getItemId());
 
         List<Item> items = itemService.selectAll();
-        Map<Long, List<Item>> itemsMap = items.stream().collect(Collectors.groupingBy(Item::getId));
+        Map<Long, List<Item>> itemsMap = items.stream().filter(item -> item.getItemStatus() == 1).collect(Collectors.groupingBy(Item::getId));
         CollectionUser collectionUser = new CollectionUser();
         collectionUser.setUserId(opusParam.getUserId());
         List<CollectionUser> collectionUsers = collectionUserMapper.selectByObjectList(collectionUser);
