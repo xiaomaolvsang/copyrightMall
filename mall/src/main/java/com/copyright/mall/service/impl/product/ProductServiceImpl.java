@@ -89,6 +89,7 @@ public class ProductServiceImpl implements IProductService {
             List<Item> items = itemService.selectAll();
             List<Item> itemResult = items.stream().filter(item ->
                     shopIds.contains(item.getShopId()) && item.getItemTitle().contains(productSearchParam.getKeyword())
+                            && item.getItemStatus() == 1
             ).skip((productSearchParam.getPageNo()) * productSearchParam.getPageSize())
                     .limit(productSearchParam.getPageSize())
                     .collect(Collectors.toList());
@@ -181,7 +182,7 @@ public class ProductServiceImpl implements IProductService {
 
         ProductByClassVO productByClassVO = new ProductByClassVO();
         List<AreaVO.AreaAttr> attrList = new ArrayList<>();
-        items.stream().filter(item -> itemIds.contains(item.getId()))
+        items.stream().filter(item -> itemIds.contains(item.getId()) && item.getItemStatus() == 1)
                 .forEach(item -> {
                     AreaVO.AreaAttr areaAttr = new AreaVO.AreaAttr();
                     areaAttr.setImage(item.getTitleImg());
@@ -451,7 +452,7 @@ public class ProductServiceImpl implements IProductService {
         List<Long> shopIds = shops.stream().map(Shop::getId).collect(Collectors.toList());
         List<Item> items = itemService.selectAll();
         List<Item> itemResult = items.stream().filter(item ->
-                shopIds.contains(item.getShopId())
+                shopIds.contains(item.getShopId()) && item.getItemStatus() == 1
         ).sorted(Comparator.comparing(Item::getId)).skip((areaParam.getPageNum()) * areaParam.getPageSize())
                 .limit(areaParam.getPageSize())
                 .collect(Collectors.toList());
