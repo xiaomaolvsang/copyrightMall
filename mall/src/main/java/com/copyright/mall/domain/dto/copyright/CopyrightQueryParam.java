@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class CopyrightQueryParam extends BasePage {
 
-    @ApiModelProperty(value = "状态 10待审核 20已驳回 30已确权 40已授权")
+    @ApiModelProperty(value = "状态 10待审核 20已驳回 30已受区块链保护 40已授权")
     private int status;
 
     @ApiModelProperty(value = "版权名称")
@@ -24,7 +24,7 @@ public class CopyrightQueryParam extends BasePage {
     @ApiModelProperty
     private Integer id;
 
-    @ApiModelProperty(value = "状态 10待审核 20已驳回 30已确权 40已授权")
+    @ApiModelProperty(value = "状态 10待审核 20已驳回 30已受区块链保护 40已授权")
     private List<Integer> statuses;
 
 }

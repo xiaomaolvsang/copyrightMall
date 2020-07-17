@@ -7,7 +7,7 @@ public enum CopyRightStatusEnum {
      */
     APPLYING(10,"申请中"),
     REJECTED(20,"已驳回"),
-    CONFIRMED_RIGHT(30,"已确权"),
+    CONFIRMED_RIGHT(30,"已受区块链保护"),
     AUTHORIZED(40,"已授权");
 
 
