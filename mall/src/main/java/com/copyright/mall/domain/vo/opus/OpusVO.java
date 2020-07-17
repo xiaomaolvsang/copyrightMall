@@ -35,6 +35,7 @@ public class OpusVO {
 
     private String artistAvatar;
     private String artistName;
+    private Long artistId;
     private String publishTime;
     private String productTitle;
     private String productDesc;
