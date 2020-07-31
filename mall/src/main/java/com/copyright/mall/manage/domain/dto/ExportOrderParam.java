@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Api("导出订单参数")
 @Data
@@ -38,4 +39,8 @@ public class ExportOrderParam {
 
     @ApiModelProperty("商品名称")
     private String itemName;
+
+    @ApiModelProperty("状态")
+    private List<Integer> status;
+
 }

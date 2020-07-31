@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -41,7 +42,9 @@ public class QueryOrderListParam extends BasePage {
 
     @ApiModelProperty("商品名称")
     private String itemName;
-    
+
+    @ApiModelProperty("状态")
+    private List<Integer> status;
 
 }
 
