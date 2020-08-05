@@ -2,14 +2,12 @@ package com.copyright.mall.service.impl;
 
 import com.copyright.mall.bean.User;
 import com.copyright.mall.dao.UserMapper;
-import com.copyright.mall.manage.domain.dto.LoginParam;
 import com.copyright.mall.service.IUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,6 +66,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User selectByPhone(String phone) {
         User parm = new User();
+        if(StringUtils.isEmpty(phone)){
+            return null;
+        }
         parm.setPhone(phone);
         List<User> users =  userMapper.selectByObjectList(parm);
         if(CollectionUtils.isEmpty(users)){

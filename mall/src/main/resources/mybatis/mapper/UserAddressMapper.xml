@@ -59,6 +59,7 @@
 		 WHERE ID = #{id,jdbcType=INTEGER}
 	</delete>
 
+
 	<!-- 添加 （匹配有值的字段,不建议使用）-->
 	<insert id="insertSelective" parameterType="com.copyright.mall.bean.UserAddress">
 		INSERT INTO user_address

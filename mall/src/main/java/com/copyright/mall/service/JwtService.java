@@ -68,7 +68,7 @@ public class JwtService {
 
     public static void main(String[] args) {
         //管理员  oCxeq5U8YORcLW1WuvHLIihSp4fg
-        String token = new JwtService().generateToken("oCxeq5fzvLiyIIBXy0Nlnn9hQiSM");
+        String token = new JwtService().getClaimFromToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvXy03RjVBUlJISS1XQ3REN2VaTU9wNDFWM0NnIiwidXNlcl9pZCI6Im9fLTdGNUFSUkhJLVdDdEQ3ZVpNT3A0MVYzQ2ciLCJleHAiOjE1OTY4MzIxNDEsImlhdCI6MTU5NjU5MjE0MX0.vhrqkf68ORQ_KoBlq9hG53f3OixvYfXV77jL8ZLeoPI").getSubject();
         System.out.println(token);
     }
 
