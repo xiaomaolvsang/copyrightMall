@@ -65,7 +65,7 @@ public class LoginController extends BaseController {
     public Wrapper<Boolean> encryptedInfo(QueryEncryptedInfoParam queryEncryptedInfoParam) {
         WeChatUserInfo weChatUserInfo = wechatUserService.getSensitiveData(this.getRealUserId(), queryEncryptedInfoParam.getEncryptedData(), queryEncryptedInfoParam.getIv(),"v1");
         User user = new User();
-        user.setId(this.getUserId());
+        user.setId(this.getRealUserId());
         user.setPhone(weChatUserInfo.getPhone());
         userService.saveOrUpdate(user);
         return WrapMapper.ok();
