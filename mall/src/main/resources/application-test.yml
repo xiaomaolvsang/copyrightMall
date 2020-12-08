@@ -10,10 +10,15 @@ mybatis:
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 server:
-  port: 443
+  ssl:
+    key-store: classpath:fullchain_and_key.jks
+    key-store-password: 123456
+    key-store-type: JKS
+    enable: true
+
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: rightcopy!MALL
-    url: jdbc:mysql://rm-2ze7348dnu2p4ou9mlo.mysql.rds.aliyuncs.com:3306/copyright_mall_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: copyright
+    password: lin5241!
+    url: jdbc:mysql://cdb-1t8tuop0.bj.tencentcdb.com:10130/go_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
