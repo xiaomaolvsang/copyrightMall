@@ -9,11 +9,16 @@ logging:
 mybatis:
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+server:
+  ssl:
+    key-store: classpath:fullchain_and_key.jks
+    key-store-password: 123456
+    key-store-type: JKS
+    enable: true
+
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    password: 123456
-    url: jdbc:mysql://localhost:3306/mytest?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: lin5241!
+    url: jdbc:mysql://cdb-1t8tuop0.bj.tencentcdb.com:10130/go_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
-server:
-  port: 443
