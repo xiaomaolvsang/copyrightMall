@@ -15,7 +15,7 @@ server:
     key-store-password: 123456
     key-store-type: JKS
     enable: true
-
+  port: 443
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
