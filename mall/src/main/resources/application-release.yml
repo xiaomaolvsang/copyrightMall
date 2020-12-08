@@ -19,6 +19,6 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: lin5241!
-    url: jdbc:mysql://cdb-1t8tuop0.bj.tencentcdb.com:10130/go_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: root
+    password: woshilijianWoAichiTudou!
+    url: jdbc:mysql://rm-2zeibb8575f8bc1c4.mysql.rds.aliyuncs.com:3306/go_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: jiangechitudou
