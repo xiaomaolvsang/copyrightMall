@@ -16,6 +16,7 @@ weChat:
 
 server:
   ssl:
-    key-store: classpath:api.beartcenter.com.pfx
-    key-store-password: 7Oq59KeY
-    key-store-type: PKCS12
+    key-store: classpath:ssl/api.798ipartstore.com.jks
+    key-store-password: 123456
+    key-store-type: JKS
+    keyAlias: copyright
