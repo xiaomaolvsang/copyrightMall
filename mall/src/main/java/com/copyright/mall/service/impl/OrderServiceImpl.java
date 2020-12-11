@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
-    public String createOrder(CreateOrderDTO createOrderDTO) {
+    public MallOrder createOrder(CreateOrderDTO createOrderDTO) {
         Integer mallTotalPrice =0;
         MallOrder mallOrder = new MallOrder();
         mallOrder.setMallOrderId(IDUtil.generatorID("MID"));
@@ -184,7 +184,7 @@ public class OrderServiceImpl implements OrderService {
         deleteCartParam.setUserId(createOrderDTO.getUserId());
         deleteCartParam.setSkus(deleteSkus);
         cartService.deleteBySkus(deleteCartParam);
-        return mallOrder.getMallOrderId();
+        return mallOrder;
     }
 
     @Override

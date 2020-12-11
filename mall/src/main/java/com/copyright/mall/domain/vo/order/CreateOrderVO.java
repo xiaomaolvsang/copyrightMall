@@ -16,4 +16,9 @@ public class CreateOrderVO {
     @ApiModelProperty("订单号")
     private String orderNo;
 
+
+    private String nonceStr;
+
+    @JSONField(name = "package")
+    private String prepayId;
 }

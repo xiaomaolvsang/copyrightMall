@@ -29,6 +29,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (request.getRequestURL().toString().contains("manage")) {
             return true;
         }
+        if (request.getRequestURL().toString().contains("pay")) {
+            return true;
+        }
         if (request.getRequestURL().toString().toUpperCase().contains("v2".toUpperCase())) {
             return true;
         }

@@ -21,7 +21,9 @@ import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.wxpay.sdk.*;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,8 +32,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author : zhangyuchen
@@ -120,11 +122,40 @@ public class OrderController extends BaseController {
         CreateOrderDTO createOrderDTO = BeanMapperUtils.map(createOrderParam, CreateOrderDTO.class);
         createOrderDTO.setUserId(this.getUserId());
         createOrderDTO.setMallId(this.getMallId());
-        String mallOrderId = orderService.createOrder(createOrderDTO);
+        MallOrder mallOrderId = orderService.createOrder(createOrderDTO);
         CreateOrderVO createOrderVO = new CreateOrderVO();
-        createOrderVO.setOrderNo(mallOrderId);
+        createOrderVO.setOrderNo(mallOrderId.getMallOrderId());
+        try {
+            //调用微信预生单
+            MallWXPayConfig wxPayConfig = new MallWXPayConfig();
+            WXPay wxPay = new WXPay(wxPayConfig);
+            Map<String, String> data = new HashMap<String, String>();
+            data.put("body", "i");
+            String out_trade_no = String.valueOf(mallOrderId);
+            data.put("out_trade_no", out_trade_no);//商户订单号
+            data.put("total_fee", mallOrderId.getPrice().toString());
+            data.put("spbill_create_ip","182.92.128.239");
+            data.put("notify_url", "https://api.798ipartstore.com/v1/order/pay");
+            data.put("trade_type", "NATIVE");  // 此处指定为扫码支付
+            Map<String, String> resp = Maps.newHashMap();
+            try {
+                resp = wxPay.unifiedOrder(data);
+                System.out.println(resp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String nonceStr = WXPayUtil.generateNonceStr();
+            String prepayId = "prepay_id="+resp.get("prepay_id");
+            createOrderVO.setNonceStr(nonceStr);
+            createOrderVO.setPrepayId(prepayId);
+        } catch (Exception e) {
+            log.error("wx eception e = {}",e.getMessage(),e);
+            return WrapMapper.error("微信预生单失败");
+        }
         return WrapMapper.ok(createOrderVO);
     }
+
+
 
     @GetMapping("/unpaidOrderList")
     @ApiOperation("代付款订单列表")
@@ -259,10 +290,45 @@ public class OrderController extends BaseController {
 
     @PostMapping("/pay")
     @ApiOperation("支付")
-    public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam PayDTO payDTO) {
-        log.info("支付订单{}", payDTO);
+    public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam String body) {
+        log.info("支付订单{}", body);
+        Map<String,String> data = Maps.newHashMap();
+        try {
+            data = WXPayUtil.xmlToMap(body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PayDTO payDTO = new PayDTO();
+        payDTO.setOrderId(String.valueOf((data.get("out_trade_no"))));
         orderService.payOrder(payDTO);
         return WrapMapper.ok(true);
     }
 
+
+    public static void main(String[] args) throws Exception {
+        //调用微信预生单
+        MallWXPayConfig wxPayConfig = new MallWXPayConfig();
+        WXPay wxPay = new WXPay(wxPayConfig);
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("body", "i");
+        String out_trade_no = String.valueOf("1234567");
+        System.out.println("out_trade_no"+out_trade_no);
+        data.put("out_trade_no", out_trade_no);//商户订单号
+        data.put("total_fee", "1");
+        data.put("spbill_create_ip","182.92.128.239");
+        data.put("notify_url", "https://api.798ipartstore.com/v1/order/pay");
+        data.put("trade_type", "NATIVE");  // 此处指定为扫码支付
+        Map<String, String> resp = Maps.newHashMap();
+        try {
+            resp = wxPay.unifiedOrder(data);
+            System.out.println(resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //调用再次签名
+        Long nowTime = System.currentTimeMillis()/1000;
+        String nonceStr = WXPayUtil.generateNonceStr();
+        String prepayId = "prepay_id="+resp.get("prepay_id");
+
+    }
 }
