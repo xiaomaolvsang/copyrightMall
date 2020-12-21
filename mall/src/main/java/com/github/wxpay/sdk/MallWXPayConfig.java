@@ -26,6 +26,17 @@ public class MallWXPayConfig extends WXPayConfig{
 
     @Override
     IWXPayDomain getWXPayDomain() {
-        return null;
+        IWXPayDomain iwxPayDomain = new IWXPayDomain() {
+
+            public void report(String domain, long elapsedTimeMillis, Exception ex) {
+
+            }
+
+            public DomainInfo getDomain(WXPayConfig config) {
+                return new IWXPayDomain.DomainInfo(WXPayConstants.DOMAIN_API, true);
+            }
+        };
+        return iwxPayDomain;
+
     }
 }

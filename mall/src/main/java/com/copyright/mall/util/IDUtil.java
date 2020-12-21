@@ -9,6 +9,6 @@ import java.util.UUID;
 public class IDUtil {
 
     public static String generatorID(String prefix){
-        return prefix+UUID.randomUUID().toString().replaceAll("-","");
+        return prefix+UUID.randomUUID().toString().replaceAll("-","").substring(0,5)+System.currentTimeMillis()/1000;
     }
 }

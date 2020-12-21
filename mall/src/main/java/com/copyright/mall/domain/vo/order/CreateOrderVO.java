@@ -21,4 +21,6 @@ public class CreateOrderVO {
 
     @JSONField(name = "package")
     private String prepayId;
+
+    private String sign;
 }

@@ -128,10 +128,10 @@ public class OrderController extends BaseController {
         try {
             //调用微信预生单
             MallWXPayConfig wxPayConfig = new MallWXPayConfig();
-            WXPay wxPay = new WXPay(wxPayConfig);
+            WXPay wxPay = new WXPay(wxPayConfig,"https://api.798ipartstore.com/v1/order/pay");
             Map<String, String> data = new HashMap<String, String>();
             data.put("body", "i");
-            String out_trade_no = String.valueOf(mallOrderId);
+            String out_trade_no = String.valueOf(mallOrderId.getMallOrderId());
             data.put("out_trade_no", out_trade_no);//商户订单号
             data.put("total_fee", mallOrderId.getPrice().toString());
             data.put("spbill_create_ip","182.92.128.239");
@@ -148,6 +148,7 @@ public class OrderController extends BaseController {
             String prepayId = "prepay_id="+resp.get("prepay_id");
             createOrderVO.setNonceStr(nonceStr);
             createOrderVO.setPrepayId(prepayId);
+            createOrderVO.setSign(resp.get("sign"));
         } catch (Exception e) {
             log.error("wx eception e = {}",e.getMessage(),e);
             return WrapMapper.error("微信预生单失败");
