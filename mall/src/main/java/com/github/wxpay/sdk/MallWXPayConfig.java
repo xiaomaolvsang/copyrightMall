@@ -16,7 +16,7 @@ public class MallWXPayConfig extends WXPayConfig{
 
     @Override
     String getKey() {
-        return null;
+        return "798art798whgs798qsdgfdHGSDAdgsvb";
     }
 
     @Override
