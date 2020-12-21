@@ -11,7 +11,7 @@ weChat:
   grantType: authorization_code
   v2:
     appId: wx71dfe9d7cf33f2d2
-    appSecret: ebda1f4c5ffd727d3ef9f696b92e27ed
+    appSecret: 1cdde2c9a698724f95d041d0dcfc0940
     grantType: authorization_code
 
 server:

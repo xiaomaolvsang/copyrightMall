@@ -289,7 +289,7 @@ public class OrderController extends BaseController {
 
 
     @PostMapping("/pay")
-    @ApiOperation("支付")
+    @ApiOperation("支付")WeChatUserServiceImpl.java
     public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam String body) {
         log.info("支付订单{}", body);
         Map<String,String> data = Maps.newHashMap();
