@@ -23,4 +23,6 @@ public class CreateOrderVO {
     private String prepayId;
 
     private String sign;
+
+    private String timestamp;
 }

@@ -25,6 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -65,6 +66,8 @@ public class OrderController extends BaseController {
 
     @Resource
     private IUserAddressService userAddressService;
+
+
 
 
     @PostMapping("/confirmOrder")
@@ -124,6 +127,7 @@ public class OrderController extends BaseController {
         createOrderVO.setOrderNo(mallOrderId.getMallOrderId());
         try {
             //调用微信预生单
+            long now = System.currentTimeMillis()/1000;
             MallWXPayConfig wxPayConfig = new MallWXPayConfig();
             WXPay wxPay = new WXPay(wxPayConfig,"https://api.798ipartstore.com/v1/order/pay");
             Map<String, String> data = new HashMap<String, String>();
@@ -147,7 +151,8 @@ public class OrderController extends BaseController {
             String prepayId = "prepay_id="+resp.get("prepay_id");
             createOrderVO.setNonceStr(nonceStr);
             createOrderVO.setPrepayId(prepayId);
-            createOrderVO.setSign(resp.get("sign"));
+            createOrderVO.setTimestamp(String.valueOf(now));
+            createOrderVO.setSign(generateSign(now, nonceStr, prepayId));
         } catch (Exception e) {
             log.error("wx eception e = {}",e.getMessage(),e);
             return WrapMapper.error("微信预生单失败");
@@ -165,6 +170,7 @@ public class OrderController extends BaseController {
         createOrderVO.setOrderNo(orderId);
         ShopOrder shopOrder = shopOrderService.selectByShopOrderId(preorderParam.getOrderId());
         try {
+            long now = System.currentTimeMillis()/1000;
             //调用微信预生单
             MallWXPayConfig wxPayConfig = new MallWXPayConfig();
             WXPay wxPay = new WXPay(wxPayConfig,"https://api.798ipartstore.com/v1/order/pay");
@@ -188,7 +194,8 @@ public class OrderController extends BaseController {
             String prepayId = "prepay_id="+resp.get("prepay_id");
             createOrderVO.setNonceStr(nonceStr);
             createOrderVO.setPrepayId(prepayId);
-            createOrderVO.setSign(resp.get("sign"));
+            createOrderVO.setTimestamp(String.valueOf(now));
+            createOrderVO.setSign(generateSign(now, nonceStr, prepayId));
         } catch (Exception e) {
             log.error("wx eception e = {}",e.getMessage(),e);
             return WrapMapper.error("微信预生单失败");
@@ -344,31 +351,22 @@ public class OrderController extends BaseController {
         return WrapMapper.ok(true);
     }
 
+    private static String generateSign(long timeStamp,String nonceStr,String packageStr){
+        Map<String, String> data = Maps.newHashMap();
+        data.put("appId","wx71dfe9d7cf33f2d2");
+        data.put("timeStamp",String.valueOf(timeStamp));
+        data.put("nonceStr",nonceStr);
+        data.put("package",packageStr);
+        data.put("signType","MD5");
+        try {
+            return WXPayUtil.generateSignature(data,"798art798whgs798qsdgfdHGSDAdgsvb");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+
 
     public static void main(String[] args) throws Exception {
-        //调用微信预生单
-        MallWXPayConfig wxPayConfig = new MallWXPayConfig();
-        WXPay wxPay = new WXPay(wxPayConfig);
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("body", "i");
-        String out_trade_no = String.valueOf("1234567");
-        System.out.println("out_trade_no"+out_trade_no);
-        data.put("out_trade_no", out_trade_no);//商户订单号
-        data.put("total_fee", "1");
-        data.put("spbill_create_ip","182.92.128.239");
-        data.put("notify_url", "https://api.798ipartstore.com/v1/order/pay");
-        data.put("trade_type", "NATIVE");  // 此处指定为扫码支付
-        Map<String, String> resp = Maps.newHashMap();
-        try {
-            resp = wxPay.unifiedOrder(data);
-            System.out.println(resp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //调用再次签名
-        Long nowTime = System.currentTimeMillis()/1000;
-        String nonceStr = WXPayUtil.generateNonceStr();
-        String prepayId = "prepay_id="+resp.get("prepay_id");
-
-    }
+        System.out.println(        generateSign(1490840662,"5K8264ILTKCH16CQ2502SI8ZNMTM67VS","prepay_id=wx2017033010242291fcfe0db70013231072"));    }
 }
