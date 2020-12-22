@@ -359,7 +359,7 @@ public class OrderController extends BaseController {
         data.put("package",packageStr);
         data.put("signType","MD5");
         try {
-            return WXPayUtil.generateSignature(data,"798art798whgs798qsdgfdHGSDAdgsvb");
+            return WXPayUtil.generateSignature(data,"798art798whgs798qsdgfdHGSDAdgsvb",WXPayConstants.SignType.MD5);
         } catch (Exception e) {
             return "";
         }
