@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.copyright.mall.bean.*;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
-import com.copyright.mall.domain.dto.order.ConfirmOrderParam;
-import com.copyright.mall.domain.dto.order.CreateOrderParam;
-import com.copyright.mall.domain.dto.order.PayDTO;
-import com.copyright.mall.domain.dto.order.QueryOrderListParam;
+import com.copyright.mall.domain.dto.order.*;
 import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
@@ -156,6 +153,47 @@ public class OrderController extends BaseController {
         }
         return WrapMapper.ok(createOrderVO);
     }
+
+    @PostMapping
+    public Wrapper<CreateOrderVO> prePay(@ApiParam @Valid @RequestBody PreorderParam preorderParam){
+        String orderId = preorderParam.getOrderId();
+        if(!preorderParam.getOrderId().startsWith("SID")){
+            return WrapMapper.error("订单号不合法");
+        }
+        CreateOrderVO createOrderVO = new CreateOrderVO();
+        createOrderVO.setOrderNo(orderId);
+        ShopOrder shopOrder = shopOrderService.selectByShopOrderId(preorderParam.getOrderId());
+        try {
+            //调用微信预生单
+            MallWXPayConfig wxPayConfig = new MallWXPayConfig();
+            WXPay wxPay = new WXPay(wxPayConfig,"https://api.798ipartstore.com/v1/order/pay");
+            Map<String, String> data = new HashMap<String, String>();
+            data.put("body", "i");
+            data.put("out_trade_no", orderId);//商户订单号
+            data.put("total_fee", shopOrder.getPrice().toString());
+            data.put("spbill_create_ip","182.92.128.239");
+            data.put("notify_url", "https://api.798ipartstore.com/v1/order/pay");
+            data.put("trade_type", "JSAPI");  // 此处指定为扫码支付
+            Map<String, String> resp = Maps.newHashMap();
+            try {
+                log.info("wx pay data = {}", data);
+                resp = wxPay.unifiedOrder(data);
+                System.out.println(resp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String nonceStr = WXPayUtil.generateNonceStr();
+            String prepayId = "prepay_id="+resp.get("prepay_id");
+            createOrderVO.setNonceStr(nonceStr);
+            createOrderVO.setPrepayId(prepayId);
+            createOrderVO.setSign(resp.get("sign"));
+        } catch (Exception e) {
+            log.error("wx eception e = {}",e.getMessage(),e);
+            return WrapMapper.error("微信预生单失败");
+        }
+        return WrapMapper.ok(createOrderVO);
+    }
+
 
     @GetMapping("/unpaidOrderList")
     @ApiOperation("代付款订单列表")
