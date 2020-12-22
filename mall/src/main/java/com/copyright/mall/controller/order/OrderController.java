@@ -147,7 +147,7 @@ public class OrderController extends BaseController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String nonceStr = WXPayUtil.generateNonceStr();
+            String nonceStr = resp.get("nonce_str");
             String prepayId = "prepay_id="+resp.get("prepay_id");
             createOrderVO.setNonceStr(nonceStr);
             createOrderVO.setPrepayId(prepayId);
@@ -190,7 +190,7 @@ public class OrderController extends BaseController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String nonceStr = WXPayUtil.generateNonceStr();
+            String nonceStr = resp.get("nonce_str");
             String prepayId = "prepay_id="+resp.get("prepay_id");
             createOrderVO.setNonceStr(nonceStr);
             createOrderVO.setPrepayId(prepayId);
