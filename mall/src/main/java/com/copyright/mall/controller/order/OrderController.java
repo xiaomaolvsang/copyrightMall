@@ -139,6 +139,7 @@ public class OrderController extends BaseController {
             data.put("trade_type", "JSAPI");  // 此处指定为扫码支付
             Map<String, String> resp = Maps.newHashMap();
             try {
+                log.info("wx pay data = {}", data);
                 resp = wxPay.unifiedOrder(data);
                 System.out.println(resp);
             } catch (Exception e) {
@@ -155,8 +156,6 @@ public class OrderController extends BaseController {
         }
         return WrapMapper.ok(createOrderVO);
     }
-
-
 
     @GetMapping("/unpaidOrderList")
     @ApiOperation("代付款订单列表")
