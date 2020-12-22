@@ -136,7 +136,7 @@ public class OrderController extends BaseController {
             data.put("total_fee", mallOrderId.getPrice().toString());
             data.put("spbill_create_ip","182.92.128.239");
             data.put("notify_url", "https://api.798ipartstore.com/v1/order/pay");
-            data.put("trade_type", "NATIVE");  // 此处指定为扫码支付
+            data.put("trade_type", "JSAPI");  // 此处指定为扫码支付
             Map<String, String> resp = Maps.newHashMap();
             try {
                 resp = wxPay.unifiedOrder(data);
