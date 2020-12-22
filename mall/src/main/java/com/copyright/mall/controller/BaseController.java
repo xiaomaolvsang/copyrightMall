@@ -83,4 +83,7 @@ public abstract class BaseController {
     }
 
 
+    public String getOpenId(){
+        return  jwtService.getClaimFromToken(request.getHeader("X-Mall-TOKEN")).getSubject();
+    }
 }
