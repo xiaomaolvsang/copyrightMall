@@ -154,7 +154,7 @@ public class OrderController extends BaseController {
         return WrapMapper.ok(createOrderVO);
     }
 
-    @PostMapping
+    @PostMapping("/preOrder")
     public Wrapper<CreateOrderVO> prePay(@ApiParam @Valid @RequestBody PreorderParam preorderParam){
         String orderId = preorderParam.getOrderId();
         if(!preorderParam.getOrderId().startsWith("SID")){
