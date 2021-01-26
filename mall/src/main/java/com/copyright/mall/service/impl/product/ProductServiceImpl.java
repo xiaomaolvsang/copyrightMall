@@ -361,6 +361,7 @@ public class ProductServiceImpl implements IProductService {
             List<GetGoodsResp.SkuResp> skuResps = new ArrayList<>();
             skus.forEach(sku1 -> {
                 GetGoodsResp.SkuResp skuResp = new GetGoodsResp.SkuResp();
+                skuResp.setSkuId(sku1.getId());
                 skuResp.setPrice(sku1.getPrice());
                 skuResp.setSizeKey(sku1.getSizeKey());
                 skuResp.setSizeValue(sku1.getSizeValue());

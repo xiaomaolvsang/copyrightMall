@@ -337,7 +337,7 @@ public class OrderController extends BaseController {
 
     @PostMapping("/pay")
     @ApiOperation("支付")
-    public Wrapper<Boolean> pay(@RequestBody @Valid @ApiParam String body) {
+    public String pay(@RequestBody @Valid @ApiParam String body) throws Exception {
         log.info("支付订单{}", body);
         Map<String,String> data = Maps.newHashMap();
         try {
@@ -348,7 +348,10 @@ public class OrderController extends BaseController {
         PayDTO payDTO = new PayDTO();
         payDTO.setOrderId(String.valueOf((data.get("out_trade_no"))));
         orderService.payOrder(payDTO);
-        return WrapMapper.ok(true);
+        Map<String,String> map = new HashMap<>();
+        map.put("return_code","SUCCESS");
+        map.put("return_msg","OK");
+        return WXPayUtil.mapToXml(map);
     }
 
     private static String generateSign(long timeStamp,String nonceStr,String packageStr){

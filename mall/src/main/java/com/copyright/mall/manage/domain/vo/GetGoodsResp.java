@@ -59,6 +59,8 @@ public class GetGoodsResp extends BasePage {
     @Data
     @ApiModel("sku返回参数")
     public static class SkuResp{
+        @ApiModelProperty("skuId")
+        private Long skuId;
         @ApiModelProperty("价格")
         private Integer price;
         @ApiModelProperty("尺寸")
