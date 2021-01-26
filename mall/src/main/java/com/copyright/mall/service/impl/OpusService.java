@@ -121,7 +121,11 @@ public class OpusService implements IOpusService {
         }
         dataBean.setProductImage(list);
         opusVO.setData(dataBean);
-
+        //点赞数
+        LikeOpusRelation likeOpusRelation = new LikeOpusRelation();
+        likeOpusRelation.setOpusId(opusParam.getOpusId());
+        Long likeNum = likeOpusRelationMapper.selectObjectListPageTotal(likeOpusRelation);
+        dataBean.setLikeNum(likeNum == null ? 0L : likeNum);
         return opusVO;
     }
 

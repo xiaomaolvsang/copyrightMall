@@ -41,6 +41,7 @@ public class OpusVO {
     private String productDesc;
     private List<ProductImageBean> productImage;
     private Boolean ifCollection;
+    private Long likeNum;
 
     private OpusResp.OpusGoods opusGoods;
 
