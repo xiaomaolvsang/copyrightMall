@@ -169,7 +169,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductByClassVO getProductByClass(ProductByClassparam productByClassparam) {
         Shop shop = new Shop();
-        shop.setMallId(0L);
+        shop.setMallId(1L);
         List<Shop> shops = shopService.selectByObjectList(shop);
 
         PageHelper.startPage(productByClassparam.getPageNum(), productByClassparam.getPageSize());
