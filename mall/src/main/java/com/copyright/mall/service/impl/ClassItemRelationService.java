@@ -65,4 +65,10 @@ public class ClassItemRelationService implements IClassItemRelationService {
 		return classItemRelationMapper.deleteByItemId(id);
 	}
 
+	@Override
+	public List<ClassItemRelation> selectByIdsList(List<Long> ids) {
+		return classItemRelationMapper.selectByIdsList(ids);
+	}
+
+
 }

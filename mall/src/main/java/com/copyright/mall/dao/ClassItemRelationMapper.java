@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.ClassItemRelation;
-
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -31,5 +31,7 @@ public interface ClassItemRelationMapper {
 	public List<ClassItemRelation> selectByObjectList(ClassItemRelation classItemRelation);
 
 	public int deleteByItemId(Long id);
+
+	public List<ClassItemRelation> selectByIdsList(@Param("ids") List<Long> ids);
 
 }

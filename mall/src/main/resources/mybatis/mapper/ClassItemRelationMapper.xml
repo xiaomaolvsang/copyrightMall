@@ -101,4 +101,16 @@
 		DELETE FROM class_item_relation
 		WHERE ITEM_ID = #{id,jdbcType=BIGINT}
 	</delete>
+
+	<select id="selectByIdsList" resultMap="BaseResultMap" parameterType="java.util.List">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM class_item_relation
+		WHERE 1=1
+		and CLASS_ID in
+		<foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+			#{item, jdbcType=BIGINT}
+		</foreach>
+	</select>
+
 </mapper>
