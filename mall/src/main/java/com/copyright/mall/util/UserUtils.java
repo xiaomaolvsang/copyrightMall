@@ -47,8 +47,9 @@ public class UserUtils {
         if(userHolder.get().get("roleIds")== null ){
             return result;
         }
-        for (Long roleId : (List<Long>)userHolder.get().get("roleIds")){
-            result.add(roleId);
+
+        for (Number roleId : (List<Number>)userHolder.get().get("roleIds")){
+            result.add(Long.valueOf(roleId.longValue()));
         }
         return result;
     }
