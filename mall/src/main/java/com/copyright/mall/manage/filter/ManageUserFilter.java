@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.copyright.mall.service.JwtService;
 import com.copyright.mall.util.UserUtils;
 import com.copyright.mall.util.wrapper.WrapMapper;
+import com.google.common.collect.Lists;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -81,9 +82,11 @@ public class ManageUserFilter implements Filter {
             if (claims.get("shop") != null) {
                 UserUtils.setShopIds((List<Long>) claims.get("shop"));
             }
+            List<Long> roleIds = Lists.newArrayList(0L);
             if (claims.get("roles") != null) {
-                UserUtils.setRoleIds((List<Long>) claims.get("roles"));
+                roleIds.addAll((List<Long>) claims.get("roles"));
             }
+            UserUtils.setRoleIds(roleIds);
             if (claims.get("mallId") != null) {
                 UserUtils.setMallId(Long.valueOf(claims.get("mallId").toString()));
             }
