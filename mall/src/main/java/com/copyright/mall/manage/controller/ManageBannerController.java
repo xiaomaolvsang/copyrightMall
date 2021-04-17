@@ -50,9 +50,8 @@ public class ManageBannerController {
 
     @PostMapping("/getBanners")
     @ApiOperation("获取banner信息")
-    public Wrapper<PageInfo<GetBannerResp>> getBanners(BannerPageParam bannerPageParam) {
+    public Wrapper<PageInfo<GetBannerResp>> getBanners(@ApiParam @RequestBody BannerPageParam bannerPageParam) {
         log.info("getBanner {}", bannerPageParam);
-
         List<BannerItemRelation> bannerItemRelations = bannerItemRelationService.selectByObjectList(new BannerItemRelation());
         List<Long> bannerIds = bannerItemRelations.stream().map(BannerItemRelation::getBannerId).collect(Collectors.toList());
         List<Banner> banners = bannerService.selectByBannerIds(bannerIds);
@@ -79,7 +78,7 @@ public class ManageBannerController {
 
     @PostMapping("/updateBanners")
     @ApiOperation("修改banner信息")
-    public Wrapper<Boolean> updateBanners(BannerParam bannerParam) {
+    public Wrapper<Boolean> updateBanners(@ApiParam  @RequestBody BannerParam bannerParam) {
         log.info("getBanner {}", bannerParam);
         BannerAttr bannerAttr = new BannerAttr();
         bannerAttr.setId(bannerParam.getId());

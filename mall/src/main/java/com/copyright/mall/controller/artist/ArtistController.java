@@ -7,6 +7,7 @@ import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.artist.ArtistLogo;
+import com.copyright.mall.domain.requeest.artist.ArtistLogoParam;
 import com.copyright.mall.domain.requeest.artist.ArtistParam;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserShopRelationService;
@@ -94,14 +95,14 @@ public class ArtistController extends BaseController {
     @PostMapping("/updateArtist")
     @ControllerErro
     @Transactional(rollbackFor = Exception.class)
-    public Wrapper<Boolean> updateArtist(@RequestBody @ApiParam @Valid ArtistParam artistParam) {
+    public Wrapper<Boolean> updateArtist(@RequestBody @ApiParam @Valid ArtistLogoParam artistLogoParam) {
         List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(getUserId());
         if (userShopRelations.size() > 0) {
             Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
             if (shop1.getShopType() == ShopTypeEnum.artist.getCode()
                     && shop1.getShopStatus() == ShopStatusEnum.success.getCode()) {
-                shop1.setShopLogo(artistParam.getLogo());
-                shop1.setShopImg(artistParam.getOpusImg());
+                shop1.setShopLogo(artistLogoParam.getLogo());
+                shop1.setShopImg(artistLogoParam.getOpusImg());
                 shopService.updateByPrimaryKeySelective(shop1);
             }
         }
@@ -113,7 +114,7 @@ public class ArtistController extends BaseController {
     @PostMapping("/getArtist")
     @ControllerErro
     @Transactional(rollbackFor = Exception.class)
-    public Wrapper<ArtistLogo> getArtist(@RequestBody @ApiParam @Valid ArtistParam artistParam) {
+    public Wrapper<ArtistLogo> getArtist() {
         List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(getUserId());
         ArtistLogo artistLogo = new ArtistLogo();
         if (userShopRelations.size() > 0) {
