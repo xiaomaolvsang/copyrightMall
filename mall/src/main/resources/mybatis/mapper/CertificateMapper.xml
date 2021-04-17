@@ -64,6 +64,12 @@
 		WHERE ID = #{id,jdbcType=INTEGER}
 	</delete>
 
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteByCertificateId" parameterType="java.lang.String">
+		DELETE FROM certificate
+		WHERE CERTIFICATE_ID = #{certificateId,jdbcType=VARCHAR}
+	</delete>
+
 	<!-- 添加 （匹配有值的字段,不建议使用）-->
 	<insert id="insertSelective" parameterType="com.copyright.mall.bean.Certificate">
 		INSERT INTO certificate
@@ -121,6 +127,28 @@
 
 		</set>
 		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="updateByCertificateIdSelective" parameterType="com.copyright.mall.bean.Certificate">
+		UPDATE certificate
+		<set>
+			<if test="certificateId != null">CERTIFICATE_ID = #{certificateId,jdbcType=VARCHAR},</if>
+			<if test="pcertificateId != null">PCERTIFICATE_ID = #{pcertificateId,jdbcType=VARCHAR},</if>
+			<if test="copyrightId != null">COPYRIGHT_ID = #{copyrightId,jdbcType=VARCHAR},</if>
+			<if test="cerificateStatus != null">CERIFICATE_STATUS = #{cerificateStatus,jdbcType=INTEGER},</if>
+			<if test="authorizer != null">AUTHORIZER = #{authorizer,jdbcType=VARCHAR},</if>
+			<if test="authorizerName != null">AUTHORIZER_NAME = #{authorizerName,jdbcType=VARCHAR},</if>
+			<if test="timeLine != null">TIME_LINE = #{timeLine,jdbcType=VARCHAR},</if>
+			<if test="authorizedPerson != null">AUTHORIZED_PERSON = #{authorizedPerson,jdbcType=VARCHAR},</if>
+			<if test="authorizedPersionName != null">AUTHORIZED_PERSION_NAME = #{authorizedPersionName,jdbcType=VARCHAR},</if>
+			<if test="type != null">TYPE = #{type,jdbcType=INTEGER},</if>
+			<if test="authorizationDate != null">AUTHORIZATION_DATE = #{authorizationDate,jdbcType=TIMESTAMP},</if>
+			<if test="closingDate != null">CLOSING_DATE = #{closingDate,jdbcType=TIMESTAMP},</if>
+			<if test="authorizationType != null">AUTHORIZATION_TYPE = #{authorizationType,jdbcType=VARCHAR},</if>
+
+		</set>
+		WHERE CERTIFICATE_ID = #{id,jdbcType=INTEGER}
 	</update>
 
 	<!-- 分页查询 -->

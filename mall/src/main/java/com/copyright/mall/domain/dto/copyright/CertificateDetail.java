@@ -108,4 +108,9 @@ public class CertificateDetail implements Serializable {
 
 	/** 电话 **/
 	private String phone;
+
+	/**
+	 * 是否含有子版权
+	 */
+	private boolean hasSubCopyright;
 }

@@ -19,9 +19,14 @@ public interface ICertificateService {
 
 	public int deleteByPrimaryKey(Integer id);
 
+	public int deleteByCertificateId(String certificateId);
+
 	public int insertSelective(Certificate certificate);
 
 	public int updateByPrimaryKeySelective(Certificate certificate);
+
+	public int updateByCertificateIdSelective(Certificate certificate);
+
 
 	public Long selectObjectListPageTotal(Certificate certificate);
 

@@ -5,6 +5,7 @@ import com.copyright.mall.bean.Copyright;
 import com.copyright.mall.bean.User;
 import com.copyright.mall.domain.dto.copyright.CertificateDetail;
 import com.copyright.mall.domain.dto.copyright.CopyrightCreateParam;
+import com.copyright.mall.domain.dto.copyright.CopyrightEevokeParam;
 import com.copyright.mall.domain.dto.copyright.CopyrightQueryParam;
 import com.copyright.mall.domain.dto.copyright.TimeLineDTO;
 import com.copyright.mall.domain.vo.copyright.CertificateVO;
@@ -25,7 +26,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +90,20 @@ public class CopyrightController extends BaseController{
         return WrapMapper.ok();
     }
 
+    @PostMapping("/revoke")
+    @ApiOperation("撤销版权")
+    public Wrapper<String> revokeCopyright(@RequestBody CopyrightEevokeParam copyrightEevokeParam) {
+        Certificate queryParam = new Certificate();
+        queryParam.setPcertificateId(copyrightEevokeParam.getCertificateId());
+        List<Certificate> certificates = certificateService.selectByObjectList(queryParam);
+        if(!CollectionUtils.isEmpty(certificates)){
+            return WrapMapper.ok("不满足撤销条件");
+        }
+        certificateService.deleteByCertificateId(copyrightEevokeParam.getCertificateId());
+        return WrapMapper.ok("撤销成功");
+    }
+
+
     @GetMapping("/list")
     @ApiOperation("获取证书列表")
     public Wrapper<PageInfo<CertificateVO>> list( @Valid CopyrightQueryParam queryParam){
@@ -113,6 +127,15 @@ public class CopyrightController extends BaseController{
         CertificateDetail certificateDetail = null;
         if(!CollectionUtils.isEmpty(list)){
             certificateDetail = list.get(0);
+            Certificate queryParam = new Certificate();
+            queryParam.setPcertificateId(certificateDetail.getCertificateId());
+            List<Certificate> certificates = certificateService.selectByObjectList(queryParam);
+            for(Certificate certificateItem : certificates){
+                if(!certificateItem.getCertificateId().equals(certificateItem.getPcertificateId())){
+                    certificateDetail.setHasSubCopyright(true);
+                    break;
+                }
+            }
         }
         return WrapMapper.ok(toDecodeVO(certificateDetail));
     }
@@ -162,14 +185,6 @@ public class CopyrightController extends BaseController{
         return WrapMapper.ok(true);
     }
 
-    @DeleteMapping("/certificate/{id}")
-    @ApiOperation("删除证书")
-    public Wrapper<Object> delete(@PathVariable("id") Integer id){
-        certificateService.deleteByPrimaryKey(id);
-        return WrapMapper.ok();
-    }
-
-
     public static CertificateVO toVO(CertificateDetail certificate){
         CertificateVO copyrightVO = BeanMapperUtils.map(certificate,CertificateVO.class);
         copyrightVO.setTimeLine(certificate.getTimeLine());
@@ -183,14 +198,23 @@ public class CopyrightController extends BaseController{
     }
 
     private CertificateVO toDecodeVO(CertificateDetail certificate){
+        if(certificate == null ){
+            return new CertificateVO();
+        }
         CertificateVO certificateVO = BeanMapperUtils.map(certificate,CertificateVO.class);
-        certificateVO.setCerificateStatusDesc(Objects.requireNonNull(CopyRightStatusEnum.valueOf(certificate.getCerificateStatus())).getDesc());
+        if(certificate.getCerificateStatus() != null) {
+            CopyRightStatusEnum copyRightStatusEnum = CopyRightStatusEnum.valueOf(certificate.getCerificateStatus());
+            if (copyRightStatusEnum != null) {
+                certificateVO.setCerificateStatusDesc(copyRightStatusEnum.getDesc());
+            }
+        }
         certificateVO.setTimeLineDTO(TimeLineDTO.fromBaseStr(certificate.getTimeLine()));
         certificateVO.setCertificateOfCopyrightOwnerList(Utils.toStringList(certificate.getCertificateOfCopyrightOwner()));
         certificateVO.setPicturesOfWorksList(Utils.toStringList(certificate.getPicturesOfWorks()));
         certificateVO.setCopyrightCertificateList(Utils.toStringList(certificate.getCopyrightCertificate()));
         certificateVO.setCategoryList(Utils.toStringList(certificate.getCategory()));
         certificateVO.setAuthorizationTypeList(Utils.toStringList(certificate.getAuthorizationType()));
+        certificateVO.setHasSubCopyright(certificate.isHasSubCopyright());
         return certificateVO;
     }
 

@@ -40,6 +40,12 @@ public class CertificateService implements ICertificateService {
 	}
 
 	@Override
+	public int deleteByCertificateId(String certificateId){
+		return certificateDao.deleteByCertificateId(certificateId);
+	}
+
+
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public int insertSelective(Certificate certificate) {
 		return certificateDao.insertSelective(certificate);
@@ -47,6 +53,11 @@ public class CertificateService implements ICertificateService {
 
 	@Override
 	public int updateByPrimaryKeySelective(Certificate certificate) {
+		return certificateDao.updateByPrimaryKeySelective(certificate);
+	}
+
+	@Override
+	public int updateByCertificateIdSelective(Certificate certificate) {
 		return certificateDao.updateByPrimaryKeySelective(certificate);
 	}
 

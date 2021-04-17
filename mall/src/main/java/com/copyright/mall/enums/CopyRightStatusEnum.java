@@ -8,7 +8,9 @@ public enum CopyRightStatusEnum {
     APPLYING(10,"申请中"),
     REJECTED(20,"已驳回"),
     CONFIRMED_RIGHT(30,"已受区块链保护"),
-    AUTHORIZED(40,"已授权");
+    AUTHORIZED(40,"已授权"),
+    REVOKED(-10,"已撤销"),
+    ;
 
 
     private Integer code;

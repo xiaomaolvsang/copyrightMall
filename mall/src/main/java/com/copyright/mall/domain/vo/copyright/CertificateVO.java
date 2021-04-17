@@ -112,4 +112,6 @@ public class CertificateVO {
     @ApiModelProperty("手机号")
     private String phone;
 
+    @ApiModelProperty("是否含有子版权")
+    private Boolean hasSubCopyright;
 }
