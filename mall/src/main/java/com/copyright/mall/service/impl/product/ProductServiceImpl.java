@@ -242,6 +242,14 @@ public class ProductServiceImpl implements IProductService {
             String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
             dataBean.setProductPrice(result);
         }
+        if(item.getUnderlinedPrice() != null){
+            BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+            String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+            dataBean.setProductUnderlinedPrice(result);
+        }
+        if(item.getInventory() != null){
+            dataBean.setProductInventory(item.getInventory().toString());
+        }
 
         ProductVO.DataBean.InstitutionBean institution = new ProductVO.DataBean.InstitutionBean();
         Shop shop = shopService.selectByPrimaryKey(item.getShopId());
@@ -275,6 +283,14 @@ public class ProductServiceImpl implements IProductService {
                 BigDecimal b1 = new BigDecimal(item1.getPrice());
                 String result1 = b1.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
                 recommendBean.setProductPrice(result1);
+            }
+            if(item1.getUnderlinedPrice() != null){
+                BigDecimal b = new BigDecimal(item1.getUnderlinedPrice());
+                String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+                recommendBean.setProductUnderlinedPrice(result);
+            }
+            if(item1.getInventory() != null){
+                recommendBean.setProductInventory(item1.getInventory().toString());
             }
             recommend.add(recommendBean);
         });
@@ -382,6 +398,9 @@ public class ProductServiceImpl implements IProductService {
                 GetGoodsResp.SkuResp skuResp = new GetGoodsResp.SkuResp();
                 skuResp.setSkuId(sku1.getId());
                 skuResp.setPrice(sku1.getPrice());
+                skuResp.setProductUnderlinedPrice(sku1.getUnderlinedPrice());
+                skuResp.setProductInventory(sku1.getInventory());
+                skuResp.setProductSoldInventory(sku1.getSoldInventory());
                 skuResp.setSizeKey(sku1.getSizeKey());
                 skuResp.setSizeValue(sku1.getSizeValue());
                 skuResps.add(skuResp);
@@ -593,6 +612,8 @@ public class ProductServiceImpl implements IProductService {
             Sku sku1 = new Sku();
             sku1.setItemId(item.getId());
             sku1.setPrice(sku.getPrice());
+            sku1.setUnderlinedPrice(sku.getProductUnderlinedPrice());
+            sku1.setInventory(sku.getProductInventory());
             sku1.setSizeKey(sku.getSizeKey());
             sku1.setSizeValue(sku.getSizeValue());
             if (sku.getSkuId() == null) {

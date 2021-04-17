@@ -96,6 +96,10 @@ public class DetailVO {
     private Long shopID;
     private String productName;
     private String productPrice;
+    @ApiModelProperty("product划线价(单位：分)")
+    private String productUnderlinedPrice;
+    @ApiModelProperty("product库存")
+    private String productInventory;
     private Long productId;
   }
   @Data

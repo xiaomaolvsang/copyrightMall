@@ -96,6 +96,14 @@ public class DetailService implements IDetailService {
         String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
         products1.setProductPrice(result);
       }
+      if(item.getUnderlinedPrice() != null){
+        BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        products1.setProductUnderlinedPrice(result);
+      }
+      if(item.getInventory() != null){
+        products1.setProductInventory(item.getInventory().toString());
+      }
       products1.setShopID(shop.getId());
       products1.setShopName(shop.getShopName());
       products.add(products1);
@@ -131,6 +139,14 @@ public class DetailService implements IDetailService {
         BigDecimal b = new BigDecimal(item.getPrice());
         String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
         products1.setProductPrice(result);
+      }
+      if(item.getUnderlinedPrice() != null){
+        BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+        products1.setProductUnderlinedPrice(result);
+      }
+      if(item.getInventory() != null){
+        products1.setProductInventory(item.getInventory().toString());
       }
       products1.setShopID(shop.getId());
       products1.setShopName(shop.getShopName());
@@ -192,7 +208,14 @@ public class DetailService implements IDetailService {
           String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
           products1.setProductPrice(result);
         }
-
+        if(item.getUnderlinedPrice() != null){
+          BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+          String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+          products1.setProductUnderlinedPrice(result);
+        }
+        if(item.getInventory() != null){
+          products1.setProductInventory(item.getInventory().toString());
+        }
         products1.setShopID(shop.getId());
         products1.setShopName(shop.getShopName());
         products.add(products1);

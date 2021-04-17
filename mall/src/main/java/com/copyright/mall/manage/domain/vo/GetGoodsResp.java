@@ -63,6 +63,12 @@ public class GetGoodsResp extends BasePage {
         private Long skuId;
         @ApiModelProperty("价格")
         private Integer price;
+        @ApiModelProperty("product划线价(单位：分)")
+        private Integer productUnderlinedPrice;
+        @ApiModelProperty("product库存")
+        private Integer productInventory;
+        @ApiModelProperty("product已售库存")
+        private Integer productSoldInventory;
         @ApiModelProperty("尺寸")
         private String sizeKey;
         @ApiModelProperty("尺寸值")

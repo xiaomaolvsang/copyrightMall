@@ -48,6 +48,10 @@ public class UpGoodsParam {
         private Long skuId;
         @ApiModelProperty("商品价格（单位：分）")
         private Integer price;
+        @ApiModelProperty("product划线价(单位：分)")
+        private Integer productUnderlinedPrice;
+        @ApiModelProperty("product库存")
+        private Integer productInventory;
         @ApiModelProperty("商品尺寸")
         private String sizeKey;
         @ApiModelProperty("商品尺寸值")
