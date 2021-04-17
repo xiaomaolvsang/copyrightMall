@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Api(tags = "首页编辑")
+@Api(tags = "后端首页编辑")
 @Slf4j
 @RestController
 @RequestMapping("/manage/v1/banner")
