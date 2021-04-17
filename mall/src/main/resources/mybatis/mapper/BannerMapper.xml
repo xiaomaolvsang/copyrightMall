@@ -146,6 +146,20 @@
     order by ban.TOP_VALUE desc ,bana.ID asc
   </select>
 
+	<!-- 按条件查询列表 -->
+	<select id="selectByBannerIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM banner
+		WHERE 1=1
+		<if test="bannerIds != null">
+			AND ID IN
+			<foreach collection="bannerIds" item="id" index="index"
+					 open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
 
 
 </mapper>

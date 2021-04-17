@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.Banner;
-
+import com.copyright.mall.bean.BannerItemRelation;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -31,4 +32,6 @@ public interface BannerMapper {
 	public List<Banner> selectByObjectList(Banner banner);
 
 	List<Banner> selectBanner(Banner banner);
+
+	public List<Banner> selectByBannerIds(@Param("bannerIds") List<Long> bannerIds);
 }

@@ -6,6 +6,7 @@ import com.copyright.mall.bean.UserShopRelation;
 import com.copyright.mall.bean.enumeration.ShopStatusEnum;
 import com.copyright.mall.bean.enumeration.ShopTypeEnum;
 import com.copyright.mall.controller.BaseController;
+import com.copyright.mall.domain.dto.artist.ArtistLogo;
 import com.copyright.mall.domain.requeest.artist.ArtistParam;
 import com.copyright.mall.service.IShopService;
 import com.copyright.mall.service.IUserShopRelationService;
@@ -54,11 +55,11 @@ public class ArtistController extends BaseController {
         UserShopRelation userShopRelation = new UserShopRelation();
         if (userShopRelations.size() > 0) {
             Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
-            if(shop1.getShopType() == ShopTypeEnum.artist.getCode()
-                    && shop1.getShopStatus() == ShopStatusEnum.erro.getCode()){
+            if (shop1.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop1.getShopStatus() == ShopStatusEnum.erro.getCode()) {
                 shop.setId(userShopRelations.get(0).getShopId());
                 userShopRelation.setId(userShopRelations.get(0).getId());
-            }else{
+            } else {
                 return WrapMapper.error("无法申请");
             }
         }
@@ -75,19 +76,54 @@ public class ArtistController extends BaseController {
         shop.setIdCard(artistParam.getIdCardImg());
 
         shop.setMallId(1L);
-        if(shop.getId() == null){
+        if (shop.getId() == null) {
             shopService.insertSelective(shop);
-        }else{
+        } else {
             shopService.updateByPrimaryKeySelective(shop);
         }
 
         userShopRelation.setUserId(getUserId());
         userShopRelation.setShopId(shop.getId());
-        if(userShopRelation.getId() == null){
+        if (userShopRelation.getId() == null) {
             userShopRelationService.insertSelective(userShopRelation);
         }
         return WrapMapper.ok();
     }
+
+    @ApiOperation(value = "修改艺术家头像及代表作")
+    @PostMapping("/updateArtist")
+    @ControllerErro
+    @Transactional(rollbackFor = Exception.class)
+    public Wrapper<Boolean> updateArtist(@RequestBody @ApiParam @Valid ArtistParam artistParam) {
+        List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(getUserId());
+        if (userShopRelations.size() > 0) {
+            Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
+            if (shop1.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop1.getShopStatus() == ShopStatusEnum.success.getCode()) {
+                shop1.setShopLogo(artistParam.getLogo());
+                shop1.setShopImg(artistParam.getOpusImg());
+                shopService.updateByPrimaryKeySelective(shop1);
+            }
+        }
+        return WrapMapper.ok();
+    }
+
+
+    @ApiOperation(value = "获取艺术家头像及代表作")
+    @PostMapping("/getArtist")
+    @ControllerErro
+    @Transactional(rollbackFor = Exception.class)
+    public Wrapper<ArtistLogo> getArtist(@RequestBody @ApiParam @Valid ArtistParam artistParam) {
+        List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(getUserId());
+        ArtistLogo artistLogo = new ArtistLogo();
+        if (userShopRelations.size() > 0) {
+            Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
+            artistLogo.setLogo(shop1.getShopLogo());
+            artistLogo.setOpusImg(shop1.getShopImg());
+        }
+        return WrapMapper.ok(artistLogo);
+    }
+
 
     @ApiOperation(value = "判断艺术家")
     @PostMapping("/ifArtist")
@@ -109,11 +145,11 @@ public class ArtistController extends BaseController {
             if (shop.getShopType() == ShopTypeEnum.artist.getCode()
                     && shop.getShopStatus() == ShopStatusEnum.success.getCode()) {
                 return wrap(10000, "就是艺术家");
-            }else if(shop.getShopType() == ShopTypeEnum.artist.getCode()
-                    && shop.getShopStatus() == ShopStatusEnum.init.getCode()){
+            } else if (shop.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop.getShopStatus() == ShopStatusEnum.init.getCode()) {
                 return wrap(10040, "审核中");
-            }else if(shop.getShopType() == ShopTypeEnum.artist.getCode()
-                    && shop.getShopStatus() == ShopStatusEnum.erro.getCode()){
+            } else if (shop.getShopType() == ShopTypeEnum.artist.getCode()
+                    && shop.getShopStatus() == ShopStatusEnum.erro.getCode()) {
                 return wrap(10050, "被驳回");
             } else {
                 return wrap(10020, "无法申请艺术家");

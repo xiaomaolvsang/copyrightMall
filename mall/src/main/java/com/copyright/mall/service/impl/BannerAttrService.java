@@ -1,5 +1,6 @@
 package com.copyright.mall.service.impl;
 
+import com.copyright.mall.bean.Banner;
 import com.copyright.mall.bean.BannerAttr;
 import com.copyright.mall.dao.BannerAttrMapper;
 import com.copyright.mall.service.IBannerAttrService;
@@ -58,6 +59,11 @@ public class BannerAttrService implements IBannerAttrService {
 	@Override
 	public List<BannerAttr> selectByObjectList(BannerAttr bannerAttr){
 		return bannerAttrMapper.selectByObjectList(bannerAttr);
+	}
+
+	@Override
+	public List<BannerAttr> selectByBannerIds(List<Long> bannerIds) {
+		return bannerAttrMapper.selectByBannerIds(bannerIds);
 	}
 
 }

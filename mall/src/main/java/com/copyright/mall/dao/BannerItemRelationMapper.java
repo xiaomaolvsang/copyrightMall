@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.copyright.mall.bean.BannerItemRelation;
-
+import org.apache.ibatis.annotations.Param;
 
 
 /**

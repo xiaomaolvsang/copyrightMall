@@ -185,5 +185,10 @@ public class BannerService implements IBannerService {
     return artBannerVO;
   }
 
+    @Override
+    public List<Banner> selectByBannerIds(List<Long> bannerIds) {
+        return bannerMapper.selectByBannerIds(bannerIds);
+    }
+
 
 }

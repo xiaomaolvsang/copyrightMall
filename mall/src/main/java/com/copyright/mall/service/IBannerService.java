@@ -5,6 +5,7 @@ import com.copyright.mall.domain.requeest.banner.ArtBannerParam;
 import com.copyright.mall.domain.requeest.banner.BannerParam;
 import com.copyright.mall.domain.vo.banner.ArtBannerVO;
 import com.copyright.mall.domain.vo.banner.BannerVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,4 +37,5 @@ public interface IBannerService {
 
   public ArtBannerVO getArtBanner(ArtBannerParam artBannerParam);
 
+	public List<Banner> selectByBannerIds(List<Long> bannerIds);
 }

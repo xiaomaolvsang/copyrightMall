@@ -1,6 +1,8 @@
 package com.copyright.mall.service;
 
+import com.copyright.mall.bean.Banner;
 import com.copyright.mall.bean.BannerAttr;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,5 +29,7 @@ public interface IBannerAttrService {
 	public List<BannerAttr> selectObjectListPage(BannerAttr bannerAttr);
 
 	public List<BannerAttr> selectByObjectList(BannerAttr bannerAttr);
+
+	public List<BannerAttr> selectByBannerIds(List<Long> bannerIds);
 
 }
