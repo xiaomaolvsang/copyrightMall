@@ -22,6 +22,8 @@
 		<result property="itemType" column="ITEM_TYPE" jdbcType="INTEGER" />
 
     <result property="price" column="PRICE" jdbcType="INTEGER" />
+	<result property="underlinedPrice" column="UNDERLINED_PRICE" jdbcType="INTEGER" />
+	<result property="inventory" column="INVENTORY" jdbcType="INTEGER" />
     <result property="sizeKey" column="SIZE_KEY" jdbcType="VARCHAR" />
     <result property="sizeValue" column="SIZE_VALUE" jdbcType="VARCHAR" />
 	</resultMap>
@@ -169,6 +171,8 @@
     s.PRICE,
     s.SIZE_KEY,
     s.SIZE_VALUE,
+	  s.UNDERLINED_PRICE,
+	  s.INVENTORY,
 	  i.ITEM_TYPE
     FROM item i left join sku s on i.id = s.ITEM_ID
     order by i.GMT_MODIFIED desc

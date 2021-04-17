@@ -83,6 +83,16 @@ public class Item implements Serializable {
     private Integer price;
 
     /**
+     * 划线价
+     */
+    private Integer underlined_price;
+
+    /**
+     * 库存
+     */
+    private Integer inventory;
+
+    /**
      * 尺寸
      **/
     private String sizeKey;
@@ -261,6 +271,23 @@ public class Item implements Serializable {
 
     public void setItemType(Integer itemType) {
         this.itemType = itemType;
+    }
+
+
+    public Integer getUnderlined_price() {
+        return underlined_price;
+    }
+
+    public void setUnderlined_price(Integer underlined_price) {
+        this.underlined_price = underlined_price;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     @Override
