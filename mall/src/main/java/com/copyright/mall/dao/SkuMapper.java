@@ -1,10 +1,8 @@
 package com.copyright.mall.dao;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-
 import com.copyright.mall.bean.Sku;
+
+import java.util.List;
 
 
 
@@ -18,11 +16,16 @@ public interface SkuMapper {
 
 	public Sku selectByPrimaryKey(Long id);
 
+	public Sku selectByPrimaryKeyFromDBWithIncrSoldInventory(Long id, int inventory);
+
+
 	public int deleteByPrimaryKey(Long id);
 
 	public int insertSelective(Sku sku);
 
 	public int updateByPrimaryKeySelective(Sku sku);
+
+	public int incrSoldInventoryByPrimaryKey(long id, int oldSoldInventory, int append);
 
 	public Long selectObjectListPageTotal(Sku sku);
 

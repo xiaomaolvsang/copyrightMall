@@ -1,19 +1,16 @@
 package com.copyright.mall.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.copyright.mall.bean.Item;
+import com.copyright.mall.bean.Sku;
 import com.copyright.mall.config.GuavaManage;
+import com.copyright.mall.dao.SkuMapper;
+import com.copyright.mall.service.ISkuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import com.copyright.mall.dao.SkuMapper;
-import com.copyright.mall.service.ISkuService;
 
-import com.copyright.mall.bean.Sku;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -43,6 +40,12 @@ public class SkuService implements ISkuService {
     }
     return sku;
 	}
+
+	@Override
+	public Sku selectByPrimaryKeyFromDBWithIncrSoldInventory(Long id , int inventory) {
+		return skuMapper.selectByPrimaryKeyFromDBWithIncrSoldInventory(id , inventory);
+	}
+
 	@Override
 	public int deleteByPrimaryKey(Long id) {
 
@@ -58,6 +61,12 @@ public class SkuService implements ISkuService {
 	public int updateByPrimaryKeySelective(Sku sku) {
 		return skuMapper.updateByPrimaryKeySelective(sku);
 	}
+
+	@Override
+	public int incrSoldInventoryByPrimaryKey(long id, int soldInventory, int append) {
+		return skuMapper.incrSoldInventoryByPrimaryKey(id, soldInventory, append);
+	}
+
 
 	@Override
 	public Long selectObjectListPageTotal(Sku sku) {

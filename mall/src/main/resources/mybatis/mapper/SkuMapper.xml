@@ -49,6 +49,14 @@
 		 WHERE ID = #{id,jdbcType=BIGINT}
 	</select>
 
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByPrimaryKeyFromDBWithIncrSoldInventory" resultMap="BaseResultMap">
+		SELECT
+		id,	GMT_CREATE,	GMT_MODIFIED,	ITEM_ID,	PRICE,	SIZE_KEY,	SIZE_VALUE, UNDERLINED_PRICE, INVENTORY,SOLD_INVENTORY + #{inventory,jdbcType=BIGINT}  AS SOLD_INVENTORY
+		FROM sku
+		WHERE ID = #{id,jdbcType=BIGINT} for update
+	</select>
+
 	<!--删除：根据主键ID删除-->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		 DELETE FROM sku
@@ -100,6 +108,13 @@
 
  		 </set>
 		 WHERE ID = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据主键修改输入的值-->
+	<update id="incrSoldInventoryByPrimaryKey">
+		UPDATE sku
+		SET SOLD_INVENTORY = SOLD_INVENTORY + #{append,jdbcType=INTEGER}
+		WHERE ID = #{id,jdbcType=BIGINT} AND SOLD_INVENTORY = #{oldSoldInventory}
 	</update>
 
 	<!-- 分页查询 -->

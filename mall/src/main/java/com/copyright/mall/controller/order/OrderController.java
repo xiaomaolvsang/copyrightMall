@@ -1,16 +1,33 @@
 package com.copyright.mall.controller.order;
 
 import com.alibaba.fastjson.JSON;
-import com.copyright.mall.bean.*;
+import com.copyright.mall.bean.Item;
+import com.copyright.mall.bean.ItemOrder;
+import com.copyright.mall.bean.MallOrder;
+import com.copyright.mall.bean.Shop;
+import com.copyright.mall.bean.ShopOrder;
+import com.copyright.mall.bean.Sku;
+import com.copyright.mall.bean.UserAddress;
 import com.copyright.mall.controller.BaseController;
 import com.copyright.mall.domain.dto.cart.CreateOrderDTO;
-import com.copyright.mall.domain.dto.order.*;
+import com.copyright.mall.domain.dto.order.ConfirmOrderParam;
+import com.copyright.mall.domain.dto.order.CreateOrderParam;
+import com.copyright.mall.domain.dto.order.PayDTO;
+import com.copyright.mall.domain.dto.order.PreorderParam;
+import com.copyright.mall.domain.dto.order.QueryOrderListParam;
 import com.copyright.mall.domain.vo.order.ConfirmOrderVO;
 import com.copyright.mall.domain.vo.order.CreateOrderVO;
 import com.copyright.mall.domain.vo.order.OrderDetailVO;
 import com.copyright.mall.domain.vo.order.OrderInfoVO;
 import com.copyright.mall.enums.ShopOrderType;
-import com.copyright.mall.service.*;
+import com.copyright.mall.service.IItemOrderService;
+import com.copyright.mall.service.IItemService;
+import com.copyright.mall.service.IMallOrderService;
+import com.copyright.mall.service.IShopOrderService;
+import com.copyright.mall.service.IShopService;
+import com.copyright.mall.service.ISkuService;
+import com.copyright.mall.service.IUserAddressService;
+import com.copyright.mall.service.OrderService;
 import com.copyright.mall.util.BeanMapperUtils;
 import com.copyright.mall.util.PriceFormat;
 import com.copyright.mall.util.wrapper.WrapMapper;
@@ -18,20 +35,30 @@ import com.copyright.mall.util.wrapper.Wrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.wxpay.sdk.*;
+import com.github.wxpay.sdk.MallWXPayConfig;
+import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : zhangyuchen
@@ -88,10 +115,14 @@ public class OrderController extends BaseController {
         int totalPrice = 0;
         for (ConfirmOrderParam.SKU dtoItem : confirmOrderParam.getSkus()) {
             ConfirmOrderVO.ProductsBean productsBean = new ConfirmOrderVO.ProductsBean();
-            Sku sku = skuService.selectByPrimaryKey(dtoItem.getSkuId());
+            Sku sku = skuService.selectByPrimaryKeyFromDBWithIncrSoldInventory(dtoItem.getSkuId() , dtoItem.getNum());
             if (sku == null) {
                 log.warn("商品不存在{}", dtoItem.getSkuId());
                 return WrapMapper.error("商品不存在");
+            }
+            if(sku.getInventory() < sku.getSoldInventory()){
+                log.info("inventor insufficient skip");
+                continue;
             }
             Item item = itemService.selectByPrimaryKey(sku.getItemId());
             if (item == null) {
@@ -108,6 +139,9 @@ public class OrderController extends BaseController {
             productsBean.setProductId(sku.getId());
             productsBean.setNum(dtoItem.getNum());
             productsBeans.add(productsBean);
+        }
+        if(CollectionUtils.isEmpty(productsBeans)){
+            return WrapMapper.error("商品库存不足");
         }
         result.setProducts(productsBeans);
         result.setTotalPayPrice(PriceFormat.format(totalPrice));

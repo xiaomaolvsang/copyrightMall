@@ -147,12 +147,16 @@ public class OrderServiceImpl implements OrderService {
             shopOrder.setShopOrderId(IDUtil.generatorID("SID"));
             shopOrder.setShopId(shopInfo.getShopId());
             for (CreateOrderParam.ShopInfo.SKU skuItem : shopInfo.getSkus()) {
-                Sku sku = skuService.selectByPrimaryKey(skuItem.getSkuId());
+                Sku sku = skuService.selectByPrimaryKeyFromDBWithIncrSoldInventory(skuItem.getSkuId(),skuItem.getNum());
                 if (sku == null) {
                     log.warn("商品不存在{}", skuItem.getSkuId());
                     throw new BusinessException("商品不存在");
                 }
                 deleteSkus.add(sku.getId());
+                if(sku.getInventory() < sku.getSoldInventory()){
+                    log.info("inventor insufficient skip");
+                    continue;
+                }
                 Item item = itemService.selectByPrimaryKey(sku.getItemId());
                 if (item == null) {
                     log.warn("商品不存在{}", sku.getItemId());
@@ -171,12 +175,16 @@ public class OrderServiceImpl implements OrderService {
                 itemOrder.setItemCount(skuItem.getNum());
                 itemOrder.setItemTotalPrice(sku.getPrice() * skuItem.getNum());
                 iItemOrderService.insertSelective(itemOrder);
+                skuService.incrSoldInventoryByPrimaryKey(sku.getId(), sku.getSoldInventory() - skuItem.getNum(), skuItem.getNum());
                 shopTotalPrice += itemOrder.getItemTotalPrice();
             }
             shopOrder.setOrderType(ShopOrderType.UNPAID.getCode());
             shopOrder.setPrice(shopTotalPrice);
             shopOrderService.insertSelective(shopOrder);
             mallTotalPrice+=shopOrder.getPrice();
+        }
+        if(mallTotalPrice == 0 ){
+            throw new BusinessException("全部商品暂无库存");
         }
         mallOrder.setPrice(mallTotalPrice);
         mallOrderService.insertSelective(mallOrder);
