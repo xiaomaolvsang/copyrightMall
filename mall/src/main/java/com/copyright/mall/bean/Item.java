@@ -85,7 +85,7 @@ public class Item implements Serializable {
     /**
      * 划线价
      */
-    private Integer underlined_price;
+    private Integer underlinedPrice;
 
     /**
      * 库存
@@ -273,13 +273,12 @@ public class Item implements Serializable {
         this.itemType = itemType;
     }
 
-
-    public Integer getUnderlined_price() {
-        return underlined_price;
+    public Integer getUnderlinedPrice() {
+        return underlinedPrice;
     }
 
-    public void setUnderlined_price(Integer underlined_price) {
-        this.underlined_price = underlined_price;
+    public void setUnderlinedPrice(Integer underlinedPrice) {
+        this.underlinedPrice = underlinedPrice;
     }
 
     public Integer getInventory() {

@@ -33,7 +33,12 @@ public class Sku implements Serializable {
 	/**
 	 * 划线价
 	 */
-	private Integer underlined_price;
+	private Integer underlinedPrice;
+
+	/**
+	 * 已售库存
+	 */
+	private Integer soldInventory;
 
 	/**
 	 * 库存
@@ -46,13 +51,20 @@ public class Sku implements Serializable {
 	/**尺寸值**/
 	private String sizeValue;
 
-
-	public Integer getUnderlined_price() {
-		return underlined_price;
+	public Integer getSoldInventory() {
+		return soldInventory;
 	}
 
-	public void setUnderlined_price(Integer underlined_price) {
-		this.underlined_price = underlined_price;
+	public void setSoldInventory(Integer soldInventory) {
+		this.soldInventory = soldInventory;
+	}
+
+	public Integer getUnderlinedPrice() {
+		return underlinedPrice;
+	}
+
+	public void setUnderlinedPrice(Integer underlinedPrice) {
+		this.underlinedPrice = underlinedPrice;
 	}
 
 	public Integer getInventory() {

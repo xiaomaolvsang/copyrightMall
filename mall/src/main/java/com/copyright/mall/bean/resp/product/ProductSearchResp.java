@@ -32,6 +32,10 @@ public class ProductSearchResp implements Serializable{
   private String productName;
   @ApiModelProperty("product价格(单位：分)")
   private String productPrice;
+  @ApiModelProperty("product划线价(单位：分)")
+  private String productUnderlinedPrice;
+  @ApiModelProperty("product库存")
+  private String productInventory;
   @ApiModelProperty("productId")
   private Long productId;
   @ApiModelProperty("行业")

@@ -1,6 +1,7 @@
 package com.copyright.mall.domain.vo.product;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class ProductVO {
     private String productImage;
     private String productName;
     private String productPrice;
+    private String productUnderlinedPrice;
+    private String productInventory;
     private Long productId;
     private InstitutionBean institution;
     private List<RecommendBean> recommend;

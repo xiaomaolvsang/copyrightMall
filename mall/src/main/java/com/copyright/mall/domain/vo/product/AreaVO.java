@@ -33,6 +33,10 @@ public class AreaVO {
     private String productName;
     @ApiModelProperty("商品价格")
     private String productPrice;
+    @ApiModelProperty("product划线价(单位：分)")
+    private String productUnderlinedPrice;
+    @ApiModelProperty("product库存")
+    private String productInventory;
     @ApiModelProperty("商品id")
     private String productId;
     @ApiModelProperty("行业")

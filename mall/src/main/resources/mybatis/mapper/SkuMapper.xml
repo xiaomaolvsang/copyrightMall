@@ -13,6 +13,7 @@
 		<result property="price" column="PRICE" jdbcType="INTEGER" />
 		<result property="underlinedPrice" column="UNDERLINED_PRICE" jdbcType="INTEGER" />
 		<result property="inventory" column="INVENTORY" jdbcType="INTEGER" />
+		<result property="soldInventory" column="SOLD_INVENTORY" jdbcType="INTEGER" />
 		<result property="sizeKey" column="SIZE_KEY" jdbcType="VARCHAR" />
 		<result property="sizeValue" column="SIZE_VALUE" jdbcType="VARCHAR" />
 	</resultMap>
@@ -20,7 +21,7 @@
 
 	<!-- 通用查询结果集合-->
 	<sql id="Base_Column_List">
-	id,	GMT_CREATE,	GMT_MODIFIED,	ITEM_ID,	PRICE,	SIZE_KEY,	SIZE_VALUE, UNDERLINED_PRICE, INVENTORY
+	id,	GMT_CREATE,	GMT_MODIFIED,	ITEM_ID,	PRICE,	SIZE_KEY,	SIZE_VALUE, UNDERLINED_PRICE, INVENTORY,SOLD_INVENTORY
 	</sql>
 
 	<!-- 公共查询条件-->
@@ -35,6 +36,7 @@
 		<if test="price != null "> and PRICE = #{price,jdbcType=INTEGER} </if>
 		<if test="underlinedPrice != null "> and UNDERLINED_PRICE = #{underlinedPrice,jdbcType=INTEGER} </if>
 		<if test="inventory != null "> and INVENTORY = #{inventory,jdbcType=INTEGER} </if>
+		<if test="soldInventory != null "> and SOLD_INVENTORY = #{soldInventory,jdbcType=INTEGER} </if>
 		<if test="sizeKey != null and sizeKey != '' "> and SIZE_KEY = #{sizeKey,jdbcType=VARCHAR} </if>
 		<if test="sizeValue != null and sizeValue != '' "> and SIZE_VALUE = #{sizeValue,jdbcType=VARCHAR} </if>
 	</sql>
@@ -64,6 +66,7 @@
 			<if test="price != null"> PRICE,</if>
 			 <if test="underlinedPrice != null"> UNDERLINED_PRICE,</if>
 			 <if test="inventory != null"> INVENTORY,</if>
+			 <if test="soldInventory != null"> SOLD_INVENTORY,</if>
 			<if test="sizeKey != null"> SIZE_KEY,</if>
 			<if test="sizeValue != null"> SIZE_VALUE,</if>
 		 </trim>
@@ -75,6 +78,7 @@
 			<if test="price!=null">#{price,jdbcType=INTEGER},</if>
 			 <if test="underlinedPrice!=null">#{underlinedPrice,jdbcType=INTEGER},</if>
 			 <if test="inventory!=null">#{inventory,jdbcType=INTEGER},</if>
+			 <if test="soldInventory!=null">#{soldInventory,jdbcType=INTEGER},</if>
 			<if test="sizeKey!=null">#{sizeKey,jdbcType=VARCHAR},</if>
 			<if test="sizeValue!=null">#{sizeValue,jdbcType=VARCHAR},</if>
 		 </trim>
@@ -90,6 +94,7 @@
 			<if test="price != null">PRICE = #{price,jdbcType=INTEGER},</if>
 			 <if test="underlinedPrice != null">UNDERLINED_PRICE = #{underlinedPrice,jdbcType=INTEGER},</if>
 			 <if test="inventory != null">INVENTORY = #{inventory,jdbcType=INTEGER},</if>
+			 <if test="soldInventory != null">SOLD_INVENTORY = #{soldInventory,jdbcType=INTEGER},</if>
 			<if test="sizeKey != null">SIZE_KEY = #{sizeKey,jdbcType=VARCHAR},</if>
 			<if test="sizeValue != null">SIZE_VALUE = #{sizeValue,jdbcType=VARCHAR},</if>
 

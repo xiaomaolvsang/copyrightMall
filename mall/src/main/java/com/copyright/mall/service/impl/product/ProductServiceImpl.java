@@ -108,6 +108,14 @@ public class ProductServiceImpl implements IProductService {
                     String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
                     productSearchResp.setProductPrice(result);
                 }
+                if(item.getUnderlinedPrice() != null){
+                    BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+                    String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+                    productSearchResp.setProductUnderlinedPrice(result);
+                }
+                if(item.getInventory() != null){
+                    productSearchResp.setProductInventory(item.getInventory().toString());
+                }
                 productSearchResp.setShoID(item.getShopId());
                 productSearchResp.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
                 productSearchResps.add(productSearchResp);
@@ -195,6 +203,14 @@ public class ProductServiceImpl implements IProductService {
                         BigDecimal b = new BigDecimal(item.getPrice());
                         String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
                         areaAttr.setProductPrice(result);
+                    }
+                    if(item.getUnderlinedPrice() != null){
+                        BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+                        String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+                        areaAttr.setProductUnderlinedPrice(result);
+                    }
+                    if(item.getInventory() != null){
+                        areaAttr.setProductInventory(item.getInventory().toString());
                     }
                     areaAttr.setShopID(item.getShopId());
                     List<Shop> shopTemp = shops.stream().filter(shop1 -> shop1.getId().equals(item.getShopId())).collect(Collectors.toList());
@@ -472,6 +488,15 @@ public class ProductServiceImpl implements IProductService {
                 String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
                 areaAttr.setProductPrice(result);
             }
+            if(item.getUnderlinedPrice() != null){
+                BigDecimal b = new BigDecimal(item.getUnderlinedPrice());
+                String result = b.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).toString();
+                areaAttr.setProductUnderlinedPrice(result);
+            }
+            if(item.getInventory() != null){
+                areaAttr.setProductInventory(item.getInventory().toString());
+            }
+
             areaAttr.setShopID(item.getShopId());
             areaAttr.setShopName(shopTemp.size() == 0 ? "" : shopTemp.get(0).getShopName());
             areaAttrs.add(areaAttr);
