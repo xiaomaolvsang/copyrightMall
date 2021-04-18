@@ -52,12 +52,10 @@ public class ManageBannerController {
     @ApiOperation("获取banner信息")
     public Wrapper<PageInfo<GetBannerResp>> getBanners(@ApiParam @RequestBody BannerPageParam bannerPageParam) {
         log.info("getBanner {}", bannerPageParam);
-        List<BannerItemRelation> bannerItemRelations = bannerItemRelationService.selectByObjectList(new BannerItemRelation());
-        List<Long> bannerIds = bannerItemRelations.stream().map(BannerItemRelation::getBannerId).collect(Collectors.toList());
-        List<Banner> banners = bannerService.selectByBannerIds(bannerIds);
+        List<Banner> banners = bannerService.selectByObjectList(new Banner());
         Map<Long,String> bannerTypeMap = banners.stream().collect(Collectors.toMap(Banner::getId,Banner::getType));
         Page page = PageHelper.startPage(bannerPageParam.getPageNum(), bannerPageParam.getPageSize());
-        List<BannerAttr> bannerAttrs =  bannerAttrService.selectByBannerIds(bannerIds);
+        List<BannerAttr> bannerAttrs =  bannerAttrService.selectByObjectList(new BannerAttr());
         List<GetBannerResp> getBannerResps = new ArrayList<>();
 
         for(BannerAttr bannerAttr : bannerAttrs){
