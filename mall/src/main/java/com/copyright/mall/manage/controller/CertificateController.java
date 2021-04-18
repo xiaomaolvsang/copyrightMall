@@ -175,10 +175,12 @@ public class CertificateController {
                     } else {
                         certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
                     }
+                    item1.setTime(new Date());
                     item1.setEvent("版权链证书颁发");
                     certificate.setAuthorizationDate(new Date());
                 }else{
                     certificate.setCerificateStatus(CopyRightStatusEnum.REJECTED.getCode());
+                    item1.setTime(new Date());
                     item1.setEvent("授权驳回");
                 }
                 timeLineDTO.appendItem(item1);
