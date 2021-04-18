@@ -46,7 +46,6 @@ public class CopyrightCreateParam {
     @NotEmpty(message = "版权证书不能为空")
     private List<String> copyrightCertificate;
 
-    @ApiModelProperty(value = "登记号",required = true)
-    @NotBlank(message = "登记号")
+    @ApiModelProperty(value = "登记号",required = false)
     private String registrationNo;
 }
