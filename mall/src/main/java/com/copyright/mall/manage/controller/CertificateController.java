@@ -78,14 +78,17 @@ public class CertificateController {
                 if(0==certificateParam.getStatus()) {
                     if (check.getType() == 0) {
                         certificate.setCerificateStatus(CopyRightStatusEnum.CONFIRMED_RIGHT.getCode());
+                        item.setTime(new Date());
                         item.setEvent("版权链证书颁发");
                     } else {
                         certificate.setCerificateStatus(CopyRightStatusEnum.AUTHORIZED.getCode());
+                        item.setTime(new Date());
                         item.setEvent("版权链证书颁发");
                     }
                     certificate.setAuthorizationDate(new Date());
                 }else{
                     certificate.setCerificateStatus(CopyRightStatusEnum.REJECTED.getCode());
+                    item.setTime(new Date());
                     item.setEvent("授权驳回");
                 }
                 timeLineDTO.appendItem(item);

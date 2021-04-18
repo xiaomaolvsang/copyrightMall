@@ -218,5 +218,8 @@ public class CopyrightController extends BaseController{
         return certificateVO;
     }
 
+    public static void main(String[] args) {
+        System.out.println(TimeLineDTO.fromBaseStr("eyJpdGVtcyI6W3siZXZlbnQiOiLkv67mlLnniYjmnYMiLCJ0aW1lIjoxNjE4NjU2OTYxNzc3fSx7ImV2ZW50Ijoi54mI5p2D6ZO+6K+B5Lmm6aKB5Y+RIn1dfQ=="));
+    }
 
 }
