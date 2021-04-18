@@ -74,6 +74,7 @@ public class DetailService implements IDetailService {
     detailData.setAvatar(shop.getShopLogo());
     detailData.setArtIntroduction(shop.getCertification());
     detailData.setPosterPic(shop.getShopImg());
+    detailData.setIsMe(shop.getId().equals(detailParam.getUserId()) ? 1: 0);
     detailVO.setData(detailData);
 
     ArtistOpus artistOpus = new ArtistOpus();

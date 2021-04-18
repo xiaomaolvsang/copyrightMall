@@ -26,4 +26,5 @@ public class DetailParam {
   private String type;
   @ApiModelProperty("商铺id")
   private Long shopId;
+  private Long userId;
 }

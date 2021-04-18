@@ -55,6 +55,8 @@ public class DetailVO {
     private String connectInfo;
     @ApiModelProperty("作品")
     private List<Images> introduction;
+    @ApiModelProperty("是否本人 0否 1是")
+    private Integer isMe;
   }
 
   @Data

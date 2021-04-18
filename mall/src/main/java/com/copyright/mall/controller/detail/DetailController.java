@@ -42,6 +42,7 @@ public class DetailController extends BaseController {
   @ControllerErro
   public Wrapper<DetailVO> search(@RequestBody @ApiParam @Valid DetailParam detailParam){
     detailParam.setMallId(getMallId());
+    detailParam.setUserId(getUserId());
     return WrapMapper.ok(detailService.getDetail(detailParam));
   }
 
