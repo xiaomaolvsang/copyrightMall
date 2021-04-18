@@ -46,7 +46,7 @@ public class ProductController extends BaseController {
   @PostMapping("/search")
   @ControllerErro
   public Wrapper<List<ProductSearchResp>> search(@RequestBody @ApiParam @Valid ProductSearchParam productSearchParam){
-    productSearchParam.setMallId(getMallId());
+    productSearchParam.setMallId(1L);
     return productService.search(productSearchParam);
   }
 
@@ -54,7 +54,7 @@ public class ProductController extends BaseController {
   @PostMapping("/area")
   @ControllerErro
   public Wrapper<AreaVO> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam){
-    areaParam.setMallId(getMallId());
+    areaParam.setMallId(1L);
     return WrapMapper.ok(productService.getArea(areaParam));
   }
 
@@ -63,7 +63,7 @@ public class ProductController extends BaseController {
   @PostMapping("/productByClass")
   @ControllerErro
   public Wrapper<ProductByClassVO> productByClass(@RequestBody @ApiParam @Valid ProductByClassparam productByClassparam){
-    productByClassparam.setMallId(getMallId());
+    productByClassparam.setMallId(1L);
     return WrapMapper.ok(productService.getProductByClass(productByClassparam));
   }
 
@@ -71,7 +71,7 @@ public class ProductController extends BaseController {
   @PostMapping("/productDesc")
   @ControllerErro
   public Wrapper<ProductVO> productDesc(@RequestBody @ApiParam @Valid ProductParam productParam){
-    productParam.setMallId(getMallId());
+    productParam.setMallId(1L);
     return WrapMapper.ok(productService.getProduct(productParam));
   }
 }
