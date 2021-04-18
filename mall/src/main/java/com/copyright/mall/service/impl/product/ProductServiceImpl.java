@@ -86,14 +86,9 @@ public class ProductServiceImpl implements IProductService {
         List<Shop> shops = shopService.selectByObjectList(shop);
         List<ProductSearchResp> productSearchResps = new ArrayList<>();
         if (ShopTypeEnum.product.getName().equals(productSearchParam.getType())) {
-            List<Long> shopIds = shops.stream().filter(shop1 -> shop1.getShopType() == shopType.getCode())
-                    .map(Shop::getId).collect(Collectors.toList());
             List<Item> items = itemService.selectAll();
-            List<Item> itemResult = items.stream().filter(item -> {
-                    System.out.println(item.getShopId() + "----" + productSearchParam.getKeyword() + "----" + item.getItemTitle());
-                    System.out.println(item.getItemTitle().contains(productSearchParam.getKeyword()));
-                    return shopIds.contains(item.getShopId()) && item.getItemTitle().contains(productSearchParam.getKeyword())
-                            && item.getItemStatus() == 1;}).skip((productSearchParam.getPageNo()) * productSearchParam.getPageSize())
+            List<Item> itemResult = items.stream().filter(item -> item.getItemTitle().contains(productSearchParam.getKeyword())
+                    && item.getItemStatus() == 1).skip((productSearchParam.getPageNo()) * productSearchParam.getPageSize())
                     .limit(productSearchParam.getPageSize())
                     .collect(Collectors.toList());
             itemResult.forEach(item -> {
