@@ -97,7 +97,7 @@ public class CopyrightController extends BaseController{
         queryParam.setPcertificateId(copyrightEevokeParam.getCertificateId());
         List<Certificate> certificates = certificateService.selectByObjectList(queryParam);
         if(!CollectionUtils.isEmpty(certificates)){
-            return WrapMapper.ok("不满足撤销条件");
+            return WrapMapper.error("不满足撤销条件");
         }
         certificateService.deleteByCertificateId(copyrightEevokeParam.getCertificateId());
         return WrapMapper.ok("撤销成功");
