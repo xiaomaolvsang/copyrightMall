@@ -9,6 +9,7 @@ import com.copyright.mall.domain.vo.details.DetailVO;
 import com.copyright.mall.enums.DetailType;
 import com.copyright.mall.service.IDetailService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -41,6 +42,9 @@ public class DetailService implements IDetailService {
   @Resource
   private CopyrightService copyrightService;
 
+  @Resource
+  private UserShopRelationService userShopRelationService;
+
   @Override
   public DetailVO getDetail(DetailParam detailParam) {
     if (DetailType.artist.name().equals(detailParam.getType())) {
@@ -61,7 +65,12 @@ public class DetailService implements IDetailService {
     List<DetailVO.Opus> opuses = new ArrayList<>();
 
     Shop shop = shopService.selectByPrimaryKey(detailParam.getDataId());
-
+    Long userIdTemp = 0L;
+    List<UserShopRelation> userShopRelations = userShopRelationService.selectByUserId(detailParam.getUserId());
+    if(!CollectionUtils.isEmpty(userShopRelations)) {
+      UserShopRelation userShopRelation = userShopRelations.get(0);
+      userIdTemp = userShopRelation.getShopId();
+    }
     List<Item> list = itemService.selectAll();
     List<Item> artists = list.stream().filter(item -> item.getShopId().equals(detailParam.getDataId())).collect(Collectors.toList());
     if (shop == null) {
@@ -74,7 +83,7 @@ public class DetailService implements IDetailService {
     detailData.setAvatar(shop.getShopLogo());
     detailData.setArtIntroduction(shop.getCertification());
     detailData.setPosterPic(shop.getShopImg());
-    detailData.setIsMe(shop.getId().equals(detailParam.getUserId()) ? 1: 0);
+    detailData.setIsMe(shop.getId().equals(userIdTemp) ? 1: 0);
     detailVO.setData(detailData);
 
     ArtistOpus artistOpus = new ArtistOpus();

@@ -39,39 +39,39 @@ import java.util.List;
 @Slf4j
 public class ProductController extends BaseController {
 
-  @Resource
-  private IProductService productService;
+    @Resource
+    private IProductService productService;
 
-  @ApiOperation(value = "商品搜索")
-  @PostMapping("/search")
-  @ControllerErro
-  public Wrapper<List<ProductSearchResp>> search(@RequestBody @ApiParam @Valid ProductSearchParam productSearchParam){
-    productSearchParam.setMallId(1L);
-    return productService.search(productSearchParam);
-  }
+    @ApiOperation(value = "商品搜索")
+    @PostMapping("/search")
+    @ControllerErro
+    public Wrapper<List<ProductSearchResp>> search(@RequestBody @ApiParam @Valid ProductSearchParam productSearchParam) {
+        productSearchParam.setMallId(1L);
+        return productService.search(productSearchParam);
+    }
 
-  @ApiOperation(value = "商品/版权域")
-  @PostMapping("/area")
-  @ControllerErro
-  public Wrapper<AreaVO> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam){
-    areaParam.setMallId(1L);
-    return WrapMapper.ok(productService.getArea(areaParam));
-  }
+    @ApiOperation(value = "商品/版权域")
+    @PostMapping("/area")
+    @ControllerErro
+    public Wrapper<AreaVO> productArea(@RequestBody @ApiParam @Valid AreaParam areaParam) {
+        areaParam.setMallId(1L);
+        return WrapMapper.ok(productService.getArea(areaParam));
+    }
 
 
-  @ApiOperation(value = "根据分类查商品")
-  @PostMapping("/productByClass")
-  @ControllerErro
-  public Wrapper<ProductByClassVO> productByClass(@RequestBody @ApiParam @Valid ProductByClassparam productByClassparam){
-    productByClassparam.setMallId(1L);
-    return WrapMapper.ok(productService.getProductByClass(productByClassparam));
-  }
+    @ApiOperation(value = "根据分类查商品")
+    @PostMapping("/productByClass")
+    @ControllerErro
+    public Wrapper<ProductByClassVO> productByClass(@RequestBody @ApiParam @Valid ProductByClassparam productByClassparam) {
+        productByClassparam.setMallId(1L);
+        return WrapMapper.ok(productService.getProductByClass(productByClassparam));
+    }
 
-  @ApiOperation(value = "查询商品详情")
-  @PostMapping("/productDesc")
-  @ControllerErro
-  public Wrapper<ProductVO> productDesc(@RequestBody @ApiParam @Valid ProductParam productParam){
-    productParam.setMallId(1L);
-    return WrapMapper.ok(productService.getProduct(productParam));
-  }
+    @ApiOperation(value = "查询商品详情")
+    @PostMapping("/productDesc")
+    @ControllerErro
+    public Wrapper<ProductVO> productDesc(@RequestBody @ApiParam @Valid ProductParam productParam) {
+        productParam.setMallId(1L);
+        return WrapMapper.ok(productService.getProduct(productParam));
+    }
 }
