@@ -11,7 +11,7 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 server:
   ssl:
-    key-store: classpath:api_798ipartstore.jks
+    key-store: classpath:fullchain_and_key.jks
     key-store-password: 123456
     key-store-type: JKS
     enable: true
