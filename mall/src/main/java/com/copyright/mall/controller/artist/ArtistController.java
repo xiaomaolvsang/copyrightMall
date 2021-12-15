@@ -121,6 +121,7 @@ public class ArtistController extends BaseController {
             Shop shop1 = shopService.selectByPrimaryKey(userShopRelations.get(0).getShopId());
             artistLogo.setLogo(shop1.getShopLogo());
             artistLogo.setOpusImg(shop1.getShopImg());
+            artistLogo.setArtistName(shop1.getShopName());
         }
         return WrapMapper.ok(artistLogo);
     }

@@ -11,4 +11,6 @@ public class ArtistLogo {
     private String logo;
     @ApiModelProperty("代表作品")
     private String opusImg;
+    @ApiModelProperty("昵称")
+    private String artistName;
 }
