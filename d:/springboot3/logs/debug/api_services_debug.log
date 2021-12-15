@@ -1,0 +1,6 @@
+2020-06-14-12-52 [https-jsse-nio-443-exec-7] [com.copyright.mall.aspect.ControllerAspect] [INFO] - 运行开始
+2020-06-14-12-52 [https-jsse-nio-443-exec-7] [com.copyright.mall.aspect.ControllerAspect] [ERROR] - controller异常,url:{/opus/getOpusList} reqMsg:{[{"pageNum":1,"pageSize":10}]},ex:{java.lang.NullPointerException}
+2020-06-14-12-53 [https-jsse-nio-443-exec-6] [com.copyright.mall.aspect.ControllerAspect] [INFO] - 运行开始
+2020-06-14-12-53 [https-jsse-nio-443-exec-6] [com.copyright.mall.aspect.ControllerAspect] [ERROR] - controller异常,url:{/opus/getOpusList} reqMsg:{[{"pageNum":1,"pageSize":10}]},ex:{java.lang.NullPointerException}
+2020-06-14-12-54 [https-jsse-nio-443-exec-6] [com.copyright.mall.aspect.ControllerAspect] [INFO] - 运行开始
+2020-06-14-12-54 [https-jsse-nio-443-exec-6] [com.copyright.mall.aspect.ControllerAspect] [INFO] - 运行结束:2900

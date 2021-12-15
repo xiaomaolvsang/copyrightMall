@@ -11,9 +11,9 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 server:
   ssl:
-    key-store: classpath:fullchain_and_key.jks
-    key-store-password: 123456
-    key-store-type: JKS
+    key-store: classpath:6741330_api.798ipartstore.com.pfx
+    key-store-password: 28za5xyD
+    key-store-type: PKCS12
     enable: true
   port: 443
 #spring:
