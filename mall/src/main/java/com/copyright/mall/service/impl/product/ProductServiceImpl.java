@@ -587,7 +587,8 @@ public class ProductServiceImpl implements IProductService {
         if (item.getId() != null) {
             itemService.updateByPrimaryKeySelective(item);
         } else {
-            item.setItemType(1);
+            //宇平说去掉
+            //item.setItemType(1);
             itemService.insertSelective(item);
         }
 
