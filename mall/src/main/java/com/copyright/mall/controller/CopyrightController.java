@@ -64,6 +64,7 @@ public class CopyrightController extends BaseController{
             String certificateId = IDUtil.generatorID("");
             copyright.setCopyrightId(copyrightId);
             copyright.setAuditStatus(CopyRightStatusEnum.APPLYING.getCode());
+            copyright.setCreationTime(copyrightCreateParam.getCreationDate());
             copyrightService.insertSelective(copyright);
             Certificate certificate = new Certificate();
             certificate.setCertificateId(certificateId);
