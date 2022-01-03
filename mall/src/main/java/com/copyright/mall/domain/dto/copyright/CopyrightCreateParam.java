@@ -43,7 +43,7 @@ public class CopyrightCreateParam {
     private List<String> picturesOfWorks;
 
     @ApiModelProperty(value = "版权证书",required = true)
-    @NotEmpty(message = "版权证书不能为空")
+    //宇平说去掉校验
     private List<String> copyrightCertificate;
 
     @ApiModelProperty(value = "登记号",required = false)
